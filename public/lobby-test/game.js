@@ -13,6 +13,7 @@ import {
   PLAYER_RADIUS,
   ROOM,
 } from './movement.js';
+import { buildProps } from './props.js';
 import { buildRoom } from './room.js';
 import { createSequence } from './sequence.js';
 
@@ -67,6 +68,7 @@ let pitch = -0.05;
 const mats = createMaterials(renderer);
 const room = buildRoom(scene, mats);
 const chair = buildChair(scene, mats);
+const props = buildProps(scene, mats);
 const rig = buildLighting(scene, mats);
 const refs = {
   restraints: chair.restraints,
@@ -75,6 +77,8 @@ const refs = {
   ventBlades: room.ventBlades,
   doorReader: room.doorReader,
   windowFigure: room.windowFigure,
+  stationStrip: props.stationStrip,
+  probeLed: props.probeLed,
 };
 
 const sequence = createSequence();
@@ -232,8 +236,9 @@ function tick() {
   const dt = clock.getDelta();
   elapsed += dt;
 
+  const active = entered && document.hasFocus() && !document.hidden;
   let moving = 0;
-  if (entered && document.hasFocus() && !document.hidden) {
+  if (active) {
     const dir = directionFromKeys(keys, yaw);
     moving = Math.hypot(dir.x, dir.z) > 0 ? 1 : 0;
     const p = movePlayer(pose, dir, dt);
@@ -243,14 +248,14 @@ function tick() {
   }
 
   const previousState = sequence.state;
-  const frame = sequence.update(dt, { distance: distanceToChair(pose.x, pose.z) });
+  const frame = sequence.update(active ? dt : 0, { distance: distanceToChair(pose.x, pose.z) });
   if (frame.state !== previousState) setStateLabel();
   for (const event of frame.events) {
     if (audio) audio.cue(event);
     if (CUE_TEXT[event]) showCue(CUE_TEXT[event]);
   }
   if (audio) audio.setLevels(frame.levels);
-  applyLevels(rig, mats, refs, frame.levels, elapsed);
+  applyLevels(rig, mats, refs, frame.levels, elapsed, dt);
 
   bobPhase += dt * 7.5 * moving;
   const bob = headBob(bobPhase, moving);

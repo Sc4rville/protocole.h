@@ -18,6 +18,20 @@ function valueNoise(ctx, size, cell, alpha) {
   }
 }
 
+const TEXTURES = 'assets/textures/';
+
+// Kusaila's base-colour candidates (public/cellule-assets/32-35), downscaled
+// to 1024 px. They are sRGB colour only: roughness stays procedural.
+function colorMap(file, repeatX, repeatY = repeatX, wrap = THREE.MirroredRepeatWrapping) {
+  const t = new THREE.TextureLoader().load(TEXTURES + file);
+  t.encoding = THREE.sRGBEncoding;
+  t.wrapS = wrap;
+  t.wrapT = wrap;
+  t.repeat.set(repeatX, repeatY);
+  t.anisotropy = 8;
+  return t;
+}
+
 function texture(c, repeat) {
   const t = new THREE.CanvasTexture(c);
   t.wrapS = THREE.RepeatWrapping;
@@ -143,27 +157,6 @@ function floorRoughness() {
   return c;
 }
 
-function floorTint() {
-  const size = 512;
-  const c = canvas(size);
-  const ctx = c.getContext('2d');
-  ctx.fillStyle = '#e4e2da';
-  ctx.fillRect(0, 0, size, size);
-  for (let i = 0; i < 300; i++) {
-    const a = 0.02 + Math.random() * 0.05;
-    ctx.fillStyle = Math.random() > 0.5 ? `rgba(120,118,110,${a})` : `rgba(255,255,255,${a})`;
-    ctx.beginPath();
-    ctx.arc(Math.random() * size, Math.random() * size, 1 + Math.random() * 3, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  const stain = ctx.createRadialGradient(size * 0.52, size * 0.55, 10, size * 0.52, size * 0.55, size * 0.3);
-  stain.addColorStop(0, 'rgba(198,194,184,0.35)');
-  stain.addColorStop(1, 'rgba(198,194,184,0)');
-  ctx.fillStyle = stain;
-  ctx.fillRect(0, 0, size, size);
-  return c;
-}
-
 // Equirectangular stand-in for the room itself: bright ceiling, mid walls,
 // darker floor. The dark glass and the metal parts read it as reflections.
 function environmentTexture() {
@@ -198,21 +191,32 @@ export function createMaterials(renderer) {
   const wallRough = texture(resinRoughness(0.62, 0.22), 2);
   const ceilRough = texture(resinRoughness(0.72, 0.16), 2);
   const floorRough = floorTexture(floorRoughness(), 8);
-  const floorMap = floorTexture(floorTint(), 8);
+
+  // wall panels are ~1.1 m wide: one tile per panel, mirrored so seams vanish
+  const wallMap = colorMap('mur-cellule.jpg', 0.9);
+  const ceilingMap = colorMap('mur-cellule.jpg', 0.4);
+  // floor UVs are metres: one tile every 2.2 m
+  const floorMap = colorMap('sol-cellule.jpg', 1 / 2.2);
+  const metalMap = colorMap('metal-sombre.jpg', 2);
 
   const wall = new THREE.MeshStandardMaterial({
-    color: 0xe7e6df, roughness: 0.62, roughnessMap: wallRough, metalness: 0.02, envMap, envMapIntensity: 0.55,
+    color: 0xf4f3ee, map: wallMap, roughness: 0.62, roughnessMap: wallRough, metalness: 0.02, envMap, envMapIntensity: 0.55,
   });
   const ceiling = new THREE.MeshStandardMaterial({
-    color: 0xeceae3, roughness: 0.78, roughnessMap: ceilRough, metalness: 0.0, envMap, envMapIntensity: 0.3,
+    color: 0xf7f6f1, map: ceilingMap, roughness: 0.78, roughnessMap: ceilRough, metalness: 0.0, envMap, envMapIntensity: 0.3,
   });
   const floor = new THREE.MeshStandardMaterial({
-    color: 0xdedcd4, map: floorMap, roughness: 0.45, roughnessMap: floorRough, metalness: 0.04,
+    color: 0xf2f1ec, map: floorMap, roughness: 0.45, roughnessMap: floorRough, metalness: 0.04,
     envMap, envMapIntensity: 0.75,
   });
   const inlay = new THREE.MeshStandardMaterial({
-    color: 0xd2d0c7, roughness: 0.35, roughnessMap: floorRough, metalness: 0.05, envMap, envMapIntensity: 0.9,
+    color: 0xd6d5cf, roughness: 0.35, roughnessMap: floorRough, metalness: 0.05, envMap, envMapIntensity: 0.9,
   });
+  const gunmetal = new THREE.MeshStandardMaterial({
+    color: 0xb8b6b0, map: metalMap, roughness: 0.48, metalness: 0.7, envMap, envMapIntensity: 0.7,
+  });
+  const cyanStrip = new THREE.MeshStandardMaterial({ color: 0x0c1416, emissive: 0x6fe3ef, emissiveIntensity: 0.9, roughness: 0.4 });
+  const rubber = new THREE.MeshStandardMaterial({ color: 0x1c1d20, roughness: 0.92, metalness: 0.0 });
   const joint = new THREE.MeshStandardMaterial({ color: 0xc3c1b8, roughness: 0.55, metalness: 0.08, envMap, envMapIntensity: 0.5 });
   const shadowGap = new THREE.MeshStandardMaterial({ color: 0x8e8d87, roughness: 0.9 });
   const glass = new THREE.MeshStandardMaterial({
@@ -243,11 +247,11 @@ export function createMaterials(renderer) {
 
   // The environment map fakes bounced light, so it has to fade with the room
   // state: kept constant it would keep the walls bright during the blackout.
-  const envDriven = [wall, ceiling, floor, inlay, joint, glass, steel, charcoal, dark, shell, lampShell]
+  const envDriven = [wall, ceiling, floor, inlay, joint, glass, steel, charcoal, dark, shell, lampShell, gunmetal]
     .map((mat) => ({ mat, base: mat.envMapIntensity }));
 
   return {
     envMap, envDriven, wall, ceiling, floor, inlay, joint, shadowGap, glass, steel, charcoal, dark,
-    shell, cushion, lampShell, lens, cove, windowGlow, presence, ledSpare,
+    shell, cushion, lampShell, lens, cove, windowGlow, presence, ledSpare, gunmetal, cyanStrip, rubber,
   };
 }

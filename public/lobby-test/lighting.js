@@ -97,7 +97,7 @@ export function buildLighting(scene, mats) {
   return { ambient, lamp, head, beam, spot, lensMaterials, coveLights, presence };
 }
 
-export function applyLevels(rig, mats, refs, levels, time) {
+export function applyLevels(rig, mats, refs, levels, time, dt = 0.016) {
   const lamp = levels.lamp;
   rig.spot.intensity = 0.2 + lamp * 3.4;
   // a gas-discharge head never sits perfectly still
@@ -122,12 +122,19 @@ export function applyLevels(rig, mats, refs, levels, time) {
     refs.windowFigure.position.x = -0.15 + Math.sin(time * 0.28) * 0.12;
   }
 
-  if (refs.ventBlades) refs.ventBlades.rotation.z += (0.4 + levels.fan * 5.5) * 0.016;
+  if (refs.ventBlades) refs.ventBlades.rotation.z += (0.4 + levels.fan * 5.5) * Math.min(dt, 0.1);
 
   const openAngle = -levels.restraint * 0.95;
   for (const cuff of refs.restraints) cuff.rotation.z = openAngle;
 
   const diagnostic = levels.diagnostic;
+  // the energy station idles at a low glow and breathes once the room is up;
+  // the probe on the tray only lights when the station feeds it
+  if (refs.stationStrip) {
+    const breath = Math.sin(time * 1.6) * 0.5 + 0.5;
+    refs.stationStrip.material.emissiveIntensity = 0.12 + levels.ambient * 0.5 + diagnostic * (0.6 + breath * 1.2);
+  }
+  if (refs.probeLed) refs.probeLed.material.emissiveIntensity = diagnostic * (1.2 + Math.sin(time * 7) * 0.4);
   const leds = refs.leds.concat(refs.wallPanelLeds);
   leds.forEach((led, i) => {
     const wave = Math.sin(time * 3.4 - i * 0.7) * 0.5 + 0.5;
