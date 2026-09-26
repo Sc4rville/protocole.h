@@ -112,6 +112,11 @@ export function createAudio() {
     },
     presence: () => thump(48, 1.1, 0.22),
     wake: () => burst({ duration: 0.2, frequency: 900, q: 3, gain: 0.04 }),
+    spark: () => {
+      burst({ duration: 0.08, frequency: 5200, q: 2.5, gain: 0.09, sweep: 2400 });
+      burst({ duration: 0.22, frequency: 3100, q: 1.2, gain: 0.03 });
+    },
+    lamp_stutter: () => burst({ duration: 0.06, frequency: 1500, q: 4, gain: 0.025 }),
   };
 
   return {

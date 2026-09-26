@@ -204,6 +204,9 @@ function buildCoveBand(wallPoints, ceilingPoints, mats) {
   geo.computeVertexNormals();
   const mat = mats.ceiling.clone();
   mat.side = THREE.DoubleSide;
+  // the band has no usable UVs: the stain map would sample one point
+  mat.map = null;
+  mat.bumpMap = null;
   return new THREE.Mesh(geo, mat);
 }
 
@@ -333,7 +336,7 @@ function buildDoor(group, mats) {
   pull.castShadow = true;
   doorGroup.add(pull);
 
-  const reader = new THREE.Mesh(new THREE.PlaneGeometry(0.05, 0.012), mats.cove);
+  const reader = new THREE.Mesh(new THREE.PlaneGeometry(0.05, 0.012), mats.cove.clone());
   reader.position.set(w / 2 - 0.1, 0.22, 0.018);
   doorGroup.add(reader);
 
