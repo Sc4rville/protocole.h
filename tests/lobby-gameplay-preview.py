@@ -23,15 +23,33 @@ def aim(page, target):
     page.evaluate(f'window.__lobbyTest.aimAt({w[0]},{w[1]},{w[2]})')
     return w
 
+def targeted(page, target):
+    try:
+        page.wait_for_function(f'{G}.currentTarget === "{target}"', timeout=30000)
+    except Exception:
+        print('TARGET FAILURE', target, page.evaluate(f'{G}.getState()'),
+              page.evaluate('window.__lobbyTest.getState()'), page.evaluate(f'{G}.currentTarget'),
+              page.evaluate(f'{G}.targetWorld("{target}")'))
+        page.screenshot(path=f'{SHOT_DIR}/protocole-gameplay-{target}-failure.png')
+        raise
+
 def pose(page, x, z):
     page.evaluate(f'window.__lobbyTest.setPose({x},{z})')
 
 def hover_canvas(page):
     page.mouse.move(720, 450)
 
+def changed_mesh_hidden(page, flag):
+    return page.evaluate(f'''(() => {{
+        const found = [];
+        {G}.robot.group.traverse(o => {{ if (o.userData.{flag}) found.push(o); }});
+        return found.length === 1 && !found[0].visible;
+    }})()''')
+
 with sync_playwright() as p:
     browser = p.chromium.launch()
     page = browser.new_page(viewport={'width': 1440, 'height': 900})
+    page.set_default_timeout(60000)
     console_errors, page_errors, responses, requests, failed_requests = [], [], [], [], []
     page.on('console', lambda m: console_errors.append(m.text) if m.type == 'error' else None)
     page.on('pageerror', lambda e: page_errors.append(str(e)))
@@ -40,10 +58,17 @@ with sync_playwright() as p:
     page.on('requestfailed', lambda r: failed_requests.append((r.url, r.failure)))
 
     page.goto(BASE, wait_until='networkidle')
-    page.wait_for_function(f'{S}.loaded === "true"', timeout=30000)
+    try:
+        page.wait_for_function(f'{S}.loaded === "true"', timeout=30000, polling=100)
+    except Exception:
+        print('LOAD FAILURE', page_errors, console_errors, failed_requests,
+              page.evaluate(f'({{...{S}}})'), page.evaluate('window.__lobbyTest?.getState()'))
+        page.screenshot(path=SHOT_DIR + '/protocole-gameplay-load-failure.png')
+        raise
     page.wait_for_timeout(1200)
 
-    check('robot seated in scene', page.evaluate(f'{G}.robot.meshCount') > 100)
+    check('robot seated in scene', page.evaluate(f'{G}.robot.meshCount') > 100
+          and page.evaluate(f'{G}.robot.pose') == 'assis')
     page.locator('#enter').click()
     page.wait_for_function(f'{S}.entered === "true"', timeout=5000)
     hover_canvas(page)
@@ -65,16 +90,19 @@ with sync_playwright() as p:
 
     pose(page, 2.0, -0.7)
     aim(page, 'probe_tool')
-    page.wait_for_timeout(600)
+    targeted(page, 'probe_tool')
     check('probe tool targeted', page.evaluate(f'{G}.currentTarget') == 'probe_tool')
     page.keyboard.press('e')
     page.wait_for_timeout(300)
     check('probe equipped', gs(page, 'equipped') == 'probe')
     check('tray probe hidden', page.evaluate('window.__lobbyTest.debug.props.probe.visible') is False)
+    check('equipped viewmodel in rendered scene', page.evaluate(
+        'window.__lobbyTest.debug.scene.children.some(o => o.isCamera && '
+        'o.children.some(model => model.visible))'))
 
     pose(page, -0.2, 1.35)
     aim(page, 'probe')
-    page.wait_for_timeout(600)
+    targeted(page, 'probe')
     check('port targeted', page.evaluate(f'{G}.currentTarget') == 'probe')
     page.mouse.down()
     page.wait_for_function(f'{G}.getState().active && {G}.getState().active.target === "probe"',
@@ -95,7 +123,7 @@ with sync_playwright() as p:
     page.locator('#enter').click()
     page.wait_for_function(f'{S}.entered === "true"', timeout=5000)
     aim(page, 'probe')
-    page.wait_for_timeout(600)
+    targeted(page, 'probe')
     check('resume requires new press', gs(page, 'active') is None
           and gs(page, 'charge') == c_paused)
     page.mouse.down()
@@ -110,14 +138,14 @@ with sync_playwright() as p:
 
     pose(page, 1.9, -0.7)
     aim(page, 'pliers_tool')
-    page.wait_for_timeout(600)
+    targeted(page, 'pliers_tool')
     page.keyboard.press('e')
     page.wait_for_timeout(300)
     check('pliers equipped', gs(page, 'equipped') == 'pliers')
 
     pose(page, 0.25, 1.35)
     aim(page, 'debris')
-    page.wait_for_timeout(600)
+    targeted(page, 'debris')
     page.mouse.down()
     page.wait_for_function(f'{G}.getState().active?.target === "debris"', timeout=10000)
     page.mouse.move(720, 710)
@@ -126,11 +154,12 @@ with sync_playwright() as p:
     page.mouse.up()
     check('debris removed by drag', True)
     check('debris mesh hidden',
-          page.evaluate(f'{G}.targets.debris.object.visible') is False)
+          page.evaluate(f'{G}.targets.debris.object.visible') is False
+          and changed_mesh_hidden(page, 'removed'))
 
     pose(page, -0.05, 1.35)
     aim(page, 'cable')
-    page.wait_for_timeout(600)
+    targeted(page, 'cable')
     page.mouse.down()
     page.wait_for_function(f'{G}.getState().active?.target === "cable"', timeout=10000)
     page.mouse.move(720, 3050)
@@ -140,20 +169,22 @@ with sync_playwright() as p:
     page.wait_for_function(
         f'{G}.getState().active && {G}.getState().active.warningRemaining <= 0.000000001', timeout=90000)
     check('waiting alone does not tear cable', gs(page, 'cable') == 0.5
-          and 'cable_torn' not in gs(page, 'facts'))
+          and 'cable_torn' not in gs(page, 'facts')
+          and gs(page, 'active.elapsed') >= 1)
     page.mouse.move(720, 3310)
     page.wait_for_function(f'{G}.getState().facts.includes("cable_torn")',
                            timeout=30000)
     check('cable torn after warning window', True)
     page.mouse.up()
-    check('cable damage visible', page.evaluate(f'{G}.targets.cable.object.visible') is False)
+    check('cable damage visible', page.evaluate(f'{G}.targets.cable.object.visible') is False
+          and changed_mesh_hidden(page, 'torn'))
 
     page.keyboard.press('r')
     page.wait_for_timeout(300)
     check('hands empty', gs(page, 'equipped') is None)
     pose(page, -1.15, 1.0)
     aim(page, 'restraint')
-    page.wait_for_timeout(600)
+    targeted(page, 'restraint')
     page.mouse.down()
     page.wait_for_function(
         f'{G}.getState().active && {G}.getState().active.target === "restraint"', timeout=10000)
@@ -166,7 +197,8 @@ with sync_playwright() as p:
     page.wait_for_function(
         f'{G}.getState().active && {G}.getState().active.warningRemaining <= 0.000000001', timeout=90000)
     check('waiting alone does not damage restraint', gs(page, 'restraint') == 0.75
-          and 'restraint_damaged' not in gs(page, 'facts'))
+          and 'restraint_damaged' not in gs(page, 'facts')
+          and gs(page, 'active.elapsed') >= 1)
     for _ in range(2):
         page.mouse.wheel(0, -100)
     page.wait_for_function(f'{G}.getState().facts.includes("restraint_damaged")', timeout=10000)
@@ -184,7 +216,8 @@ with sync_playwright() as p:
     page.mouse.up()
     check('restraint release is permanent', gs(page, 'restraint') == 0
           and gs(page, 'facts') == facts)
-    check('cable damage persists', page.evaluate(f'{G}.targets.cable.object.visible') is False)
+    check('cable damage persists', page.evaluate(f'{G}.targets.cable.object.visible') is False
+          and changed_mesh_hidden(page, 'torn'))
     check('score hidden before finish', page.locator('#verdict').is_hidden()
           and page.locator('#verdict .verdict-text').inner_text() == ''
           and gs(page, 'result') is None)
@@ -192,7 +225,7 @@ with sync_playwright() as p:
 
     pose(page, -2.4, -0.6)
     aim(page, 'finish')
-    page.wait_for_timeout(600)
+    targeted(page, 'finish')
     check('finish targeted', page.evaluate(f'{G}.currentTarget') == 'finish')
     page.keyboard.press('e')
     page.wait_for_function(f'{G}.getState().finished', timeout=10000)
@@ -208,11 +241,19 @@ with sync_playwright() as p:
           {'energy': 'support', 'machinery': 'hazard', 'route': 'open'})
     check('verdict overlay shown', page.evaluate('!document.getElementById("verdict").hidden'))
     stored = page.evaluate('sessionStorage.getItem("protocole.h.result.v1")')
-    check('result stored in sessionStorage', stored and json.loads(stored)['version'] == 1)
+    check('result stored in sessionStorage', stored and json.loads(stored) == result)
     check('verdict uses authored text', page.evaluate(
         'document.querySelector("#verdict .verdict-text").textContent') == result['verdictText'])
     page.wait_for_timeout(800)
     page.screenshot(path=SHOT_DIR + '/protocole-gameplay-verdict.png')
+    page.keyboard.press('e')
+    page.keyboard.press('r')
+    page.mouse.click(720, 300)
+    page.mouse.wheel(0, -100)
+    page.wait_for_timeout(500)
+    check('finished result is frozen', gs(page, 'result') == result
+          and gs(page, 'facts') == result['facts'] and gs(page, 'finished')
+          and page.evaluate('sessionStorage.getItem("protocole.h.result.v1")') == stored)
 
     page.locator('#replay').click()
     page.wait_for_load_state('networkidle')

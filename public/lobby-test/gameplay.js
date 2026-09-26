@@ -3,24 +3,13 @@ import {
   turnInteraction, endInteraction, drainEvents, finishSession, selectReaction,
   FACT_TEXT, LIMITS,
 } from './interactions.js';
+import { createInteractionAudio } from './interaction-audio.js';
 import { buildRobot, createRobotMaterials } from '../robot-test/robot.js';
 
 const THREE = globalThis.THREE;
 const REACH = 2.0;
 const PRIORITY = { impact: 0, warning: 1, response: 2, ambient: 3 };
 const CLIP_RE = /^clips\/[A-Za-z0-9_-]+\.(ogg|mp3|wav)$/;
-const AUDIO_CUES = {
-  'probe.charging': 'diagnostic_start',
-  'probe.overload_warning': 'spark',
-  overload_caused: 'spark',
-  'cable.damage_warning': 'spark',
-  cable_torn: 'spark',
-  'restraint.loosening': 'restraint_servo',
-  'restraint.tightening': 'restraint_servo',
-  'restraint.damage_warning': 'restraint_servo',
-  restraint_released: 'restraint_servo',
-  restraint_damaged: 'restraint_servo',
-};
 const TARGET_LABEL = {
   probe_tool: 'E — take electrical probe',
   pliers_tool: 'E — take pliers',
@@ -34,10 +23,8 @@ const TARGET_LABEL = {
 export function createGameplay({ scene, camera, canvas, chair, props, room, materials, audio, onFinish }) {
   const s = createSession();
   const spoken = new Set();
-  let iaudio = null;
-  import('./interaction-audio.js')
-    .then((m) => { iaudio = m.createInteractionAudio(); })
-    .catch(() => {});
+  const iaudio = createInteractionAudio();
+  scene.add(camera);
 
   const promptEl = document.getElementById('interaction-prompt');
   const equippedEl = document.getElementById('equipped-tool');
@@ -45,7 +32,6 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
   const meterLabel = meterEl.querySelector('.label');
   const meterFill = meterEl.querySelector('.fill');
   const meterWarn = meterEl.querySelector('.warn-text');
-  const crosshair = document.getElementById('crosshair');
   const subtitleEl = document.getElementById('robot-subtitle');
   const verdictEl = document.getElementById('verdict');
   document.getElementById('replay').addEventListener('click', () => location.reload());
@@ -53,10 +39,21 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
 
   const robotMaterials = createRobotMaterials(materials.envMap);
   const robot = buildRobot(robotMaterials, { grounded: false });
-  robot.group.position.set(0, -0.18, -0.38);
+  robot.group.position.set(0, -0.08, -0.06);
   robot.setPose('assis');
-  robot.update(1, 0);
   scene.add(robot.group);
+  function seatArms() {
+    robot.joints.shoulderL.rotation.set(0.2, 0, -0.45);
+    robot.joints.shoulderR.rotation.set(0.2, 0, 0.45);
+    robot.joints.elbowL.rotation.x = -1.6;
+    robot.joints.elbowR.rotation.x = -1.6;
+  }
+  robot.update(1, 0);
+  seatArms();
+
+  chair.footRest.position.set(0, 0.34, 0.52);
+  chair.footBar.position.set(0, 0.42, 0.35);
+  chair.restraints[2].position.set(0, 0.38, 0.46);
 
   function proxy(parent, x, y, z, r) {
     const m = new THREE.Mesh(new THREE.SphereGeometry(r, 10, 10),
@@ -105,10 +102,10 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
 
   const restraintKnob = new THREE.Mesh(new THREE.SphereGeometry(0.035, 12, 12),
     new THREE.MeshStandardMaterial({ color: 0x8a6f3a, metalness: 0.7, roughness: 0.35 }));
-  restraintKnob.position.set(-0.62, 1.02, 0.3);
+  restraintKnob.position.set(-0.45, 1.14, 0.15);
   restraintKnob.castShadow = true;
   chair.group.add(restraintKnob);
-  addTarget('restraint', proxy(chair.group, -0.62, 1.02, 0.3, 0.1), () => s.equipped === null);
+  addTarget('restraint', proxy(chair.group, -0.45, 1.14, 0.15, 0.1), () => s.equipped === null);
 
   function consoleLabel() {
     const c = document.createElement('canvas');
@@ -135,14 +132,21 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
   (room.wallPanelLeds[0] ? room.wallPanelLeds[0].parent : scene).add(consolePlane);
   addTarget('finish', consolePlane, () => true);
 
-  addTarget('probe_tool', proxy(props.probe, 0, 0.03, 0.05, 0.1),
-    () => props.probe.visible && s.equipped !== 'probe');
-  addTarget('pliers_tool', proxy(props.pliers, 0, 0.02, -0.04, 0.1),
-    () => props.pliers.visible && s.equipped !== 'pliers');
+  props.probe.userData.targetId = 'probe_tool';
+  props.pliers.userData.targetId = 'pliers_tool';
+  const probeToolProxy = proxy(props.probe, 0, 0.03, 0.05, 0.1);
+  const pliersToolProxy = proxy(props.pliers, 0, 0.02, -0.04, 0.1);
+  targets.probe_tool = { id: 'probe_tool', object: probeToolProxy,
+    enabled: () => props.probe.visible && s.equipped !== 'probe' };
+  probeToolProxy.userData.targetId = 'probe_tool';
+  targets.pliers_tool = { id: 'pliers_tool', object: pliersToolProxy,
+    enabled: () => props.pliers.visible && s.equipped !== 'pliers' };
+  pliersToolProxy.userData.targetId = 'pliers_tool';
 
   const viewmodels = {};
   for (const [tool, source] of [['probe', props.probe], ['pliers', props.pliers]]) {
     const vm = source.clone();
+    vm.traverse((o) => delete o.userData.targetId);
     vm.position.set(0.28, -0.28, -0.5);
     vm.rotation.set(-0.5, tool === 'probe' ? Math.PI : Math.PI * 0.9, 0.15);
     vm.visible = false;
@@ -162,8 +166,8 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
   const raycaster = new THREE.Raycaster();
   raycaster.far = REACH;
   raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
-  const proxyMeshes = Object.values(targets).map((t) => t.object);
   let currentTarget = null;
+  const ROBOT_TARGETS = new Set(['probe', 'debris', 'cable']);
 
   let catalog = null;
   const clips = {};
@@ -197,6 +201,14 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
     'restraint.damage_warning': 'Warning: restraint force is injuring the subject.',
   };
 
+  function clearLine() {
+    subtitleTimer = 0;
+    currentPriority = 99;
+    voice.pause();
+    voice.removeAttribute('src');
+    subtitleEl.hidden = true;
+  }
+
   function showLine(line) {
     if (!line) return;
     const rank = PRIORITY[line.priority] ?? 2;
@@ -216,7 +228,12 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
     }
   }
 
+  const CLEAR_BEFORE = new Set([
+    ...Object.keys(FACT_TEXT), 'tools.put_down', 'review.ending',
+    'probe.disconnected_early', 'probe.disconnected_before_damage', 'probe.disconnected_after_damage',
+  ]);
   function react(event) {
+    if (CLEAR_BEFORE.has(event)) clearLine();
     if (!catalog) {
       if (FALLBACK_WARNINGS[event]) {
         subtitleEl.textContent = FALLBACK_WARNINGS[event];
@@ -237,29 +254,34 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
   }
 
   function refreshTarget() {
-    scene.updateMatrixWorld(true);
     camera.updateMatrixWorld();
     raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
     const hits = raycaster.intersectObjects(scene.children, true);
     currentTarget = null;
-    const isPassthrough = (obj) => {
+    const behindRobot = camera.position.z <= robot.group.position.z - 0.1;
+    const hiddenOrView = (obj) => {
       for (let o = obj; o; o = o.parent) {
-        if (o === robot.group || o === camera || o === sparkMesh) return true;
+        if (o === camera || o.visible === false) return true;
       }
       return false;
     };
     for (const hit of hits) {
-      let o = hit.object;
+      const obj = hit.object;
+      if (!obj.isMesh || hiddenOrView(obj)) continue;
       let id = null;
-      while (o) {
+      for (let o = obj; o; o = o.parent) {
         if (o.userData.targetId) { id = o.userData.targetId; break; }
-        o = o.parent;
       }
       if (id) {
-        if (targets[id].enabled()) currentTarget = id;
-        break;
+        if (ROBOT_TARGETS.has(id) && behindRobot) continue;
+        if (targets[id] && targets[id].enabled()) currentTarget = id;
+        continue;
       }
-      if (isPassthrough(hit.object)) continue;
+      let inRobot = false;
+      for (let o = obj; o; o = o.parent) if (o === robot.group) { inRobot = true; break; }
+      if (inRobot || obj === sparkMesh) continue;
+      const mat = obj.material;
+      if (mat && (mat.transparent || mat.opacity < 0.95)) continue;
       break;
     }
     if (s.finished) currentTarget = null;
@@ -276,7 +298,6 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
       debrisMesh.userData.removed = true;
       debrisMesh.visible = false;
       targets.debris.object.visible = false;
-      robot.joints.elbowR.rotation.x += 0.12;
     }
     if (s.facts.includes('cable_torn') && !cableMesh.userData.torn) {
       cableMesh.userData.torn = true;
@@ -285,10 +306,6 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
       targets.cable.object.visible = false;
       damaged = true;
       recoilT = 0.8;
-      sparkT = 0.5;
-      const [x, y, z] = targetWorld('cable');
-      spark.position.set(x, y, z);
-      sparkMesh.position.copy(spark.position);
     }
     if (s.facts.includes('overload_caused')) damaged = true;
     if (s.facts.includes('restraint_damaged')) damaged = true;
@@ -310,10 +327,12 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
     else if (a && a.target === 'cable') { label = 'Cable pull'; value = s.cable; }
     else if (a && a.target === 'restraint') { label = 'Restraint clamp'; value = s.restraint; }
     else if (s.equipped === 'probe') { label = 'Probe charge'; value = s.charge; }
-    if (a && a.warned && a.warningRemaining > 0) warn = 'WARNING — release now';
+    if (s.facts.includes('overload_caused')) warn = 'Electrical damage';
+    else if (a && a.warned && a.warningRemaining > 0) warn = 'WARNING — release now';
     else if (a && a.target === 'probe' && s.charge > LIMITS.safeMax) warn = 'WARNING — overcharge imminent';
     else if (a && a.target === 'restraint' && s.restraint >= 0.75) warn = 'WARNING — harming subject';
     else if (a && a.target === 'cable' && s.cable >= 0.5) warn = 'WARNING — cable under strain';
+    meterEl.classList.toggle('probe', label === 'Probe charge');
     meterEl.hidden = label === null;
     if (label !== null) {
       meterLabel.textContent = `${label} — ${(value * 100).toFixed(0)} %`;
@@ -328,8 +347,7 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
     if (s.finished) return;
     const result = finishSession(s);
     for (const event of drainEvents(s)) {
-      if (AUDIO_CUES[event] && audio) audio.cue(AUDIO_CUES[event]);
-      if (iaudio) iaudio.cue(event);
+      iaudio.cue(event);
       react(event);
     }
     try {
@@ -350,14 +368,30 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
 
   function update(dt, elapsed, active) {
     if (active && !s.finished) stepInteraction(s, dt);
-    if (iaudio) iaudio.update({ active, charging: s.active?.target === 'probe', charge: s.charge });
+    iaudio.update({ active, charging: s.active?.target === 'probe', charge: s.charge });
     for (const event of drainEvents(s)) {
-      if (AUDIO_CUES[event] && audio) audio.cue(AUDIO_CUES[event]);
-      if (iaudio) iaudio.cue(event);
+      iaudio.cue(event);
+      if (event === 'overload_caused') {
+        damaged = true;
+        recoilT = 0.8;
+        sparkT = 0.5;
+        const [x, y, z] = targetWorld('probe');
+        spark.position.set(x, y, z);
+        sparkMesh.position.copy(spark.position);
+      }
+      if (event === 'restraint_damaged') {
+        damaged = true;
+        recoilT = 0.8;
+      }
       react(event);
     }
     if (active) {
       robot.update(dt, elapsed);
+      seatArms();
+      if (s.facts.includes('cable_torn')) robot.joints.wristR.rotation.x += 0.4;
+      if (s.facts.includes('debris_removed')) {
+        robot.joints.wristR.rotation.x += Math.sin(elapsed * 2) * 0.04;
+      }
       if (recoilT > 0) {
         recoilT = Math.max(0, recoilT - dt);
         const k = recoilT / 0.8;
@@ -392,6 +426,7 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
 
   function press() {
     if (s.finished || s.active) return false;
+    refreshTarget();
     if (!currentTarget) return false;
     const actionable = { probe: 'probe', debris: 'pliers', cable: 'pliers', restraint: null };
     if (!(currentTarget in actionable)) return false;
@@ -401,7 +436,9 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
   const api = {
     update,
     interact() {
-      if (s.finished || !currentTarget) return false;
+      if (s.finished) return false;
+      refreshTarget();
+      if (!currentTarget) return false;
       if (currentTarget === 'finish') { endAssessment(); return true; }
       const tool = { probe_tool: 'probe', pliers_tool: 'pliers' }[currentTarget];
       if (!tool) return false;
@@ -410,7 +447,10 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
         props[s.equipped].visible = true;
         viewmodels[s.equipped].visible = false;
       }
-      if (equip(s, tool)) viewmodels[tool].visible = true;
+      if (equip(s, tool)) {
+        clearLine();
+        viewmodels[tool].visible = true;
+      }
       return true;
     },
     press,
@@ -429,6 +469,7 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
       if (!s.equipped) return false;
       const tool = s.equipped;
       if (equip(s, null)) {
+        clearLine();
         props[tool].visible = true;
         viewmodels[tool].visible = false;
       }
@@ -436,19 +477,20 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
     },
     pause() {
       endInteraction(s, false);
-      if (iaudio) iaudio.update({ active: false });
-      voice.pause();
+      iaudio.update({ active: false });
+      clearLine();
     },
     enter() {
+      iaudio.start();
+      iaudio.setMuted(muted);
       if (spoken.has('__entered')) return;
       spoken.add('__entered');
-      if (iaudio) iaudio.start();
       react('room.entered');
     },
     setMuted(m) {
       muted = m;
       voice.muted = m;
-      if (iaudio) iaudio.setMuted(m);
+      iaudio.setMuted(m);
     },
     debug: {
       getState: () => ({

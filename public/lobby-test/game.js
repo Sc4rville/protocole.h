@@ -73,7 +73,7 @@ let pitch = -0.05;
 
 const mats = createMaterials(renderer);
 const room = buildRoom(scene, mats);
-const chair = buildChair(scene, mats);
+const chair = buildChair(scene, mats, { armSpan: 0.36, armHeight: 1.1, armZ: 0.15 });
 const props = buildProps(scene, mats);
 const rig = buildLighting(scene, mats);
 const details = buildDetails(scene, mats, rig);
@@ -143,6 +143,7 @@ function toggleSound() {
   const muted = audio.toggleMute();
   statusEl.textContent = muted ? 'Son coupé' : 'Son actif';
   soundBtn.textContent = muted ? 'Son : coupé' : 'Son : actif';
+  gameplay.setMuted(muted);
   return muted;
 }
 
@@ -162,8 +163,7 @@ addEventListener('keydown', (e) => {
     return;
   }
   if (e.code === 'KeyM') {
-    const muted = toggleSound();
-    if (muted !== null) gameplay.setMuted(muted);
+    toggleSound();
     return;
   }
   if (e.code === 'Digit1' || e.code === 'Digit2' || e.code === 'Digit3') {
@@ -177,12 +177,13 @@ addEventListener('keydown', (e) => {
     return;
   }
   if (!entered) return;
+  const playable = document.hasFocus() && !document.hidden && !gameplay.debug.getState().finished;
   if (e.code === 'KeyE') {
-    gameplay.interact();
+    if (playable) gameplay.interact();
     return;
   }
   if (e.code === 'KeyR') {
-    gameplay.putDown();
+    if (playable) gameplay.putDown();
     return;
   }
   keys.add(e.code);
@@ -202,6 +203,7 @@ document.addEventListener('pointerlockerror', () => {
 });
 
 function enter() {
+  if (gameplay.debug.getState().finished) return;
   entered = true;
   overlay.hidden = true;
   enterBtn.blur();
@@ -222,7 +224,7 @@ restartBtn.addEventListener('click', () => location.reload());
 stateBtn.addEventListener('click', cycleState);
 
 document.addEventListener('mousemove', (e) => {
-  if (entered) {
+  if (entered && document.hasFocus() && !document.hidden) {
     const dy = pointerLocked ? e.movementY : e.clientY - lastY;
     if (gameplay.pull(dy)) {
       lastX = e.clientX;
@@ -242,17 +244,24 @@ document.addEventListener('mousemove', (e) => {
 });
 canvas.addEventListener('pointerdown', (e) => {
   canvas.focus();
-  if (entered && e.button === 0 && gameplay.press()) return;
+  lastX = e.clientX;
+  lastY = e.clientY;
+  const playable = entered && document.hasFocus() && !document.hidden && !gameplay.debug.getState().finished;
+  if (playable && e.button === 0 && gameplay.press()) {
+    if (!pointerLocked) canvas.setPointerCapture(e.pointerId);
+    return;
+  }
   if (!pointerLocked && entered) {
     dragging = true;
-    lastX = e.clientX;
-    lastY = e.clientY;
     canvas.setPointerCapture(e.pointerId);
   }
 });
-document.addEventListener('pointerup', () => gameplay.release(true));
+document.addEventListener('pointerup', (e) => {
+  if (e.button === 0) gameplay.release(true);
+});
 canvas.addEventListener('wheel', (e) => {
-  if (entered && gameplay.turn(-Math.sign(e.deltaY))) e.preventDefault();
+  const playable = entered && document.hasFocus() && !document.hidden && !gameplay.debug.getState().finished;
+  if (playable && gameplay.turn(-Math.sign(e.deltaY))) e.preventDefault();
 }, { passive: false });
 function endDrag(e) {
   dragging = false;
@@ -263,7 +272,10 @@ canvas.addEventListener('pointercancel', () => {
   dragging = false;
   gameplay.release(false);
 });
-canvas.addEventListener('lostpointercapture', () => (dragging = false));
+canvas.addEventListener('lostpointercapture', () => {
+  dragging = false;
+  gameplay.release(false);
+});
 
 function setPose(x, z, newYaw) {
   const clamped = clampToRoom(x, z);

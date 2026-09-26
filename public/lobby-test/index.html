@@ -39,8 +39,9 @@
   #device-meter{position:fixed;right:14px;bottom:44px;width:200px;font-size:11px;color:#b9bcc4;text-shadow:0 1px 3px rgba(0,0,0,.6)}
   #device-meter .bar{position:relative;height:8px;background:#23262e;border:1px solid #3a3d45;border-radius:4px;overflow:hidden;margin-top:3px}
   #device-meter .fill{position:absolute;left:0;top:0;bottom:0;background:#7fb6c9;width:0%}
-  #device-meter .safe{position:absolute;top:0;bottom:0;left:60%;width:20%;background:rgba(110,190,140,.25)}
-  #device-meter .mark{position:absolute;top:-2px;bottom:-2px;width:1px;background:#8f94a0}
+  #device-meter .safe{position:absolute;top:0;bottom:0;left:60%;width:20%;background:rgba(110,190,140,.35);z-index:1}
+  #device-meter .mark{position:absolute;top:-2px;bottom:-2px;width:1px;background:#8f94a0;z-index:2}
+  #device-meter:not(.probe) .safe,#device-meter:not(.probe) .mark{display:none}
   #device-meter.warning .fill{background:#d8654e}
   #device-meter .warn-text{color:#e08a8a;font-weight:600}
   #robot-subtitle{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);max-width:640px;font-size:15px;font-style:italic;color:#f0f2f6;background:rgba(8,9,12,.62);border-radius:6px;padding:8px 16px;text-align:center;pointer-events:none}
@@ -99,7 +100,7 @@
 <div id="crosshair" hidden></div>
 <div id="interaction-prompt" role="status" hidden></div>
 <div id="equipped-tool" hidden>Empty hands</div>
-<div id="device-meter" hidden><span class="label"></span><div class="bar"><div class="safe"></div><div class="fill"></div></div><span class="warn-text" hidden></span></div>
+<div id="device-meter" hidden><span class="label"></span><div class="bar"><div class="safe"></div><div class="fill"></div><div class="mark" style="left:60%"></div><div class="mark" style="left:80%"></div></div><span class="warn-text" hidden></span></div>
 <div id="robot-subtitle" hidden></div>
 <div id="verdict" hidden>
   <div class="card">
