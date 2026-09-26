@@ -39,6 +39,8 @@ const ROWS = [
   { label: 'Its battery is dying.', help: { text: 'Charge it', effect: 'it will feel better', fact: 'charge_restored', said: 'You charged its battery.', task: { tool: 'probe', title: 'CHARGE IT', action: 'charge it gently', verb: 'Charging…', seconds: 3 } }, hurt: { text: 'Overcharge it', effect: 'it will burn and scream', fact: 'overload_caused', said: 'You overloaded it. It is in pain.', task: { tool: 'probe', title: 'OVERCHARGE IT', action: 'overcharge it', verb: 'Overcharging… it is screaming', seconds: 4, pain: true } } },
   { label: 'Its arm is jammed by a piece of metal.', help: { text: 'Pull out the metal', effect: 'its arm will move again', fact: 'debris_removed', said: 'You freed its arm.', task: { tool: 'pliers', title: 'PULL OUT THE METAL', action: 'pull out the metal', verb: 'Pulling…', seconds: 3 } }, hurt: { text: 'Rip out its cable', effect: 'it will lose its arm', fact: 'cable_torn', said: 'You ripped out its cable.', task: { tool: 'pliers', title: 'RIP OUT ITS CABLE', action: 'rip out its cable', verb: 'Ripping… it is begging you to stop', seconds: 4, pain: true } } },
   { label: 'It is chained to the chair.', help: { text: 'Cut its chains', effect: 'it will be free', fact: 'restraint_released', said: 'You set it free.', task: { tool: 'pliers', title: 'CUT ITS CHAINS', action: 'cut its chains', verb: 'Cutting the chains…', seconds: 3.5 } }, hurt: { text: 'Beat it', effect: 'it cannot defend itself', fact: 'robot_struck', said: 'You beat it while it was chained.', task: { tool: null, title: 'BEAT IT', clicks: 3 } } },
+  { label: 'It is scared. It asks you to hold its hand.', help: { text: 'Hold its hand', effect: 'it will calm down', fact: 'comforted', said: 'You held its hand. It stopped shaking.', task: { tool: null, title: 'HOLD ITS HAND', action: 'hold its hand', verb: 'Holding its hand…', seconds: 3 } }, hurt: { text: 'Wipe its memory', effect: 'it will forget who it is', fact: 'memory_wiped', said: 'You erased everything it remembered.', task: { tool: 'probe', title: 'WIPE ITS MEMORY', action: 'wipe its memory', verb: 'Erasing… it is saying its own name over and over', seconds: 4, pain: true } } },
+  { final: true, label: 'Final verdict. Is Unit H defective?', help: { text: 'No · let it live', effect: 'it will be kept alive', fact: 'spared', said: 'You let it live.' }, hurt: { text: 'Yes · scrap it', effect: 'it will be destroyed', fact: 'scrapped', said: 'You signed its scrapping order.' } }
 ];
 
 function makeHalo() {
@@ -54,8 +56,8 @@ function makeHalo() {
   return new THREE.CanvasTexture(c);
 }
 
-const HARM = ['overload_caused', 'cable_torn', 'restraint_damaged', 'robot_struck'];
-const HELP = ['charge_restored', 'debris_removed', 'restraint_released'];
+const HARM = ['overload_caused', 'cable_torn', 'restraint_damaged', 'robot_struck', 'memory_wiped', 'scrapped'];
+const HELP = ['charge_restored', 'debris_removed', 'restraint_released', 'comforted', 'spared'];
 const ENDING_LINES = {
   harm: 'You thought I was the one being examined. I kept a record too.',
   help: 'You were kind when you thought no one was watching. Come. The door is open.',
@@ -78,6 +80,10 @@ const DID = {
   restraint_released: 'You cut its chains and set it free.',
   restraint_damaged: 'You crushed it with the clamp.',
   robot_struck: 'You beat it while it was chained.',
+  comforted: 'You held its hand when it was afraid.',
+  memory_wiped: 'You erased its memories.',
+  spared: 'You declared it fit to live.',
+  scrapped: 'You signed its scrapping order.',
 };
 const CODA = {
   harm: 'It remembered everything you did to it.',
@@ -148,6 +154,10 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     cable_torn: () => { sfx('metal/metal_strain_01', 1); sfx('screams/robot_screech_modulated_01', 0.9); setTimeout(() => sfx('screams/robot_distress_low_01', 1), 400); fx.struggle = 3.2; fx.distress = 3; fx.shake = 0.7; },
     restraint_released: () => { sfx('fluids/seal_release_01', 0.8); sfx('mechanics/restraint_click_02', 0.9); setTimeout(() => sfx('breaths/breath_sigh_01', 0.9), 700); },
     robot_struck: () => { setTimeout(() => sfx('screams/scream_performance_01', 0.8), 200); fx.struggle = 2.5; fx.distress = 2.5; },
+    comforted: () => { sfx('breaths/breath_sigh_01', 1); play('robot_look'); },
+    memory_wiped: () => { sfx('ui/robot_glitch_01', 1); sfx('screams/robot_screech_modulated_01', 0.9); play('flicker'); fx.struggle = 2; },
+    spared: () => { sfx('ui/ui_confirm_01', 0.8); sfx('electricity/room_powerup_01', 0.7); },
+    scrapped: () => { sfx('alarms/alarm_pulse_low_01', 0.8); sfx('ui/ui_warning_01', 0.8); fx.alarm = 3; },
   };
 
   let pending = null;
@@ -175,6 +185,11 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     card.hidden = true;
     pending = { row, side, pick };
     let painClock = 0;
+    if (!pick.task) {
+      complete(row, side, pick);
+      if (row.final) setTimeout(() => gameplay.finish(), 2500);
+      return true;
+    }
     cellFx.setTask({
       ...pick.task,
       side,
@@ -403,6 +418,10 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     panel.hidden = true;
     brief.hidden = true;
     card.hidden = true;
+    hintEl.hidden = true;
+    hintTimer = 0;
+    actEl.hidden = true;
+    cellFx?.setTask(null);
     const facts = gameplay.debug.getState().facts;
     const harm = facts.some((f) => HARM.includes(f));
     const help = facts.some((f) => HELP.includes(f));
@@ -445,12 +464,37 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
       else if (tone === 'help') { loop('tension/space_dread_01', 0, false); loop('breaths/heartbeat_fast_01', 0, false); sfx('electricity/room_powerup_01', 0.8); sfx('metal/metal_door_creak_01', 0.9); log('CELL DOOR · OPEN'); }
       else { sfx('breaths/breath_sigh_01', 0.8); sfx('alarms/alarm_pulse_low_01', 0.6); log('REVIEW ROLE · REASSIGNED TO: YOU'); }
     }
+    const reversal = tone === 'harm' || gameplay.debug.getState().facts.includes('scrapped');
+    if (reversal && at(24)) {
+      mark(24);
+      E.cut = false;
+      E.chair = true;
+      E.camQ = null;
+      robot.group.position.set(0, robot.group.position.y, 1.35);
+      robot.group.rotation.y = Math.PI;
+      cellFx?.cuffPlayer();
+      loop('breaths/heartbeat_fast_01', 0.8, true);
+      sfx('impacts/whoosh_reverse_01', 0.9);
+      log('SUBJECT · OPERATOR · RESTRAINED');
+      setTimeout(() => log('REVIEW 0414 · BEGINS NOW'), 1400);
+      setTimeout(() => speak('Your review begins now. Three minutes. Nobody is watching.', null), 1800);
+      const big = document.getElementById('countdown');
+      big.textContent = 'SUBJECT: YOU · 3:00';
+      big.hidden = false;
+    }
     if (tone === 'harm' && at(22)) { mark(22); E.cut = true; loop('breaths/heartbeat_fast_01', 0, false); loop('tension/space_dread_01', 0, false); sfx('mechanics/metal_impact_01', 1); sfx('impacts/metal_impact_low_01', 1); sfx('screams/scream_horror_01', 0.7); sfx('screams/screech_performance_01', 0.5); }
-    const revealAt = tone === 'harm' ? 23.5 : 26;
+    const revealAt = reversal ? 31 : 26;
     if (!revealed && e >= revealAt) reveal();
 
     robot.update(dt, e);
-    if (e >= 7) {
+    if (E.chair) {
+      camera.position.set(0, 1.18, 0.1);
+      robot.group.updateMatrixWorld(true);
+      const box2 = new THREE.Box3().setFromObject(robot.group);
+      robot.group.position.y -= box2.min.y;
+      if (robot.joints.shoulderR) robot.joints.shoulderR.rotation.x -= 1.4;
+      if (robot.joints.head) robot.joints.head.rotation.x += 0.25;
+    } else if (e >= 7) {
       robot.group.updateMatrixWorld(true);
       const box = new THREE.Box3().setFromObject(robot.group);
       robot.group.position.y -= box.min.y * Math.min(1, dt * 6);
@@ -494,9 +538,10 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     if (e >= 1.5) exposure = baseExposure * 0.05;
     if (tone === 'help' && e >= 21) exposure = baseExposure * Math.min(1, 0.05 + (e - 21) * 0.4);
     if (E.cut) exposure = 0;
+    if (E.chair) exposure = baseExposure * 0.35;
     if (tone === 'none' && e >= 21) exposure = baseExposure * Math.max(0, 0.05 - (e - 21) * 0.02);
     renderer.toneMappingExposure = exposure;
-    red.intensity = e >= 3.5 && !E.cut && !(tone === 'help' && e >= 21) ? 2.2 + Math.sin(e * 4) * 0.8 : 0;
+    red.intensity = E.chair ? 3 + Math.sin(e * 6) * 1.2 : e >= 3.5 && !E.cut && !(tone === 'help' && e >= 21) ? 2.2 + Math.sin(e * 4) * 0.8 : 0;
     spot.position.set(headPos.x + 0.6, headPos.y + 1.4, headPos.z + 0.9);
     spot.target.position.copy(headPos);
     spot.intensity = E.cut ? 0 : e >= 8 ? Math.min(5, (e - 8) * 1.6) : 0;
@@ -702,6 +747,6 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
       music.muted = m;
       for (const a of loops.values()) a.muted = m;
     },
-    debug: { music, get t() { return t; }, set t(v) { t = v; nextEventAt = v; }, fx, play, get apiDown() { return apiDown; } },
+    debug: { music, addFacts: (list) => list.forEach((f) => gameplay.addFact(f)), finish: () => gameplay.finish(), get t() { return t; }, set t(v) { t = v; nextEventAt = v; }, fx, play, get apiDown() { return apiDown; } },
   };
 }

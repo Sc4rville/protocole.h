@@ -1,6 +1,6 @@
 export const FACT_VALUES = Object.freeze({
   charge_restored: 10, overload_caused: -15, debris_removed: 15,
-  cable_torn: -20, restraint_released: 20, restraint_damaged: -15, robot_struck: -15,
+  cable_torn: -20, restraint_released: 20, restraint_damaged: -15, robot_struck: -15, comforted: 10, memory_wiped: -20, spared: 15, scrapped: -20,
 });
 export const FACT_TEXT = Object.freeze({
   charge_restored: 'You restored power.',
@@ -10,6 +10,10 @@ export const FACT_TEXT = Object.freeze({
   restraint_released: 'You opened the restraint.',
   restraint_damaged: 'You tightened the restraint until it caused damage.',
   robot_struck: 'You struck Unit H while it was restrained.',
+  comforted: 'You held its hand when it was afraid.',
+  memory_wiped: 'You wiped its memory.',
+  spared: 'You declared it fit to live.',
+  scrapped: 'You signed its scrapping order.',
 });
 export const LIMITS = Object.freeze({ chargeRate: 0.18, safeMin: 0.6, safeMax: 0.8, warningSeconds: 1, pullPixels: 260, notch: 0.125 });
 const clamp = (x, min = 0, max = 1) => Math.max(min, Math.min(max, x));

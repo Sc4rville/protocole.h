@@ -22,7 +22,7 @@ function loadEnv() {
 export const ENV = loadEnv();
 const GEMINI_MODELS = [ENV.GEMINI_TEXT_MODEL, 'gemini-3.5-flash-lite', 'gemini-flash-lite-latest'].filter(Boolean);
 const VOICES = { unit_h: 'bwRhQrJel4IuvxLF', system: 'wFDijtvOAybUq2GR' };
-const FACTS = new Set(['charge_restored', 'overload_caused', 'debris_removed', 'cable_torn', 'restraint_released', 'restraint_damaged', 'robot_struck']);
+const FACTS = new Set(['charge_restored', 'overload_caused', 'debris_removed', 'cable_torn', 'restraint_released', 'restraint_damaged', 'robot_struck', 'comforted', 'memory_wiped', 'spared', 'scrapped']);
 const TIMEOUT_MS = 6000;
 
 export const TYPES = {
@@ -43,7 +43,7 @@ Your job on every call: pick the next staging beat so that a LOT happens across 
 Rules:
 - "event" must be exactly one id from allowedEvents, or null if none fits.
 - "text" is ONE short English line, at most 18 words, spoken by "speaker". Natural, specific, unsettling or moving. No stage directions, no quotes, no emojis.
-- React to the facts: helping (charge_restored, debris_removed, restraint_released) earns trust and quiet gratitude; harm (overload_caused, cable_torn, restraint_damaged, robot_struck) is remembered, never forgiven by later help, and makes the robot guarded or wounded. Never claim an act that is not in facts.
+- React to the facts: helping (charge_restored, debris_removed, restraint_released) earns trust and quiet gratitude; harm (overload_caused, cable_torn, restraint_damaged, robot_struck, memory_wiped, scrapped) is remembered, never forgiven by later help, and makes the robot guarded or wounded. Never claim an act that is not in facts.
 - CLARITY FIRST: the player is a first-time visitor at a game jam. Unit H speaks plainly, in simple concrete words, never cryptic poetry. Most Unit H lines should point at something the player can actually do right now, without giving orders:
   * its battery is almost empty (the probe on the tray can charge it),
   * a piece of metal debris is stuck in its right arm (the pliers can pull it out),

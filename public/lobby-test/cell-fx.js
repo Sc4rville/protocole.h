@@ -121,6 +121,7 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
   let freedT = -1;
   let cutAll = 0;
   let task = null;
+  let forceHands = false;
   const TOOL_NAME = { probe: 'PROBE', pliers: 'PLIERS' };
   const tmpA = new THREE.Vector3();
   const tmpB = new THREE.Vector3();
@@ -200,6 +201,19 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
 
   return {
     get hasTask() { return !!task; },
+    cuffPlayer() {
+      forceHands = true;
+      for (const side of ['left', 'right']) {
+        const h = hands[side];
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(0.042, 0.012, 10, 24), glowBand);
+        ring.position.set(0, 0, 0.09);
+        ring.renderOrder = 21;
+        h.add(ring);
+        h.userData.rest.set(side === 'left' ? -0.2 : 0.2, -0.36, -0.62);
+      }
+      sfx('mechanics/restraint_click_01', 1);
+      setTimeout(() => sfx('mechanics/restraint_click_02', 1), 350);
+    },
     setTask(next) {
       task = next ? { ...next, progress: 0, hits: 0 } : null;
       holding = false;
@@ -332,7 +346,7 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
         prompt.hidden = true;
       }
 
-      const showHands = !st.finished;
+      const showHands = !st.finished || forceHands;
       hands.left.visible = hands.right.visible = showHands;
       const vm = toolVms.find((o) => o.visible);
       if (vm) {
