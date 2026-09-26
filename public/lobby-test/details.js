@@ -21,8 +21,21 @@ function makeCable(points, radius, material, swayWeight) {
   const base = geo.attributes.position.array.slice();
   const weights = new Float32Array(TUBULAR + 1);
   for (let i = 0; i <= TUBULAR; i++) weights[i] = swayWeight(i / TUBULAR);
-  mesh.userData.cable = { base, weights, curve };
+  mesh.userData.cable = { base, weights, curve, swayWeight, attached: [] };
   return mesh;
+}
+
+// Rings and strands sit on the tube, so they must follow its sway.
+function attach(mesh, obj, t) {
+  const cable = mesh.userData.cable;
+  cable.attached.push({ obj, w: cable.swayWeight(t), base: obj.position.clone() });
+  return obj;
+}
+
+function swayOffset(out, time, seed, gust, w) {
+  const dx = (Math.sin(time * 0.9 + seed) * 0.022 + Math.sin(time * 2.3 + seed * 1.7) * 0.006) * gust * w;
+  const dz = (Math.cos(time * 0.7 + seed * 0.6) * 0.018 + Math.sin(time * 1.9 + seed) * 0.005) * gust * w;
+  return out.set(dx, -(Math.abs(dx) + Math.abs(dz)) * 0.35 * w, dz);
 }
 
 const FREE_END = (t) => t * t;
@@ -56,7 +69,7 @@ function tapeRing(mesh, t, radius, material) {
   const ring = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, 0.035, 10), material);
   ring.position.copy(p);
   ring.quaternion.setFromUnitVectors(v3(0, 1, 0), tangent);
-  return ring;
+  return attach(mesh, ring, t);
 }
 
 function copperEnd(mesh, material, radius) {
@@ -74,7 +87,7 @@ function copperEnd(mesh, material, radius) {
   }
   strands.position.copy(p);
   strands.quaternion.setFromUnitVectors(v3(0, -1, 0), tangent);
-  return strands;
+  return attach(mesh, strands, 1);
 }
 
 function junctionBox(x, z, mats, open) {
@@ -275,34 +288,30 @@ const tmp = new THREE.Vector3();
 function swayCables(details, time, levels) {
   const gust = 0.3 + levels.fan * 1.2;
   for (const cable of details.cables) {
-    const { base, weights } = cable.userData.cable;
+    const { base, weights, attached } = cable.userData.cable;
     const arr = cable.geometry.attributes.position.array;
     const seed = cable.id * 0.37;
     for (let i = 0; i <= TUBULAR; i++) {
       const w = weights[i];
       if (w === 0) continue;
-      const dx = (Math.sin(time * 0.9 + seed) * 0.022 + Math.sin(time * 2.3 + seed * 1.7) * 0.006) * gust * w;
-      const dz = (Math.cos(time * 0.7 + seed * 0.6) * 0.018 + Math.sin(time * 1.9 + seed) * 0.005) * gust * w;
-      const dy = -(Math.abs(dx) + Math.abs(dz)) * 0.35 * w;
+      swayOffset(tmp, time, seed, gust, w);
       for (let j = 0; j <= RADIAL; j++) {
         const k = (i * (RADIAL + 1) + j) * 3;
-        arr[k] = base[k] + dx;
-        arr[k + 1] = base[k + 1] + dy;
-        arr[k + 2] = base[k + 2] + dz;
+        arr[k] = base[k] + tmp.x;
+        arr[k + 1] = base[k + 1] + tmp.y;
+        arr[k + 2] = base[k + 2] + tmp.z;
       }
     }
     cable.geometry.attributes.position.needsUpdate = true;
+    for (const a of attached) {
+      if (a.w === 0) continue;
+      a.obj.position.copy(a.base).add(swayOffset(tmp, time, seed, gust, a.w));
+    }
   }
-  // the live cable's tip follows its last ring
+  // the live cable's tip follows its free end
   const live = details.live.userData.cable;
-  const arr = details.live.geometry.attributes.position.array;
-  const k = TUBULAR * (RADIAL + 1) * 3;
-  const b = TUBULAR * (RADIAL + 1) * 3;
-  details.sparks.tip.set(
-    details.liveTip.x + (arr[k] - live.base[b]),
-    details.liveTip.y + (arr[k + 1] - live.base[b + 1]),
-    details.liveTip.z + (arr[k + 2] - live.base[b + 2]),
-  );
+  swayOffset(tmp, time, details.live.id * 0.37, gust, live.swayWeight(1));
+  details.sparks.tip.copy(details.liveTip).add(tmp);
 }
 
 function driftDust(details, dt, levels, time) {
