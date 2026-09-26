@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>protocole.h — trailer</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="trailer.css">
+</head>
+<body>
+<div id="stage"></div>
+<div id="overlay" aria-hidden="true">
+  <div id="cards"></div>
+  <div id="hud"><span id="hud-rec"></span><span id="hud-time">REC 00:00:00</span><span id="hud-tag">SUBJECT · OPERATOR</span></div>
+  <div id="subtitle"></div>
+  <div id="grain"></div>
+  <div id="black"></div>
+  <div id="flash"></div>
+  <div id="bar-top" class="bar"></div>
+  <div id="bar-bottom" class="bar"></div>
+  <div id="progress"></div>
+</div>
+<div id="gate">
+  <div class="gate-box">
+    <h1>protocole<span>.</span>h</h1>
+    <p class="sub">official trailer · 2:32 · sound on</p>
+    <button id="gate-play" disabled>play</button>
+    <p id="gate-status">loading…</p>
+  </div>
+</div>
+<noscript><p style="padding:24px;color:#ddd">This trailer needs JavaScript.</p></noscript>
+<script src="../lobby-test/vendor/three.min.js"></script>
+<script type="module" src="trailer.js"></script>
+</body>
+</html>
