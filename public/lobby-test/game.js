@@ -267,6 +267,10 @@ canvas.addEventListener('pointerdown', (e) => {
   const playable = entered && document.hasFocus() && !document.hidden && !gameplay.debug.getState().finished;
   if (e.button === 0) held.left = true;
   if (e.button === 2) held.right = true;
+  if (playable && cellFx.hasTask && cellFx.press(e.button)) {
+    if (!pointerLocked) canvas.setPointerCapture(e.pointerId);
+    return;
+  }
   if (playable && (e.button === 0 || e.button === 2) && gameplay.press()) {
     turnClock = 0;
     if (!pointerLocked) canvas.setPointerCapture(e.pointerId);

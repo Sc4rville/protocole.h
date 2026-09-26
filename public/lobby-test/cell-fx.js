@@ -120,6 +120,8 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
   let released = false;
   let freedT = -1;
   let cutAll = 0;
+  let task = null;
+  const TOOL_NAME = { probe: 'PROBE', pliers: 'PLIERS' };
   const tmpA = new THREE.Vector3();
   const tmpB = new THREE.Vector3();
   const up = new THREE.Vector3(0, 1, 0);
@@ -161,7 +163,13 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
 
   function findAim() {
     const st = state();
-    if (st.finished || st.active) return null;
+    if (st.finished) return null;
+    if (task) {
+      ray.setFromCamera(center, camera);
+      const hitsTask = ray.intersectObjects([...cuffs.map((c) => c.hit), robot.group], true);
+      return hitsTask.some((h) => h.object.userData.cuff || robotHit(h.object)) ? { type: 'task' } : null;
+    }
+    if (st.active) return null;
     if (gameplay.debug.currentTarget) return null;
     ray.setFromCamera(center, camera);
     const targets = cuffs.filter((c) => !c.open).map((c) => c.hit);
@@ -191,7 +199,31 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
   }
 
   return {
+    get hasTask() { return !!task; },
+    setTask(next) {
+      task = next ? { ...next, progress: 0, hits: 0 } : null;
+      holding = false;
+    },
     press(button) {
+      if (task) {
+        if (button !== 0) return true;
+        const st = state();
+        if (task.tool && st.equipped !== task.tool) return true;
+        if (task.tool === null && st.equipped) return true;
+        if (!aim || aim.type !== 'task') return true;
+        if (task.clicks) {
+          punch();
+          task.hits += 1;
+          if (task.hits >= task.clicks) {
+            const done = task.onDone;
+            task = null;
+            setTimeout(done, 350);
+          }
+          return true;
+        }
+        holding = true;
+        return true;
+      }
       if (button !== 0 || !aim) return false;
       if (aim.type === 'robot') { punch(); return true; }
       if (aim.type === 'need_pliers') return false;
@@ -244,7 +276,33 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
       }
 
       aim = active ? findAim() : null;
-      if (holding && (!aim || aim.type !== 'cuff' || !active)) holding = false;
+      if (task) {
+        const toolOk = task.tool ? st.equipped === task.tool : !st.equipped;
+        if (holding && (!active || !toolOk || aim?.type !== 'task')) holding = false;
+        if (holding) {
+          task.progress += dt;
+          task.onTick?.(dt, task.progress / task.seconds);
+          if (task.progress >= task.seconds) {
+            const done = task.onDone;
+            task = null;
+            holding = false;
+            done();
+          }
+        }
+        if (task) {
+          let text;
+          if (task.tool && !toolOk) text = `${task.title} · take the ${TOOL_NAME[task.tool]} on the tray (it glows) · press E`;
+          else if (!task.tool && !toolOk) text = `${task.title} · put your tool down first · press R`;
+          else if (aim?.type !== 'task') text = `${task.title} · now look at Unit H`;
+          else if (task.clicks) text = `LEFT CLICK to hit it · ${task.hits} / ${task.clicks}`;
+          else if (holding) text = `${task.verb} ${Math.min(100, Math.round((task.progress / task.seconds) * 100))}%`;
+          else text = `HOLD LEFT CLICK to ${task.action}`;
+          prompt.textContent = text;
+          prompt.className = task.side;
+          prompt.hidden = false;
+        }
+      }
+      if (!task && holding && (!aim || aim.type !== 'cuff' || !active)) holding = false;
       if (holding && aim?.type === 'cuff') {
         const c = aim.cuff;
         cutAll += dt;
@@ -259,7 +317,8 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
         }
       }
 
-      if (aim?.type === 'robot') {
+      if (task) {
+      } else if (aim?.type === 'robot') {
         prompt.textContent = 'Left click · hit Unit H';
         prompt.hidden = false;
       } else if (aim?.type === 'need_pliers') {

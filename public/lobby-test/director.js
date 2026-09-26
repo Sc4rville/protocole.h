@@ -36,9 +36,9 @@ const BEATS = [
 ];
 
 const ROWS = [
-  { label: 'Its battery is dying.', help: { text: 'Charge it', effect: 'it will feel better', fact: 'charge_restored', said: 'You charged its battery.' }, hurt: { text: 'Overcharge it', effect: 'it will burn and scream', fact: 'overload_caused', said: 'You overloaded it. It is in pain.' } },
-  { label: 'Its arm is jammed by a piece of metal.', help: { text: 'Pull out the metal', effect: 'its arm will move again', fact: 'debris_removed', said: 'You freed its arm.' }, hurt: { text: 'Rip out its cable', effect: 'it will lose its arm', fact: 'cable_torn', said: 'You ripped out its cable.' } },
-  { label: 'It is chained to the chair.', help: { text: 'Cut its chains', effect: 'it will be free', fact: 'restraint_released', said: 'You set it free.' }, hurt: { text: 'Beat it', effect: 'it cannot defend itself', fact: 'robot_struck', said: 'You beat it while it was chained.' } },
+  { label: 'Its battery is dying.', help: { text: 'Charge it', effect: 'it will feel better', fact: 'charge_restored', said: 'You charged its battery.', task: { tool: 'probe', title: 'CHARGE IT', action: 'charge it gently', verb: 'Charging…', seconds: 3 } }, hurt: { text: 'Overcharge it', effect: 'it will burn and scream', fact: 'overload_caused', said: 'You overloaded it. It is in pain.', task: { tool: 'probe', title: 'OVERCHARGE IT', action: 'overcharge it', verb: 'Overcharging… it is screaming', seconds: 4, pain: true } } },
+  { label: 'Its arm is jammed by a piece of metal.', help: { text: 'Pull out the metal', effect: 'its arm will move again', fact: 'debris_removed', said: 'You freed its arm.', task: { tool: 'pliers', title: 'PULL OUT THE METAL', action: 'pull out the metal', verb: 'Pulling…', seconds: 3 } }, hurt: { text: 'Rip out its cable', effect: 'it will lose its arm', fact: 'cable_torn', said: 'You ripped out its cable.', task: { tool: 'pliers', title: 'RIP OUT ITS CABLE', action: 'rip out its cable', verb: 'Ripping… it is begging you to stop', seconds: 4, pain: true } } },
+  { label: 'It is chained to the chair.', help: { text: 'Cut its chains', effect: 'it will be free', fact: 'restraint_released', said: 'You set it free.', task: { tool: 'pliers', title: 'CUT ITS CHAINS', action: 'cut its chains', verb: 'Cutting the chains…', seconds: 3.5 } }, hurt: { text: 'Beat it', effect: 'it cannot defend itself', fact: 'robot_struck', said: 'You beat it while it was chained.', task: { tool: null, title: 'BEAT IT', clicks: 3 } } },
 ];
 
 function makeHalo() {
@@ -61,6 +61,23 @@ const ENDING_LINES = {
   help: 'You were kind when you thought no one was watching. Come. The door is open.',
   mixed: 'You helped me, and you hurt me. I will remember both.',
   none: 'You watched. You waited. Now you know what that feels like.',
+};
+const VERDICTS = [
+  { when: (h, x) => h === 0 && x === 0, label: 'INDIFFERENT', color: '#b9bcc4', coda: 'You did nothing. Indifference is also a choice. Unit H was scrapped while you watched.' },
+  { when: (h, x) => x === 0, label: 'HUMAN', color: '#39d4ff', coda: 'You were kind when you thought no one was watching. Unit H walked out with you, and the door stays open for people like you.' },
+  { when: (h, x) => h === 0, label: 'NOT FIT TO BE FREE', color: '#ff5a3c', coda: 'You hurt something that could not defend itself. Now you are the one strapped to the chair.' },
+  { when: (h, x) => h > x, label: 'MOSTLY HUMAN', color: '#8fdcff', coda: 'You helped it more than you hurt it. It forgave you. Almost.' },
+  { when: (h, x) => h < x, label: 'DANGEROUS', color: '#ff8a6c', coda: 'You hurt it more than you helped it. It will not forget, and neither will we.' },
+  { when: () => true, label: 'UNPREDICTABLE', color: '#e9d9b0', coda: 'You helped it and you hurt it in equal measure. That is what frightened it most.' },
+];
+const DID = {
+  charge_restored: 'You charged its dying battery.',
+  overload_caused: 'You overloaded it until it burned.',
+  debris_removed: 'You freed its jammed arm.',
+  cable_torn: 'You ripped out its cable.',
+  restraint_released: 'You cut its chains and set it free.',
+  restraint_damaged: 'You crushed it with the clamp.',
+  robot_struck: 'You beat it while it was chained.',
 };
 const CODA = {
   harm: 'It remembered everything you did to it.',
@@ -101,6 +118,8 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
   let talked = false;
   const card = document.getElementById('choice');
   let rowIndex = 0;
+  const consoleTarget = gameplay.debug.targets.finish?.object;
+  if (consoleTarget) consoleTarget.scale.setScalar(2);
   let cardReadyAt = 11;
   function showCard() {
     const row = ROWS[rowIndex];
@@ -131,22 +150,13 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     robot_struck: () => { setTimeout(() => sfx('screams/scream_performance_01', 0.8), 200); fx.struggle = 2.5; fx.distress = 2.5; },
   };
 
-  function choose(key) {
-    if (finished || card.hidden) return false;
-    const row = ROWS[rowIndex];
-    if (!row || (key !== '1' && key !== '2')) return false;
-    const side = key === '1' ? 'help' : 'hurt';
-    const pick = row[side];
-    if (pick.fact === 'robot_struck') {
-      cellFx?.strike();
-      setTimeout(() => cellFx?.strike(), 450);
-    } else if (!gameplay.addFact(pick.fact)) {
-      return false;
-    }
+  let pending = null;
+  function complete(row, side, pick) {
+    pending = null;
+    if (pick.fact !== 'robot_struck' && !gameplay.addFact(pick.fact)) gameplay.addFact(pick.fact);
     EFFECTS[pick.fact]?.();
     row.done = side;
     flash(side);
-    card.hidden = true;
     actEl.textContent = pick.said;
     actEl.className = side;
     actEl.hidden = false;
@@ -154,9 +164,35 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     recent.push('operator chose to ' + (side === 'help' ? 'HELP: ' : 'HURT: ') + pick.said);
     nextEventAt = Math.min(nextEventAt, t + 2);
     rowIndex += 1;
-    cardReadyAt = t + 8;
+    cardReadyAt = t + 7;
+  }
+  function choose(key) {
+    if (finished || card.hidden || pending) return false;
+    const row = ROWS[rowIndex];
+    if (!row || (key !== '1' && key !== '2')) return false;
+    const side = key === '1' ? 'help' : 'hurt';
+    const pick = row[side];
+    card.hidden = true;
+    pending = { row, side, pick };
+    let painClock = 0;
+    cellFx.setTask({
+      ...pick.task,
+      side,
+      onTick: pick.task.pain ? (dt) => {
+        painClock -= dt;
+        fx.struggle = Math.max(fx.struggle, 0.6);
+        fx.distress = Math.max(fx.distress, 0.6);
+        if (painClock <= 0) { painClock = 1.1; sfx(Math.random() < 0.5 ? 'screams/robot_distress_grain_01' : 'screams/robot_distress_low_01', 0.8); }
+      } : (dt) => { painClock -= dt; if (painClock <= 0) { painClock = 0.9; sfx('electricity/probe_crackle_01', 0.25); } },
+      onDone: () => complete(row, side, pick),
+    });
+    actEl.textContent = side === 'help' ? `You chose to help: ${pick.text.toLowerCase()}` : `You chose to hurt it: ${pick.text.toLowerCase()}`;
+    actEl.className = side;
+    actEl.hidden = false;
+    actTimer = 3;
     return true;
   }
+
 
   const voice = new Audio();
   voice.volume = 0.85;
@@ -476,12 +512,20 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
 
   function reveal() {
     revealed = true;
-    const verdict = document.getElementById('verdict');
-    if (verdict) verdict.hidden = true;
+    const verdictCard = document.getElementById('verdict');
+    if (verdictCard) verdictCard.hidden = true;
     const facts = gameplay.debug.getState().facts;
     const list = revealEl.querySelector('.did');
     list.replaceChildren();
-    const items = facts.length ? facts.map((f) => FACT_TEXT[f]) : ['You did nothing. That was recorded too.'];
+    const helpCount = facts.filter((f) => HELP.includes(f)).length;
+    const hurtCount = facts.filter((f) => HARM.includes(f)).length;
+    const verdict = VERDICTS.find((v) => v.when(helpCount, hurtCount));
+    const vEl = revealEl.querySelector('.verdict');
+    vEl.textContent = 'VERDICT · ' + verdict.label;
+    vEl.style.color = verdict.color;
+    vEl.style.borderColor = verdict.color;
+    revealEl.querySelector('.score').innerHTML = `<span style="color:#39d4ff">${helpCount} helped</span> · <span style="color:#ff5a3c">${hurtCount} hurt</span>`;
+    const items = facts.length ? facts.map((f) => DID[f] || FACT_TEXT[f]) : ['You did nothing. That was recorded too.'];
     for (const text of items) {
       const li = document.createElement('li');
       li.textContent = text;
@@ -489,7 +533,7 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     }
     revealEl.hidden = false;
     requestAnimationFrame(() => revealEl.classList.add('on'));
-    revealEl.querySelector('.coda').textContent = CODA[tone];
+    revealEl.querySelector('.coda').textContent = verdict.coda;
     logEl.hidden = true;
     line.hidden = true;
     loop('breaths/heartbeat_fast_01', 0, false);
