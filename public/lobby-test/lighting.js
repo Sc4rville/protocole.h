@@ -128,6 +128,13 @@ export function applyLevels(rig, mats, refs, levels, time) {
   for (const cuff of refs.restraints) cuff.rotation.z = openAngle;
 
   const diagnostic = levels.diagnostic;
+  // the energy station idles at a low glow and breathes once the room is up;
+  // the probe on the tray only lights when the station feeds it
+  if (refs.stationStrip) {
+    const breath = Math.sin(time * 1.6) * 0.5 + 0.5;
+    refs.stationStrip.material.emissiveIntensity = 0.12 + levels.ambient * 0.5 + diagnostic * (0.6 + breath * 1.2);
+  }
+  if (refs.probeLed) refs.probeLed.material.emissiveIntensity = diagnostic * (1.2 + Math.sin(time * 7) * 0.4);
   const leds = refs.leds.concat(refs.wallPanelLeds);
   leds.forEach((led, i) => {
     const wave = Math.sin(time * 3.4 - i * 0.7) * 0.5 + 0.5;

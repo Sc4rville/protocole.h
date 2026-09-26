@@ -13,6 +13,13 @@ export const PLAYER_EYE = 1.62;
 export const CHAIR = { minX: -0.85, maxX: 0.85, minZ: -0.95, maxZ: 0.95 };
 export const CHAIR_CENTER = { x: 0, z: 0 };
 
+// Free-standing props: position, facing and a round footprint the player
+// slides around. Visuals in props.js follow these, not the other way round.
+export const PROPS = {
+  tray: { x: 2.1, z: -1.3, yaw: -0.5, radius: 0.32 },
+  station: { x: -2.68, z: -1.25, yaw: Math.PI / 2, radius: 0.42 },
+};
+
 const SQRT2 = Math.SQRT2;
 const EXPANDED = {
   minX: CHAIR.minX - PLAYER_RADIUS,
@@ -23,6 +30,17 @@ const EXPANDED = {
 
 function insideChair(x, z) {
   return x > EXPANDED.minX && x < EXPANDED.maxX && z > EXPANDED.minZ && z < EXPANDED.maxZ;
+}
+
+function insideProp(x, z) {
+  for (const prop of Object.values(PROPS)) {
+    if (Math.hypot(x - prop.x, z - prop.z) < prop.radius + PLAYER_RADIUS) return true;
+  }
+  return false;
+}
+
+function blocked(x, z) {
+  return insideChair(x, z) || insideProp(x, z);
 }
 
 function clampAxis(v, half) {
@@ -68,12 +86,12 @@ export function movePlayer(position, direction, dt, speed = 2.2) {
     const sz = (dz * dist) / n;
     for (let i = 0; i < n; i++) {
       const alongX = clampToRoom(x + sx, z);
-      if (!insideChair(alongX.x, alongX.z)) {
+      if (!blocked(alongX.x, alongX.z)) {
         x = alongX.x;
         z = alongX.z;
       }
       const alongZ = clampToRoom(x, z + sz);
-      if (!insideChair(alongZ.x, alongZ.z)) {
+      if (!blocked(alongZ.x, alongZ.z)) {
         x = alongZ.x;
         z = alongZ.z;
       }

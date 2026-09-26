@@ -13,6 +13,7 @@ import {
   PLAYER_RADIUS,
   ROOM,
 } from './movement.js';
+import { buildProps } from './props.js';
 import { buildRoom } from './room.js';
 import { createSequence } from './sequence.js';
 
@@ -67,6 +68,7 @@ let pitch = -0.05;
 const mats = createMaterials(renderer);
 const room = buildRoom(scene, mats);
 const chair = buildChair(scene, mats);
+const props = buildProps(scene, mats);
 const rig = buildLighting(scene, mats);
 const refs = {
   restraints: chair.restraints,
@@ -75,6 +77,8 @@ const refs = {
   ventBlades: room.ventBlades,
   doorReader: room.doorReader,
   windowFigure: room.windowFigure,
+  stationStrip: props.stationStrip,
+  probeLed: props.probeLed,
 };
 
 const sequence = createSequence();

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ROOM, PLAYER_RADIUS, CHAIR, movePlayer, directionFromKeys, clampToRoom, distanceToChair }
+import { ROOM, PLAYER_RADIUS, CHAIR, PROPS, movePlayer, directionFromKeys, clampToRoom, distanceToChair }
   from '../public/lobby-test/movement.js';
 
 const LIM_X = ROOM.halfX - PLAYER_RADIUS;
@@ -105,4 +105,23 @@ test('input objects are not mutated', () => {
 test('dt 10 is capped, no teleport', () => {
   const p = movePlayer({ x: 0, z: 2.5 }, { x: 1, z: 0 }, 10);
   assert.ok(Math.abs(p.x) <= 2.2 * 0.05 + 1e-9);
+});
+
+test('props block the player and let them slide around', () => {
+  const tray = PROPS.tray;
+  let p = { x: tray.x, z: tray.z + 1.2 };
+  for (let i = 0; i < 200; i++) p = movePlayer(p, { x: 0, z: -1 }, 0.016);
+  assert.ok(Math.hypot(p.x - tray.x, p.z - tray.z) >= tray.radius + PLAYER_RADIUS - 1e-9);
+  assert.ok(p.z > tray.z);
+  let q = { x: tray.x, z: tray.z + 1.2 };
+  for (let i = 0; i < 400; i++) q = movePlayer(q, { x: 0.4, z: -1 }, 0.016);
+  assert.ok(q.z < tray.z - 0.5);
+});
+
+test('props sit inside the room and clear of the chair', () => {
+  for (const prop of Object.values(PROPS)) {
+    assert.ok(Math.abs(prop.x) + prop.radius <= ROOM.halfX + 1e-9);
+    assert.ok(Math.abs(prop.z) + prop.radius <= ROOM.halfZ + 1e-9);
+    assert.ok(distanceToChair(prop.x, prop.z) > prop.radius + PLAYER_RADIUS * 2);
+  }
 });
