@@ -639,7 +639,7 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
         if (doneFacts.includes(row.help.fact)) row.done = 'help';
         else if (doneFacts.includes(row.hurt.fact)) row.done = 'hurt';
       }
-      if (card.hidden && ROWS[rowIndex] && t >= cardReadyAt && !brief.classList.contains('on')) showCard();
+      if (card.hidden && !pending && ROWS[rowIndex] && t >= cardReadyAt && !brief.classList.contains('on')) showCard();
       panel.querySelector('.step').textContent = ROWS[rowIndex] ? `Decision ${rowIndex + 1} of ${ROWS.length}` : 'All decisions made';
       if (allDoneAt === null && ROWS.every((r) => r.done)) {
         allDoneAt = t;
