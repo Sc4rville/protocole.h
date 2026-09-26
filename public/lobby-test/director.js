@@ -333,7 +333,7 @@ export function createDirector({ scene, camera, renderer, gameplay, robot }) {
         lastEquipped = equipped;
         if (equipped && !toolHinted.has(equipped)) {
           toolHinted.add(equipped);
-          showHint(equipped === 'probe' ? 'Aim at Unit H · hold click to charge · R to put down' : 'Aim at Unit H · hold click and drag · R to put down', 7);
+          showHint('Aim at Unit H · hold left click · R to put down', 7);
         }
       }
       const beat = BEATS[beatIndex];

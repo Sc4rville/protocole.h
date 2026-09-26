@@ -13,10 +13,10 @@ const CLIP_RE = /^clips\/[A-Za-z0-9_-]+\.(ogg|mp3|wav)$/;
 const TARGET_LABEL = {
   probe_tool: 'E — take electrical probe',
   pliers_tool: 'E — take pliers',
-  probe: 'Hold LMB — charge probe (safe zone 60–80 %)',
-  debris: 'Hold LMB + drag down — remove debris',
-  cable: 'Functional cable · Hold LMB + drag down — pull',
-  restraint: 'Hold LMB + wheel — adjust restraint (down loosens)',
+  probe: 'Hold left click · charge (let go in the green zone)',
+  debris: 'Hold left click · remove the debris',
+  cable: 'Hold left click · pull the cable',
+  restraint: 'Hold left click · loosen  ·  Hold right click · tighten',
   finish: 'E — complete review',
 };
 

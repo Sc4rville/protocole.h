@@ -110,6 +110,8 @@ let loaded = false;
 let entered = false;
 let pointerLocked = false;
 let dragging = false;
+const held = { left: false, right: false };
+let turnClock = 0;
 let lastX = 0;
 let lastY = 0;
 let bobPhase = 0;
@@ -258,7 +260,10 @@ canvas.addEventListener('pointerdown', (e) => {
   lastX = e.clientX;
   lastY = e.clientY;
   const playable = entered && document.hasFocus() && !document.hidden && !gameplay.debug.getState().finished;
-  if (playable && e.button === 0 && gameplay.press()) {
+  if (e.button === 0) held.left = true;
+  if (e.button === 2) held.right = true;
+  if (playable && (e.button === 0 || e.button === 2) && gameplay.press()) {
+    turnClock = 0;
     if (!pointerLocked) canvas.setPointerCapture(e.pointerId);
     return;
   }
@@ -268,8 +273,24 @@ canvas.addEventListener('pointerdown', (e) => {
   }
 });
 document.addEventListener('pointerup', (e) => {
-  if (e.button === 0) gameplay.release(true);
+  if (e.button === 0) held.left = false;
+  if (e.button === 2) held.right = false;
+  if (!held.left && !held.right) gameplay.release(true);
 });
+canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+
+function holdActions(dt) {
+  const target = gameplay.debug.getState().active?.target;
+  if (!target || (!held.left && !held.right)) return;
+  if ((target === 'debris' || target === 'cable') && held.left) gameplay.pull(120 * dt);
+  if (target === 'restraint') {
+    turnClock -= dt;
+    if (turnClock <= 0) {
+      turnClock = 0.32;
+      gameplay.turn(held.right ? 1 : -1);
+    }
+  }
+}
 canvas.addEventListener('wheel', (e) => {
   const playable = entered && document.hasFocus() && !document.hidden && !gameplay.debug.getState().finished;
   if (playable && gameplay.turn(-Math.sign(e.deltaY))) e.preventDefault();
@@ -366,6 +387,8 @@ function tick() {
   const bob = headBob(bobPhase, moving);
   camera.position.set(pose.x, PLAYER_EYE + bob.y, pose.z);
   camera.rotation.set(pitch, yaw, bob.roll);
+  if (active) holdActions(dt);
+  else held.left = held.right = false;
   gameplay.update(active ? dt : 0, elapsed, active);
   director.update(dt, active);
 
