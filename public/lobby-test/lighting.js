@@ -97,7 +97,7 @@ export function buildLighting(scene, mats) {
   return { ambient, lamp, head, beam, spot, lensMaterials, coveLights, presence };
 }
 
-export function applyLevels(rig, mats, refs, levels, time) {
+export function applyLevels(rig, mats, refs, levels, time, dt = 0.016) {
   const lamp = levels.lamp;
   rig.spot.intensity = 0.2 + lamp * 3.4;
   // a gas-discharge head never sits perfectly still
@@ -122,7 +122,7 @@ export function applyLevels(rig, mats, refs, levels, time) {
     refs.windowFigure.position.x = -0.15 + Math.sin(time * 0.28) * 0.12;
   }
 
-  if (refs.ventBlades) refs.ventBlades.rotation.z += (0.4 + levels.fan * 5.5) * 0.016;
+  if (refs.ventBlades) refs.ventBlades.rotation.z += (0.4 + levels.fan * 5.5) * Math.min(dt, 0.1);
 
   const openAngle = -levels.restraint * 0.95;
   for (const cuff of refs.restraints) cuff.rotation.z = openAngle;
