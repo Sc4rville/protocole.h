@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "model": "gemini-3-pro-image",
+  "source": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+  "imageSize": "2K",
+  "jobs": [
+    {
+      "name": "00-robot-master-blue-eyes",
+      "references": [
+        "public/cellule-assets/00-robot-master.jpg",
+        "public/concepts/lobby-v3/05-cellule-blanche.jpg"
+      ],
+      "aspectRatio": "2:3",
+      "imageSize": "2K",
+      "prompt": "Edit the FIRST attached image, the isolated standing robot. Preserve its exact full-body geometry, slender skeletal proportions, gray facial shell, dark cable musculature, chest port, joints, mechanical hands, finger pose, A-pose, camera angle, framing, neutral studio lighting and uniform light-gray background. Change ONLY the two optical apertures inside the existing eye sockets: restore the small clearly visible icy blue/cyan emissive eyes from the SECOND attached image, the approved white-cell scene. Both eyes must show controlled blue light, not human irises or dark pupils. Keep the sockets and facial shell unchanged. The light stays confined to the optical apertures with very restrained local glow: no beams, no broad blue wash over the face or body, no added ornaments. This is a localized material correction, not a redesign of the robot. Keep the whole standing robot and all fingertips and feet inside the frame with the same margins. Return one finished image in the same 2:3 composition. No lettering, labels, panels, chair, tools or additional objects."
+    }
+  ]
+}
