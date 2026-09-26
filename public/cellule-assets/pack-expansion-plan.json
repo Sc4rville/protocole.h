@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "model": "gemini-3-pro-image",
   "source": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
   "imageSize": "2K",
@@ -31,13 +31,13 @@
     },
     {
       "name": "40-verrou-ouvert", "id": "restraint-open", "label": "Verrou · ouvert", "category": "props",
-      "references": ["public/cellule-assets/08-verrou-contention-complet-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "references": ["public/cellule-assets/08-verrou-contention-clean-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
       "integration": "Référence de pose ouverte : bracelet, charnière et molette doivent devenir des pièces articulées.",
       "prompt": "Show the exact complete restraint-lock assembly in the attachment with its curved wrist clamp OPEN at the existing hinge. Preserve the same compact pale support, both finished support ends, dark ridged rotary knob, fittings and proportions. Rotate the clamp upward to expose the empty wrist opening; do not detach it or invent a second hinge. Front three-quarter product view. Entire assembly including open clamp and underside fits in the central 65 percent of the square, wide margins everywhere. Plain uniform light-gray background, neutral diffuse light. No wrist, robot, full chair, scene, labels, extra components or collage."
     },
     {
       "name": "41-verrou-ferme", "id": "restraint-closed", "label": "Verrou · fermé", "category": "props",
-      "references": ["public/cellule-assets/08-verrou-contention-complet-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "references": ["public/cellule-assets/08-verrou-contention-clean-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
       "integration": "Référence de fermeture sans bras ; ne définit ni angle de butée ni dommage de gameplay.",
       "prompt": "Show the exact attached complete restraint-lock assembly with its hinged wrist clamp fully CLOSED around an EMPTY opening. Keep the pale compact mounting section with both complete end caps, dark ridged knob, connected hinge and original proportions. No human or robot limb. Clear front three-quarter view with both support ends, full underside and top visible inside the central 65 percent of the frame. Neutral diffuse product lighting, uninterrupted light-gray studio background. One connected assembly only, no entire chair, scenery, ghost background, labels, additional parts or exploded view."
     },
@@ -55,19 +55,19 @@
     },
     {
       "name": "44-module-avant-bras-ferme", "id": "forearm-closed", "label": "Avant-bras · trappe fermée", "category": "props",
-      "references": ["public/cellule-assets/09-module-avant-bras-isole-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "references": ["public/cellule-assets/09-module-avant-bras-clean.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
       "integration": "Référence de l'état fermé ; la trappe reste indépendante du bras et de son contenu.",
       "prompt": "Show the same isolated robot forearm component as the attachment, but with its existing gray maintenance panel CLOSED flush over the cable compartment. Preserve the dark slender mechanical construction, fittings and overall length; do not add a hand or elbow assembly. Both COMPLETE end fittings and all edges visible, object inside the central 65 percent of the square. Slight front three-quarter product view, neutral diffuse lighting and uniform light-gray background. One component, no body, room, loose debris, additional tools, labels, collage or cut-off ends."
     },
     {
       "name": "45-obstruction-metal", "id": "metal-obstruction", "label": "Débris métallique", "category": "props",
-      "references": ["public/cellule-assets/09-module-avant-bras-isole-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "references": ["public/cellule-assets/09-module-avant-bras-clean.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
       "integration": "Proposition de débris extractible, visuellement distinct d'un câble fonctionnel ; dimensions fixées dans le moteur.",
       "prompt": "Create ONE isolated small metallic obstruction compatible with the lodged fragment in the attached forearm module. A short bent shard of dark brushed metal with a simple folded angular profile, slightly scuffed edges and no cable or connector. This is a proposed complete reconstruction of that tiny part, not the whole forearm. Make its solid irregular silhouette clearly different from a functional wire. Entire shard centered with broad 20 percent margins, modest three-quarter product view, uniform light-gray background and neutral diffuse light. No forearm, hand, pliers, pile of fragments, gore, scene, labels or diagram."
     },
     {
       "name": "46-cable-fonctionnel", "id": "functional-cable", "label": "Câble fonctionnel", "category": "props",
-      "references": ["public/cellule-assets/09-module-avant-bras-isole-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "references": ["public/cellule-assets/09-module-avant-bras-clean.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
       "integration": "Référence d'un câble intact avec connecteurs, à distinguer des débris et à relier réellement au modèle.",
       "prompt": "Create ONE complete short functional cable assembly for the attached robot forearm. A neat dark flexible insulated cable in a gentle U curve, fine ribbed jacket, small mechanically plausible connector at EACH end, subdued brushed-metal contacts. It is intact, not severed, frayed, sparking or tangled. Match the robot's restrained realistic manufactured style without including the forearm itself. Entire cable and both connectors inside the central 65 percent of the frame. Plain light-gray studio background, neutral diffuse light, slightly elevated product view. No hands, tools, loose wires, room, text, labels or collage."
     },
@@ -157,19 +157,19 @@
     },
     {
       "name": "61-enfer-rampe", "id": "hell-ramp", "label": "Enfer · rampe", "category": "props",
-      "references": ["public/cellule-assets/21-module-route-enfer-isole-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "references": ["public/cellule-assets/21-module-route-enfer-clean.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
       "integration": "Référence de rampe optionnelle ; ne pas introduire de pente sans validation de la physique.",
       "prompt": "Design ONE complete gentle ramp module matching the attached three-lane graphite floor. Three equal unobstructed lanes slope smoothly upward together, precise dark panels, muted red outer edge strips, shallow wedge-shaped support under the surface. Complete straight lower and upper connection ends, no obstacles or railings. Show whole wedge from elevated three-quarter view with at least 15 percent empty margin. Uniform light-gray studio background and neutral diffuse light. No surrounding track, factory, chair, characters, arrows, text or extra modules. This is a proposed geometric reference, not a change to the existing course."
     },
     {
       "name": "62-enfer-route-virage", "id": "hell-route-turn", "label": "Enfer · virage", "category": "props",
-      "references": ["public/cellule-assets/21-module-route-enfer-isole-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "references": ["public/cellule-assets/21-module-route-enfer-clean.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
       "integration": "Virage proposé pour décor ou futur parcours ; voies et trajectoire restent contrôlées par le jeu.",
       "prompt": "Design ONE complete flat quarter-turn route slab in the same graphite industrial style as the attached three-lane module. A single broad 90-degree curved deck with three clearly readable parallel lanes, muted red outer edges and shallow structural underside. Both connection ends complete, all lanes unobstructed and level. Elevated three-quarter product view shows the entire outer curve and underside edge within wide empty margins. Solid uniform light-gray studio background, neutral diffuse lighting. No extra straight tracks, rail posts, obstacles, characters, environment, arrows, labels or collage."
     },
     {
       "name": "63-enfer-route-jonction", "id": "hell-route-joint", "label": "Enfer · raccord de route", "category": "props",
-      "references": ["public/cellule-assets/21-module-route-enfer-isole-v2.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "references": ["public/cellule-assets/21-module-route-enfer-clean.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
       "integration": "Raccord visuel court, à garder affleurant avec la collision des modules adjacents.",
       "prompt": "Design ONE complete short expansion-joint connector between industrial route modules matching the attachment. A wide shallow graphite metal strip spanning three equal lane widths, simple interlocking plates, flush dark seam, muted red caps at the outer edges. Its walkable upper surface is flat, no raised trap or gap. Whole connector in elevated three-quarter product view, both finished ends and all corners visible inside generous margins. Uniform light-gray background, neutral diffuse light. No adjoining track pieces, floor scene, chair, text, characters, arrows or extra hardware."
     },
@@ -217,7 +217,7 @@
     },
     {
       "name": "71-enfer-segment-convoyeur", "id": "hell-conveyor", "label": "Enfer · convoyeur", "category": "props",
-      "references": ["public/cellule-assets/21-module-route-enfer-isole-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "references": ["public/cellule-assets/21-module-route-enfer-clean.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
       "integration": "Convoyeur de référence ; bande et châssis séparés, mouvement éventuel à valider côté gameplay.",
       "prompt": "Design ONE complete short conveyor module in the attached floor module's graphite industrial style. Flat dark belt with fine transverse tread, two visible end rollers, pale small side covers, restrained muted-red edge caps and four short stable feet. Entire assembly including both rollers and all feet in frame with generous margins. Elevated three-quarter product view, uniform light-gray background, neutral diffuse lighting. No carried objects, connected conveyors, factory, characters, sparks, arrows, labels or floor scene. One assembled mechanism, stationary, with clear belt/frame separation."
     },
@@ -283,7 +283,7 @@
     },
     {
       "name": "82-paradis-anneau-direction", "id": "paradise-guidance-ring", "label": "Paradis · anneau de guidage", "category": "props",
-      "references": ["public/cellule-assets/27-orbe-energie-isole-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "references": ["public/cellule-assets/27-orbe-energie-clean.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
       "integration": "Anneau visuel de parcours proposé, distinct de l'orbe collectable et sans collision imposée.",
       "prompt": "Design ONE complete large open guidance ring in the attached collectible's pale ceramic-metal and restrained cyan material language. A single continuous circular segmented frame with dark precision seams and a thin cyan inner-edge light. The center is EMPTY, showing the same uniform light-gray studio background, with no glass sphere, energy sheet or image. Entire ring occupies central 65 percent of square, slight three-quarter view showing frame thickness. Neutral diffuse light, crisp geometry. No stand, floor, room, sky, glow cloud, lettering, arrows, extra ring or character."
     },

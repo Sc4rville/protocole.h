@@ -62,24 +62,28 @@ function showImage(title,file,url){document.querySelector('#zoom-title').textCon
 async function refresh(){
 if(busy)return;busy=true;refreshButton.disabled=true;
 try{
-const response=await fetch('generation-results.jsonl',{cache:'no-store'});
-if(!response.ok)throw new Error('Journal indisponible');
-const results=new Map();
-for(const line of (await response.text()).split('\n')){if(!line.trim())continue;let record;try{record=JSON.parse(line)}catch{continue}if(record.status==='generated'&&record.files?.length)results.set(record.job,record)}
+const [response,derivedResponse,manifestResponse]=await Promise.all(['generation-results.jsonl','derivation-results.jsonl','delivery-manifest.json'].map(url=>fetch(url,{cache:'no-store'})));
+if(!response.ok||!derivedResponse.ok||!manifestResponse.ok)throw new Error('Journal indisponible');
+const manifest=await manifestResponse.json();const metadata=new Map(manifest.assets.map(asset=>[asset.job,asset]));
+const results=new Map();const journal=(await response.text())+'\n'+(await derivedResponse.text());
+for(const line of journal.split('\n')){if(!line.trim())continue;let record;try{record=JSON.parse(line)}catch{continue}if(['generated','derived'].includes(record.status)&&record.files?.length&&!['rejected','superseded'].includes(metadata.get(record.job)?.reviewStatus))results.set(record.job,record)}
 if(results.has('00-robot-master-blue-eyes'))results.delete('00-robot-master');
 for(const [job,figure]of cards){if(!results.has(job)){figure.remove();cards.delete(job)}}
 for(const [job,record]of [...results].sort(([a],[b])=>a.localeCompare(b))){
 const file=record.files[0];const basename=file.file.split('/').pop();if(!/^[a-zA-Z0-9_.-]+\.(jpg|jpeg|png|webp)$/.test(basename))continue;
-if(cards.get(job)?.dataset.sha===file.sha256)continue;
-const title=labels[job]||job.replace(/^\d+-/,'').replaceAll('-',' ');
+const meta=metadata.get(job);const stamp=file.sha256+JSON.stringify(meta||{});if(cards.get(job)?.dataset.sha===stamp)continue;
+const title=labels[job]||meta?.label||job.replace(/^\d+-/,'').replaceAll('-',' ');
 const url=`./${encodeURIComponent(basename)}?v=${file.sha256.slice(0,12)}`;
-const figure=document.createElement('figure');figure.dataset.sha=file.sha256;
+const figure=document.createElement('figure');figure.dataset.sha=stamp;figure.dataset.job=job;
 const button=document.createElement('button');button.type='button';button.className='thumb';button.setAttribute('aria-label',`Agrandir ${title}`);
 const image=document.createElement('img');image.src=url;image.alt=title;image.loading='lazy';image.width=file.width;image.height=file.height;button.append(image);button.addEventListener('click',()=>showImage(title,file,url));
-const caption=document.createElement('figcaption');const name=document.createElement('strong');name.textContent=title;const info=document.createElement('small');info.textContent=`${file.width} × ${file.height} px`;caption.append(name,info);figure.append(button,caption);
+const caption=document.createElement('figcaption');const name=document.createElement('strong');name.textContent=title;const info=document.createElement('small');info.textContent=`${file.width} × ${file.height} px${meta?.selected?' · référence retenue':''}${record.status==='derived'?' · détourage candidat':''}`;caption.append(name,info);
+if(meta?.reviewNote&&!['reference-usable','not-reviewed-in-this-pass'].includes(meta.reviewStatus)){const note=document.createElement('small');note.textContent=meta.reviewNote;caption.append(note)}
+const cutout=record.files.find(item=>item.mimeType==='image/png'&&item.file!==file.file);if(cutout){const filename=cutout.file.split('/').pop();if(/^[a-zA-Z0-9_.-]+\.png$/.test(filename)){const link=document.createElement('a');link.className='action';link.textContent='PNG transparent';link.href=`./${encodeURIComponent(filename)}`;link.download=filename;caption.append(link)}}
+figure.append(button,caption);
 if(cards.has(job))cards.get(job).replaceWith(figure);else gallery.append(figure);cards.set(job,figure);
 }
-document.querySelector('#empty').hidden=cards.size>0;setStatus(`${cards.size} images disponibles · auto 5 s`);
+document.querySelector('#empty').hidden=cards.size>0;setStatus(`${cards.size} références affichées · auto 5 s`);
 }catch{setStatus(cards.size?'Actualisation indisponible, rendus conservés.':'En attente du journal de génération…')}
 finally{busy=false;refreshButton.disabled=false}
 }
