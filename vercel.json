@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npx vite build",
+  "outputDirectory": "dist",
+  "functions": { "api/director.mjs": { "maxDuration": 30 } }
+}

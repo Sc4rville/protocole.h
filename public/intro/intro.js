@@ -288,6 +288,7 @@ beginBtn.addEventListener('click', () => {
   setTimeout(() => {
     try {
       sessionStorage.setItem('protocole.h.fromIntro', '1');
+      sessionStorage.setItem('protocole.h.seenIntro', '1');
       if (themeBuffer && themeStartedAt) sessionStorage.setItem('protocole.h.themeAt', JSON.stringify({ at: (sfx.ctx.currentTime - themeStartedAt) % themeBuffer.duration, ts: Date.now() }));
     } catch {}
     location.href = NEXT_URL;

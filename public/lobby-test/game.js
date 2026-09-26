@@ -2,6 +2,7 @@ import { createAudio } from './audio.js';
 import { buildChair } from './chair.js';
 import { animateDetails, buildDetails } from './details.js';
 import { createCellFx } from './cell-fx.js';
+import { createPainting } from './painting.js';
 import { createDirector } from './director.js';
 import { createGameplay } from './gameplay.js';
 import { applyLevels, buildLighting } from './lighting.js';
@@ -105,6 +106,7 @@ const gameplay = createGameplay({
   },
 });
 
+const painting = createPainting(scene, { position: new THREE.Vector3(ROOM.halfX - 0.03, 1.72, 2.35), rotationY: -Math.PI / 2 });
 const cellFx = createCellFx({
   scene, camera, gameplay, robot: gameplay.debug.robot,
   onEvent: (type, value) => {
@@ -173,17 +175,8 @@ setStateLabel();
 
 addEventListener('keydown', (e) => {
   if (e.repeat) return;
-  if (e.code === 'KeyL') {
-    cycleState();
-    return;
-  }
   if (e.code === 'KeyM') {
     toggleSound();
-    return;
-  }
-  if (e.code === 'Digit1' || e.code === 'Digit2' || e.code === 'Digit3') {
-    sequence.setState(['repos', 'intervention', 'jugement'][Number(e.code.slice(5)) - 1]);
-    setStateLabel();
     return;
   }
   if (e.code === 'Escape') {
@@ -193,6 +186,10 @@ addEventListener('keydown', (e) => {
   }
   if (!entered) return;
   const playable = document.hasFocus() && !document.hidden && !gameplay.debug.getState().finished;
+  if (/^(Digit|Numpad)[1-6]$/.test(e.code)) {
+    director.choose(e.code.slice(-1));
+    return;
+  }
   if (e.code === 'KeyT') {
     keys.clear();
     director.openTalk();
@@ -405,6 +402,7 @@ function tick() {
   else held.left = held.right = false;
   gameplay.update(active ? dt : 0, elapsed, active);
   cellFx.update(active ? dt : 0, active);
+  painting.update(dt, camera);
   director.update(dt, active);
 
   if (cueTimer > 0) {

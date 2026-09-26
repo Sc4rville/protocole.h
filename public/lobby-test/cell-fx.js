@@ -1,7 +1,7 @@
 const THREE = globalThis.THREE;
 const SFX = '../audio/';
 const REACH = 1.9;
-const CUT_TIME = 1.4;
+const CUT_TIME = 1.2;
 
 function sfx(name, volume = 0.6) {
   const a = new Audio(SFX + name + '.mp3');
@@ -62,7 +62,7 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
     if (!j) continue;
     const ring = new THREE.Group();
     const band = new THREE.Mesh(new THREE.TorusGeometry(spec.r + 0.006, 0.026, 12, 28), steel);
-    const stripe = new THREE.Mesh(new THREE.TorusGeometry(spec.r + 0.006, 0.028, 6, 28, Math.PI * 0.5), glowBand);
+    const stripe = new THREE.Mesh(new THREE.TorusGeometry(spec.r + 0.006, 0.029, 8, 28), glowBand);
     stripe.rotation.x = Math.PI / 2;
     ring.add(stripe);
     band.rotation.x = Math.PI / 2;
@@ -89,6 +89,19 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
     cuffs.push(cuff);
   }
 
+  const toolVms = camera.children.filter((o) => !o.isLight);
+  for (const vm of toolVms) {
+    vm.traverse((o) => {
+      if (!o.isMesh) return;
+      o.material = o.material.clone();
+      o.material.depthTest = false;
+      if (o.material.emissive) {
+        o.material.emissive.setHex(0x1b3440);
+        o.material.emissiveIntensity = 0.6;
+      }
+      o.renderOrder = 30;
+    });
+  }
   const hands = buildHands();
   camera.add(hands.left);
   camera.add(hands.right);
@@ -105,6 +118,7 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
   let hits = 0;
   let blink = 0;
   let released = false;
+  let cutAll = 0;
   const tmpA = new THREE.Vector3();
   const tmpB = new THREE.Vector3();
   const up = new THREE.Vector3(0, 1, 0);
@@ -150,12 +164,13 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
     ray.setFromCamera(center, camera);
     const targets = cuffs.filter((c) => !c.open).map((c) => c.hit);
     const hitsList = ray.intersectObjects([...targets, robot.group], true);
+    const closed = cuffs.filter((c) => !c.open);
     for (const h of hitsList) {
-      if (h.object.userData.cuff) {
-        if (st.equipped === 'pliers') return { type: 'cuff', cuff: h.object.userData.cuff };
-        continue;
-      }
-      if (robotHit(h.object)) return st.equipped ? null : { type: 'robot' };
+      const onCuff = h.object.userData.cuff;
+      if (!onCuff && !robotHit(h.object)) continue;
+      if (st.equipped === 'pliers' && closed.length) return { type: 'cuff', cuff: onCuff || closed[0] };
+      if (!st.equipped) return null;
+      return null;
     }
     return null;
   }
@@ -177,6 +192,7 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
     press(button) {
       if (button !== 0 || !aim) return false;
       if (aim.type === 'robot') { punch(); return true; }
+      if (aim.type === 'need_pliers') return false;
       if (aim.type === 'cuff') { holding = true; sfx('electricity/probe_crackle_01', 0.35); return true; }
       return false;
     },
@@ -184,8 +200,10 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
       holding = false;
     },
     releaseAll,
+    strike: () => punch(),
     get cuffs() { return cuffs; },
     get hits() { return hits; },
+    get debugState() { return { holding, cutAll, aim: aim?.type || null }; },
     update(dt, active) {
       const st = state();
       if (!released && st.facts.includes('restraint_released')) {
@@ -204,6 +222,7 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
           }
           continue;
         }
+        glowBand.emissiveIntensity = 1.2 + Math.sin(blink * 4) * 0.8;
         c.led.material.emissiveIntensity = damaged ? (Math.sin(blink * 18) > 0 ? 3 : 0.2) : 1.6 + Math.sin(blink * 3) * 0.6;
         c.ring.getWorldPosition(tmpA);
         tmpB.copy(c.anchor);
@@ -219,41 +238,47 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
       if (holding && (!aim || aim.type !== 'cuff' || !active)) holding = false;
       if (holding && aim?.type === 'cuff') {
         const c = aim.cuff;
-        c.cut += dt;
+        cutAll += dt;
         if (Math.random() < dt * 12) sfx('electricity/probe_arc_snap_01', 0.15);
-        if (c.cut >= CUT_TIME) {
+        if (cutAll >= CUT_TIME) {
           holding = false;
-          openCuff(c, true);
           sfx('metal/metal_strain_01', 0.6);
           onEvent?.('cuff_cut', c.joint);
-          const wristsOpen = cuffs.filter((x) => x.wrist).every((x) => x.open);
-          if (wristsOpen && gameplay.addFact('restraint_released')) {
-            released = true;
-            releaseAll(true);
-            onEvent?.('fact', 'restraint_released');
-          }
+          if (gameplay.addFact('restraint_released')) onEvent?.('fact', 'restraint_released');
+          released = true;
+          releaseAll(true);
         }
       }
 
       if (aim?.type === 'robot') {
-        prompt.textContent = 'Left click · strike';
+        prompt.textContent = 'Left click · hit Unit H';
+        prompt.hidden = false;
+      } else if (aim?.type === 'need_pliers') {
+        prompt.textContent = 'Cuffs · take the pliers on the tray (E) to cut them';
         prompt.hidden = false;
       } else if (aim?.type === 'cuff') {
-        const pct = Math.round((aim.cuff.cut / CUT_TIME) * 100);
-        prompt.textContent = holding ? `Cutting the cuff… ${pct}%` : 'Hold left click · cut the cuff';
+        const pct = Math.min(100, Math.round((cutAll / CUT_TIME) * 100));
+        prompt.textContent = holding ? `Cutting the cuffs… ${pct}%` : 'Hold left click · cut its cuffs';
         prompt.hidden = false;
       } else {
         prompt.hidden = true;
       }
 
-      const showHands = !st.equipped && !st.finished;
+      const showHands = !st.finished;
       hands.left.visible = hands.right.visible = showHands;
+      const vm = toolVms.find((o) => o.visible);
+      if (vm) {
+        vm.position.set(0.22, -0.2 + Math.sin(blink * 2) * 0.004, -0.42);
+        vm.rotation.set(0.35, st.equipped === 'probe' ? Math.PI * 0.62 : Math.PI * 0.55, 0.25);
+        vm.scale.setScalar(1.1);
+      }
       for (const side of ['left', 'right']) {
         const h = hands[side];
         const rest = h.userData.rest;
         let push = 0;
         if (punchT > 0 && side === punchSide) push = Math.sin((1 - punchT / 0.28) * Math.PI);
-        h.position.set(rest.x * (1 - push * 0.7), rest.y + push * 0.12, rest.z - push * 0.38);
+        const holdingTool = side === 'right' && vm;
+        h.position.set(holdingTool ? 0.21 : rest.x * (1 - push * 0.7), (holdingTool ? -0.24 : rest.y) + push * 0.12, (holdingTool ? -0.4 : rest.z) - push * 0.38);
       }
       if (punchT > 0) punchT = Math.max(0, punchT - dt);
 

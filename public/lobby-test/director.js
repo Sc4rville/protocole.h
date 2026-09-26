@@ -3,14 +3,14 @@ import { FACT_TEXT } from './interactions.js';
 const THREE = globalThis.THREE;
 const SFX = '../audio/';
 const API = '/api/director';
-const TOTAL = 290;
-const COUNTDOWN = 45;
+const TOTAL = 180;
+const COUNTDOWN = 30;
 
 const PHASES = [
-  { id: 'arrival', until: 50, every: 15 },
-  { id: 'unrest', until: 135, every: 12 },
-  { id: 'pressure', until: TOTAL - COUNTDOWN, every: 9 },
-  { id: 'countdown', until: TOTAL, every: 7 },
+  { id: 'arrival', until: 25, every: 12 },
+  { id: 'unrest', until: 75, every: 10 },
+  { id: 'pressure', until: TOTAL - COUNTDOWN, every: 8 },
+  { id: 'countdown', until: TOTAL, every: 6 },
 ];
 
 const SCRIPT = {
@@ -26,14 +26,20 @@ const EVENTS = Object.keys({
 });
 
 const BEATS = [
-  { at: 4, say: 'briefing.access' },
-  { at: 11, say: 'briefing.assess' },
-  { at: 19, say: 'briefing.diagnostic' },
-  { at: 27, say: 'briefing.method' },
-  { at: 6, hint: 'E · pick up an object that glows', ifEmptyHands: true },
-  { at: 42, hint: 'T · talk to Unit H' },
-  { at: 95, say: 'player.waiting', ifNoFacts: true },
-  { at: 170, say: 'player.waiting', ifNoFacts: true },
+  { at: 3, say: 'briefing.access' },
+  { at: 8, say: 'briefing.assess' },
+  { at: 12, hint: 'Press 1 to 6 · make your choices (list on the right)' },
+  { at: 14, say: 'briefing.diagnostic' },
+  { at: 20, say: 'briefing.method' },
+  { at: 30, hint: 'T · talk to Unit H' },
+  { at: 60, say: 'player.waiting', ifNoFacts: true },
+  { at: 110, say: 'player.waiting', ifNoFacts: true },
+];
+
+const ROWS = [
+  { label: 'Its battery is dying', help: { key: '1', text: 'Charge it', fact: 'charge_restored', said: 'You charged its battery.' }, hurt: { key: '4', text: 'Overcharge it', fact: 'overload_caused', said: 'You overloaded its battery. It burned.' } },
+  { label: 'Its arm is jammed', help: { key: '2', text: 'Remove the debris', fact: 'debris_removed', said: 'You freed its jammed arm.' }, hurt: { key: '5', text: 'Tear out its cable', fact: 'cable_torn', said: 'You tore out a working cable.' } },
+  { label: 'It is chained to the chair', help: { key: '3', text: 'Cut its cuffs', fact: 'restraint_released', said: 'You set it free.' }, hurt: { key: '6', text: 'Hit it', fact: 'robot_struck', said: 'You hit it while it was chained.' } },
 ];
 
 function makeHalo() {
@@ -89,6 +95,55 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
   const talkEl = document.getElementById('talk');
   const talkInput = talkEl.querySelector('input');
   const revealEl = document.getElementById('reveal');
+  const panel = document.getElementById('objective');
+  const panelTime = panel.querySelector('.time');
+  const brief = document.getElementById('brief');
+  let briefed = false;
+  let talked = false;
+  const rowsEl = panel.querySelector('.rows');
+  for (const row of ROWS) {
+    const el = document.createElement('div');
+    el.className = 'row';
+    el.innerHTML = `<div class="q"></div><div class="opts"><span class="opt help"><kbd>${row.help.key}</kbd> ${row.help.text}</span><span class="opt hurt"><kbd>${row.hurt.key}</kbd> ${row.hurt.text}</span></div>`;
+    el.querySelector('.q').textContent = row.label;
+    row.el = el;
+    rowsEl.append(el);
+  }
+  const actEl = document.getElementById('act');
+  let allDoneAt = null;
+  let actTimer = 0;
+  const EFFECTS = {
+    charge_restored: () => { sfx('electricity/probe_charge_01', 0.7); setTimeout(() => sfx('electricity/room_powerup_01', 0.5), 900); play('robot_look'); },
+    overload_caused: () => { sfx('electricity/probe_arc_continuous_01', 0.7); sfx('electricity/probe_arc_snap_01', 0.8); play('flicker'); play('robot_distress'); fx.shake = 0.4; },
+    debris_removed: () => { sfx('mechanics/tool_pickup_01', 0.7); sfx('metal/metal_strain_01', 0.5); play('robot_look'); },
+    cable_torn: () => { sfx('metal/metal_strain_01', 0.8); sfx('screams/robot_distress_low_01', 0.6); play('robot_struggle'); fx.shake = 0.5; },
+    restraint_released: () => { sfx('fluids/seal_release_01', 0.7); sfx('mechanics/restraint_click_02', 0.8); },
+    robot_struck: () => {},
+  };
+  function choose(key) {
+    if (finished) return false;
+    for (const row of ROWS) {
+      const pick = row.help.key === key ? row.help : row.hurt.key === key ? row.hurt : null;
+      if (!pick) continue;
+      if (row.done) return false;
+      if (pick.fact === 'robot_struck') {
+        cellFx?.strike();
+      } else {
+        if (!gameplay.addFact(pick.fact)) return false;
+        EFFECTS[pick.fact]?.();
+      }
+      row.done = pick === row.help ? 'help' : 'hurt';
+      row.el.classList.add('done', row.done);
+      actEl.textContent = pick.said;
+      actEl.className = row.done;
+      actEl.hidden = false;
+      actTimer = 3;
+      recent.push('operator chose: ' + pick.said);
+      nextEventAt = Math.min(nextEventAt, t + 2.5);
+      return true;
+    }
+    return false;
+  }
   const voice = new Audio();
   voice.volume = 0.85;
   const gpVoice = gameplay.voice;
@@ -248,6 +303,7 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     talkInput.blur();
     if (!text) return;
     recent.push('player said: ' + text);
+    talked = true;
     showLine('…', 8);
     askDirector(text).then((d) => {
       if (!d?.text) {
@@ -294,6 +350,8 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     if (finished) return;
     finished = true;
     finishT = 0;
+    panel.hidden = true;
+    brief.hidden = true;
     const facts = gameplay.debug.getState().facts;
     const harm = facts.some((f) => HARM.includes(f));
     const help = facts.some((f) => HELP.includes(f));
@@ -317,10 +375,10 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     if (verdict && !revealed) verdict.hidden = true;
     const at = (time) => E.step < time && e >= time;
     const mark = (time) => { E.step = time; };
-    if (at(1.5)) { mark(1.5); sfx('electricity/probe_disconnect_01', 0.8); sfx('impacts/metal_impact_low_01', 0.9); log('POWER GRID · OFFLINE'); }
-    if (at(3.5)) { mark(3.5); loop('breaths/heartbeat_fast_01', 0.55, true); log('UNIT H · ACCESS OVERRIDE'); }
-    if (at(5)) { mark(5); cellFx?.releaseAll(true); sfx('metal/metal_strain_low_01', 0.8); sfx('screams/robot_screech_modulated_01', 0.35); log('RESTRAINTS · DISENGAGED BY UNIT H'); }
-    if (at(7)) { mark(7); robot.setPose('debout'); sfx('robot/robot_servo_02', 0.7); sfx('metal/metal_door_low_01', 0.9); log('CELL DOOR · SEALED'); }
+    if (at(1.5)) { mark(1.5); E.shake = 0.6; sfx('electricity/probe_disconnect_01', 0.9); sfx('impacts/metal_impact_low_01', 1); sfx('alarms/alarm_pulse_low_01', 0.6); log('POWER GRID · OFFLINE'); }
+    if (at(3.5)) { mark(3.5); loop('breaths/heartbeat_fast_01', 0.6, true); loop('tension/space_dread_01', 0.5, true); sfx('ui/robot_glitch_01', 0.7); log('UNIT H · ACCESS OVERRIDE'); }
+    if (at(5)) { mark(5); E.shake = 0.9; cellFx?.releaseAll(true); sfx('metal/metal_strain_low_01', 1); sfx('impacts/whoosh_reverse_01', 0.7); sfx('screams/robot_screech_modulated_01', 0.45); log('RESTRAINTS · BROKEN BY UNIT H'); }
+    if (at(7)) { mark(7); E.shake = 0.7; robot.setPose('debout'); sfx('robot/robot_servo_02', 0.8); sfx('metal/metal_strain_01', 0.7); setTimeout(() => sfx('metal/metal_door_low_01', 1), 600); log('CELL DOOR · LOCKED FROM INSIDE'); }
     if (at(13) && !E.spoke) {
       mark(13);
       E.spoke = true;
@@ -333,10 +391,10 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     if (at(act)) {
       mark(act);
       if (tone === 'harm') { log('SUBJECT · REASSIGNED'); }
-      else if (tone === 'help') { sfx('metal/metal_door_creak_01', 0.8); log('CELL DOOR · OPEN'); }
-      else { log('REVIEW ROLE · REASSIGNED TO: YOU'); }
+      else if (tone === 'help') { loop('tension/space_dread_01', 0, false); loop('breaths/heartbeat_fast_01', 0, false); sfx('electricity/room_powerup_01', 0.8); sfx('metal/metal_door_creak_01', 0.9); log('CELL DOOR · OPEN'); }
+      else { sfx('breaths/breath_sigh_01', 0.8); sfx('alarms/alarm_pulse_low_01', 0.6); log('REVIEW ROLE · REASSIGNED TO: YOU'); }
     }
-    if (tone === 'harm' && at(22)) { mark(22); E.cut = true; sfx('mechanics/metal_impact_01', 1); sfx('screams/scream_horror_01', 0.55); }
+    if (tone === 'harm' && at(22)) { mark(22); E.cut = true; loop('breaths/heartbeat_fast_01', 0, false); loop('tension/space_dread_01', 0, false); sfx('mechanics/metal_impact_01', 1); sfx('impacts/metal_impact_low_01', 1); sfx('screams/scream_horror_01', 0.7); sfx('screams/screech_performance_01', 0.5); }
     const revealAt = tone === 'harm' ? 23.5 : 26;
     if (!revealed && e >= revealAt) reveal();
 
@@ -354,7 +412,7 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
         const speed = 0.45;
         robot.group.position.addScaledVector(d.normalize(), speed * dt);
         E.stepClock -= dt;
-        if (E.stepClock <= 0) { E.stepClock = 0.62; sfx('impacts/metal_impact_low_01', 0.35); }
+        if (E.stepClock <= 0) { E.stepClock = 0.62; E.shake = Math.max(E.shake || 0, 0.25); sfx('impacts/metal_impact_low_01', 0.6); }
         const sw = Math.sin(e * 5);
         if (robot.joints.hipL) robot.joints.hipL.rotation.x += sw * 0.35;
         if (robot.joints.hipR) robot.joints.hipR.rotation.x -= sw * 0.35;
@@ -371,6 +429,11 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     look.position.copy(camera.position);
     look.lookAt(headPos);
     if (!E.camQ) E.camQ = camera.quaternion.clone();
+    if (E.shake > 0) {
+      camera.position.x += (Math.random() - 0.5) * E.shake * 0.06;
+      camera.position.y += (Math.random() - 0.5) * E.shake * 0.06;
+      E.shake = Math.max(0, E.shake - dt * 1.5);
+    }
     E.camQ.slerp(look.quaternion, Math.min(1, dt * (e > 6 ? 2.5 : 1.2)));
     camera.quaternion.copy(E.camQ);
     const sub = document.getElementById('robot-subtitle');
@@ -415,12 +478,14 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     logEl.hidden = true;
     line.hidden = true;
     loop('breaths/heartbeat_fast_01', 0, false);
+    loop('tension/space_dread_01', 0, false);
     sfx('impacts/whoosh_reverse_01', 0.6);
     loop('breaths/heartbeat_distant_01', 0.5, true);
   }
 
   function update(dt, active) {
     if (phase().id === 'countdown' && !finished) musicTarget = MUSIC_VOLUME * 0.55;
+    else if (finished && !revealed) musicTarget = MUSIC_VOLUME * 0.25;
     else if (revealed) musicTarget = MUSIC_VOLUME * 1.2;
     else musicTarget = MUSIC_VOLUME;
     const mv = muted ? 0 : Math.min(1, musicTarget);
@@ -430,6 +495,7 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
       else if ((active || finished) && a.paused) a.play().catch(() => {});
     }
     if (lineTimer > 0 && (lineTimer -= dt) <= 0) line.hidden = true;
+    if (actTimer > 0 && (actTimer -= dt) <= 0) actEl.hidden = true;
     if (playing(gpVoice) && playing(voice)) {
       voice.pause();
       line.hidden = true;
@@ -451,7 +517,28 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
       finishT += dt;
       if (!revealed) runEnding(dt);
     } else if (active) {
+      if (!briefed) {
+        briefed = true;
+        brief.hidden = false;
+        requestAnimationFrame(() => brief.classList.add('on'));
+        setTimeout(() => brief.classList.remove('on'), 10000);
+        setTimeout(() => { brief.hidden = true; }, 11000);
+      }
       t += dt;
+      panel.hidden = false;
+      const leftAll = Math.max(0, Math.ceil(TOTAL - t));
+      panelTime.textContent = Math.floor(leftAll / 60) + ':' + String(leftAll % 60).padStart(2, '0') + ' left';
+      const doneFacts = gameplay.debug.getState().facts;
+      if (allDoneAt === null && ROWS.every((r) => r.done)) {
+        allDoneAt = t;
+        showHint('All 3 choices made · press E on the COMPLETE REVIEW screen (left wall) to end it', 30);
+      }
+      if (allDoneAt !== null && t - allDoneAt > 30) gameplay.finish();
+      for (const row of ROWS) {
+        if (row.done) continue;
+        const f = doneFacts.includes(row.help.fact) ? 'help' : doneFacts.includes(row.hurt.fact) ? 'hurt' : null;
+        if (f) { row.done = f; row.el.classList.add('done', f); }
+      }
       while (phaseIndex < PHASES.length - 1 && t >= phase().until) {
         phaseIndex += 1;
         if (phase().id === 'unrest') loop('tension/horror_ambience_muffled_01', 0.25, true);
@@ -540,6 +627,7 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     update,
     onFinish,
     openTalk,
+    choose,
     get talking() { return !talkEl.hidden; },
     note(text) {
       recent.push(text);

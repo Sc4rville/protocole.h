@@ -1,0 +1,10 @@
+node_modules
+dist
+audio-source
+public/afterworld
+src/afterworld
+.devin
+docs/handoffs
+.env*
+public/cellule-assets
+public/concepts
