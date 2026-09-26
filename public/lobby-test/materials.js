@@ -39,6 +39,53 @@ function floorTexture(c, span) {
   return t;
 }
 
+// Soft pool of light in the observation room: a hard-edged emissive rectangle
+// reads as a screen, a gradient reads as a lamp somewhere behind the glass.
+function glowGradient() {
+  const size = 256;
+  const c = canvas(size);
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, size, size);
+  const g = ctx.createRadialGradient(size * 0.62, size * 0.44, 0, size * 0.62, size * 0.5, size * 0.55);
+  g.addColorStop(0, 'rgba(255,255,255,1)');
+  g.addColorStop(0.45, 'rgba(255,255,255,0.45)');
+  g.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, size, size);
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = THREE.ClampToEdgeWrapping;
+  t.wrapT = THREE.ClampToEdgeWrapping;
+  return t;
+}
+
+// Blurred head-and-shoulders mask: sharp geometry would read as a pictogram,
+// a soft mask reads as someone standing in the light behind the glass.
+function silhouetteMask() {
+  const size = 256;
+  const c = canvas(size);
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, size, size);
+  ctx.filter = 'blur(6px)';
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(size * 0.5, size * 0.28, size * 0.115, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(size * 0.32, size);
+  ctx.bezierCurveTo(size * 0.33, size * 0.52, size * 0.41, size * 0.42, size * 0.46, size * 0.4);
+  ctx.lineTo(size * 0.54, size * 0.4);
+  ctx.bezierCurveTo(size * 0.59, size * 0.42, size * 0.67, size * 0.52, size * 0.68, size);
+  ctx.closePath();
+  ctx.fill();
+  ctx.filter = 'none';
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = THREE.ClampToEdgeWrapping;
+  t.wrapT = THREE.ClampToEdgeWrapping;
+  return t;
+}
+
 // Satin resin: almost uniform, with slow roughness drift so highlights breathe
 // instead of reading as one flat plastic sheet.
 function resinRoughness(base, drift) {
@@ -170,6 +217,7 @@ export function createMaterials(renderer) {
   const shadowGap = new THREE.MeshStandardMaterial({ color: 0x8e8d87, roughness: 0.9 });
   const glass = new THREE.MeshStandardMaterial({
     color: 0x0b0d11, roughness: 0.08, metalness: 0.65, envMap, envMapIntensity: 1.25,
+    transparent: true, opacity: 0.72,
   });
   const steel = new THREE.MeshStandardMaterial({ color: 0x9fa2a6, roughness: 0.32, metalness: 0.85, envMap, envMapIntensity: 1.0 });
   const charcoal = new THREE.MeshStandardMaterial({ color: 0x33353a, roughness: 0.42, metalness: 0.45, envMap, envMapIntensity: 0.8 });
@@ -184,7 +232,11 @@ export function createMaterials(renderer) {
     color: 0xffffff, emissive: 0xdfe6ee, emissiveIntensity: 0.4, roughness: 1,
   });
   const windowGlow = new THREE.MeshStandardMaterial({
-    color: 0x000000, emissive: 0x8fb4d6, emissiveIntensity: 0.0, roughness: 1,
+    color: 0x000000, emissive: 0xa8c8e8, emissiveIntensity: 0.0, roughness: 1,
+    emissiveMap: glowGradient(),
+  });
+  const presence = new THREE.MeshBasicMaterial({
+    color: 0x101216, transparent: true, opacity: 0.92, alphaMap: silhouetteMask(), depthWrite: false,
   });
   const ledOn = new THREE.MeshStandardMaterial({ color: 0x0f1113, emissive: 0x7fd6c0, emissiveIntensity: 0 });
   const ledSpare = () => ledOn.clone();
@@ -196,6 +248,6 @@ export function createMaterials(renderer) {
 
   return {
     envMap, envDriven, wall, ceiling, floor, inlay, joint, shadowGap, glass, steel, charcoal, dark,
-    shell, cushion, lampShell, lens, cove, windowGlow, ledSpare,
+    shell, cushion, lampShell, lens, cove, windowGlow, presence, ledSpare,
   };
 }

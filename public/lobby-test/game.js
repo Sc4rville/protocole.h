@@ -74,6 +74,7 @@ const refs = {
   wallPanelLeds: room.wallPanelLeds,
   ventBlades: room.ventBlades,
   doorReader: room.doorReader,
+  windowFigure: room.windowFigure,
 };
 
 const sequence = createSequence();

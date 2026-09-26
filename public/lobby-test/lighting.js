@@ -115,8 +115,12 @@ export function applyLevels(rig, mats, refs, levels, time) {
   for (const entry of mats.envDriven) entry.mat.envMapIntensity = entry.base * bounce;
 
   const glow = levels.window;
-  mats.windowGlow.emissiveIntensity = glow * 1.6 * (1 + Math.sin(time * 0.7) * 0.06);
+  mats.windowGlow.emissiveIntensity = glow * 3.6 * (1 + Math.sin(time * 0.7) * 0.06);
   rig.presence.intensity = Math.max(0, glow - 0.2) * 0.75;
+  if (refs.windowFigure) {
+    refs.windowFigure.visible = glow > 0.25;
+    refs.windowFigure.position.x = -0.15 + Math.sin(time * 0.28) * 0.12;
+  }
 
   if (refs.ventBlades) refs.ventBlades.rotation.z += (0.4 + levels.fan * 5.5) * 0.016;
 

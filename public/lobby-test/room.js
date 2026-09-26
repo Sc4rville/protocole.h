@@ -144,14 +144,24 @@ export function buildRoom(scene, mats) {
 
     // thin vertical joints: panels, not one continuous slab
     const seams = Math.max(1, Math.round(edge.length / 1.1));
+    const hole = carriesWindow
+      ? { x: WINDOW.center - edge.mid.x, halfWidth: WINDOW.width / 2, top: WINDOW.y + WINDOW.height / 2, bottom: WINDOW.y - WINDOW.height / 2 }
+      : null;
     for (let i = 1; i < seams; i++) {
-      const seam = new THREE.Mesh(new THREE.PlaneGeometry(0.012, WALL_TOP - BASE_GAP), mats.shadowGap);
-      facing(seam, edge, 0.004);
       const offsetAlong = -edge.length / 2 + (edge.length / seams) * i;
-      seam.position.x += -edge.normal.z * offsetAlong;
-      seam.position.z += edge.normal.x * offsetAlong;
-      seam.position.y = BASE_GAP + (WALL_TOP - BASE_GAP) / 2;
-      group.add(seam);
+      const spans = hole && Math.abs(offsetAlong - hole.x) < hole.halfWidth
+        ? [[BASE_GAP, hole.bottom], [hole.top, WALL_TOP]]
+        : [[BASE_GAP, WALL_TOP]];
+      for (const [y0, y1] of spans) {
+        if (y1 - y0 < 0.02) continue;
+        const seam = new THREE.Mesh(new THREE.PlaneGeometry(0.012, y1 - y0), mats.shadowGap);
+        facing(seam, edge, 0.004);
+        // slide along the panel's own axis so the offset matches the shape-space
+        // coordinates used for the window opening
+        seam.translateX(offsetAlong);
+        seam.position.y = (y0 + y1) / 2;
+        group.add(seam);
+      }
     }
   }
 
@@ -224,20 +234,42 @@ function buildObservationWindow(group, mats) {
     reveal.add(side);
   }
 
+  // Closed cavity behind the pane: without it the semi-transparent glass would
+  // show the scene background instead of the observation room.
+  const cavityDepth = 0.6;
+  const zBack = -depth - cavityDepth;
+  const back = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mats.dark);
+  back.position.set(0, 0, zBack);
+  reveal.add(back);
+  for (const sy of [-1, 1]) {
+    const face = new THREE.Mesh(new THREE.PlaneGeometry(w, cavityDepth), mats.dark);
+    face.rotation.x = sy * Math.PI / 2;
+    face.position.set(0, sy * h / 2, zBack + cavityDepth / 2);
+    reveal.add(face);
+  }
+  for (const sx of [-1, 1]) {
+    const face = new THREE.Mesh(new THREE.PlaneGeometry(cavityDepth, h), mats.dark);
+    face.rotation.y = -sx * Math.PI / 2;
+    face.position.set(sx * w / 2, 0, zBack + cavityDepth / 2);
+    reveal.add(face);
+  }
+
+  const glow = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mats.windowGlow);
+  glow.position.set(0, 0, zBack + 0.01);
+  reveal.add(glow);
+
+  // Backlit silhouette: what the light behind the glass is standing in front of.
+  const figure = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 0.95), mats.presence);
+  figure.position.set(-0.15, -0.12, zBack + 0.3);
+  figure.visible = false;
+  reveal.add(figure);
+
   const glass = new THREE.Mesh(new THREE.PlaneGeometry(w - 0.04, h - 0.04), mats.glass);
   glass.position.set(0, 0, -depth + 0.02);
   reveal.add(glass);
 
-  const glow = new THREE.Mesh(new THREE.PlaneGeometry(w - 0.5, h - 0.35), mats.windowGlow);
-  glow.position.set(0.35, -0.05, -depth - 0.01);
-  reveal.add(glow);
-
-  const lip = new THREE.Mesh(new THREE.RingGeometry(0.01, 0.02, 4), mats.shadowGap);
-  lip.visible = false;
-  reveal.add(lip);
-
   group.add(reveal);
-  return { windowGroup: reveal, windowGlass: glass, windowGlow: glow };
+  return { windowGroup: reveal, windowGlass: glass, windowGlow: glow, windowFigure: figure };
 }
 
 // Flush door: only the shadow gap and the recessed plate give it away.
