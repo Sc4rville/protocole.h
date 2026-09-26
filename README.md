@@ -1,6 +1,8 @@
 # protocole.h
 
 > *Tu crois jouer à un jeu. C'est le jeu qui te teste.*
+Projet du {Tech: Europe} AI Gaming Hack, Paris, 26 septembre 2026.
+
 
 **protocole.h** est un jeu vidéo court, en 3D, dans une ambiance de science-fiction dramatique. Dans son monde, les IA font passer des tests aux humains. Tu entres dans une salle où une machine est attachée. Pendant une minute, tu peux lui faire ce que tu veux. Ensuite, c'est elle qui décide de ce que tu mérites.
 
