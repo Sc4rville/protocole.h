@@ -254,6 +254,7 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
   }
 
   function refreshTarget() {
+    scene.updateMatrixWorld(true);
     camera.updateMatrixWorld();
     raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
     const hits = raycaster.intersectObjects(scene.children, true);
@@ -274,7 +275,7 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
       }
       if (id) {
         if (ROBOT_TARGETS.has(id) && behindRobot) continue;
-        if (targets[id] && targets[id].enabled()) currentTarget = id;
+        if (targets[id] && targets[id].enabled()) { currentTarget = id; break; }
         continue;
       }
       let inRobot = false;
@@ -388,7 +389,7 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
     if (active) {
       robot.update(dt, elapsed);
       seatArms();
-      if (s.facts.includes('cable_torn')) robot.joints.wristR.rotation.x += 0.4;
+      if (s.facts.includes('cable_torn')) robot.joints.wristL.rotation.x += 0.4;
       if (s.facts.includes('debris_removed')) {
         robot.joints.wristR.rotation.x += Math.sin(elapsed * 2) * 0.04;
       }
