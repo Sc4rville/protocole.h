@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>protocole.h</title>
+<link rel="stylesheet" href="intro.css">
+</head>
+<body class="phase-gate">
+<noscript><p style="padding:24px;color:#ddd">JavaScript is required.</p></noscript>
+
+<div class="bg"></div>
+<div class="bg-smoke"></div>
+<div class="bg-lines"></div>
+<div class="bg-horizon"></div>
+<div class="bg-dust"></div>
+<div class="vignette"></div>
+<div class="grain"></div>
+
+<div id="gate" class="layer">
+  <div class="gate-card">
+    <div class="wordmark">protocole<span>.h</span></div>
+    <button id="start" type="button" class="btn" disabled><span class="caret">&gt;</span>start</button>
+  </div>
+</div>
+
+<div id="stage" class="layer" hidden>
+  <div id="lines" class="lines" aria-live="polite"></div>
+</div>
+
+<div id="briefing" class="layer" hidden>
+  <div class="briefing-card">
+    <div id="briefing-lines" class="briefing-lines" aria-live="polite"></div>
+    <button id="begin" type="button" class="btn begin" hidden><span class="caret">&gt;</span>begin</button>
+  </div>
+</div>
+
+<div id="flash" class="flash"></div>
+<div id="telemetry" hidden aria-hidden="true"></div>
+<script type="module" src="intro.js"></script>
+</body>
+</html>
