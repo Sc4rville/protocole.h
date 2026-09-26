@@ -24,6 +24,10 @@ const TEST_MODE = new URLSearchParams(location.search).has('test');
 const host = document.getElementById('canvas-host');
 const overlay = document.getElementById('overlay');
 const enterBtn = document.getElementById('enter');
+const menuSub = document.getElementById('menu-sub');
+const menuHint = document.getElementById('menu-hint');
+const soundBtn = document.getElementById('menu-sound');
+const restartBtn = document.getElementById('menu-restart');
 const stateBtn = document.getElementById('lighting');
 const statusEl = document.getElementById('status');
 const helpEl = document.getElementById('help');
@@ -111,8 +115,19 @@ function pause() {
   entered = false;
   keys.clear();
   dragging = false;
+  overlay.classList.add('paused');
+  menuSub.textContent = 'Pause';
+  menuHint.textContent = 'Échap ou clic hors du menu pour reprendre.';
+  enterBtn.textContent = 'Reprendre';
   overlay.hidden = false;
   if (document.pointerLockElement) document.exitPointerLock();
+}
+
+function toggleSound() {
+  if (!audio) return;
+  const muted = audio.toggleMute();
+  statusEl.textContent = muted ? 'Son coupé' : 'Son actif';
+  soundBtn.textContent = muted ? 'Son : coupé' : 'Son : actif';
 }
 
 function cycleState() {
@@ -131,7 +146,7 @@ addEventListener('keydown', (e) => {
     return;
   }
   if (e.code === 'KeyM') {
-    if (audio) statusEl.textContent = audio.toggleMute() ? 'Son coupé' : 'Son actif';
+    toggleSound();
     return;
   }
   if (e.code === 'Digit1' || e.code === 'Digit2' || e.code === 'Digit3') {
@@ -140,7 +155,8 @@ addEventListener('keydown', (e) => {
     return;
   }
   if (e.code === 'Escape') {
-    pause();
+    if (entered) pause();
+    else if (overlay.classList.contains('paused')) enter();
     return;
   }
   if (!entered) return;
@@ -160,7 +176,7 @@ document.addEventListener('pointerlockerror', () => {
   helpEl.hidden = false;
 });
 
-enterBtn.addEventListener('click', () => {
+function enter() {
   entered = true;
   overlay.hidden = true;
   enterBtn.blur();
@@ -168,7 +184,14 @@ enterBtn.addEventListener('click', () => {
   if (audio) audio.start();
   const req = canvas.requestPointerLock?.();
   if (req?.catch) req.catch(() => (helpEl.hidden = false));
+}
+
+enterBtn.addEventListener('click', enter);
+overlay.addEventListener('click', (e) => {
+  if (e.target === overlay) enter();
 });
+soundBtn.addEventListener('click', toggleSound);
+restartBtn.addEventListener('click', () => location.reload());
 
 stateBtn.addEventListener('click', cycleState);
 

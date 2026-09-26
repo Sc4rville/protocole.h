@@ -4,7 +4,7 @@ import { Sfx, loadTheme } from './sfx.js';
 const params = new URLSearchParams(location.search);
 const TEST_MODE = params.has('test');
 const SPEED = TEST_MODE ? Number(params.get('speed') || 12) : 1;
-const NEXT_URL = params.get('next') || '../lobby-test/';
+const NEXT_URL = params.get('next') || '../lobby-test/index.html';
 
 const $ = (id) => document.getElementById(id);
 const gate = $('gate');

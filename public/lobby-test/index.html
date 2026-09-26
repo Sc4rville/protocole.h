@@ -13,11 +13,20 @@
   header h1{font-size:15px;font-weight:600;margin:0}
   header .note{font-size:12px;color:#b9bcc4}
   header a{color:#cfd3dc;pointer-events:auto}
-  #overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,11,14,.45)}
-  #overlay .card{background:rgba(20,22,27,.85);border:1px solid #3a3d45;border-radius:10px;padding:18px 22px;max-width:380px;text-align:center}
-  #overlay p{margin:6px 0 14px;font-size:13px;color:#c4c8d0}
-  #enter{font-size:15px;padding:8px 22px;cursor:pointer;border-radius:8px;border:1px solid #5a5f6b;background:#23262e;color:#eee}
-  #enter:hover{background:#2c3039}
+  #overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(6,7,9,.55);backdrop-filter:blur(3px);cursor:pointer;z-index:5}
+  #overlay .menu{cursor:default;min-width:300px;max-width:360px;padding:26px 28px;background:rgba(12,13,16,.92);border:1px solid #2e3139;border-radius:4px;font:13px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:#c9ccd3}
+  #overlay .menu h2{margin:0 0 4px;font-size:18px;letter-spacing:.35em;font-weight:500;color:#eceef2;text-transform:lowercase}
+  #overlay .menu h2 b{color:#c4563a;font-weight:500}
+  #overlay .menu .sub{margin:0 0 18px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#7d828c}
+  #overlay .keys{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:0 0 20px;align-items:center}
+  #overlay kbd{display:inline-block;min-width:18px;padding:2px 6px;border:1px solid #474b55;border-bottom-width:2px;border-radius:3px;background:#1b1d22;color:#eceef2;font:12px ui-monospace,monospace;text-align:center}
+  #overlay .actions{display:flex;flex-direction:column;gap:8px}
+  #overlay .actions button{font:13px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;padding:10px 14px;cursor:pointer;border-radius:3px;border:1px solid #3a3d45;background:#1a1c21;color:#e3e5ea;text-align:left}
+  #overlay .actions button:hover,#overlay .actions button:focus-visible{border-color:#c4563a;color:#fff;outline:none}
+  #overlay .actions #enter{background:#c4563a;border-color:#c4563a;color:#fff}
+  #overlay .actions #enter:hover{background:#d4654a}
+  #overlay .hint{margin:14px 0 0;font-size:11px;color:#6f747e}
+  #overlay:not(.paused) .pause-only{display:none}
   #legend{position:fixed;bottom:0;left:0;right:0;padding:8px 14px;display:flex;gap:16px;align-items:center;font-size:12px;color:#b9bcc4;text-shadow:0 1px 3px rgba(0,0,0,.6);flex-wrap:wrap}
   #lighting{font-size:12px;padding:4px 12px;cursor:pointer;border-radius:6px;border:1px solid #5a5f6b;background:rgba(35,38,46,.8);color:#eee}
   #status{font-size:12px;color:#9fb4d0}
@@ -39,16 +48,25 @@
   </div>
 </header>
 <div id="overlay">
-  <div class="card">
-    <p>Cellule blanche 6,2 × 7,4 m — matières du pack assets, plateau d'outils, station d'énergie.<br>
-    Approchez-vous du fauteuil : la salle s'active toute seule.<br>
-    ZQSD / WASD pour marcher, souris pour regarder, <kbd>L</kbd> ou <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> pour l'état,
-    <kbd>M</kbd> pour le son, <kbd>Échap</kbd> pour pause.</p>
-    <button id="enter">Entrer dans la cellule</button>
+  <div class="menu" role="dialog" aria-labelledby="menu-title">
+    <h2 id="menu-title">protocole<b>.h</b></h2>
+    <p class="sub" id="menu-sub">Commandes</p>
+    <div class="keys">
+      <span><kbd>Z</kbd><kbd>Q</kbd><kbd>S</kbd><kbd>D</kbd></span><span>se déplacer</span>
+      <span><kbd>souris</kbd></span><span>regarder</span>
+      <span><kbd>M</kbd></span><span>couper / remettre le son</span>
+      <span><kbd>Échap</kbd></span><span>menu</span>
+    </div>
+    <div class="actions">
+      <button id="enter">Entrer</button>
+      <button id="menu-sound" class="pause-only">Son : actif</button>
+      <button id="menu-restart" class="pause-only">Recommencer</button>
+    </div>
+    <p class="hint" id="menu-hint">Approchez-vous du fauteuil.</p>
   </div>
 </div>
 <div id="legend">
-  <span>ZQSD/WASD déplacement</span><span>Souris regard</span><span>L / 1-2-3 état</span><span>M son</span><span>Échap pause</span>
+  <span>ZQSD/WASD déplacement</span><span>Souris regard</span><span>L / 1-2-3 état</span><span>M son</span><span>Échap menu</span>
   <button id="lighting" aria-label="Changer l'état de la salle">État : repos</button>
   <span id="status" role="status">Chargement…</span>
   <span id="help" hidden>Pointer lock indisponible — cliquer-glisser pour regarder</span>
