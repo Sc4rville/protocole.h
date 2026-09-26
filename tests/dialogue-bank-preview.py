@@ -183,12 +183,16 @@ with sync_playwright() as p:
 
     # generated.json malformed JSON -> visible error.
     page.route('**/dialogue/generated.json',
-               lambda route: route.fulfill(status=200, body='{not json', content_type='application/json'))
+               lambda route: route.fulfill(status=200, body='PRIVATE_BODY_SENTINEL {not json',
+                                           content_type='application/json'))
     page.goto(BASE, wait_until='networkidle')
     page.wait_for_function('document.getElementById("state").classList.contains("err")', timeout=15000)
+    state_txt = page.evaluate('document.getElementById("state").textContent')
     check('generated malformed JSON visible error',
           page.evaluate('document.querySelectorAll(".card").length') == 0
-          and page.evaluate('document.getElementById("state").hidden') is False)
+          and page.evaluate('document.getElementById("state").hidden') is False, state_txt)
+    check('generated malformed JSON does not echo body',
+          'PRIVATE_BODY_SENTINEL' not in state_txt and 'PRIVATE_BO' not in state_txt, state_txt)
     page.unroute('**/dialogue/generated.json')
 
     # generated.json 404 -> tolerated as empty.

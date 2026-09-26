@@ -165,7 +165,7 @@ Promise.all([
   fetch('generated.json').then((r) => {
     if (r.status === 404) return { clips: {} };
     if (!r.ok) throw new Error('generated.json HTTP ' + r.status);
-    return r.json();
+    return r.json().catch(() => { throw new Error('generated.json is not valid JSON'); });
   }),
 ]).then(([m, g]) => {
   manifest = m;
