@@ -1,0 +1,1370 @@
+{
+  "version": 1,
+  "stage": "expansion-in-progress",
+  "snapshotAt": "2026-09-26T13:09:42.653646+00:00",
+  "counts": {
+    "generatedImages": 89,
+    "expansionPlanned": 59,
+    "expansionGenerated": 42,
+    "expansionRemaining": 17
+  },
+  "scope": "Références 2D uniquement. Ce lot intermédiaire exclut les détourages non validés et les générations encore en cours.",
+  "preferredRobotMaster": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+  "qualityReview": "public/cellule-assets/quality-review.json",
+  "pendingJobs": [
+    "40-verrou-ouvert",
+    "41-verrou-ferme",
+    "44-module-avant-bras-ferme",
+    "45-obstruction-metal",
+    "46-cable-fonctionnel",
+    "61-enfer-rampe",
+    "62-enfer-route-virage",
+    "63-enfer-route-jonction",
+    "71-enfer-segment-convoyeur",
+    "82-paradis-anneau-direction",
+    "89-paradis-arrivee",
+    "90-humain-course",
+    "91-humain-saut",
+    "92-humain-glissade",
+    "93-humain-plane",
+    "94-humain-atterrissage",
+    "95-humain-interaction"
+  ],
+  "assets": [
+    {
+      "job": "00-robot-master",
+      "label": "00-robot-master",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/00-robot-master.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "85180067405e7a7330a6aff934c71de6a7247fa8a06d64f455a1766a45e561f4",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "06-sonde-electrique",
+      "label": "06-sonde-electrique",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/06-sonde-electrique.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "953f7530798146d17d14bb30ff9d0d91aa34dd945bf794e4c008332f888e0842",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "07-pince-extraction",
+      "label": "07-pince-extraction",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/07-pince-extraction.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "93e156df8631363c46981291ea0cbada247e76b16f29cf71f45293f5fc6a86f7",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "05-fauteuil",
+      "label": "05-fauteuil",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/05-fauteuil.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "c6d56359b4ff4b8be7b4eba0f1eeed637eaf86b572c9983d2eabf081d3526f3a",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "08-verrou-contention",
+      "label": "08-verrou-contention",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/08-verrou-contention.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "fa610189cbec6e19ad0318ff9ac9577cb4350041653f92c7ef46a08aa6e363ad",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "09-module-avant-bras",
+      "label": "09-module-avant-bras",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/09-module-avant-bras.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "a3afe867ded9880f9071a71addd95f379765e4e6ce9eb144135a27d95a65a2cd",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "10-decor-vide",
+      "label": "10-decor-vide",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/10-decor-vide.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "81abbd746a26aebbfe91e450d3851581a1ec59e64b4a702594ab364ba594802d",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "00-robot-master-blue-eyes",
+      "label": "00-robot-master-blue-eyes",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "ca23064637d33b0c2cd3e143f1ad6e0f4272e7a481a5cb2867e75362374d9211",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "03-robot-back",
+      "label": "03-robot-back",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/03-robot-back.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "772e8cd66da85d9fb972da77ec5dce9d46fc81aa67792f440e24811fcc393b0c",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "02-robot-right",
+      "label": "02-robot-right",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/02-robot-right.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "fb9fccbb6716aa5bf21913e528eb3ffe2856aac2564a86f08eaf16f9431bf8a5",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "01-robot-front",
+      "label": "01-robot-front",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/01-robot-front.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "25a7567a1161d42ac960bf44232d14f4aa78d1b85d9db4df5bf87b1b3dede8fd",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "04-robot-left",
+      "label": "04-robot-left",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/04-robot-left.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "b49226bc9b988b70b1644d6abe9662310075c7cd78cfe1b8e9488ff14f0e1f0b",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "11-humain-maitre",
+      "label": "11-humain-maitre",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/11-humain-maitre.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "126960cadd8a90ef0e94afbcb2b629772042db8fd5dac24a6739ffec3a3ee8d9",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "17-plateau-outils",
+      "label": "17-plateau-outils",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/17-plateau-outils.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "eda6e7f6394c6b16436e613af479a8c08b74e65fbbeeb0e6633e7c9c627d070e",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "16-miroir-observation",
+      "label": "16-miroir-observation",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/16-miroir-observation.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "4e6572002d9af5d9395751b7f6155c8df3c3ccae8ed3c33048f3150e8922dff7",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "18-porte-cellule",
+      "label": "18-porte-cellule",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/18-porte-cellule.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "997544c1f623e6a7d60c57a88a3b99cb0a33add34e2d0df3523465ccf6aecf0f",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "19-station-energie",
+      "label": "19-station-energie",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/19-station-energie.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "ee093a563a7668cc800fce68545b3e66d2ff9946de72cd5e5ecd9c1120b6f330",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "20-emetteur-electrique",
+      "label": "20-emetteur-electrique",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/20-emetteur-electrique.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "927ecd661f10fa76162741ad565f7b8fc74dc4b2bec2a5213a7722dd286e3f58",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "21-module-route-enfer",
+      "label": "21-module-route-enfer",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/21-module-route-enfer.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "0d2e526195d30e5adf27f41980d409708ae69e2a8799aafe6dd5921732c80c7b",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "22-bloc-enfer",
+      "label": "22-bloc-enfer",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/22-bloc-enfer.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "f4239de95aeacd47126db7ff5a65671f80d9fcb4d3522fc056c1a7bf4ddd95b2",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "23-barre-glissade",
+      "label": "23-barre-glissade",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/23-barre-glissade.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "f1820146366729eaca38982d9e7ed0963cf1d902ac9762abc5f0dee9fa925f03",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "24-presse-enfer",
+      "label": "24-presse-enfer",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/24-presse-enfer.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "01ee8ace0d5c25a56d8e7c22d30afdc653b3b177af820cf2a0ff8b2a01a55a4d",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "26-tremplin-paradis",
+      "label": "26-tremplin-paradis",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/26-tremplin-paradis.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "9dd13e35810d91944ab6dc4a22e22e8cb4b6d78c860d08878550314bbda595de",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "25-ile-paradis",
+      "label": "25-ile-paradis",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/25-ile-paradis.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "840dfeef5c3c699c451d91d3365089748b5550374ecfdb95c309838ecd861e73",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "29-portique-sortie",
+      "label": "29-portique-sortie",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/29-portique-sortie.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "8931d67dba11c4814e172c878dc4bf010ccf3a3a757acd0f17193e4ad900ca6e",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "28-balise-checkpoint",
+      "label": "28-balise-checkpoint",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/28-balise-checkpoint.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "1261c0274a102bda39cf1dce473de1097a8991200ec4d5607e3a8e88a6a903e7",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "27-orbe-energie",
+      "label": "27-orbe-energie",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/27-orbe-energie.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "12e4a844ec94bc86891646c10ee418289172da26b3105f6d138e0729c615e095",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "32-texture-mur-cellule",
+      "label": "32-texture-mur-cellule",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/32-texture-mur-cellule.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "a914b141189bb2a9f357172b594bd2ea7e6c7079031116a3756039c647dd7760",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "31-environnement-paradis",
+      "label": "31-environnement-paradis",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/31-environnement-paradis.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "73b417d9a960fc76c515013402c42b3ac05bb8b36a1d68d43e049aad9fe2fd83",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "30-environnement-enfer",
+      "label": "30-environnement-enfer",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/30-environnement-enfer.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "e200a5b985b69983b62f40e837f696dddfac40cab6bfca816dc73cc997164570",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "33-texture-sol-cellule",
+      "label": "33-texture-sol-cellule",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/33-texture-sol-cellule.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "904c9a123f411e23af45e3b1b7950798f3a59f8cb6527ebef9e3fef102faa10c",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "34-texture-metal-enfer",
+      "label": "34-texture-metal-enfer",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/34-texture-metal-enfer.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "2aa8993bc8dc3f16d0fac13f3dc10b8ea7c765f27d1c2011340ccbb13b7f14da",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "35-texture-surface-paradis",
+      "label": "35-texture-surface-paradis",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/35-texture-surface-paradis.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "4386014b9790b95b398d7ec836aa722ebda4da10e91c72e685c5fbfd0e4a9269",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "36-barriere-saut",
+      "label": "36-barriere-saut",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/36-barriere-saut.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "6c9f907fafff2531b13fbf907933133f61375ce53d38f626f45a96a4818d5b47",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "12-humain-face",
+      "label": "12-humain-face",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/12-humain-face.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "d5b4ba6de9f0d76f03759c67810f7b2659c9a8d3a051aa7617ae61993b9fa459",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "13-humain-droite",
+      "label": "13-humain-droite",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/13-humain-droite.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "1d089cf80314dfced142707347dd45f822401dca87dd88dc5e61b9c6348606af",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "14-humain-dos",
+      "label": "14-humain-dos",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/14-humain-dos.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "ad3fc1203502b8d90a7e5ad760c8803fde803352d60ea5e2458deeae78bffcea",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "15-humain-gauche",
+      "label": "15-humain-gauche",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/15-humain-gauche.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "e9cd699f2cc511ff6b786bb49188d5b1e8214befa2cb4addb1e9feda3bdf0687",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "04-robot-left-profile-v2",
+      "label": "04-robot-left-profile-v2",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/04-robot-left-profile-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "bef1b054b4e922f946014c4466372b3919d665fa9e386743dcd7ac00707b2838",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "08-verrou-contention-complet-v2",
+      "label": "08-verrou-contention-complet-v2",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/08-verrou-contention-complet-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "e6cff0deddfef7e55fdd2e9812896df501353761c4dc7e57aa0aa1e534a44e5a",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "03-robot-back-v2",
+      "label": "03-robot-back-v2",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/03-robot-back-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "f6ed80d99ade9fc7e96c5a609ee80ebd3c803aae0912e7efcefc92672256a91e",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "09-module-avant-bras-isole-v2",
+      "label": "09-module-avant-bras-isole-v2",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/09-module-avant-bras-isole-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "c4c2e74da6af6111500e4e273a1b5d7e72ff90591aa08abdadfaf91424028eff",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "10-decor-vide-propre-v2",
+      "label": "10-decor-vide-propre-v2",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/10-decor-vide-propre-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "9a172a0dc77d6fa70391587fe4b4bb6c5a74cdc6f1eec0979ca87a029dd522d9",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "16-miroir-observation-isole-v2",
+      "label": "16-miroir-observation-isole-v2",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/16-miroir-observation-isole-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "b841a01e1c1204079e71a57266fe0a15f507f9bbe96657acd2f335d579cee8fe",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "21-module-route-enfer-isole-v2",
+      "label": "21-module-route-enfer-isole-v2",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/21-module-route-enfer-isole-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "040c361a3389e39fe04d9c1bddcdaea4098de630ffbb1f8601ab73a6098171ed",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "23-barre-glissade-isole-v2",
+      "label": "23-barre-glissade-isole-v2",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/23-barre-glissade-isole-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "5a847190a3645270f447174f66a173d5affabeccd87fa97e30816f28a0fe542e",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "27-orbe-energie-isole-v2",
+      "label": "27-orbe-energie-isole-v2",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/27-orbe-energie-isole-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "c7c8677a93c2af452a3df0f229511d4c8fde2a15eeea4011ca6f82916a75446f",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "37-fauteuil-face",
+      "label": "Fauteuil · face",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/37-fauteuil-face.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "08200094b9a4d2f5486b22368ef9e58c34a69e4f6ec831f7143f4721461fc802",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "38-fauteuil-dos",
+      "label": "Fauteuil · dos",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/38-fauteuil-dos.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "ca7d2a613487b5483c6b2db63f671a11eadfcd268c13b2b9757a881be36019a4",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "39-fauteuil-profil",
+      "label": "Fauteuil · profil",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/39-fauteuil-profil.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "86393f4b26256c40470b2ef565549a327878ab3b844ddeacf2f53f09c5259a7e",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "42-sonde-face",
+      "label": "Sonde · vue latérale",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/42-sonde-face.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "cf1447e995a68bccc56483408b498e86ed618bb71f3c561cc68c8d01bfb3a7fc",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "43-pince-face",
+      "label": "Pince · vue de dessus",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/43-pince-face.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "9ee559b6d1265129144bbe021993ebd2124cd661dec473506a0f9bfcd1823e2d",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "47-mur-cellule-module",
+      "label": "Cellule · panneau mural",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/47-mur-cellule-module.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "ff31c0275acd7e69561ab77ffe3ad4457f71516f7e9e779aa97cddf410d85230",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "48-sol-cellule-module",
+      "label": "Cellule · dalle de sol",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/48-sol-cellule-module.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "1804c378fdbd08d37f9d6703a37c97f086530cea692e13613da4bb23f6ee417f",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "50-angle-cellule",
+      "label": "Cellule · angle mural",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/50-angle-cellule.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "2fe90aedc9d67eff9b155f5c0bcdd601e42b04a745f5972a784d5652e29f8d14",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "49-plafond-lumineux",
+      "label": "Cellule · luminaire",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/49-plafond-lumineux.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "7c056c348ee6a6705bbc5956a05f4036a2f2414d86462aa3fd52171b5a762650",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "51-banc-cellule",
+      "label": "Cellule · banc",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/51-banc-cellule.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "0240a2e428a7c7b6bbade716c389ecb87364ae00b4e8fbdaa6ed0894bcab5e2a",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "52-console-cellule",
+      "label": "Cellule · console",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/52-console-cellule.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "b6b3f15b5c5bfbafdf440f48d51736d0b26528147846c36585aacd1b79a08c5f",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "53-drain-cellule",
+      "label": "Cellule · grille de sol",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/53-drain-cellule.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "7c693ce661e032753cb17a1298f8ad932998f420e1647434f0e554e7ab5b4182",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "54-portique-cellule",
+      "label": "Cellule · cadre de porte",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/54-portique-cellule.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "502afbae2c04d270cfee787993a1ce9cc18ccafd9f734e60cda4c47189ead48e",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "55-robot-assis-neutre",
+      "label": "Robot · pose assise neutre",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/55-robot-assis-neutre.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "3ef40e7026f5ee12258b351ad20db7b387f523165c2b1520c9f67c44e44dc695",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "56-robot-assis-apaise",
+      "label": "Robot · pose apaisée",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/56-robot-assis-apaise.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "94fbd9f078760410f1abd5af4c83fa8705ab8306d99843b1f9402299490706e3",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "57-robot-assis-defensif",
+      "label": "Robot · pose de protection",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/57-robot-assis-defensif.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "1c8d782a60468d5a3a0d1c2f1360983cf8ca22644699914fc025d8ad721e91b2",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "58-main-robot",
+      "label": "Robot · main mécanique",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/58-main-robot.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "29c19cadcf57b080b5a4c8fc89fdb93e5e62be50f879706ae0f3d6b89885fc3f",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "59-tete-robot",
+      "label": "Robot · tête",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/59-tete-robot.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "d11b12f98c012e203528f261f1519e2139c4c03345b3c84a0d7ba34f88cd36a2",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "60-connecteur-thorax",
+      "label": "Robot · connecteur thoracique",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/60-connecteur-thorax.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "a355b3e9ebb3a52e58f4d167b8b9d7f3d6132788c66134809d32bb0bd8e1015a",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "65-enfer-pilier",
+      "label": "Enfer · pilier structurel",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/65-enfer-pilier.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "cf9270daf8e3abbb358e4932c60e771987bdaa0cd384d5b57ba47f28aed05d1c",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "64-enfer-garde-corps",
+      "label": "Enfer · garde-corps",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/64-enfer-garde-corps.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "4ad7c0c78646aa2dfd9c5c794f41960ad8f4c60baf23c8e767570a1661c61c9a",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "66-enfer-mur",
+      "label": "Enfer · panneau mural",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/66-enfer-mur.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "08b294b24edcaff11070b031cf1e4913f62f2d67c721fb568ab227a8314c9e03",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "67-enfer-plafond-tuyaux",
+      "label": "Enfer · module de conduites",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/67-enfer-plafond-tuyaux.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "f13b340bd5b073ce9e79f2af5c5283f9456fcb7254e3fe5c7e74dd8a6efa87e9",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "68-enfer-turbine",
+      "label": "Enfer · turbine",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/68-enfer-turbine.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "098aa07e961a796f391fb1b2f5a7fc29cafd03db0fb99dee84f79fffcb75b754",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "69-enfer-caisse",
+      "label": "Enfer · caisse technique",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/69-enfer-caisse.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "492993e415dba87b2032eefb7edbae575050c297097b18eb49356159ce253cef",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "70-enfer-porte-industrielle",
+      "label": "Enfer · porte industrielle",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/70-enfer-porte-industrielle.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "581707ce1082a5a9820a71c6f69f51df60874779ccbc4ac3113cbbb885f97ffd",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "72-enfer-balise-alerte",
+      "label": "Enfer · balise d'alerte",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/72-enfer-balise-alerte.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "eb013a161fcbb753f48177e0a63bb8e6731d54ca6b10e11d26ce763a77be867a",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "73-paradis-passerelle",
+      "label": "Paradis · passerelle",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/73-paradis-passerelle.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "094f12b364d80d4f293621e1ff4e9ca28d0ff142468fcc02bc446bdcfd657682",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "74-paradis-rampe",
+      "label": "Paradis · rampe douce",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/74-paradis-rampe.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "9dadf3bcea2ed3efd625311b66002670ed50675baa82c03e70dc5f8ce29cb02b",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "75-paradis-ile-petite",
+      "label": "Paradis · petite île",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/75-paradis-ile-petite.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "1c969669db8140dda4a3466d1ba5baf8e8bc500b95263feec3c9e53ae8c70174",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "76-paradis-ile-longue",
+      "label": "Paradis · île allongée",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/76-paradis-ile-longue.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "7f88302411d69d9d52e3cf697475f210b61936a29d07ad30ae04c4b8362e8ce0",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "77-paradis-arche",
+      "label": "Paradis · arche",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/77-paradis-arche.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "6e9088aafe14a8a6f43c1fddf6d4168aafc478c4a708e8c04e7516c9253a796f",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "78-paradis-jardiniere",
+      "label": "Paradis · jardinière",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/78-paradis-jardiniere.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "129a0b9934786e87c44adbd2611d5f46a850d4fb8c994bd9e271b6663956f6cb",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "79-paradis-arbre",
+      "label": "Paradis · arbre",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/79-paradis-arbre.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "5c1f6fa623732b8842192cddb6efa6516f522a4cffcae9c1d231118e6b4cbccb",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "80-paradis-pilier",
+      "label": "Paradis · pilier",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/80-paradis-pilier.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "cccdd44d3feb8c47dddbe1201b2970110cb58975328f298e8ba44e0f1eba104f",
+          "width": 1696,
+          "height": 2528
+        }
+      ]
+    },
+    {
+      "job": "81-paradis-borne-vent",
+      "label": "Paradis · borne de ventilation",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/81-paradis-borne-vent.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "dd0a274990408e220c0c36d3494fb5cc84fccb6cfde1843c5b303beffc263947",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "83-paradis-fontaine",
+      "label": "Paradis · fontaine",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/83-paradis-fontaine.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "b6da441cdc2a28d28cd1bfd7b9c3b4f03bc031d315e798ae1044fe462925075c",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "job": "84-paradis-repos",
+      "label": "Paradis · banc de repos",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/84-paradis-repos.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "5adaf1846947aa7b817b1503cf9e6544f9760015f4facf0af7e8695bea2812ac",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "85-cellule-vue-inverse",
+      "label": "Cellule · vue inverse proposée",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/85-cellule-vue-inverse.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "694f256765cfb8c862849b67a03f7077a4ef4b6f3a3ffc39a86bd46b5e710f44",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "86-enfer-salle-presse",
+      "label": "Enfer · salle des presses",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/86-enfer-salle-presse.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "03fb7f11e2ad768b96f89ee6b37131a44794301e4cdbca100d39eeeb806e9a0f",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "87-enfer-carrefour",
+      "label": "Enfer · hall de maintenance",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/87-enfer-carrefour.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "8b4de93f93e9dd6187a92ecfaf97ee3ed402244c023e7d43cfa6cdedfb66b88d",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    },
+    {
+      "job": "88-paradis-jardin",
+      "label": "Paradis · jardin suspendu",
+      "status": "generated",
+      "reviewStatus": "pending-art-review",
+      "files": [
+        {
+          "file": "public/cellule-assets/88-paradis-jardin.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "8f6d3ab0eb6bcda265f2d2c30207ccb4638fc5aca5a2c56060a6207b3263c23d",
+          "width": 2752,
+          "height": 1536
+        }
+      ]
+    }
+  ]
+}
