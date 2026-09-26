@@ -161,6 +161,253 @@ function floorTint() {
   stain.addColorStop(1, 'rgba(198,194,184,0)');
   ctx.fillStyle = stain;
   ctx.fillRect(0, 0, size, size);
+  floorScuffs(ctx, size);
+  return c;
+}
+
+// Rubber marks, drag scratches and a few dried drips: the floor has been
+// cleaned, but not recently and not everywhere.
+function floorScuffs(ctx, size) {
+  ctx.save();
+  for (let i = 0; i < 70; i++) {
+    const cx = size * (0.5 + (Math.random() - 0.5) * 0.5);
+    const cy = size * (0.5 + (Math.random() - 0.5) * 0.5);
+    const len = 8 + Math.random() * 60;
+    const ang = Math.random() * Math.PI * 2;
+    ctx.strokeStyle = `rgba(60,58,54,${0.05 + Math.random() * 0.12})`;
+    ctx.lineWidth = 0.6 + Math.random() * 2.2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.quadraticCurveTo(
+      cx + Math.cos(ang + 0.4) * len * 0.5, cy + Math.sin(ang + 0.4) * len * 0.5,
+      cx + Math.cos(ang) * len, cy + Math.sin(ang) * len,
+    );
+    ctx.stroke();
+  }
+  // wheel tracks: two parallel arcs from the door towards the chair
+  ctx.strokeStyle = 'rgba(70,66,60,0.09)';
+  ctx.lineWidth = 5;
+  for (const off of [-9, 9]) {
+    ctx.beginPath();
+    ctx.moveTo(size * 0.92 + off, size * 0.68);
+    ctx.bezierCurveTo(size * 0.78 + off, size * 0.66, size * 0.66, size * 0.6 + off, size * 0.56, size * 0.53 + off);
+    ctx.stroke();
+  }
+  // dried drips around the drain and under the chair
+  for (const [fx, fy, r, a] of [[0.63, 0.68, 0.06, 0.28], [0.61, 0.65, 0.025, 0.4], [0.5, 0.55, 0.11, 0.16], [0.44, 0.52, 0.03, 0.3]]) {
+    const g = ctx.createRadialGradient(size * fx, size * fy, 0, size * fx, size * fy, size * r);
+    g.addColorStop(0, `rgba(110,102,90,${a})`);
+    g.addColorStop(0.7, `rgba(120,112,100,${a * 0.35})`);
+    g.addColorStop(1, 'rgba(120,112,100,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(size * fx, size * fy, size * r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  for (let i = 0; i < 40; i++) {
+    ctx.fillStyle = `rgba(90,84,74,${0.1 + Math.random() * 0.25})`;
+    ctx.beginPath();
+    ctx.arc(size * (0.6 + (Math.random() - 0.5) * 0.14), size * (0.66 + (Math.random() - 0.5) * 0.14), 0.6 + Math.random() * 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+// Wall panel colour: satin resin with scuffs at trolley height, grey hand
+// marks around 1.2 m and thin drips running down from the cove. One tile
+// spans 3 m in both directions so the marks land at the right height.
+function wallGrime() {
+  const size = 1024;
+  const c = canvas(size);
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, size, size);
+  const metre = size / 3;
+  const yOf = (h) => size - h * metre;
+
+  // uneven yellowing near the top, dust settling in the corners
+  const tint = ctx.createLinearGradient(0, 0, 0, size);
+  tint.addColorStop(0, 'rgba(232,226,208,0.35)');
+  tint.addColorStop(0.25, 'rgba(255,255,255,0)');
+  tint.addColorStop(0.9, 'rgba(255,255,255,0)');
+  tint.addColorStop(1, 'rgba(160,156,148,0.4)');
+  ctx.fillStyle = tint;
+  ctx.fillRect(0, 0, size, size);
+
+  // drips from the cove
+  for (let i = 0; i < 14; i++) {
+    const x = Math.random() * size;
+    const len = metre * (0.15 + Math.random() * 0.9);
+    const g = ctx.createLinearGradient(0, 0, 0, len);
+    g.addColorStop(0, 'rgba(150,140,120,0.38)');
+    g.addColorStop(1, 'rgba(150,140,120,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(x, 0, 1.5 + Math.random() * 3, len);
+  }
+
+  // scuffs at trolley height (0.55–0.9 m)
+  for (let i = 0; i < 26; i++) {
+    const y = yOf(0.55 + Math.random() * 0.35);
+    const x = Math.random() * size;
+    const len = 20 + Math.random() * 140;
+    ctx.strokeStyle = `rgba(70,68,64,${0.08 + Math.random() * 0.2})`;
+    ctx.lineWidth = 1 + Math.random() * 3.5;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + len, y + (Math.random() - 0.5) * 10);
+    ctx.stroke();
+  }
+
+  // hand marks and smears at 1.1–1.4 m
+  for (let i = 0; i < 9; i++) {
+    const x = Math.random() * size;
+    const y = yOf(1.1 + Math.random() * 0.3);
+    const r = 18 + Math.random() * 40;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, 'rgba(120,116,108,0.26)');
+    g.addColorStop(1, 'rgba(120,116,108,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.ellipse(x, y, r * 1.6, r, Math.random() * 0.6, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // splashes low on the wall
+  for (let i = 0; i < 60; i++) {
+    ctx.fillStyle = `rgba(105,98,86,${0.08 + Math.random() * 0.22})`;
+    ctx.beginPath();
+    ctx.arc(Math.random() * size, yOf(Math.random() * 0.4), 0.6 + Math.random() * 2.4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.globalCompositeOperation = 'multiply';
+  valueNoise(ctx, size, 3, 0.05);
+  ctx.globalCompositeOperation = 'source-over';
+
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = THREE.RepeatWrapping;
+  t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(1 / 3, 1 / 3);
+  t.anisotropy = 8;
+  return t;
+}
+
+// Ceiling: rust ring and heat marks around the lamp mount, damp stain by the
+// vent, soot streaks where the cables leave the junction boxes.
+function ceilingStains(span) {
+  const size = 1024;
+  const c = canvas(size);
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, size, size);
+  // the ceiling shape is rotated +90° about X, so world z runs against canvas y
+  const px = (x, z) => [size * (0.5 + x / span), size * (0.5 - z / span)];
+
+  // a stain is several soft, jittered ellipses: one clean gradient reads as a
+  // drawn circle
+  const stain = (x, z, r, rgb, a, lobes = 5) => {
+    const [cx, cy] = px(x, z);
+    const R = size * r / span;
+    for (let i = 0; i < lobes; i++) {
+      const ox = cx + (Math.random() - 0.5) * R * 0.7;
+      const oy = cy + (Math.random() - 0.5) * R * 0.7;
+      const rr = R * (0.55 + Math.random() * 0.6);
+      const g = ctx.createRadialGradient(ox, oy, 0, ox, oy, rr);
+      g.addColorStop(0, `rgba(${rgb},${a / lobes * 1.6})`);
+      g.addColorStop(0.6, `rgba(${rgb},${a / lobes * 0.7})`);
+      g.addColorStop(1, `rgba(${rgb},0)`);
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.ellipse(ox, oy, rr, rr * (0.7 + Math.random() * 0.3), Math.random() * Math.PI, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  };
+
+  // tide line: the dark edge left when a damp patch dried
+  const tideLine = (x, z, r, a) => {
+    const [cx, cy] = px(x, z);
+    const R = size * r / span;
+    ctx.save();
+    ctx.filter = 'blur(2px)';
+    ctx.strokeStyle = `rgba(118,104,82,${a})`;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    const n = 26;
+    const wob = Array.from({ length: n }, () => 0.82 + Math.random() * 0.36);
+    for (let i = 0; i <= n; i++) {
+      const t = (i / n) * Math.PI * 2;
+      const w = wob[i % n];
+      const pxl = cx + Math.cos(t) * R * w;
+      const pyl = cy + Math.sin(t) * R * 0.75 * w;
+      if (i === 0) ctx.moveTo(pxl, pyl);
+      else ctx.lineTo(pxl, pyl);
+    }
+    ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+  };
+
+  stain(0, -0.15, 1.0, '118,104,86', 0.55, 7); // heat halo
+  stain(0, -0.15, 0.36, '92,62,44', 1.1, 4); // rust around the mount
+  // rust streak running off the mount
+  ctx.save();
+  ctx.filter = 'blur(1.5px)';
+  const [mx, my] = px(0.14, -0.05);
+  const rg = ctx.createLinearGradient(mx, my, mx + 70, my + 40);
+  rg.addColorStop(0, 'rgba(110,70,44,0.55)');
+  rg.addColorStop(1, 'rgba(110,70,44,0)');
+  ctx.strokeStyle = rg;
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.moveTo(mx, my);
+  ctx.quadraticCurveTo(mx + 30, my + 30, mx + 70, my + 40);
+  ctx.stroke();
+  ctx.restore();
+
+  stain(-1.45, 1.9, 0.85, '146,140,122', 0.75, 7); // damp around the vent
+  stain(-1.25, 1.65, 0.34, '124,112,94', 0.6, 4);
+  tideLine(-1.45, 1.9, 0.78, 0.35);
+  stain(1.6, -1.2, 0.55, '140,136,124', 0.45, 5);
+  tideLine(1.55, -1.25, 0.5, 0.26);
+  stain(-2.2, -2.4, 0.7, '138,134,124', 0.4, 5);
+  // soot at the junction boxes
+  for (const [x, z] of [[0.95, -1.0], [-0.9, 0.8], [1.4, 1.2]]) stain(x, z, 0.32, '52,50,48', 0.95, 4);
+
+  // dried drip rings
+  for (const [x, z, r] of [[0.15, 0.45, 0.26], [-0.55, -1.7, 0.22], [1.0, 1.2, 0.18], [2.2, 0.6, 0.3]]) {
+    stain(x, z, r, '150,140,120', 0.3, 3);
+    tideLine(x, z, r, 0.4);
+  }
+
+  ctx.globalCompositeOperation = 'multiply';
+  valueNoise(ctx, size, 4, 0.05);
+  ctx.globalCompositeOperation = 'source-over';
+
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = THREE.ClampToEdgeWrapping;
+  t.wrapT = THREE.ClampToEdgeWrapping;
+  t.repeat.set(1 / span, 1 / span);
+  t.offset.set(0.5, 0.5);
+  t.anisotropy = 8;
+  return t;
+}
+
+// Fine orange-peel relief for the resin panels: without it the surface reads
+// as an untextured polygon under the raking cove light.
+function reliefBump() {
+  const size = 256;
+  const c = canvas(size);
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = 'rgb(128,128,128)';
+  ctx.fillRect(0, 0, size, size);
+  valueNoise(ctx, size, 3, 0.35);
+  valueNoise(ctx, size, 7, 0.2);
+  for (let i = 0; i < 120; i++) {
+    ctx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.18)';
+    ctx.beginPath();
+    ctx.arc(Math.random() * size, Math.random() * size, 1 + Math.random() * 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
   return c;
 }
 
@@ -199,16 +446,21 @@ export function createMaterials(renderer) {
   const ceilRough = texture(resinRoughness(0.72, 0.16), 2);
   const floorRough = floorTexture(floorRoughness(), 8);
   const floorMap = floorTexture(floorTint(), 8);
+  const wallMap = wallGrime();
+  const ceilMap = ceilingStains(8);
+  const bump = texture(reliefBump(), 6);
 
   const wall = new THREE.MeshStandardMaterial({
-    color: 0xe7e6df, roughness: 0.62, roughnessMap: wallRough, metalness: 0.02, envMap, envMapIntensity: 0.55,
+    color: 0xe7e6df, map: wallMap, roughness: 0.62, roughnessMap: wallRough, metalness: 0.02,
+    bumpMap: bump, bumpScale: 0.0022, envMap, envMapIntensity: 0.55,
   });
   const ceiling = new THREE.MeshStandardMaterial({
-    color: 0xeceae3, roughness: 0.78, roughnessMap: ceilRough, metalness: 0.0, envMap, envMapIntensity: 0.3,
+    color: 0xeceae3, map: ceilMap, roughness: 0.78, roughnessMap: ceilRough, metalness: 0.0,
+    bumpMap: bump, bumpScale: 0.0015, envMap, envMapIntensity: 0.3,
   });
   const floor = new THREE.MeshStandardMaterial({
     color: 0xdedcd4, map: floorMap, roughness: 0.45, roughnessMap: floorRough, metalness: 0.04,
-    envMap, envMapIntensity: 0.75,
+    bumpMap: bump, bumpScale: 0.001, envMap, envMapIntensity: 0.75,
   });
   const inlay = new THREE.MeshStandardMaterial({
     color: 0xd2d0c7, roughness: 0.35, roughnessMap: floorRough, metalness: 0.05, envMap, envMapIntensity: 0.9,
@@ -241,13 +493,23 @@ export function createMaterials(renderer) {
   const ledOn = new THREE.MeshStandardMaterial({ color: 0x0f1113, emissive: 0x7fd6c0, emissiveIntensity: 0 });
   const ledSpare = () => ledOn.clone();
 
+  const rubber = new THREE.MeshStandardMaterial({ color: 0x15161a, roughness: 0.88, metalness: 0.05, envMap, envMapIntensity: 0.25 });
+  const rubberGrey = new THREE.MeshStandardMaterial({ color: 0x5c5f66, roughness: 0.8, metalness: 0.05, envMap, envMapIntensity: 0.3 });
+  const rubberBlue = new THREE.MeshStandardMaterial({ color: 0x1f2f5c, roughness: 0.8, metalness: 0.05, envMap, envMapIntensity: 0.3 });
+  const copper = new THREE.MeshStandardMaterial({ color: 0xb87333, roughness: 0.35, metalness: 0.95, envMap, envMapIntensity: 1.2 });
+  const paintedSteel = new THREE.MeshStandardMaterial({ color: 0x8d9097, roughness: 0.55, metalness: 0.6, envMap, envMapIntensity: 0.7 });
+  const spark = new THREE.MeshBasicMaterial({ color: 0xbfe0ff, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
+  const tape = new THREE.MeshStandardMaterial({ color: 0x2a2a2e, roughness: 0.95, metalness: 0.0 });
+  const warningTape = new THREE.MeshStandardMaterial({ color: 0xd8b53a, roughness: 0.8, metalness: 0.0, envMap, envMapIntensity: 0.3 });
+
   // The environment map fakes bounced light, so it has to fade with the room
   // state: kept constant it would keep the walls bright during the blackout.
-  const envDriven = [wall, ceiling, floor, inlay, joint, glass, steel, charcoal, dark, shell, lampShell]
+  const envDriven = [wall, ceiling, floor, inlay, joint, glass, steel, charcoal, dark, shell, lampShell, rubber, rubberGrey, rubberBlue, copper, paintedSteel, warningTape]
     .map((mat) => ({ mat, base: mat.envMapIntensity }));
 
   return {
     envMap, envDriven, wall, ceiling, floor, inlay, joint, shadowGap, glass, steel, charcoal, dark,
     shell, cushion, lampShell, lens, cove, windowGlow, presence, ledSpare,
+    rubber, rubberGrey, rubberBlue, copper, paintedSteel, spark, tape, warningTape,
   };
 }

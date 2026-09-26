@@ -1,5 +1,6 @@
 import { createAudio } from './audio.js';
 import { buildChair } from './chair.js';
+import { animateDetails, buildDetails } from './details.js';
 import { applyLevels, buildLighting } from './lighting.js';
 import { createMaterials } from './materials.js';
 import {
@@ -68,6 +69,7 @@ const mats = createMaterials(renderer);
 const room = buildRoom(scene, mats);
 const chair = buildChair(scene, mats);
 const rig = buildLighting(scene, mats);
+const details = buildDetails(scene, mats, rig);
 const refs = {
   restraints: chair.restraints,
   leds: chair.leds,
@@ -214,13 +216,16 @@ if (TEST_MODE) {
   window.__lobbyTest = {
     getState: () => ({ x: pose.x, z: pose.z, loaded, state: sequence.state, entered }),
     setPose,
+    setPitch: (p) => {
+      pitch = Math.min(1.25, Math.max(-1.25, p));
+    },
     setState: (name) => {
       sequence.setState(name);
       setStateLabel();
     },
     levels: () => ({ ...sequence.levels }),
     pause,
-    debug: { scene, rig, mats, room, chair },
+    debug: { scene, rig, mats, room, chair, details },
   };
 }
 
@@ -251,6 +256,9 @@ function tick() {
   }
   if (audio) audio.setLevels(frame.levels);
   applyLevels(rig, mats, refs, frame.levels, elapsed);
+  for (const event of animateDetails(details, rig, mats, refs, frame.levels, elapsed, dt)) {
+    if (audio) audio.cue(event);
+  }
 
   bobPhase += dt * 7.5 * moving;
   const bob = headBob(bobPhase, moving);
