@@ -97,7 +97,7 @@ function buildToolTray(group, mats) {
   tray.add(coil);
 
   group.add(tray);
-  return { tray, probeLed };
+  return { tray, probeLed, probe, pliers };
 }
 
 function rimShape(w, h, t) {

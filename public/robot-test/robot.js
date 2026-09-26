@@ -444,7 +444,7 @@ export function createRobotMaterials(envMap = null) {
 
 // ------------------------------------------------------------------ robot
 
-export function buildRobot(mats) {
+export function buildRobot(mats, { grounded = true } = {}) {
   const rng = mulberry(1337);
   const root = new THREE.Group();
   root.name = "robot";
@@ -1522,10 +1522,12 @@ export function buildRobot(mats) {
     }
     // keep the lowest foot on the floor (parent y = 0)
     root.updateMatrixWorld(true);
-    footBox.setFromObject(joints.ankleL);
-    footBox.union(tmpBox.setFromObject(joints.ankleR));
-    const parentY = root.parent ? root.parent.getWorldPosition(tmpVec).y : 0;
-    root.position.y -= footBox.min.y - parentY;
+    if (grounded) {
+      footBox.setFromObject(joints.ankleL);
+      footBox.union(tmpBox.setFromObject(joints.ankleR));
+      const parentY = root.parent ? root.parent.getWorldPosition(tmpVec).y : 0;
+      root.position.y -= footBox.min.y - parentY;
+    }
     // blink / pulse
     nextBlink -= dt;
     if (nextBlink <= 0) {

@@ -1,6 +1,7 @@
 import { createAudio } from './audio.js';
 import { buildChair } from './chair.js';
 import { animateDetails, buildDetails } from './details.js';
+import { createGameplay } from './gameplay.js';
 import { applyLevels, buildLighting } from './lighting.js';
 import { createMaterials } from './materials.js';
 import {
@@ -42,7 +43,7 @@ const STATE_LABELS = {
 };
 const CUE_TEXT = {
   wake: 'La salle vous a remarqué.',
-  restraint_servo: 'Un verrou se desserre.',
+  restraint_servo: 'Un mécanisme se règle.',
   diagnostic_start: 'Séquence de diagnostic.',
   vent_shift: 'La ventilation change de régime.',
   glass_thud: 'Un choc sourd derrière la vitre.',
@@ -77,7 +78,7 @@ const props = buildProps(scene, mats);
 const rig = buildLighting(scene, mats);
 const details = buildDetails(scene, mats, rig);
 const refs = {
-  restraints: chair.restraints,
+  restraints: [],
   leds: chair.leds,
   wallPanelLeds: room.wallPanelLeds,
   ventBlades: room.ventBlades,
@@ -89,6 +90,17 @@ const refs = {
 
 const sequence = createSequence();
 const audio = createAudio();
+const gameplay = createGameplay({
+  scene, camera, canvas, chair, props, room, materials: mats, audio,
+  onFinish: () => {
+    sequence.setState('jugement');
+    setStateLabel();
+    entered = false;
+    keys.clear();
+    overlay.hidden = true;
+    if (document.pointerLockElement) document.exitPointerLock();
+  },
+});
 
 let loaded = false;
 let entered = false;
@@ -115,19 +127,23 @@ function pause() {
   entered = false;
   keys.clear();
   dragging = false;
-  overlay.classList.add('paused');
-  menuSub.textContent = 'Pause';
-  menuHint.textContent = 'Échap ou clic hors du menu pour reprendre.';
-  enterBtn.textContent = 'Reprendre';
-  overlay.hidden = false;
+  gameplay.pause();
+  if (!gameplay.debug.getState().finished) {
+    overlay.classList.add('paused');
+    menuSub.textContent = 'Pause';
+    menuHint.textContent = 'Échap ou clic hors du menu pour reprendre.';
+    enterBtn.textContent = 'Reprendre';
+    overlay.hidden = false;
+  }
   if (document.pointerLockElement) document.exitPointerLock();
 }
 
 function toggleSound() {
-  if (!audio) return;
+  if (!audio) return null;
   const muted = audio.toggleMute();
   statusEl.textContent = muted ? 'Son coupé' : 'Son actif';
   soundBtn.textContent = muted ? 'Son : coupé' : 'Son : actif';
+  return muted;
 }
 
 function cycleState() {
@@ -146,7 +162,8 @@ addEventListener('keydown', (e) => {
     return;
   }
   if (e.code === 'KeyM') {
-    toggleSound();
+    const muted = toggleSound();
+    if (muted !== null) gameplay.setMuted(muted);
     return;
   }
   if (e.code === 'Digit1' || e.code === 'Digit2' || e.code === 'Digit3') {
@@ -160,6 +177,14 @@ addEventListener('keydown', (e) => {
     return;
   }
   if (!entered) return;
+  if (e.code === 'KeyE') {
+    gameplay.interact();
+    return;
+  }
+  if (e.code === 'KeyR') {
+    gameplay.putDown();
+    return;
+  }
   keys.add(e.code);
 });
 addEventListener('keyup', (e) => keys.delete(e.code));
@@ -170,7 +195,7 @@ document.addEventListener('visibilitychange', () => {
 document.addEventListener('pointerlockchange', () => {
   const was = pointerLocked;
   pointerLocked = document.pointerLockElement === canvas;
-  if (was && !pointerLocked) pause();
+  if (was && !pointerLocked && !gameplay.debug.getState().finished) pause();
 });
 document.addEventListener('pointerlockerror', () => {
   helpEl.hidden = false;
@@ -181,6 +206,7 @@ function enter() {
   overlay.hidden = true;
   enterBtn.blur();
   canvas.focus();
+  gameplay.enter();
   if (audio) audio.start();
   const req = canvas.requestPointerLock?.();
   if (req?.catch) req.catch(() => (helpEl.hidden = false));
@@ -196,6 +222,14 @@ restartBtn.addEventListener('click', () => location.reload());
 stateBtn.addEventListener('click', cycleState);
 
 document.addEventListener('mousemove', (e) => {
+  if (entered) {
+    const dy = pointerLocked ? e.movementY : e.clientY - lastY;
+    if (gameplay.pull(dy)) {
+      lastX = e.clientX;
+      lastY = e.clientY;
+      return;
+    }
+  }
   if (pointerLocked) {
     yaw += -e.movementX * 0.002;
     pitch = Math.min(1.25, Math.max(-1.25, pitch - e.movementY * 0.002));
@@ -208,6 +242,7 @@ document.addEventListener('mousemove', (e) => {
 });
 canvas.addEventListener('pointerdown', (e) => {
   canvas.focus();
+  if (entered && e.button === 0 && gameplay.press()) return;
   if (!pointerLocked && entered) {
     dragging = true;
     lastX = e.clientX;
@@ -215,12 +250,19 @@ canvas.addEventListener('pointerdown', (e) => {
     canvas.setPointerCapture(e.pointerId);
   }
 });
+document.addEventListener('pointerup', () => gameplay.release(true));
+canvas.addEventListener('wheel', (e) => {
+  if (entered && gameplay.turn(-Math.sign(e.deltaY))) e.preventDefault();
+}, { passive: false });
 function endDrag(e) {
   dragging = false;
   if (canvas.hasPointerCapture?.(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
 }
 canvas.addEventListener('pointerup', endDrag);
-canvas.addEventListener('pointercancel', () => (dragging = false));
+canvas.addEventListener('pointercancel', () => {
+  dragging = false;
+  gameplay.release(false);
+});
 canvas.addEventListener('lostpointercapture', () => (dragging = false));
 
 function setPose(x, z, newYaw) {
@@ -252,7 +294,14 @@ if (TEST_MODE) {
     },
     levels: () => ({ ...sequence.levels }),
     pause,
-    debug: { scene, rig, mats, room, chair, props, details },
+    aimAt: (wx, wy, wz) => {
+      const dx = wx - pose.x;
+      const dy = wy - PLAYER_EYE;
+      const dz = wz - pose.z;
+      yaw = Math.atan2(-dx, -dz);
+      pitch = Math.max(-1.25, Math.min(1.25, Math.atan2(dy, Math.hypot(dx, dz))));
+    },
+    debug: { scene, rig, mats, room, chair, props, details, gameplay: gameplay.debug },
   };
 }
 
@@ -293,6 +342,7 @@ function tick() {
   const bob = headBob(bobPhase, moving);
   camera.position.set(pose.x, PLAYER_EYE + bob.y, pose.z);
   camera.rotation.set(pitch, yaw, bob.roll);
+  gameplay.update(active ? dt : 0, elapsed, active);
 
   if (cueTimer > 0) {
     cueTimer -= dt;
@@ -312,7 +362,7 @@ function tick() {
 }
 
 loaded = true;
-statusEl.textContent = 'Cellule active · robot final en attente';
+statusEl.textContent = 'Cellule active · Unit H, revue de maintenance';
 tick();
 
 addEventListener('resize', () => {
