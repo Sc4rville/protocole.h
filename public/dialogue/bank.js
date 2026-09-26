@@ -9,6 +9,7 @@ const search = document.getElementById('search');
 const speaker = document.getElementById('speaker');
 const group = document.getElementById('group');
 const auditionBtn = document.getElementById('audition');
+const voiceStatus = document.getElementById('voice-status');
 
 player.volume = 0.25;
 let manifest = null;
@@ -32,7 +33,7 @@ function clipPath(id) {
     ? ['ogg', 'mp3', 'wav'] : ['mp3', 'wav', 'ogg'];
   for (const fmt of order) {
     const f = files[fmt];
-    if (typeof f === 'string' && f && !f.includes('..') && !/^[a-z]+:/i.test(f) && !f.startsWith('/')) {
+    if (typeof f === 'string' && /^clips\/[A-Za-z0-9_-]+\.(?:ogg|mp3|wav)$/.test(f)) {
       return f;
     }
   }
@@ -113,6 +114,7 @@ function card(line) {
 }
 
 function render() {
+  if (!manifest) return;
   bank.querySelectorAll('.card').forEach((c) => c.remove());
   const q = search.value.trim().toLowerCase();
   const sp = speaker.value;
@@ -160,8 +162,11 @@ auditionBtn.textContent = 'Audition (' + '6' + ')';
 
 Promise.all([
   fetch('manifest.json').then((r) => { if (!r.ok) throw new Error('manifest HTTP ' + r.status); return r.json(); }),
-  fetch('generated.json').then((r) => r.ok ? r.json() : { clips: {} })
-    .catch(() => ({ clips: {} })),
+  fetch('generated.json').then((r) => {
+    if (r.status === 404) return { clips: {} };
+    if (!r.ok) throw new Error('generated.json HTTP ' + r.status);
+    return r.json();
+  }),
 ]).then(([m, g]) => {
   manifest = m;
   clips = (g && g.clips) || {};
@@ -174,8 +179,11 @@ Promise.all([
     opt.textContent = gr;
     group.append(opt);
   }
-  const genCount = Object.keys(clips).length;
+  const genCount = lines.filter((line) => clipPath(line.id)).length;
   subtitle.textContent = lines.length + ' répliques · ' + genCount + ' générées' +
     (genCount === 0 ? ' — aucune voix produite' : ' — à auditionner');
+  voiceStatus.textContent = genCount
+    ? 'Generated takes require listening and performance review.'
+    : 'No voices generated yet.';
   render();
 }).catch((e) => showError('Manifeste indisponible : ' + e.message));
