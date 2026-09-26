@@ -11,7 +11,7 @@ def check(name, ok, extra=''):
     print(('PASS' if ok else 'FAIL'), name, extra)
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(args=['--autoplay-policy=no-user-gesture-required'])
+    browser = p.chromium.launch()
     page = browser.new_page(viewport={'width': 1440, 'height': 900})
     console_errors = []
     page_errors = []
@@ -49,19 +49,23 @@ with sync_playwright() as p:
     src = page.evaluate('document.getElementById("player").src')
     check('source set + duration>0', '.ogg' in src or '.mp3' in src, src)
 
+    page.locator('#loop').check()
+    check('loop sets player.loop', page.evaluate('document.getElementById("player").loop') is True)
+
     second_id = page.locator('.card').nth(1).get_attribute('data-id')
+    third_id = page.locator('.card').nth(2).get_attribute('data-id')
     page.locator('.card').nth(1).locator('button').click()
-    page.wait_for_timeout(300)
+    page.locator('.card').nth(2).locator('button').click()
+    page.wait_for_timeout(400)
     check('single audio element', page.evaluate('document.querySelectorAll("audio").length') == 1)
     cur = page.evaluate('document.getElementById("now-playing").textContent')
-    check('switched track', cur == second_id, cur)
-    check('playing after switch', page.evaluate('!document.getElementById("player").paused'))
+    check('rapid switch settles on final id', cur == third_id, cur)
     check('loop reset on switch', page.evaluate('document.getElementById("loop").checked') is False
           and page.evaluate('document.getElementById("player").loop') is False)
 
-    page.locator('#loop').check()
-    check('loop sets player.loop', page.evaluate('document.getElementById("player").loop') is True)
-    page.locator('#loop').uncheck()
+    page.evaluate('document.getElementById("player").volume = 0.4')
+    check('native volume syncs slider',
+          abs(float(page.evaluate('document.getElementById("volume").value')) - 0.4) < 1e-6)
 
     page.locator('#stop').click()
     check('stop pauses+resets', page.evaluate('document.getElementById("player").paused') is True

@@ -45,7 +45,7 @@ Ajouter à chaque reprise : ce qui a été fait, les fichiers touchés, les vér
 
 ### 2026-09-26 — banque sonore : 30 candidats CC0 en place (non intégrés)
 
-- 30 candidats figés de `public/audio/source-plan.json` matérialisés : originaux inchangés dans `audio-source/<catégorie>/` (4.9 Mo), dont 6 extraits du zip Kenney Interface déjà téléchargé ; 24 téléchargés depuis BigSoundBank (Joseph SARDIN) et Kenney.
+- 30 candidats figés de `public/audio/source-plan.json` matérialisés : originaux inchangés dans `audio-source/<catégorie>/` (4.9 Mo), dont 6 extraits du zip Kenney Interface déjà téléchargé ; 24 téléchargés directement : 7 BigSoundBank et 17 OpenGameArt ; 6 autres extraits du pack Kenney Interface.
 - Transcodage uniquement : `ffmpeg -ar 48000 -c:a libvorbis -q:a 5` (OGG) et `-c:a libmp3lame -q:a 2` (MP3) → `public/audio/<catégorie>/` (60 fichiers, ~2.1 Mo) ; canaux et gain conservés, aucun montage ni réparation de boucle.
 - `public/audio/manifest.json` (sha256 des originaux + ffprobe par fichier), `licenses/SOURCES.txt` (12 pages sources, CC0-1.0) et `licenses/Kenney-Interface-License.txt` générés.
 - Soundboard statique `public/audio/index.html` (+ `bank.css`, `bank.js`) : lecture partagée sans autoplay, volume 0.25, boucle de test non validée.

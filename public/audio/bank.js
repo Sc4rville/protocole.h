@@ -12,6 +12,7 @@ const category = document.getElementById('category');
 player.volume = 0.25;
 let sounds = [];
 let currentId = null;
+let playRequestId = 0;
 
 function showError(msg) {
   stateEl.textContent = msg;
@@ -25,6 +26,7 @@ function pickSource(s) {
 }
 
 function play(s, card) {
+  const requestId = ++playRequestId;
   const src = pickSource(s);
   if (!src) return;
   player.src = src;
@@ -35,7 +37,11 @@ function play(s, card) {
   document.querySelectorAll('.card.playing').forEach((c) => c.classList.remove('playing'));
   card.classList.add('playing');
   const p = player.play();
-  if (p && p.catch) p.catch(() => { nowPlaying.textContent = s.id + ' — lecture impossible'; });
+  if (p && p.catch) p.catch((err) => {
+    if (requestId === playRequestId && err.name !== 'AbortError') {
+      nowPlaying.textContent = s.id + ' — lecture impossible';
+    }
+  });
 }
 
 function render() {
@@ -94,10 +100,12 @@ function render() {
 }
 
 stopBtn.addEventListener('click', () => {
+  playRequestId++;
   player.pause();
   player.currentTime = 0;
 });
 volume.addEventListener('input', () => { player.volume = parseFloat(volume.value); });
+player.addEventListener('volumechange', () => { volume.value = String(player.volume); });
 loopChk.addEventListener('change', () => { player.loop = loopChk.checked; });
 search.addEventListener('input', render);
 category.addEventListener('change', render);
