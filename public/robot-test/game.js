@@ -105,6 +105,7 @@ function setTurn(on) {
   turnBtn.setAttribute('aria-pressed', String(on));
 }
 
+turnBtn.setAttribute('aria-pressed', String(autoTurn));
 for (const b of poseButtons) b.addEventListener('click', () => setPose(b.dataset.pose));
 turnBtn.addEventListener('click', () => setTurn(!autoTurn));
 wireBtn.addEventListener('click', () => setWire(!wire));

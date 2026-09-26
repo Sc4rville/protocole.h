@@ -503,8 +503,9 @@ export function buildRobot(mats) {
     },
     // défensif : recul, bras repliés devant le module
     defensif: {
-      hipL: { x: -1.7, z: 0.15 }, hipR: { x: -1.6, z: -0.2 },
-      kneeL: { x: 1.9 }, kneeR: { x: 1.75 },
+      hipL: { x: -1.65, z: 0.15 }, hipR: { x: -1.65, z: -0.2 },
+      kneeL: { x: 1.85 }, kneeR: { x: 1.85 },
+      ankleL: { x: -0.2 }, ankleR: { x: -0.2 },
       shoulderL: { x: -1.5, z: 0.35, y: 0.4 }, shoulderR: { x: -1.35, z: -0.4, y: -0.5 },
       elbowL: { x: -2.2 }, elbowR: { x: -2.35 },
       spine: { x: 0.25 }, chest: { x: 0.18 }, neck: { x: 0.35, y: 0.25 },

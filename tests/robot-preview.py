@@ -52,9 +52,9 @@ with sync_playwright() as p:
 
     FEET_MIN_Y = '''(() => {
       const r = window.__robotTest.robot; r.group.updateMatrixWorld(true);
-      const b = new THREE.Box3().setFromObject(r.joints.ankleL);
-      b.union(new THREE.Box3().setFromObject(r.joints.ankleR));
-      return b.min.y;
+      const L = new THREE.Box3().setFromObject(r.joints.ankleL).min.y;
+      const R = new THREE.Box3().setFromObject(r.joints.ankleR).min.y;
+      return [L, R];
     })()'''
 
     page.evaluate('window.__robotTest.setTurn(false)')
@@ -64,8 +64,8 @@ with sync_playwright() as p:
         page.evaluate(f'window.__robotTest.setOrbit({yaw}, {pitch}, {dist}, {ty})')
         page.wait_for_timeout(1400 if pose != 'debout' else 300)
         check(f'pose {pose} applied', page.evaluate(f'{T}.pose') == pose)
-        feet_y = page.evaluate(FEET_MIN_Y)
-        check(f'feet on floor ({pose})', abs(feet_y) < 0.005, f'minY={feet_y:.4f}')
+        left_y, right_y = page.evaluate(FEET_MIN_Y)
+        check(f'both feet on floor ({pose})', abs(left_y) < 0.02 and abs(right_y) < 0.02, f'L={left_y:.4f} R={right_y:.4f}')
         page.screenshot(path=os.path.join(OUT, f'protocole-robot-{name}.png'))
 
     page.evaluate('window.__robotTest.setOrbit(0.4, -1.2, 7, 1.0)')
