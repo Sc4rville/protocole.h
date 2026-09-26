@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "scope": "Revue visuelle des neuf corrections v2 du 26 septembre 2026",
+  "status": "cleanup-required",
+  "notes": [
+    "Génération réussie ne signifie pas asset approuvé ou prêt pour un moteur 3D.",
+    "Les originaux restent conservés. Les nouveaux fichiers ont été examinés sur une planche comparative, avec inspection du verrou en grand format.",
+    "La demande prioritaire de Kusaila est le cadrage entier de chaque objet ; ne pas masquer une troncature avec un zoom de galerie.",
+    "Plusieurs retouches ont conservé des fragments de la scène source : ne pas les présenter comme des détourages propres."
+  ],
+  "assets": [
+    {"job":"08-verrou-contention-complet-v2","status":"cleanup-required","observation":"Support, molette et bracelet entiers. Résidus flous de la scène encore visibles sous l'objet ; nettoyer le fond avant utilisation comme référence isolée."},
+    {"job":"03-robot-back-v2","status":"reference-with-caveats","observation":"Vue arrière sans yeux dessinés derrière la tête. Bras plus bas que dans la pose A du maître ; ne pas traiter les vues comme une reconstruction géométrique calibrée."},
+    {"job":"04-robot-left-profile-v2","status":"side-unconfirmed","observation":"Profil net mais le visage pointe vers la gauche de l'image, contrairement au cadrage demandé. Ne pas garantir le côté anatomique gauche ni utiliser ce fichier comme vue calibrée."},
+    {"job":"09-module-avant-bras-isole-v2","status":"cleanup-required","observation":"Composant entier, trappe et câbles lisibles. Résidus flous sous l'objet ; les fils à l'extrémité doivent être reconstruits et raccordés au rig."},
+    {"job":"10-decor-vide-propre-v2","status":"reference-with-caveats","observation":"Salle sans mobilier principal, parois et sol continus dans la majeure partie du cadre. Quelques traces claires persistent à droite ; référence d'ambiance uniquement, pas une salle 3D ni une preuve de nettoyage parfait."},
+    {"job":"16-miroir-observation-isole-v2","status":"cleanup-required","observation":"Cadre entier et lisible, mais plafond et murs encore présents derrière. Fond non isolé."},
+    {"job":"21-module-route-enfer-isole-v2","status":"cleanup-required","observation":"Dalle trois voies entière. Fragment évident de la cellule et du fauteuil conservé dans le bas de l'image."},
+    {"job":"23-barre-glissade-isole-v2","status":"reference-usable","observation":"Assemblage entier, deux pieds visibles, ouverture sous la barre dégagée, fond neutre. Reste une référence 2D à modéliser."},
+    {"job":"27-orbe-energie-isole-v2","status":"cleanup-required","observation":"Orbe entière avec émission contenue ; résidus de la scène sous la sphère à supprimer."}
+  ]
+}

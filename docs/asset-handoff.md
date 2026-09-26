@@ -14,6 +14,12 @@ Lire ce document, puis `public/cellule-assets/asset-catalog.json` et `docs/equip
 - Ce premier lot constitue un point de reprise, pas la livraison finale. Kusaila demande un pack beaucoup plus large et les objets entièrement cadrés : les corrections et l'extension suivront dans un lot séparé.
 - Défauts déjà repérés : verrou de contention tronqué, résidus de décor sous certains objets, plusieurs angles de personnage imparfaits. Conserver les originaux ; les corrections auront de nouveaux noms et une sélection explicite.
 
+## Complément de correction v2
+
+Neuf nouvelles images `*-v2.jpg` sont disponibles et conservent les originaux. Le verrou est maintenant entier, mais plusieurs images gardent des résidus de décor : lire `public/cellule-assets/quality-review.json` avant de choisir les références. La vue de profil du robot ne garantit pas le côté anatomique demandé. Ce lot n'est pas une validation globale de qualité.
+
+`public/cellule-assets/pack-expansion-plan.json` prépare le complément de mobilier, pièces, modules, lieux et poses. Un job planifié n'est pas une image produite : vérifier le journal et les fichiers. Ne pas relancer une génération déjà enregistrée.
+
 ## Ce que contient le pack
 
 Images de référence 2D de personnages, accessoires, modules de parcours et environnements, plus quatre propositions de base couleur. Ce ne sont pas des meshes, GLB, rigs, animations, sprites détourés ni matériaux PBR complets. Le fichier `public/lobby-test/assets/robot-provisional.glb` reste provisoire et ne correspond pas au nouveau robot.
