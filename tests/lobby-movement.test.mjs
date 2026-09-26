@@ -1,9 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ROOM_HALF, PLAYER_RADIUS, CHAIR, movePlayer, directionFromKeys }
+import { ROOM, PLAYER_RADIUS, CHAIR, movePlayer, directionFromKeys, clampToRoom, distanceToChair }
   from '../public/lobby-test/movement.js';
 
-const LIM = ROOM_HALF - PLAYER_RADIUS;
+const LIM_X = ROOM.halfX - PLAYER_RADIUS;
+const LIM_Z = ROOM.halfZ - PLAYER_RADIUS;
+const CORNER_LIMIT = ROOM.halfX + ROOM.halfZ - ROOM.chamfer - PLAYER_RADIUS * Math.SQRT2;
 const EX = {
   minX: CHAIR.minX - PLAYER_RADIUS,
   maxX: CHAIR.maxX + PLAYER_RADIUS,
@@ -40,9 +42,35 @@ test('diagonal covers same path length as axis movement', () => {
 });
 
 test('wall limit stays within interior', () => {
-  let p = { x: 0, z: 3 };
+  let p = { x: 0, z: 2 };
   for (let i = 0; i < 500; i++) p = movePlayer(p, { x: 1, z: 0 }, 0.016);
-  assert.equal(p.x, LIM);
+  assert.equal(p.x, LIM_X);
+  let q = { x: 2, z: 0 };
+  for (let i = 0; i < 500; i++) q = movePlayer(q, { x: 0, z: 1 }, 0.016);
+  assert.ok(q.z <= LIM_Z + 1e-9);
+});
+
+test('chamfered corners push the player back onto the diagonal', () => {
+  let p = { x: 2, z: 2 };
+  for (let i = 0; i < 500; i++) p = movePlayer(p, { x: 1, z: 1 }, 0.016);
+  assert.ok(Math.abs(p.x) + Math.abs(p.z) <= CORNER_LIMIT + 1e-9);
+  assert.ok(Math.abs(Math.abs(p.x) + Math.abs(p.z) - CORNER_LIMIT) < 1e-6);
+});
+
+test('clampToRoom keeps every direction inside the octagon', () => {
+  for (let a = 0; a < 64; a++) {
+    const angle = (a / 64) * Math.PI * 2;
+    const p = clampToRoom(Math.cos(angle) * 20, Math.sin(angle) * 20);
+    assert.ok(Math.abs(p.x) <= LIM_X + 1e-9);
+    assert.ok(Math.abs(p.z) <= LIM_Z + 1e-9);
+    assert.ok(Math.abs(p.x) + Math.abs(p.z) <= CORNER_LIMIT + 1e-9);
+  }
+});
+
+test('distanceToChair is zero inside the collider and grows outside', () => {
+  assert.equal(distanceToChair(0, 0), 0);
+  assert.ok(distanceToChair(0, 2) > distanceToChair(0, 1.5));
+  assert.ok(Math.abs(distanceToChair(0, CHAIR.maxZ + 1) - 1) < 1e-9);
 });
 
 test('cannot cross center collider walking forward from z=1.3', () => {
@@ -75,6 +103,6 @@ test('input objects are not mutated', () => {
 });
 
 test('dt 10 is capped, no teleport', () => {
-  const p = movePlayer({ x: 0, z: 3 }, { x: 1, z: 0 }, 10);
+  const p = movePlayer({ x: 0, z: 2.5 }, { x: 1, z: 0 }, 10);
   assert.ok(Math.abs(p.x) <= 2.2 * 0.05 + 1e-9);
 });

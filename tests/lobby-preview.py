@@ -3,8 +3,9 @@ import urllib.parse
 from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get('LOBBY_TEST_URL', 'http://127.0.0.1:8768/lobby-test/?test=1')
-SHOT = '/tmp/protocole-lobby-test.png'
-SHOT_ALERT = '/tmp/protocole-lobby-test-alert.png'
+SHOT = '/tmp/protocole-lobby-repos.png'
+SHOT_INTERVENTION = '/tmp/protocole-lobby-intervention.png'
+SHOT_JUGEMENT = '/tmp/protocole-lobby-jugement.png'
 
 T = 'document.getElementById("telemetry").dataset'
 
@@ -50,22 +51,50 @@ with sync_playwright() as p:
     z1 = float(page.evaluate(f'{T}.z'))
     check('forward moves -z', z1 < z0, f'z {z0} -> {z1} (pointerLock={pointer_locked})')
 
-    m0 = page.evaluate(f'{T}.mode')
+    # proximity activation: walking up to the chair wakes the room
+    page.evaluate('window.__lobbyTest.setState("repos")')
+    page.evaluate('window.__lobbyTest.setPose(0, 3.4, 0)')
+    page.wait_for_timeout(300)
+    s0 = page.evaluate(f'{T}.state')
+    page.evaluate('window.__lobbyTest.setPose(0, 1.5, 0)')
+    page.wait_for_timeout(600)
+    s1 = page.evaluate(f'{T}.state')
+    check('approaching the chair wakes the room', s0 == 'repos' and s1 != 'repos', f'{s0} -> {s1}')
+
+    page.keyboard.press('2')
+    # the surgical head ramps up over several seconds by design
+    page.wait_for_timeout(4000)
+    lamp_i = float(page.evaluate(f'{T}.lamp'))
+    check('intervention lights the chair', page.evaluate(f'{T}.state') == 'intervention'
+          and lamp_i > 0.5, f'lamp={lamp_i}')
+    page.screenshot(path=SHOT_INTERVENTION)
+
+    page.keyboard.press('3')
+    page.wait_for_timeout(3000)
+    check('judgement state reached', page.evaluate(f'{T}.state') == 'jugement')
+    page.screenshot(path=SHOT_JUGEMENT)
+
+    page.evaluate('window.__lobbyTest.setPose(0, 3.4, Math.PI)')
+    page.keyboard.press('1')
+    page.wait_for_timeout(500)
+    check('1 returns to repos', page.evaluate(f'{T}.state') == 'repos')
+
+    m0 = page.evaluate(f'{T}.state')
     page.keyboard.press('l')
     page.wait_for_timeout(500)
-    m1 = page.evaluate(f'{T}.mode')
-    check('L toggles lighting', m0 != m1, f'{m0} -> {m1}')
-    page.screenshot(path=SHOT_ALERT)
+    m1 = page.evaluate(f'{T}.state')
+    check('L cycles the room state', m0 != m1, f'{m0} -> {m1}')
 
     page.keyboard.press('Escape')
     page.wait_for_timeout(200)
     check('Escape pauses', page.evaluate(f'{T}.entered') == 'false')
 
+    zp = float(page.evaluate(f'{T}.z'))
     page.keyboard.down('w')
     page.wait_for_timeout(300)
     page.keyboard.up('w')
     z2 = float(page.evaluate(f'{T}.z'))
-    check('no motion while paused', abs(z2 - z1) < 1e-6, f'z {z1} -> {z2}')
+    check('no motion while paused', abs(z2 - zp) < 1e-6, f'z {zp} -> {z2}')
 
     page.locator('#enter').click()
     page.wait_for_timeout(300)
