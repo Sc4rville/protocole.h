@@ -38,3 +38,7 @@ Le contrat technique reste à convenir ; aucun format d'API n'est imposé par ce
 - Création des deux suivis. Aucune implémentation du lobby n'est déclarée terminée ici.
 
 Ajouter à chaque reprise : ce qui a été fait, les fichiers touchés, les vérifications réellement effectuées, les blocages et la prochaine action.
+
+## Synchronisation GitHub
+
+À la demande de Yann : après chaque lot de modifications terminé, commiter et pousser sur GitHub sans attendre une nouvelle demande. Vérifier le diff avant chaque commit ; ne jamais inclure de secrets ni écraser le travail concurrent.
