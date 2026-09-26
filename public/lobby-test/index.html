@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>protocole.h — cellule blanche (test technique)</title>
+<style>
+  body{margin:0;background:#141519;color:#e8e8ea;font:15px system-ui,sans-serif;overflow:hidden}
+  #canvas-host{position:fixed;inset:0}
+  #canvas-host canvas{display:block;width:100%;height:100%}
+  header{position:fixed;top:0;left:0;right:0;padding:10px 16px;display:flex;justify-content:space-between;align-items:baseline;pointer-events:none;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+  header h1{font-size:15px;font-weight:600;margin:0}
+  header .note{font-size:12px;color:#b9bcc4}
+  header a{color:#cfd3dc;pointer-events:auto}
+  #overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,11,14,.45)}
+  #overlay .card{background:rgba(20,22,27,.85);border:1px solid #3a3d45;border-radius:10px;padding:18px 22px;max-width:380px;text-align:center}
+  #overlay p{margin:6px 0 14px;font-size:13px;color:#c4c8d0}
+  #enter{font-size:15px;padding:8px 22px;cursor:pointer;border-radius:8px;border:1px solid #5a5f6b;background:#23262e;color:#eee}
+  #enter:hover{background:#2c3039}
+  #legend{position:fixed;bottom:0;left:0;right:0;padding:8px 14px;display:flex;gap:16px;align-items:center;font-size:12px;color:#b9bcc4;text-shadow:0 1px 3px rgba(0,0,0,.6);flex-wrap:wrap}
+  #lighting{font-size:12px;padding:4px 12px;cursor:pointer;border-radius:6px;border:1px solid #5a5f6b;background:rgba(35,38,46,.8);color:#eee}
+  #status{font-size:12px;color:#9fb4d0}
+  #status.error{color:#e08a8a}
+  #help{font-size:12px;color:#d0b46a;margin-left:auto}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<noscript><p style="padding:24px">Ce test technique nécessite JavaScript.</p></noscript>
+<div id="canvas-host" aria-label="Scène 3D : cellule blanche en construction"></div>
+<header>
+  <h1>Cellule blanche — scène en construction · robot final à intégrer</h1>
+  <div class="note">
+    <a href="../concepts/" target="_blank" rel="noopener">Galerie concepts</a>
+    · <a href="../concepts/lobby-v3/05-cellule-blanche.jpg" target="_blank" rel="noopener">Image de référence (concept 2D)</a>
+  </div>
+</header>
+<div id="overlay">
+  <div class="card">
+    <p>Cellule blanche 8×8 m — test de déplacement et d'éclairage.<br>
+    ZQSD / WASD pour marcher, souris pour regarder, <kbd>L</kbd> pour l'éclairage, <kbd>Échap</kbd> pour pause.</p>
+    <button id="enter">Entrer dans la cellule</button>
+  </div>
+</div>
+<div id="legend">
+  <span>ZQSD/WASD déplacement</span><span>Souris regard</span><span>L éclairage</span><span>Échap pause</span>
+  <button id="lighting" aria-label="Changer le preset d'éclairage">Éclairage : clinique</button>
+  <span id="status" role="status">Chargement…</span>
+  <span id="help" hidden>Pointer lock indisponible — cliquer-glisser pour regarder</span>
+</div>
+<div id="telemetry" hidden aria-hidden="true"></div>
+<script src="vendor/three.min.js"></script>
+<script type="module" src="game.js"></script>
+</body>
+</html>
