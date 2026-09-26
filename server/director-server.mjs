@@ -210,7 +210,18 @@ async function serveStatic(req, res, pathname) {
     }
     const data = await readFile(file);
     const type = TYPES[path.extname(file).toLowerCase()] || 'application/octet-stream';
-    return send(res, 200, req.method === 'HEAD' ? '' : data, { 'Content-Type': type, 'Content-Length': data.length });
+    const range = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');
+    if (range && (range[1] || range[2])) {
+      const size = data.length;
+      let start = range[1] ? Number(range[1]) : size - Number(range[2]);
+      let end = range[1] && range[2] ? Number(range[2]) : size - 1;
+      start = Math.max(0, start);
+      end = Math.min(size - 1, end);
+      if (start > end) return send(res, 416, '', { 'Content-Range': `bytes */${size}` });
+      const part = data.subarray(start, end + 1);
+      return send(res, 206, req.method === 'HEAD' ? '' : part, { 'Content-Type': type, 'Content-Length': part.length, 'Content-Range': `bytes ${start}-${end}/${size}`, 'Accept-Ranges': 'bytes' });
+    }
+    return send(res, 200, req.method === 'HEAD' ? '' : data, { 'Content-Type': type, 'Content-Length': data.length, 'Accept-Ranges': 'bytes' });
   } catch {
     return send(res, 302, '', { Location: '/intro/index.html' });
   }

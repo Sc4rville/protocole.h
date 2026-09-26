@@ -217,6 +217,7 @@ async function endPrologue() {
 
 // ---------------------------------------------------------------- briefing
 let themeSource = null;
+let themeStartedAt = 0;
 
 function startTheme() {
   const ctx = sfx.ctx;
@@ -229,6 +230,7 @@ function startTheme() {
     themeSource.loop = true;
     themeSource.connect(g);
     themeSource.start();
+    themeStartedAt = ctx.currentTime;
     g.gain.exponentialRampToValueAtTime(0.8, ctx.currentTime + 4);
     telemetry.dataset.themePlaying = 'file';
     return;
@@ -280,5 +282,11 @@ beginBtn.addEventListener('click', () => {
   briefing.style.opacity = '0';
   telemetry.dataset.leaving = 'true';
   if (TEST_MODE) return;
-  setTimeout(() => { try { sessionStorage.setItem('protocole.h.fromIntro', '1'); } catch {} location.href = NEXT_URL; }, 1700);
+  setTimeout(() => {
+    try {
+      sessionStorage.setItem('protocole.h.fromIntro', '1');
+      if (themeBuffer && themeStartedAt) sessionStorage.setItem('protocole.h.themeAt', String((sfx.ctx.currentTime - themeStartedAt) % themeBuffer.duration));
+    } catch {}
+    location.href = NEXT_URL;
+  }, 1700);
 });

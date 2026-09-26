@@ -34,7 +34,7 @@
   #overlay .actions #enter{background:#c4563a;border-color:#c4563a;color:#fff}
   #overlay .actions #enter:hover{background:#d4654a}
   #overlay .hint{margin:14px 0 0;font-size:11px;color:#6f747e}
-  #overlay:not(.paused) .pause-only{display:none}
+  #overlay:not(.paused) .pause-only{display:none!important}
   #legend{position:fixed;bottom:0;left:0;right:0;padding:8px 14px;display:flex;gap:16px;align-items:center;font-size:12px;color:#b9bcc4;text-shadow:0 1px 3px rgba(0,0,0,.6);flex-wrap:wrap}
   #lighting{font-size:12px;padding:4px 12px;cursor:pointer;border-radius:6px;border:1px solid #5a5f6b;background:rgba(35,38,46,.8);color:#eee}
   #status{font-size:12px;color:#9fb4d0}
@@ -79,6 +79,7 @@
   #reveal button{margin-top:34px;font:13px ui-monospace,monospace;letter-spacing:.2em;text-transform:uppercase;padding:11px 20px;border-radius:3px;border:1px solid #c4563a;background:transparent;color:#fff;cursor:pointer;opacity:0;animation:rv 1s ease 11s forwards}
   #reveal button:hover{background:#c4563a}
   @keyframes rv{to{opacity:1}}
+  #legend>span:not(#status):not(#help),#legend #lighting,header .note{display:none}
   [hidden]{display:none!important}
 </style>
 </head>
@@ -100,16 +101,10 @@
     <div class="keys">
       <span><kbd>Z</kbd><kbd>Q</kbd><kbd>S</kbd><kbd>D</kbd></span><span>se déplacer</span>
       <span><kbd>souris</kbd></span><span>regarder</span>
-      <span><kbd>E</kbd></span><span>prendre / utiliser</span>
-      <span><kbd>R</kbd></span><span>reposer l'outil</span>
-      <span><kbd>clic</kbd> maintenu</span><span>charger la sonde, tirer vers le bas</span>
-      <span><kbd>molette</kbd></span><span>régler le verrou</span>
-      <span><kbd>L</kbd> <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd></span><span>état de la salle</span>
-      <span><kbd>E</kbd></span><span>prendre un outil (objets qui brillent)</span>
-      <span><kbd>clic</kbd><kbd>molette</kbd></span><span>utiliser l'outil</span>
-      <span><kbd>R</kbd></span><span>reposer l'outil</span>
-      <span><kbd>T</kbd></span><span>parler à Unit H</span>
-      <span><kbd>M</kbd></span><span>couper / remettre le son</span>
+      <span><kbd>E</kbd></span><span>prendre un objet qui brille</span>
+      <span class="pause-only"><kbd>clic</kbd></span><span class="pause-only">utiliser l'objet en main (maintenir)</span>
+      <span class="pause-only"><kbd>R</kbd></span><span class="pause-only">reposer l'objet</span>
+      <span class="pause-only"><kbd>T</kbd></span><span class="pause-only">parler à Unit H</span>
       <span><kbd>Échap</kbd></span><span>menu</span>
     </div>
     <div class="actions">

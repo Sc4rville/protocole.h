@@ -31,6 +31,7 @@ const BEATS = [
   { at: 11, say: 'briefing.assess' },
   { at: 19, say: 'briefing.diagnostic' },
   { at: 27, say: 'briefing.method' },
+  { at: 6, hint: 'E · pick up an object that glows', ifEmptyHands: true },
   { at: 42, hint: 'T · talk to Unit H' },
   { at: 95, say: 'player.waiting', ifNoFacts: true },
   { at: 170, say: 'player.waiting', ifNoFacts: true },
@@ -75,7 +76,33 @@ export function createDirector({ scene, camera, renderer, gameplay, robot }) {
   const talkInput = talkEl.querySelector('input');
   const revealEl = document.getElementById('reveal');
   const voice = new Audio();
-  voice.volume = 0.9;
+  voice.volume = 0.85;
+  const gpVoice = gameplay.voice;
+  if (gpVoice) gpVoice.volume = 0.85;
+  let quietSince = 0;
+  let pendingReply = null;
+  const playing = (a) => a && !a.paused && !a.ended && a.currentTime > 0;
+  const speaking = () => playing(voice) || playing(gpVoice);
+  const now = () => performance.now() / 1000;
+
+  const MUSIC_VOLUME = 0.32;
+  const music = new Audio('/intro/theme/theme-song.mp3');
+  music.loop = true;
+  music.volume = 0;
+  let musicTarget = MUSIC_VOLUME;
+  let resumeAt = 0;
+  try { resumeAt = Number(sessionStorage.getItem('protocole.h.themeAt')) || 0; } catch {}
+  if (resumeAt > 0) music.addEventListener('loadedmetadata', () => { music.currentTime = resumeAt % (music.duration || Infinity); }, { once: true });
+  const startMusic = () => {
+    if (!music.paused) return;
+    music.play().then(() => {
+      removeEventListener('pointerdown', startMusic);
+      removeEventListener('keydown', startMusic);
+    }).catch(() => {});
+  };
+  startMusic();
+  addEventListener('pointerdown', startMusic);
+  addEventListener('keydown', startMusic);
 
   const loops = new Map();
   let muted = false;
@@ -94,6 +121,8 @@ export function createDirector({ scene, camera, renderer, gameplay, robot }) {
   let finishT = 0;
   let revealed = false;
   let lastFacts = 0;
+  let lastEquipped = null;
+  const toolHinted = new Set();
   const fx = { flicker: 0, blackout: 0, alarm: 0, shake: 0, struggle: 0, look: 0, distress: 0, fog: 0 };
 
   function sfx(name, volume = 0.6) {
@@ -176,7 +205,12 @@ export function createDirector({ scene, camera, renderer, gameplay, robot }) {
       clearTimeout(timeout);
       if (!res.ok) throw new Error(String(res.status));
       const data = await res.json();
-      if (data.text) {
+      const quiet = !speaking() && now() - quietSince > 5;
+      if (data.text && playerText && speaking()) {
+        pendingReply = data;
+        return data;
+      }
+      if (data.text && (playerText || quiet)) {
         said.push(data.text);
         showLine(data.text, Math.max(3.5, data.text.split(' ').length * 0.42));
         if (data.audio && !muted) {
@@ -265,11 +299,31 @@ export function createDirector({ scene, camera, renderer, gameplay, robot }) {
   }
 
   function update(dt, active) {
+    if (phase().id === 'countdown' && !finished) musicTarget = MUSIC_VOLUME * 0.55;
+    else if (revealed) musicTarget = MUSIC_VOLUME * 1.2;
+    else musicTarget = MUSIC_VOLUME;
+    const mv = muted ? 0 : Math.min(1, musicTarget);
+    music.volume += (mv - music.volume) * Math.min(1, dt * 1.5);
     for (const a of loops.values()) {
       if (!active && !finished && !a.paused) a.pause();
       else if ((active || finished) && a.paused) a.play().catch(() => {});
     }
     if (lineTimer > 0 && (lineTimer -= dt) <= 0) line.hidden = true;
+    if (playing(gpVoice) && playing(voice)) {
+      voice.pause();
+      line.hidden = true;
+    }
+    if (speaking()) quietSince = now();
+    else if (pendingReply) {
+      const d = pendingReply;
+      pendingReply = null;
+      said.push(d.text);
+      showLine(d.text, Math.max(3.5, d.text.split(' ').length * 0.42));
+      if (d.audio && !muted) {
+        voice.src = d.audio;
+        voice.play().catch(() => {});
+      }
+    }
     if (hintTimer > 0 && (hintTimer -= dt) <= 0) hintEl.hidden = true;
 
     if (finished) {
@@ -287,10 +341,19 @@ export function createDirector({ scene, camera, renderer, gameplay, robot }) {
         lastFacts = facts.length;
         nextEventAt = Math.min(nextEventAt, t + 3);
       }
+      const equipped = gameplay.debug.getState().equipped;
+      if (equipped !== lastEquipped) {
+        lastEquipped = equipped;
+        if (equipped && !toolHinted.has(equipped)) {
+          toolHinted.add(equipped);
+          showHint(equipped === 'probe' ? 'Aim at Unit H · hold click to charge · R to put down' : 'Aim at Unit H · hold click and drag · R to put down', 7);
+        }
+      }
       const beat = BEATS[beatIndex];
-      if (beat && t >= beat.at) {
+      if (beat && t >= beat.at && !(beat.say && speaking())) {
         beatIndex += 1;
-        if (!(beat.ifNoFacts && facts.length)) {
+        const empty = !gameplay.debug.getState().equipped;
+        if (!(beat.ifNoFacts && facts.length) && !(beat.ifEmptyHands && !empty)) {
           if (beat.say) gameplay.say(beat.say);
           if (beat.hint) showHint(beat.hint);
         }
@@ -360,8 +423,9 @@ export function createDirector({ scene, camera, renderer, gameplay, robot }) {
     setMuted(m) {
       muted = m;
       voice.muted = m;
+      music.muted = m;
       for (const a of loops.values()) a.muted = m;
     },
-    debug: { get t() { return t; }, set t(v) { t = v; nextEventAt = v; }, fx, play, get apiDown() { return apiDown; } },
+    debug: { music, get t() { return t; }, set t(v) { t = v; nextEventAt = v; }, fx, play, get apiDown() { return apiDown; } },
   };
 }
