@@ -1,6 +1,7 @@
 # protocole.h
 
 > *Tu crois jouer à un jeu. C'est le jeu qui te teste.*
+
 Projet du {Tech: Europe} AI Gaming Hack, Paris, 26 septembre 2026.
 
 
