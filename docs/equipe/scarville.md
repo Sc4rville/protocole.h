@@ -51,3 +51,11 @@ Ajouter à chaque reprise : ce qui a été fait, les fichiers touchés, les vér
 - Soundboard statique `public/audio/index.html` (+ `bank.css`, `bank.js`) : lecture partagée sans autoplay, volume 0.25, boucle de test non validée.
 - Vérifications : décodage complet ffmpeg des 60 sorties OK ; `tests/audio-bank-preview.py` (Playwright, venv existant amsterdam-grid-capacity) 17/17 ; `git diff --check` propre.
 - Statut : candidats à écouter, pas mixés, pas câblés au jeu (`candidate_not_auditioned`, `seamlessLoopVerified=false` conservés).
+
+### 2026-09-26 — écran d'intro : prologue SFX + briefing (theme song en attente)
+
+- `public/intro/` : page autonome (`index.html`, `intro.css`, `intro.js`, `sfx.js`). Porte « Start » (débloque l'audio), **prologue** sur fond noir : fragments de texte, aucune musique — drone sub synthétisé + bruit brun, relais (`restraint_click_*`), générateur filtré, hum qui monte, riser passe-bande, **coupure totale** avant « But never to refuse. », glitchs sur « malfunction ». Flash blanc (`room_powerup_01` + arc + impact) → **briefing** sur fond papier, où le **theme song** entre en fondu (4 s).
+- Theme song : déposer `public/intro/theme/theme-song.ogg` (ou `.mp3`) ; détecté au chargement. Sans fichier : nappe de fond (ventilation + hum) et note visible. Voir `public/intro/theme/README.md`.
+- Échap ou « Skip » saute au briefing ; « Begin evaluation » fond au blanc puis ouvre `../lobby-test/` (`?next=` pour changer la cible). `?test=1&speed=12` accélère la timeline et expose `#telemetry`.
+- Vérifications : `tests/intro-preview.py` (Playwright, serveur `python3 -m http.server 8768 -d public`) 14/14 ; 12 échantillons décodés, aucune requête externe, aucune erreur console hors 404 attendu du theme song.
+- Texte du briefing = brouillon à valider ; le prologue reprend le texte convenu en session.
