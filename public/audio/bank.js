@@ -82,6 +82,10 @@ function render() {
     const badge = document.createElement('span');
     badge.className = 'badge';
     badge.textContent = s.reviewStatus + (s.loopCandidate ? ' · loopCandidate (non validé)' : '');
+    const kindParts = [];
+    if (s.kind === 'derived') kindParts.push('dérivé de ' + s.derivedFrom);
+    if (s.kind === 'synthesis') kindParts.push('synthèse');
+    if (kindParts.length) badge.textContent += ' · ' + kindParts.join(' · ');
     const row = document.createElement('div');
     row.className = 'row';
     const btn = document.createElement('button');
@@ -89,7 +93,14 @@ function render() {
     btn.textContent = 'Écouter';
     btn.addEventListener('click', () => play(s, card));
     row.append(btn);
-    card.append(h, use, meta, badge, row);
+    card.append(h, use, meta, badge);
+    if (s.contentWarning) {
+      const warn = document.createElement('p');
+      warn.className = 'warn';
+      warn.textContent = '⚠ ' + s.contentWarning;
+      card.append(warn);
+    }
+    card.append(row);
     bank.append(card);
   }
   stateEl.hidden = shown > 0;

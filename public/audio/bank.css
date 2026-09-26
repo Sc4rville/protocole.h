@@ -18,6 +18,7 @@ button:hover{background:#2c3039}
 .card .meta{font-size:12px;color:#8f94a0;line-height:1.5}
 .card .meta a{color:#cfd3dc}
 .card .badge{display:inline-block;font-size:11px;color:#d0b46a;border:1px solid #4a4436;border-radius:4px;padding:1px 6px;margin-top:6px}
+.card .warn{font-size:12px;color:#e0a06a;margin:6px 0 0}
 .card .row{display:flex;gap:8px;align-items:center;margin-top:8px}
 .card.playing{border-color:#5a7ab0}
 #state{color:#a8adb8}
