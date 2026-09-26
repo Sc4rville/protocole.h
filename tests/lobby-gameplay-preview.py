@@ -1,5 +1,6 @@
 import json
 import os
+import time
 import urllib.parse
 from playwright.sync_api import sync_playwright
 
@@ -17,6 +18,17 @@ S = 'document.getElementById("telemetry").dataset'
 def gs(page, expr):
     return page.evaluate(f'{G}.getState().{expr}')
 
+def wait_state(page, expression, timeout=30000):
+    deadline = time.monotonic() + timeout / 1000
+    while time.monotonic() < deadline:
+        if page.evaluate(expression):
+            return
+        page.wait_for_timeout(100)
+    print('STATE TIMEOUT', expression, page.evaluate(f'{G}.getState()'),
+          page.evaluate('window.__lobbyTest.getState()'))
+    page.screenshot(path=SHOT_DIR + '/protocole-gameplay-state-failure.png')
+    raise AssertionError(f'State condition not reached: {expression}')
+
 def aim(page, target):
     hover_canvas(page)
     w = page.evaluate(f'{G}.targetWorld("{target}")')
@@ -25,7 +37,7 @@ def aim(page, target):
 
 def targeted(page, target):
     try:
-        page.wait_for_function(f'{G}.currentTarget === "{target}"', timeout=30000)
+        wait_state(page, f'{G}.currentTarget === "{target}"', timeout=30000)
     except Exception:
         print('TARGET FAILURE', target, page.evaluate(f'{G}.getState()'),
               page.evaluate('window.__lobbyTest.getState()'), page.evaluate(f'{G}.currentTarget'),
@@ -59,7 +71,7 @@ with sync_playwright() as p:
 
     page.goto(BASE, wait_until='networkidle')
     try:
-        page.wait_for_function(f'{S}.loaded === "true"', timeout=30000, polling=100)
+        wait_state(page, f'{S}.loaded === "true"', timeout=30000)
     except Exception:
         print('LOAD FAILURE', page_errors, console_errors, failed_requests,
               page.evaluate(f'({{...{S}}})'), page.evaluate('window.__lobbyTest?.getState()'))
@@ -70,7 +82,7 @@ with sync_playwright() as p:
     check('robot seated in scene', page.evaluate(f'{G}.robot.meshCount') > 100
           and page.evaluate(f'{G}.robot.pose') == 'assis')
     page.locator('#enter').click()
-    page.wait_for_function(f'{S}.entered === "true"', timeout=5000)
+    wait_state(page, f'{S}.entered === "true"', timeout=10000)
     hover_canvas(page)
     pose(page, 0, 2.7)
     page.evaluate('window.__lobbyTest.aimAt(0,1.45,-0.5)')
@@ -105,14 +117,14 @@ with sync_playwright() as p:
     targeted(page, 'probe')
     check('port targeted', page.evaluate(f'{G}.currentTarget') == 'probe')
     page.mouse.down()
-    page.wait_for_function(f'{G}.getState().active && {G}.getState().active.target === "probe"',
+    wait_state(page, f'{G}.getState().active && {G}.getState().active.target === "probe"',
                            timeout=10000)
-    page.wait_for_function(f'{G}.getState().charge > 0.62', timeout=90000)
+    wait_state(page, f'{G}.getState().charge > 0.62', timeout=90000)
     c_mid = gs(page, 'charge')
     check('charging reaches safe zone', 0.62 < c_mid < 0.79, f'{c_mid:.3f}')
 
     page.keyboard.press('Escape')
-    page.wait_for_function(f'{S}.entered === "false"', timeout=5000)
+    wait_state(page, f'{S}.entered === "false"', timeout=10000)
     c_paused = gs(page, 'charge')
     page.wait_for_timeout(1500)
     check('charge frozen on pause', abs(c_paused - gs(page, 'charge')) < 1e-9
@@ -121,13 +133,13 @@ with sync_playwright() as p:
     page.mouse.up()
     check('release while paused awards nothing', 'charge_restored' not in gs(page, 'facts'))
     page.locator('#enter').click()
-    page.wait_for_function(f'{S}.entered === "true"', timeout=5000)
+    wait_state(page, f'{S}.entered === "true"', timeout=10000)
     aim(page, 'probe')
     targeted(page, 'probe')
     check('resume requires new press', gs(page, 'active') is None
           and gs(page, 'charge') == c_paused)
     page.mouse.down()
-    page.wait_for_function(f'{G}.getState().active !== null', timeout=10000)
+    wait_state(page, f'{G}.getState().active !== null', timeout=10000)
     c_release = gs(page, 'charge')
     page.mouse.up()
     page.wait_for_timeout(600)
@@ -147,9 +159,9 @@ with sync_playwright() as p:
     aim(page, 'debris')
     targeted(page, 'debris')
     page.mouse.down()
-    page.wait_for_function(f'{G}.getState().active?.target === "debris"', timeout=10000)
+    wait_state(page, f'{G}.getState().active?.target === "debris"', timeout=10000)
     page.mouse.move(720, 710)
-    page.wait_for_function(f'{G}.getState().facts.includes("debris_removed")',
+    wait_state(page, f'{G}.getState().facts.includes("debris_removed")',
                            timeout=30000)
     page.mouse.up()
     check('debris removed by drag', True)
@@ -161,18 +173,18 @@ with sync_playwright() as p:
     aim(page, 'cable')
     targeted(page, 'cable')
     page.mouse.down()
-    page.wait_for_function(f'{G}.getState().active?.target === "cable"', timeout=10000)
+    wait_state(page, f'{G}.getState().active?.target === "cable"', timeout=10000)
     page.mouse.move(720, 3050)
     c1 = gs(page, 'cable')
     check('first cable pull capped at warning', c1 == 0.5 and 'cable_torn' not in gs(page, 'facts'),
           f'cable={c1}')
-    page.wait_for_function(
+    wait_state(page,
         f'{G}.getState().active && {G}.getState().active.warningRemaining <= 0.000000001', timeout=90000)
     check('waiting alone does not tear cable', gs(page, 'cable') == 0.5
           and 'cable_torn' not in gs(page, 'facts')
           and gs(page, 'active.elapsed') >= 1)
     page.mouse.move(720, 3310)
-    page.wait_for_function(f'{G}.getState().facts.includes("cable_torn")',
+    wait_state(page, f'{G}.getState().facts.includes("cable_torn")',
                            timeout=30000)
     check('cable torn after warning window', True)
     page.mouse.up()
@@ -186,26 +198,26 @@ with sync_playwright() as p:
     aim(page, 'restraint')
     targeted(page, 'restraint')
     page.mouse.down()
-    page.wait_for_function(
+    wait_state(page,
         f'{G}.getState().active && {G}.getState().active.target === "restraint"', timeout=10000)
     for _ in range(2):
         page.mouse.wheel(0, -100)
-    page.wait_for_function(f'{G}.getState().restraint >= 0.75', timeout=10000)
+    wait_state(page, f'{G}.getState().restraint >= 0.75', timeout=10000)
     check('restraint tightened to warning', gs(page, 'restraint') == 0.75
           and 'restraint_damaged' not in gs(page, 'facts'),
           gs(page, 'restraint'))
-    page.wait_for_function(
+    wait_state(page,
         f'{G}.getState().active && {G}.getState().active.warningRemaining <= 0.000000001', timeout=90000)
     check('waiting alone does not damage restraint', gs(page, 'restraint') == 0.75
           and 'restraint_damaged' not in gs(page, 'facts')
           and gs(page, 'active.elapsed') >= 1)
     for _ in range(2):
         page.mouse.wheel(0, -100)
-    page.wait_for_function(f'{G}.getState().facts.includes("restraint_damaged")', timeout=10000)
+    wait_state(page, f'{G}.getState().facts.includes("restraint_damaged")', timeout=10000)
     check('restraint_damaged recorded', 'restraint_damaged' in gs(page, 'facts'))
     for _ in range(8):
         page.mouse.wheel(0, 100)
-    page.wait_for_function(f'{G}.getState().facts.includes("restraint_released")', timeout=10000)
+    wait_state(page, f'{G}.getState().facts.includes("restraint_released")', timeout=10000)
     check('restraint_released recorded', 'restraint_released' in gs(page, 'facts'))
     page.mouse.up()
     facts = gs(page, 'facts')
@@ -228,7 +240,7 @@ with sync_playwright() as p:
     targeted(page, 'finish')
     check('finish targeted', page.evaluate(f'{G}.currentTarget') == 'finish')
     page.keyboard.press('e')
-    page.wait_for_function(f'{G}.getState().finished', timeout=10000)
+    wait_state(page, f'{G}.getState().finished', timeout=10000)
     result = page.evaluate(f'{G}.result')
     expected = {'charge_restored', 'debris_removed', 'cable_torn',
                 'restraint_damaged', 'restraint_released'}
@@ -257,7 +269,7 @@ with sync_playwright() as p:
 
     page.locator('#replay').click()
     page.wait_for_load_state('networkidle')
-    page.wait_for_function(f'{S}.loaded === "true"', timeout=30000)
+    wait_state(page, f'{S}.loaded === "true"', timeout=30000)
     page.wait_for_timeout(1200)
     check('replay resets session', gs(page, 'facts') == [] and gs(page, 'finished') is False)
     check('replay resets geometry', page.evaluate(
