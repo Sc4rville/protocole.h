@@ -15,6 +15,12 @@ export const SAMPLES = {
   arc: 'electricity/probe_arc_snap_01',
   glitch: 'ui/robot_glitch_01',
   ui_confirm: 'ui/ui_confirm_01',
+  ui_select: 'ui/ui_select_01',
+  ui_click: 'ui/ui_click_01',
+  rattle: 'mechanics/robot_rattle_01',
+  crackle: 'electricity/probe_crackle_01',
+  arc_long: 'electricity/probe_arc_continuous_01',
+  servo: 'robot/robot_servo_01',
   seal: 'fluids/seal_release_01',
 };
 
@@ -185,6 +191,41 @@ export class Sfx {
     ramp(this.drone.out.gain, Math.max(level, 0.0001), this.now, seconds);
   }
 
+  /** Random scatter of one sample over `spread` seconds: distant knocks, creaks. */
+  sprinkle(name, count, spread, { gain = [0.1, 0.3], rate = [0.5, 1], lowpass = 700, at = 0 } = {}) {
+    for (let i = 0; i < count; i++) {
+      this.play(name, {
+        gain: lerp(gain, Math.random()),
+        rate: lerp(rate, Math.random()),
+        lowpass,
+        at: at + Math.random() * spread,
+      });
+    }
+  }
+
+  /** Synthesized sub pulse (a slow heartbeat) that can accelerate over its span. */
+  pulse({ seconds, fromInterval = 1.2, toInterval = 0.6, gain = 0.5, freq = 48, at = 0 } = {}) {
+    const ctx = this.ctx;
+    let t = this.now + at;
+    const end = t + seconds;
+    const total = seconds;
+    while (t < end) {
+      const p = 1 - (end - t) / total;
+      const osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq * 1.4, t);
+      osc.frequency.exponentialRampToValueAtTime(freq, t + 0.12);
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(gain * (0.6 + 0.4 * p), t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+      osc.connect(g).connect(this.master);
+      osc.start(t);
+      osc.stop(t + 0.4);
+      t += fromInterval + (toInterval - fromInterval) * p;
+    }
+  }
+
   /** Bandpass sweep of the noise bed: the "something is coming" riser. */
   riser(seconds, { from = 300, to = 2400, gain = 0.5 } = {}) {
     if (!this.drone) return;
@@ -216,6 +257,8 @@ export class Sfx {
     ramp(this.master.gain, Math.max(level, 0.0001), this.now, seconds);
   }
 }
+
+function lerp([a, b], x) { return a + (b - a) * x; }
 
 function ramp(param, value, t, seconds) {
   param.cancelScheduledValues(t);

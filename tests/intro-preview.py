@@ -26,7 +26,7 @@ with sync_playwright() as p:
     page.goto(BASE, wait_until='networkidle')
     page.wait_for_function(f'{T}.loaded !== undefined', timeout=30000)
     check('sound bank loaded', page.evaluate(f'{T}.loaded') == 'true')
-    check('all samples decoded', page.evaluate(f'{T}.samples') == '12', page.evaluate(f'{T}.samples'))
+    check('all samples decoded', page.evaluate(f'{T}.samples') == '18', page.evaluate(f'{T}.samples'))
     bad = [(u, s) for u, s in responses if s >= 400 and '/intro/theme/' not in u]
     theme_probe = [(u, s) for u, s in responses if s >= 400 and '/intro/theme/' in u]
     check('only theme-song probes may 404', all('theme-song.' in u for u, _ in theme_probe), str(theme_probe))
