@@ -2,6 +2,14 @@
 
 État au 26 septembre 2026, ~12:30 CEST. Ce document est le relais commun entre Kusaila, Sc4rville, Devin et Codex. Devin code ; Codex vérifie les choix, le jeu réel et les critères du jury. Mettre cette page à jour après chaque livraison.
 
+## Répartition décidée par l'équipe
+
+- **Yann** : la partie d'avant, de l'écran de départ à la confrontation avec le robot et au verdict. Créer sa propre scène et ses composants ; conserver les actes du joueur sous forme de données.
+- **Kusaila** : toute la partie plateforme, à partir du verdict : déplacement, saut, niveau enfer/paradis, obstacles, checkpoints, fin et rejouer. Il possède `src/scenes/Main.tsx`, `src/sprites/Player.ts` et les cartes de niveau.
+- **Devin** : aider sur des tâches délimitées par Yann ou Kusaila, sans modifier en parallèle les fichiers dont l'autre s'occupe. **Codex** : vérifier l'intégration et les critères du jury.
+
+**Interface commune à fixer avant de travailler séparément :** la scène de plateforme reçoit une issue (`hell` ou `heaven`), la liste des actes (`help`, `ignore`, `hurt` au minimum) et une graine stable. La logique de gameplay lit l'issue ; Gemini/Gradium/Nano Banana peuvent utiliser les actes pour personnaliser le texte, la voix et le décor. La plateforme doit rester jouable si ces appels échouent. Au verdict, Yann passe ces données à la scène de Kusaila ; ils testent ensemble les deux issues.
+
 ## But non négociable
 
 Avant **19:00 CEST** : jeu gratuit jouable sur itch.io, GitHub public avec code complet et README technique. Projet **créé aujourd'hui** (boilerplate autorisé), équipe de cinq maximum, **au moins deux technologies partenaires utilisées réellement**. Une partie courte : confronter un robot sans défense, agir, découvrir qu'il nous juge, puis traverser un niveau enfer ou paradis. Le monde visuel peut réagir aux actes ; il n'est pas nécessaire d'imposer le dessin au joueur.
