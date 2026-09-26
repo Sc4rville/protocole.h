@@ -1,18 +1,36 @@
+# PLEASE WATCH IT
+
+**Official trailer · 2 min 32 · Enable sound in the player**
+
+https://github.com/user-attachments/assets/ab264fed-b63d-48cd-af05-ae1f67e1bd87
+
+---
+
 <div align="center">
 
 <h1>protocole.h</h1>
+
+<p><strong>Built with <a href="https://gradium.ai/">Gradium</a> · <a href="https://devin.ai/">Devin</a> · <a href="https://ai.google.dev/">Google Gemini</a></strong></p>
 
 <p><strong>A machine asks you to stop.<br>The game lets you continue.</strong></p>
 
 <p>First-person sci-fi horror · A room, a robot, and the choices you make</p>
 
-<p><a href="#play-locally">Play locally</a> · <a href="#what-the-ai-does">The AI behind it</a> · <a href="#controls">Controls</a></p>
-
-<img src="docs/media/unit-h.gif" alt="In-game footage of Unit H restrained in the clinical examination room, watching the player approach" width="840">
-
-<p><sub>Edited in-game capture. The GIF is silent; the game is not.</sub></p>
+<p><a href="#play-locally">Play locally</a> · <a href="#built-with-gradium-devin-and-google-gemini">Our partner tools</a> · <a href="#controls">Controls</a></p>
 
 </div>
+
+## Built with Gradium, Devin, and Google Gemini
+
+**Gradium gives Unit H a voice. Devin helped us build its world. Google Gemini directs what happens inside it.**
+
+| Partner tool | Its role in protocole.h |
+| --- | --- |
+| **[Gradium](https://gradium.ai/)** — the voice | Voices both Unit H and the clinical system: **60 recorded dialogue clips**, plus speech synthesis for live replies. The robot can warn, ask, and respond aloud, turning an interaction with a tool into an encounter with a character. |
+| **[Devin](https://devin.ai/)** — the development partner | Used throughout coding, integration, and verification, with parallel work on the procedural 3D robot, the cell, interactions, dialogue tooling, and sound. We directed the story and design; Devin helped turn them into a working prototype. |
+| **[Google Gemini](https://ai.google.dev/)** — the live director | Uses recorded actions and typed messages to generate short, in-character replies and choose atmospheric events from the game's supported actions. The scene can respond to what the player does, beyond a fixed sequence of lines. |
+
+**Three distinct contributions: a voice, a development partner, and a live director — all serving the same uncomfortable encounter.**
 
 ## Welcome, operator.
 
@@ -36,6 +54,14 @@ There is no visible morality meter. No dialogue option labelled “good.” Unit
 - **Unit H has a voice, not just a damage bar.** It offers guidance, warns you, and remembers earlier harm. You can put the tools down and talk to it.
 - **The room is part of the performance.** Lights flicker, mechanisms stir, and sounds from beyond the glass turn a routine procedure into something less certain.
 - **The ending has receipts.** Your recorded actions shape the conclusion. Replaying means trying a different relationship with Unit H, not just chasing a higher score.
+
+<div align="center">
+
+<img src="docs/media/unit-h.gif" alt="In-game footage of Unit H restrained in the clinical examination room, watching the player approach" width="840">
+
+<p><sub>Edited in-game capture. The GIF is silent; the game is not.</sub></p>
+
+</div>
 
 ## Play locally
 
@@ -66,14 +92,9 @@ Follow the contextual prompts when aiming at an object. The electrical probe has
 
 **Content note:** restraint, violence toward a humanoid robot, distress sounds, sudden noises, and flashing lights.
 
-## What the AI does
+## How the runtime works
 
-| Technology | Role in the game |
-| --- | --- |
-| **Google Gemini** | Directs atmospheric events and generates short, contextual replies using the player's recorded actions and typed messages. |
-| **Gradium** | Voices Unit H and the institutional system. The repository includes 60 generated dialogue clips; live replies can also be synthesized. |
-| **Three.js + Web Audio** | Renders the procedural, articulated robot and interactive room, with lighting, animation, and reactive sound effects. |
-| **Devin** | AI-assisted coding, parallel development, integration, and verification during the hackathon. |
+The cell and articulated robot are built with **Three.js**, with **Web Audio** for reactive sound effects.
 
 AI shapes the performance, not the interaction rules. Tool outcomes and the action history are handled by local game code. Scripted events, subtitles, and the recorded voice bank provide a fallback when live services are unavailable.
 
