@@ -10,7 +10,20 @@
   if (new URLSearchParams(location.search).has('test')) return;
   let ok = true;
   try { ok = sessionStorage.getItem('protocole.h.fromIntro') === '1'; sessionStorage.removeItem('protocole.h.fromIntro'); } catch {}
-  if (!ok) location.replace('/intro/index.html');
+  if (!ok) { location.replace('/intro/index.html'); return; }
+  const music = new Audio('/intro/theme/theme-song.mp3');
+  music.loop = true;
+  music.preload = 'auto';
+  music.volume = 0.32;
+  let resume = null;
+  try { resume = JSON.parse(sessionStorage.getItem('protocole.h.themeAt') || 'null'); } catch {}
+  const offset = () => resume && resume.at ? resume.at + (Date.now() - resume.ts) / 1000 : 0;
+  if (resume) music.addEventListener('loadedmetadata', () => { music.currentTime = offset() % music.duration; }, { once: true });
+  const start = () => music.play().then(() => { removeEventListener('pointerdown', start, true); removeEventListener('keydown', start, true); }).catch(() => {});
+  start();
+  addEventListener('pointerdown', start, true);
+  addEventListener('keydown', start, true);
+  window.__protocoleMusic = music;
 })();
 </script>
 <style>

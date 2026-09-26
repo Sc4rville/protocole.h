@@ -86,23 +86,10 @@ export function createDirector({ scene, camera, renderer, gameplay, robot }) {
   const now = () => performance.now() / 1000;
 
   const MUSIC_VOLUME = 0.32;
-  const music = new Audio('/intro/theme/theme-song.mp3');
+  const music = window.__protocoleMusic || new Audio('/intro/theme/theme-song.mp3');
   music.loop = true;
-  music.volume = 0;
   let musicTarget = MUSIC_VOLUME;
-  let resumeAt = 0;
-  try { resumeAt = Number(sessionStorage.getItem('protocole.h.themeAt')) || 0; } catch {}
-  if (resumeAt > 0) music.addEventListener('loadedmetadata', () => { music.currentTime = resumeAt % (music.duration || Infinity); }, { once: true });
-  const startMusic = () => {
-    if (!music.paused) return;
-    music.play().then(() => {
-      removeEventListener('pointerdown', startMusic);
-      removeEventListener('keydown', startMusic);
-    }).catch(() => {});
-  };
-  startMusic();
-  addEventListener('pointerdown', startMusic);
-  addEventListener('keydown', startMusic);
+  if (!window.__protocoleMusic) music.play().catch(() => {});
 
   const loops = new Map();
   let muted = false;

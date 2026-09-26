@@ -218,23 +218,26 @@ async function endPrologue() {
 // ---------------------------------------------------------------- briefing
 let themeSource = null;
 let themeStartedAt = 0;
+let themeGain = null;
 
 function startTheme() {
   const ctx = sfx.ctx;
   const g = ctx.createGain();
   g.gain.value = 0.0001;
-  g.connect(sfx.master);
   if (themeBuffer) {
+    g.connect(ctx.destination);
     themeSource = ctx.createBufferSource();
     themeSource.buffer = themeBuffer;
     themeSource.loop = true;
     themeSource.connect(g);
     themeSource.start();
+    themeGain = g;
     themeStartedAt = ctx.currentTime;
     g.gain.exponentialRampToValueAtTime(0.8, ctx.currentTime + 4);
     telemetry.dataset.themePlaying = 'file';
     return;
   }
+  g.connect(sfx.master);
   // Placeholder until the real theme song is dropped in public/intro/theme/:
   // a clean, static room tone so the briefing is never dead silent.
   sfx.loop('theme-ph', 'ventilation', { gain: 0.0001, lowpass: 2500 });
@@ -285,7 +288,7 @@ beginBtn.addEventListener('click', () => {
   setTimeout(() => {
     try {
       sessionStorage.setItem('protocole.h.fromIntro', '1');
-      if (themeBuffer && themeStartedAt) sessionStorage.setItem('protocole.h.themeAt', String((sfx.ctx.currentTime - themeStartedAt) % themeBuffer.duration));
+      if (themeBuffer && themeStartedAt) sessionStorage.setItem('protocole.h.themeAt', JSON.stringify({ at: (sfx.ctx.currentTime - themeStartedAt) % themeBuffer.duration, ts: Date.now() }));
     } catch {}
     location.href = NEXT_URL;
   }, 1700);
