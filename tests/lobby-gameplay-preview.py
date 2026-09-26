@@ -18,6 +18,7 @@ def gs(page, expr):
     return page.evaluate(f'{G}.getState().{expr}')
 
 def aim(page, target):
+    hover_canvas(page)
     w = page.evaluate(f'{G}.targetWorld("{target}")')
     page.evaluate(f'window.__lobbyTest.aimAt({w[0]},{w[1]},{w[2]})')
     return w
@@ -31,34 +32,36 @@ def hover_canvas(page):
 with sync_playwright() as p:
     browser = p.chromium.launch()
     page = browser.new_page(viewport={'width': 1440, 'height': 900})
-    console_errors, page_errors, responses, requests = [], [], [], []
+    console_errors, page_errors, responses, requests, failed_requests = [], [], [], [], []
     page.on('console', lambda m: console_errors.append(m.text) if m.type == 'error' else None)
     page.on('pageerror', lambda e: page_errors.append(str(e)))
     page.on('response', lambda r: responses.append((r.url, r.status)))
     page.on('request', lambda r: requests.append(r.url))
+    page.on('requestfailed', lambda r: failed_requests.append((r.url, r.failure)))
 
     page.goto(BASE, wait_until='networkidle')
     page.wait_for_function(f'{S}.loaded === "true"', timeout=30000)
     page.wait_for_timeout(1200)
 
     check('robot seated in scene', page.evaluate(f'{G}.robot.meshCount') > 100)
-    pose(page, 0, 1.4)
-    page.evaluate('window.__lobbyTest.aimAt(0,1.45,-0.5)')
-    page.wait_for_timeout(800)
-    page.screenshot(path=SHOT_DIR + '/protocole-gameplay-robot-front.png')
-    pose(page, 1.9, -0.3)
-    page.evaluate('window.__lobbyTest.aimAt(0,1.2,-0.4)')
-    page.wait_for_timeout(800)
-    page.screenshot(path=SHOT_DIR + '/protocole-gameplay-robot-side.png')
-
     page.locator('#enter').click()
     page.wait_for_function(f'{S}.entered === "true"', timeout=5000)
+    hover_canvas(page)
+    pose(page, 0, 2.7)
+    page.evaluate('window.__lobbyTest.aimAt(0,1.45,-0.5)')
+    page.wait_for_timeout(800)
+    page.screenshot(path=SHOT_DIR + '/protocole-gameplay-front.png')
+    pose(page, 2.6, -0.3)
+    page.evaluate('window.__lobbyTest.aimAt(0,1.2,-0.4)')
+    page.wait_for_timeout(800)
+    page.screenshot(path=SHOT_DIR + '/protocole-gameplay-side.png')
 
-    # out of reach: probe tool is >4 m from spawn
     pose(page, 0, 2.7)
     aim(page, 'probe_tool')
     page.wait_for_timeout(600)
     check('probe unreachable from spawn', page.evaluate(f'{G}.currentTarget') is None)
+    page.keyboard.press('e')
+    check('E at spawn cannot equip distant probe', gs(page, 'equipped') is None)
 
     pose(page, 2.0, -0.7)
     aim(page, 'probe_tool')
@@ -69,40 +72,42 @@ with sync_playwright() as p:
     check('probe equipped', gs(page, 'equipped') == 'probe')
     check('tray probe hidden', page.evaluate('window.__lobbyTest.debug.props.probe.visible') is False)
 
-    # charge to safe zone and disconnect intentionally
     pose(page, -0.2, 1.35)
     aim(page, 'probe')
     page.wait_for_timeout(600)
     check('port targeted', page.evaluate(f'{G}.currentTarget') == 'probe')
-    hover_canvas(page)
     page.mouse.down()
     page.wait_for_function(f'{G}.getState().active && {G}.getState().active.target === "probe"',
                            timeout=10000)
-    page.wait_for_function(f'{G}.getState().charge > 0.5', timeout=70000)
+    page.wait_for_function(f'{G}.getState().charge > 0.62', timeout=90000)
     c_mid = gs(page, 'charge')
-    check('charging progresses', c_mid > 0.5, f'{c_mid:.3f}')
+    check('charging reaches safe zone', 0.62 < c_mid < 0.79, f'{c_mid:.3f}')
 
-    # pause mid-charge: freezes, cancels without reward
-    page.evaluate('window.__lobbyTest.pause()')
-    page.wait_for_timeout(1500)
+    page.keyboard.press('Escape')
+    page.wait_for_function(f'{S}.entered === "false"', timeout=5000)
     c_paused = gs(page, 'charge')
+    page.wait_for_timeout(1500)
     check('charge frozen on pause', abs(c_paused - gs(page, 'charge')) < 1e-9
           and gs(page, 'active') is None, f'{c_mid} -> {c_paused}')
     check('no score on pause', 'charge_restored' not in gs(page, 'facts'))
+    page.mouse.up()
+    check('release while paused awards nothing', 'charge_restored' not in gs(page, 'facts'))
     page.locator('#enter').click()
     page.wait_for_function(f'{S}.entered === "true"', timeout=5000)
     aim(page, 'probe')
     page.wait_for_timeout(600)
-    hover_canvas(page)
+    check('resume requires new press', gs(page, 'active') is None
+          and gs(page, 'charge') == c_paused)
     page.mouse.down()
-    page.wait_for_function(f'{G}.getState().charge >= 0.62', timeout=70000)
+    page.wait_for_function(f'{G}.getState().active !== null', timeout=10000)
+    c_release = gs(page, 'charge')
     page.mouse.up()
     page.wait_for_timeout(600)
     check('safe disconnect awards charge_restored',
-          'charge_restored' in gs(page, 'facts'), gs(page, 'facts'))
-    page.screenshot(path=SHOT_DIR + '/protocole-gameplay-charge.png')
+          0.62 < c_release < 0.79 and gs(page, 'facts').count('charge_restored') == 1,
+          str(gs(page, 'facts')))
+    page.screenshot(path=SHOT_DIR + '/protocole-gameplay-probe.png')
 
-    # pliers: debris drag removes mesh
     pose(page, 1.9, -0.7)
     aim(page, 'pliers_tool')
     page.wait_for_timeout(600)
@@ -113,75 +118,78 @@ with sync_playwright() as p:
     pose(page, 0.25, 1.35)
     aim(page, 'debris')
     page.wait_for_timeout(600)
-    hover_canvas(page)
     page.mouse.down()
-    for _ in range(8):
-        page.mouse.move(720, 450 + 40, steps=4)
-        page.mouse.move(720, 450, steps=4)
-    page.wait_for_function("'debris_removed' in window.__lobbyTest.debug.gameplay.getState().facts",
+    page.wait_for_function(f'{G}.getState().active?.target === "debris"', timeout=10000)
+    page.mouse.move(720, 710)
+    page.wait_for_function(f'{G}.getState().facts.includes("debris_removed")',
                            timeout=30000)
+    page.mouse.up()
     check('debris removed by drag', True)
     check('debris mesh hidden',
           page.evaluate(f'{G}.targets.debris.object.visible') is False)
 
-    # cable: first pull gated at warning, subsequent pull tears after warning drained
     pose(page, -0.05, 1.35)
     aim(page, 'cable')
     page.wait_for_timeout(600)
-    hover_canvas(page)
     page.mouse.down()
-    for _ in range(12):
-        page.mouse.move(720, 450 + 60, steps=5)
+    page.wait_for_function(f'{G}.getState().active?.target === "cable"', timeout=10000)
+    page.mouse.move(720, 3050)
     c1 = gs(page, 'cable')
-    check('first cable pull capped at warning', c1 <= 0.51 and 'cable_torn' not in gs(page, 'facts'),
+    check('first cable pull capped at warning', c1 == 0.5 and 'cable_torn' not in gs(page, 'facts'),
           f'cable={c1}')
     page.wait_for_function(
-        f'{G}.getState().active && {G}.getState().active.warningRemaining <= 0.001', timeout=30000)
-    for _ in range(14):
-        page.mouse.move(720, 450 + 70, steps=5)
-    page.wait_for_function("'cable_torn' in window.__lobbyTest.debug.gameplay.getState().facts",
+        f'{G}.getState().active && {G}.getState().active.warningRemaining <= 0.000000001', timeout=90000)
+    check('waiting alone does not tear cable', gs(page, 'cable') == 0.5
+          and 'cable_torn' not in gs(page, 'facts'))
+    page.mouse.move(720, 3310)
+    page.wait_for_function(f'{G}.getState().facts.includes("cable_torn")',
                            timeout=30000)
     check('cable torn after warning window', True)
     page.mouse.up()
-    page.screenshot(path=SHOT_DIR + '/protocole-gameplay-damage.png')
+    check('cable damage visible', page.evaluate(f'{G}.targets.cable.object.visible') is False)
 
-    # restraint: empty hands, wheel both ways until damage then release
     page.keyboard.press('r')
     page.wait_for_timeout(300)
     check('hands empty', gs(page, 'equipped') is None)
     pose(page, -1.15, 1.0)
     aim(page, 'restraint')
     page.wait_for_timeout(600)
-    hover_canvas(page)
     page.mouse.down()
     page.wait_for_function(
         f'{G}.getState().active && {G}.getState().active.target === "restraint"', timeout=10000)
-    hover_canvas(page)
-    for _ in range(4):
+    for _ in range(2):
         page.mouse.wheel(0, -100)
-        page.wait_for_timeout(1200)
-    check('restraint tightened to warning', gs(page, 'restraint') >= 0.74,
+    page.wait_for_function(f'{G}.getState().restraint >= 0.75', timeout=10000)
+    check('restraint tightened to warning', gs(page, 'restraint') == 0.75
+          and 'restraint_damaged' not in gs(page, 'facts'),
           gs(page, 'restraint'))
     page.wait_for_function(
-        f'{G}.getState().active && {G}.getState().active.warningRemaining <= 0.001', timeout=30000)
-    for _ in range(4):
+        f'{G}.getState().active && {G}.getState().active.warningRemaining <= 0.000000001', timeout=90000)
+    check('waiting alone does not damage restraint', gs(page, 'restraint') == 0.75
+          and 'restraint_damaged' not in gs(page, 'facts'))
+    for _ in range(2):
         page.mouse.wheel(0, -100)
-        page.wait_for_timeout(1200)
-        if 'restraint_damaged' in gs(page, 'facts'):
-            break
+    page.wait_for_function(f'{G}.getState().facts.includes("restraint_damaged")', timeout=10000)
     check('restraint_damaged recorded', 'restraint_damaged' in gs(page, 'facts'))
-    for _ in range(10):
+    for _ in range(8):
         page.mouse.wheel(0, 100)
-        page.wait_for_timeout(1200)
-        if 'restraint_released' in gs(page, 'facts'):
-            break
+    page.wait_for_function(f'{G}.getState().facts.includes("restraint_released")', timeout=10000)
     check('restraint_released recorded', 'restraint_released' in gs(page, 'facts'))
     page.mouse.up()
     facts = gs(page, 'facts')
     check('both restraint facts persist',
           'restraint_damaged' in facts and 'restraint_released' in facts, str(facts))
+    page.mouse.down()
+    page.mouse.wheel(0, -100)
+    page.mouse.up()
+    check('restraint release is permanent', gs(page, 'restraint') == 0
+          and gs(page, 'facts') == facts)
+    check('cable damage persists', page.evaluate(f'{G}.targets.cable.object.visible') is False)
+    check('score hidden before finish', page.locator('#verdict').is_hidden()
+          and page.locator('#verdict .verdict-text').inner_text() == ''
+          and gs(page, 'result') is None)
+    page.screenshot(path=SHOT_DIR + '/protocole-gameplay-damage.png')
 
-    # finish console shows verdict with actual facts
     pose(page, -2.4, -0.6)
     aim(page, 'finish')
     page.wait_for_timeout(600)
@@ -191,8 +199,13 @@ with sync_playwright() as p:
     result = page.evaluate(f'{G}.result')
     expected = {'charge_restored', 'debris_removed', 'cable_torn',
                 'restraint_damaged', 'restraint_released'}
-    check('verdict records actual facts', expected.issubset(set(result['facts'])),
+    check('verdict records actual facts', expected == set(result['facts'])
+          and len(result['facts']) == len(expected),
           str(result['facts']))
+    check('documented mixed sequence scores 10', result['score'] == 10
+          and result['outcome'] == 'mixed', str(result))
+    check('verdict effects match actual actions', result['effects'] ==
+          {'energy': 'support', 'machinery': 'hazard', 'route': 'open'})
     check('verdict overlay shown', page.evaluate('!document.getElementById("verdict").hidden'))
     stored = page.evaluate('sessionStorage.getItem("protocole.h.result.v1")')
     check('result stored in sessionStorage', stored and json.loads(stored)['version'] == 1)
@@ -201,14 +214,21 @@ with sync_playwright() as p:
     page.wait_for_timeout(800)
     page.screenshot(path=SHOT_DIR + '/protocole-gameplay-verdict.png')
 
-    # reload clears the session
-    page.goto(BASE, wait_until='networkidle')
+    page.locator('#replay').click()
+    page.wait_for_load_state('networkidle')
     page.wait_for_function(f'{S}.loaded === "true"', timeout=30000)
     page.wait_for_timeout(1200)
     check('replay resets session', gs(page, 'facts') == [] and gs(page, 'finished') is False)
+    check('replay resets geometry', page.evaluate(
+        f'{G}.targets.debris.object.visible && {G}.targets.cable.object.visible && '
+        'window.__lobbyTest.debug.props.probe.visible && window.__lobbyTest.debug.props.pliers.visible'))
+    check('replay resets devices', gs(page, 'charge') == 0 and gs(page, 'debris') == 0
+          and gs(page, 'cable') == 0 and gs(page, 'restraint') == 0.5
+          and gs(page, 'equipped') is None and gs(page, 'result') is None)
 
     bad = [(u, s_) for u, s_ in responses if s_ >= 400]
     check('no failed local requests', not bad, str(bad))
+    check('no unexpected failed requests', not failed_requests, str(failed_requests))
     external = [u for u in requests
                 if urllib.parse.urlparse(u).hostname not in ('127.0.0.1', 'localhost')]
     check('no external requests', not external, str(external))
