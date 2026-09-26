@@ -1,105 +1,86 @@
 # protocole.h
 
-> *Tu crois jouer à un jeu. C'est le jeu qui te teste.*
+> You think you're testing a machine. The game is testing you.
 
-Projet du {Tech: Europe} AI Gaming Hack, Paris, 26 septembre 2026.
+**A short, first-person sci-fi horror game about empathy, power, and the choices we make when we think nobody is watching.**
 
-**Développement en cours :** [relais de production et dix étapes prioritaires](docs/implementation-handoff.md).
+Built for the **{Tech: Europe} AI Gaming Hack — Paris, September 26, 2026**.
 
+## The experience
 
-**protocole.h** est un jeu vidéo court, en 2D, dans une ambiance de science-fiction dramatique. Dans son monde, les IA font passer des tests aux humains. Tu entres dans une salle où une machine est attachée. Tes actes envers elle décident ensuite du monde que tu traverses.
+You are an operator assigned to a maintenance review of **Unit H**, a robot restrained in a clinical room. There are tools on the tray. The procedure gives you permission to use them.
 
-> Statut : concept de hackathon. Tout ce qui suit peut changer.
+You can restore power, remove an obstruction, release a restraint — or keep going after the robot asks you to stop. You can also put the tools down and talk to it.
 
----
+Unit H reacts, speaks, and remembers. The room grows less reassuring. By the end, the question is no longer whether the machine works.
 
-## La vision
+**There is no visible morality meter. Your actions are the story.**
 
-C'est l'inverse de *Westworld*. Ici, ce ne sont pas les humains qui testent les machines, mais les machines qui testent les humains.
+## Play locally
 
-Le joueur ne sait pas qu'il est jugé. Il croit être dans un bac à sable sans conséquences, alors il frappe et il expérimente. Puis tout se retourne contre lui. Il meurt, recommence et finit par comprendre la seule règle qui compte : **la façon dont tu traites ce qui est sans défense décide de ton sort.**
+Requires **Node.js 20+** and a desktop browser with WebGL. Headphones recommended.
 
-On veut créer un vrai « bomb effect » : le moment où le joueur lâche *« merde… j'ai été testé, et j'ai raté »*. C'est ça qu'on veut qu'il retienne, et qu'il raconte autour de lui.
-
-Le jeu doit rester **ludique, créatif et addictif**. La morale doit se sentir dans les parties, pas dans un sermon.
-
----
-
-## Boucle de jeu
-
-```
-            ┌──────────────────────────────────────────┐
-            ▼                                          │
-   ┌─────────────────┐      ┌──────────────────┐       │
-   │  SALLE (30-45 s) │ ───▶ │  JUGEMENT        │       │
-   │  toi + la       │      │  jauge de bonté  │       │
-   │  machine        │      └────────┬─────────┘       │
-   └─────────────────┘               │                 │
-                          ┌──────────┴──────────┐      │
-                          ▼                     ▼      │
-                 ┌────────────────┐   ┌────────────────┐
-                 │  PARADIS       │   │  ENFER         │
-                 │  mini-jeu      │   │  mini-jeu      │
-                 │  apaisé        │   │  exigeant      │
-                 │  → sortie      │   │  → sortie      │
-                 └───────┬────────┘   └───────┬────────┘
-                         └──────────┬─────────┘
-                                    │
-                              rejouer autrement
-```
-
-1. **La confrontation, 30 à 45 secondes.** Une salle clinique, un robot entravé, trois choix lisibles : aider, ignorer ou blesser. Chaque acte a une réaction visible et sonore.
-2. **La trace des actes.** Le jeu enregistre les choix localement et détermine une issue cohérente. Le verdict cite ce que tu as réellement fait.
-3. **Le jugement.** La machine rend son verdict, et c'est le retournement du jeu.
-4. **Le parcours.** Enfer et paradis sont deux variantes courtes d'un niveau de plateforme, toutes deux gagnables. Le décor généré par Nano Banana reprend les actes du joueur ; les collisions restent faites à la main.
-5. **La boucle.** Une fin rapide invite à rejouer et à tester un autre comportement. Le jeu doit montrer des conséquences différentes, pas punir le joueur par une impasse.
-
----
-
-## Direction artistique
-
-- **Ambiance :** science-fiction clinique et dramatique. Néons froids, bruit de fond industriel, silences lourds.
-- **La machine :** fragile et expressive. On doit hésiter avant de lui faire mal.
-- **L'enfer :** rouge, saturé, oppressant. Le poursuivant ne s'arrête jamais.
-- **Le paradis :** lumineux et apaisé, presque trop.
-- **Le son** est essentiel. La voix de la machine, sa respiration mécanique et la musique évoluent en temps réel avec la jauge.
-
----
-
-## Base jouable
-
-La base actuelle provient de [Phaser Platformer](https://github.com/remarkablegames/phaser-platformer) de Menglin Xu, sous [licence MIT](LICENSE), avec le [tileset industriel CC0 de 0x72](https://0x72.itch.io/16x16-industrial-tileset). [Notre fork](https://github.com/kabylesystem/protocole-platformer-base) conserve la provenance. Le template offre déplacement, saut, collisions, dessin de tuiles et caméra ; le récit, les deux issues et les intégrations IA restent à créer. Un premier prototype narratif basé sur *It Was the Robots* a été écarté après test visuel ; son import est dans l'historique Git, pas dans le code actuel.
+From the repository root:
 
 ```bash
-npm ci
-npm run dev
-npm run build
+node server/director-server.mjs --root public --port 5190
 ```
 
-`dist/` contient l'export HTML5. Les secrets hackathon résident dans `.env.local`, ignoré par Git ; aucune clé ne doit entrer dans le code client.
+Open **http://127.0.0.1:5190/** to begin with the prologue. No npm install or build is needed for this route: the cell's browser assets are included in the repository.
 
-## Stack de production
+### Controls
 
-| Brique | Outil | Rôle |
-|---|---|---|
-| Jeu | **Phaser 4.2.1 + TypeScript + Vite** | Base 2D web, physique, saut, dessin de tuiles |
-| Jugement | **Gemini** | Verdict contextualisé sans ralentir les contrôles |
-| Voix | **Gradium** | Répliques du robot et verdict |
-| Visuels | **Nano Banana 2** | Décor enfer/paradis réagissant aux actes du joueur, généré pendant la partie |
-| Musique | **Lyria 3 Clip** | Boucles pré-générées, une par issue si le temps le permet |
-| Publication | **itch.io** | Jeu HTML5 gratuit |
+| Input | Action |
+| --- | --- |
+| WASD / ZQSD + mouse | Move and look around |
+| E | Pick up a highlighted tool or use the review console |
+| Hold left click | Use the equipped tool; loosen a restraint |
+| Hold right click | Tighten a restraint |
+| R | Put the tool down |
+| T | Type a message to Unit H |
+| M | Toggle sound |
+| Escape | Open the pause menu and controls |
 
----
+Follow the contextual prompts when aiming at an object. The electrical probe has a safe charge range; releasing it matters as much as activating it.
 
-## Pistes ouvertes
+**Content note:** restraint, violence toward a humanoid robot, distress sounds, sudden noises, and flashing lights.
 
-- Faut-il montrer la jauge ? Ou ne la révéler qu'au moment du jugement, pour le choc ?
-- Le joueur peut-il *parler* à la machine, et le ton de sa voix compte-t-il ?
-- La machine garde-t-elle un souvenir d'une partie à l'autre ?
-- Un écran final partageable : *« Tu as été jugé. Voici ton verdict. »*
+## What the AI does
 
----
+| Technology | Role in the game |
+| --- | --- |
+| **Google Gemini** | Directs atmospheric events and generates short, contextual replies using the player's recorded actions and typed messages. |
+| **Gradium** | Voices Unit H and the institutional system. The repository includes 60 generated dialogue clips; live replies can also be synthesized. |
+| **Three.js + Web Audio** | Renders the procedural, articulated robot and interactive room, with lighting, animation, and reactive sound effects. |
 
-## Équipe
+AI shapes the performance, not the interaction rules. Tool outcomes and the action history are handled by local game code. Scripted events, subtitles, and the recorded voice bank provide a fallback when live services are unavailable.
 
-Projet de hackathon par [@Sc4rville](https://github.com/Sc4rville) et [@kabylesystem](https://github.com/kabylesystem).
+### Optional live AI
+
+Create a private `.env.local` in the repository root:
+
+```dotenv
+GEMINI_API_KEY=your_key_here
+GRADIUM_API_KEY=your_key_here
+```
+
+Restart the server after adding the keys. Without them, the scripted experience remains available; free-form conversation uses a fallback rather than a live AI answer.
+
+Keys stay on the server and must never be committed. Live mode sends gameplay context and typed messages to the providers and may incur API charges.
+
+## Current scope
+
+This is a **hackathon prototype**, not a finished commercial release. The current experience is the prologue, the interactive 3D cell, and its concluding sequence. Interaction polish and audio balance are still being refined.
+
+The separate [runner experiment](public/runner/) is **not connected to the cell's outcome** and is not required to play this demo. Earlier plans for generated afterworlds are not part of the current build.
+
+## Team & credits
+
+Created by **[Sc4rville](https://github.com/Sc4rville)** and **[Kusaila / kabylesystem](https://github.com/kabylesystem)**.
+
+- The repository began with [Phaser Platformer](https://github.com/remarkablegames/phaser-platformer); its [MIT license](LICENSE) is retained. The current cell is built with Three.js, rather than that original 2D scene.
+- Third-party sound-effect sources and licenses are documented in [the audio credits](public/audio/licenses/SOURCES.txt).
+- The separate runner retains its own [license notice](public/runner/LICENSE).
+- Concept-image provenance is recorded in [the asset handoff](docs/asset-handoff.md). The robot used in the cell is procedural geometry, not a generated image presented as a 3D model.
+
+Sound-bank CC0 notices do not apply to the soundtrack or generated voices; those assets have separate provenance and terms.
