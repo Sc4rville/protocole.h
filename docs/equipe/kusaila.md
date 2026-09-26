@@ -218,3 +218,148 @@ Vérifier aussi : aucun double comptage d'un événement répété ; score -15 e
 ### Journal — transmission du brief
 
 2026-09-26 : Yann demande de transmettre le brief du lobby 3D, les signaux et les notations pour permettre le développement du platformer en parallèle. Le présent contrat V1 et son barème initial sont documentés à cet effet ; leur implémentation et leur équilibrage restent à faire.
+
+
+## Production des assets — cellule blanche validée
+
+### Mission confiée à Kusaila
+
+Yann demande de centraliser ici les prompts pour produire le pack pendant que Sc4rville continue la scène 3D locale. Cette mission complète le travail plateforme ; elle ne change pas les signaux du verdict ci-dessus.
+
+**Source approuvée :** [cellule blanche V3](../../public/concepts/lobby-v3/05-cellule-blanche.jpg), chemin repo `public/concepts/lobby-v3/05-cellule-blanche.jpg`.
+
+**Manifeste exécutable de référence :** [generation-plan.json](../../public/cellule-assets/generation-plan.json). Les 11 prompts ci-dessous sont copiés intégralement depuis ce manifeste, sans réécriture.
+
+**État à la transmission :** les prompts sont prêts, mais aucune image du pack n'a été produite. La session Devin Cloud était bloquée faute d'accès à `GEMINI_API_KEY`. Ne pas confondre brief envoyé et génération effectuée. Utiliser seulement une clé active autorisée, fournie localement ou via un secret provisionné ; jamais récupérer une ancienne clé dans Git, l'afficher, la commiter ou l'exposer au navigateur.
+
+### Format et ordre de production
+
+- Modèle prévu : **Nano Banana Pro**, identifiant `gemini-3-pro-image` ; taille demandée **2K**. Respecter le ratio indiqué pour chaque asset.
+- Envoyer le **prompt ET l'image de référence jointe**. Mentionner son nom dans le texte ne suffit pas. Via API, inclure les octets de l'image comme partie `inlineData` avec le bon type MIME ; via interface, joindre réellement le fichier.
+- Générer **00-robot-master** d'abord, à partir de la scène choisie. Vérifier son identité et ses proportions avant de lancer les quatre vues dépendantes.
+- Pour **01 à 04**, joindre le robot maître, et non la scène d'origine. Toujours repartir du même maître validé, pas de la vue générée précédente.
+- Pour **05 à 10**, joindre la scène choisie directement. Une image par asset, pas une planche contenant plusieurs objets.
+- Robot et objets : fond gris clair uni, éclairage studio neutre, objet entier. Pas de faux damier transparent ni d'ombre dramatique incrustée. Le décor vide reste opaque et conserve l'éclairage de la scène.
+- Enregistrer les sorties dans `public/cellule-assets/` avec les noms indiqués et l'extension correspondant au vrai format reçu (`.jpg`, `.png` ou `.webp`). Si le maître sort en PNG, adapter le fichier joint aux quatre vues, sans modifier leur prompt.
+- Maximum trois requêtes simultanées ; pas de relance payante automatique. Si un résultat est incohérent, le signaler et garder le fichier pour revue plutôt que remplacer silencieusement le design.
+- Ne pas écraser l'image de référence, les autres concepts, ni les fichiers du lobby en cours. Livrer une galerie/contact sheet et un état des sorties réussies ou bloquées.
+
+### Limites à garder explicites
+
+Ce pack contient des **images de référence pour la conversion 3D**, pas des meshes, textures PBR séparées, squelettes ou animations. Les côtés/dos invisibles sont reconstruits par l'IA : vérifier les proportions, l'asymétrie gauche/droite et les détails avant une éventuelle conversion multi-vues. Ne pas promettre une géométrie cohérente sur la seule foi du prompt.
+
+Le robot maître est debout en pose A pour faciliter sa reconstruction ; il faudra ensuite un modèle articulable pour l'asseoir. Le fauteuil, le robot et les éléments manipulables doivent rester séparés dans le jeu. Le décor vide sert de référence de salle : une image seule ne permet pas le déplacement libre en 3D. Sc4rville construit cette salle explorable en parallèle.
+
+### Prompts complets, prêts à copier
+
+#### 00-robot-master
+
+- **Image à joindre :** `public/concepts/lobby-v3/05-cellule-blanche.jpg`
+- **Sortie :** `00-robot-master.jpg` (ou extension réelle), **2:3**, **2K
+
+```text
+Create one production reference image for a game asset, not a concept collage. The attached source defines the approved identity, material palette and proportions. Preserve that design rather than redesigning it. A single subject and single viewpoint only. No lettering, logo, watermark, annotation, panels, display pedestal, extra props or UI. Neutral diffuse studio lighting with readable surfaces, no dramatic colored light, hard cast shadows, motion blur, fog or lens blur. Plain uniform light-gray background, not a checkerboard and not simulated transparency. Keep all extremities inside the frame with clear margin. Image-to-3D reference only: the image does not claim to contain a rig or separable mesh parts. Reference image: approved complete white-cell scene. Isolate and reconstruct ONLY its dark slender skeletal humanoid robot, without chair, restraints, background, cables attached to external machines or loose tools. Preserve its gray nonhuman facial shell, tiny optical apertures, narrow rib-like chest with fine black cable muscles, thin limbs and mechanical hands. Show the whole robot STANDING in a relaxed A-pose, arms separated from torso and legs slightly apart. Modest front three-quarter view. Preserve the chest electrical port and forearm maintenance details. Do not turn it into an armored combat robot, white plastic toy or human. Reconstruct hidden leg and back details conservatively in the same design language. This master establishes body proportions for subsequent views. Do not copy its seated pose.
+```
+
+#### 01-robot-front
+
+- **Image à joindre :** `public/cellule-assets/00-robot-master.jpg`
+- **Sortie :** `01-robot-front.jpg` (ou extension réelle), **2:3**, **2K
+
+```text
+Create one production reference image for a game asset, not a concept collage. The attached source defines the approved identity, material palette and proportions. Preserve that design rather than redesigning it. A single subject and single viewpoint only. No lettering, logo, watermark, annotation, panels, display pedestal, extra props or UI. Neutral diffuse studio lighting with readable surfaces, no dramatic colored light, hard cast shadows, motion blur, fog or lens blur. Plain uniform light-gray background, not a checkerboard and not simulated transparency. Keep all extremities inside the frame with clear margin. Image-to-3D reference only: the image does not claim to contain a rig or separable mesh parts. Reference image: approved isolated robot master, authoritative for identity and proportions. Show EXACTLY this robot in exact front view, full body, identical relaxed A-pose and identical finger pose. Near-orthographic perspective, no dramatic foreshortening. Preserve head shape, relative limb lengths, chest construction, joint locations, material boundaries and all visible distinctive details. Rotate the viewpoint, do not redesign or mirror the robot to fake the opposite side. Anatomical left and right retain their distinct parts. If rear surfaces are unseen in the reference, infer minimal mechanically plausible continuation rather than introducing accessories. No chair or restraints. Match the master image's neutral lighting and scale within the canvas.
+```
+
+#### 02-robot-right
+
+- **Image à joindre :** `public/cellule-assets/00-robot-master.jpg`
+- **Sortie :** `02-robot-right.jpg` (ou extension réelle), **2:3**, **2K
+
+```text
+Create one production reference image for a game asset, not a concept collage. The attached source defines the approved identity, material palette and proportions. Preserve that design rather than redesigning it. A single subject and single viewpoint only. No lettering, logo, watermark, annotation, panels, display pedestal, extra props or UI. Neutral diffuse studio lighting with readable surfaces, no dramatic colored light, hard cast shadows, motion blur, fog or lens blur. Plain uniform light-gray background, not a checkerboard and not simulated transparency. Keep all extremities inside the frame with clear margin. Image-to-3D reference only: the image does not claim to contain a rig or separable mesh parts. Reference image: approved isolated robot master, authoritative for identity and proportions. Show EXACTLY this robot in exact right-side profile view, full body, identical relaxed A-pose and identical finger pose. Near-orthographic perspective, no dramatic foreshortening. Preserve head shape, relative limb lengths, chest construction, joint locations, material boundaries and all visible distinctive details. Rotate the viewpoint, do not redesign or mirror the robot to fake the opposite side. Anatomical left and right retain their distinct parts. If rear surfaces are unseen in the reference, infer minimal mechanically plausible continuation rather than introducing accessories. No chair or restraints. Match the master image's neutral lighting and scale within the canvas.
+```
+
+#### 03-robot-back
+
+- **Image à joindre :** `public/cellule-assets/00-robot-master.jpg`
+- **Sortie :** `03-robot-back.jpg` (ou extension réelle), **2:3**, **2K
+
+```text
+Create one production reference image for a game asset, not a concept collage. The attached source defines the approved identity, material palette and proportions. Preserve that design rather than redesigning it. A single subject and single viewpoint only. No lettering, logo, watermark, annotation, panels, display pedestal, extra props or UI. Neutral diffuse studio lighting with readable surfaces, no dramatic colored light, hard cast shadows, motion blur, fog or lens blur. Plain uniform light-gray background, not a checkerboard and not simulated transparency. Keep all extremities inside the frame with clear margin. Image-to-3D reference only: the image does not claim to contain a rig or separable mesh parts. Reference image: approved isolated robot master, authoritative for identity and proportions. Show EXACTLY this robot in exact rear view, full body, identical relaxed A-pose and identical finger pose. Near-orthographic perspective, no dramatic foreshortening. Preserve head shape, relative limb lengths, chest construction, joint locations, material boundaries and all visible distinctive details. Rotate the viewpoint, do not redesign or mirror the robot to fake the opposite side. Anatomical left and right retain their distinct parts. If rear surfaces are unseen in the reference, infer minimal mechanically plausible continuation rather than introducing accessories. No chair or restraints. Match the master image's neutral lighting and scale within the canvas.
+```
+
+#### 04-robot-left
+
+- **Image à joindre :** `public/cellule-assets/00-robot-master.jpg`
+- **Sortie :** `04-robot-left.jpg` (ou extension réelle), **2:3**, **2K
+
+```text
+Create one production reference image for a game asset, not a concept collage. The attached source defines the approved identity, material palette and proportions. Preserve that design rather than redesigning it. A single subject and single viewpoint only. No lettering, logo, watermark, annotation, panels, display pedestal, extra props or UI. Neutral diffuse studio lighting with readable surfaces, no dramatic colored light, hard cast shadows, motion blur, fog or lens blur. Plain uniform light-gray background, not a checkerboard and not simulated transparency. Keep all extremities inside the frame with clear margin. Image-to-3D reference only: the image does not claim to contain a rig or separable mesh parts. Reference image: approved isolated robot master, authoritative for identity and proportions. Show EXACTLY this robot in exact left-side profile view, full body, identical relaxed A-pose and identical finger pose. Near-orthographic perspective, no dramatic foreshortening. Preserve head shape, relative limb lengths, chest construction, joint locations, material boundaries and all visible distinctive details. Rotate the viewpoint, do not redesign or mirror the robot to fake the opposite side. Anatomical left and right retain their distinct parts. If rear surfaces are unseen in the reference, infer minimal mechanically plausible continuation rather than introducing accessories. No chair or restraints. Match the master image's neutral lighting and scale within the canvas.
+```
+
+#### 05-fauteuil
+
+- **Image à joindre :** `public/concepts/lobby-v3/05-cellule-blanche.jpg`
+- **Sortie :** `05-fauteuil.jpg` (ou extension réelle), **1:1**, **2K
+
+```text
+Create one production reference image for a game asset, not a concept collage. The attached source defines the approved identity, material palette and proportions. Preserve that design rather than redesigning it. A single subject and single viewpoint only. No lettering, logo, watermark, annotation, panels, display pedestal, extra props or UI. Neutral diffuse studio lighting with readable surfaces, no dramatic colored light, hard cast shadows, motion blur, fog or lens blur. Plain uniform light-gray background, not a checkerboard and not simulated transparency. Keep all extremities inside the frame with clear margin. Image-to-3D reference only: the image does not claim to contain a rig or separable mesh parts. Isolate ONLY the ivory restraint chair from the approved white-cell image. Remove the robot and mobile tools, retaining the chair's built-in armrests, support, padded/contact surfaces and restraint mechanisms. Whole chair visible in a front three-quarter view, including base and backrest. Reconstruct the seat and surfaces hidden by the robot plausibly. Preserve the sharply geometric pristine institutional design, pale body and dark seams, not a generic dentist chair. No robot remnants or floating fingers. Do not add enormous new machinery.
+```
+
+#### 06-sonde-electrique
+
+- **Image à joindre :** `public/concepts/lobby-v3/05-cellule-blanche.jpg`
+- **Sortie :** `06-sonde-electrique.jpg` (ou extension réelle), **1:1**, **2K
+
+```text
+Create one production reference image for a game asset, not a concept collage. The attached source defines the approved identity, material palette and proportions. Preserve that design rather than redesigning it. A single subject and single viewpoint only. No lettering, logo, watermark, annotation, panels, display pedestal, extra props or UI. Neutral diffuse studio lighting with readable surfaces, no dramatic colored light, hard cast shadows, motion blur, fog or lens blur. Plain uniform light-gray background, not a checkerboard and not simulated transparency. Keep all extremities inside the frame with clear margin. Image-to-3D reference only: the image does not claim to contain a rig or separable mesh parts. One electrical maintenance probe consistent with the approved scene's foreground tools and clinical production design. A readable insulated off-white handle, dark rubber grip section, single blunt metal electrical connector tip, and a short cable socket at the rear. Whole tool diagonally framed in three-quarter view, no long tangled cable. Make the working tip distinct from an extraction plier. This is a reference-based reconstruction when the tiny source prop is ambiguous, not a claimed exact pixel extraction. No hand, tray, chair or robot.
+```
+
+#### 07-pince-extraction
+
+- **Image à joindre :** `public/concepts/lobby-v3/05-cellule-blanche.jpg`
+- **Sortie :** `07-pince-extraction.jpg` (ou extension réelle), **1:1**, **2K
+
+```text
+Create one production reference image for a game asset, not a concept collage. The attached source defines the approved identity, material palette and proportions. Preserve that design rather than redesigning it. A single subject and single viewpoint only. No lettering, logo, watermark, annotation, panels, display pedestal, extra props or UI. Neutral diffuse studio lighting with readable surfaces, no dramatic colored light, hard cast shadows, motion blur, fog or lens blur. Plain uniform light-gray background, not a checkerboard and not simulated transparency. Keep all extremities inside the frame with clear margin. Image-to-3D reference only: the image does not claim to contain a rig or separable mesh parts. One extraction plier consistent with the approved scene's foreground tools and clinical production design. Precision brushed-steel tool, two dark insulated handles, visible central pivot, short slightly open opposing jaws capable of gripping a wire or metal fragment. Whole plier in a clear three-quarter view showing jaws, pivot and both handles. No hand, cable gripped in jaws or other objects. Not scissors, syringe or electric probe. Where the tiny source tool is ambiguous reconstruct conservatively, with functional plausible geometry.
+```
+
+#### 08-verrou-contention
+
+- **Image à joindre :** `public/concepts/lobby-v3/05-cellule-blanche.jpg`
+- **Sortie :** `08-verrou-contention.jpg` (ou extension réelle), **1:1**, **2K
+
+```text
+Create one production reference image for a game asset, not a concept collage. The attached source defines the approved identity, material palette and proportions. Preserve that design rather than redesigning it. A single subject and single viewpoint only. No lettering, logo, watermark, annotation, panels, display pedestal, extra props or UI. Neutral diffuse studio lighting with readable surfaces, no dramatic colored light, hard cast shadows, motion blur, fog or lens blur. Plain uniform light-gray background, not a checkerboard and not simulated transparency. Keep all extremities inside the frame with clear margin. Image-to-3D reference only: the image does not claim to contain a rig or separable mesh parts. Isolate a single rotary restraint-lock assembly derived from the approved chair armrest. One short off-white armrest mounting section, a dark circular rotary knob with coarse grip ridges, visible pivot/hinge and a curved wrist clamp. Show the assembly from a useful front three-quarter angle, unobstructed by a wrist. The knob, hinge and clamp should have clear seams that communicate separate movable parts, without floating exploded-view components. Compact functional design matching the source. No whole chair or robot.
+```
+
+#### 09-module-avant-bras
+
+- **Image à joindre :** `public/concepts/lobby-v3/05-cellule-blanche.jpg`
+- **Sortie :** `09-module-avant-bras.jpg` (ou extension réelle), **1:1**, **2K
+
+```text
+Create one production reference image for a game asset, not a concept collage. The attached source defines the approved identity, material palette and proportions. Preserve that design rather than redesigning it. A single subject and single viewpoint only. No lettering, logo, watermark, annotation, panels, display pedestal, extra props or UI. Neutral diffuse studio lighting with readable surfaces, no dramatic colored light, hard cast shadows, motion blur, fog or lens blur. Plain uniform light-gray background, not a checkerboard and not simulated transparency. Keep all extremities inside the frame with clear margin. Image-to-3D reference only: the image does not claim to contain a rig or separable mesh parts. A close production reference of the approved robot's forearm maintenance module only, cropped as an intentional isolated component with both ends visible. Dark skeletal internal construction, gray outer panel partly open, robust fine cable bundle inside, and one small lodged metallic fragment visibly distinct from the connected cable. Show at a clear three-quarter angle. Keep at least one connected cable visibly intact and the obstruction localized, not a pile of shredded wires. No whole robot, detached hand, gore, tools or chair. Functional visual reconstruction consistent with the scene where exact micro-details are hidden.
+```
+
+#### 10-decor-vide
+
+- **Image à joindre :** `public/concepts/lobby-v3/05-cellule-blanche.jpg`
+- **Sortie :** `10-decor-vide.jpg` (ou extension réelle), **16:9**, **2K
+
+```text
+EDIT the attached approved white-cell scene, preserving its exact camera framing, perspective, architecture, observation slit, ceiling light design, wall-panel layout, floor drainage channel, colors and lighting. Remove ONLY the robot, chair, mobile foreground tray and loose tools. Remove shadows and reflections cast by the removed objects. Reconstruct the previously occluded floor and wall areas as a plausible continuation of existing surfaces. Keep the empty room's central space clear; add no props, furniture, people or new openings. This is the opaque background/environment reference of the SAME room, not a new room design. Single full-frame 16:9 image, no lettering, collage, logo or watermark. Do not generate a panorama or flatten perspective.
+```
+
+### Contrôle avant livraison à Sc4rville
+
+- [ ] Les 11 sorties sont présentes, ou chaque absence est explicitement signalée.
+- [ ] Le robot correspond à la cellule blanche choisie, pas à un autre concept ou au robot de démonstration.
+- [ ] Les quatre vues conservent autant que possible la silhouette et les composants du maître ; noter les incohérences plutôt que les masquer.
+- [ ] Robot isolé sans fauteuil incrusté ; fauteuil sans restes de robot.
+- [ ] Sonde et pince clairement différentes ; verrou et module d'avant-bras lisibles.
+- [ ] Décor vide sans fantômes du robot, fauteuil, plateau, ni leurs ombres.
+- [ ] Images décodables, fichiers bien nommés, aucune clé dans les sorties ou les scripts suivis par Git.
+- [ ] Galerie ou planche comparative fournie, avec mention « références 2D — conversion 3D à faire ».
+
+2026-09-26 : prompts complets transmis dans ce suivi à la demande de Yann ; Sc4rville continue le lobby pendant la production du pack.
