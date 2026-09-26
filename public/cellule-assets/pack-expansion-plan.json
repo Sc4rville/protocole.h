@@ -1,0 +1,369 @@
+{
+  "version": 1,
+  "model": "gemini-3-pro-image",
+  "source": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+  "imageSize": "2K",
+  "notes": [
+    "Complément demandé par Kusaila : développer un vrai ensemble de références pour personnages, accessoires, construction de niveaux et lieux, pas seulement onze images.",
+    "Les jobs restent des références 2D et des propositions de design. Aucun mesh, rig, animation, collision ou mécanique supplémentaire n'est livré par ces images.",
+    "Réutiliser les maîtres pour les personnages. Les variantes d'objets repartent de leur référence isolée. Attendre la revue des corrections v2 avant les jobs qui les utilisent.",
+    "Chaque objet doit être entier avec ses pieds, supports et extrémités, sur fond neutre. Les pièces volontairement isolées doivent avoir deux extrémités complètes, pas une coupure accidentelle au bord de l'image.",
+    "Ne jamais écraser les sorties précédentes. Maximum trois requêtes simultanées ; pas de relance automatique."
+  ],
+  "jobs": [
+    {
+      "name": "37-fauteuil-face", "id": "chair-front", "label": "Fauteuil · face", "category": "props",
+      "references": ["public/cellule-assets/05-fauteuil.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Vue complémentaire du fauteuil existant ; séparer ses parties mobiles lors de la modélisation.",
+      "prompt": "Show the EXACT attached restraint chair in a straight FRONT near-orthographic view. Preserve its pale institutional shell, black padding and seams, armrests, restraint fittings, seat, backrest and structural base. Rotate only the camera, not the design. Show the entire chair including all feet and both armrests inside the central 70 percent of the canvas, with generous empty margin. Neutral diffuse product lighting and uniform light-gray background. No robot, human, detached parts, room, labels, collage or pedestal. One complete chair and one view, a 2D modeling reference."
+    },
+    {
+      "name": "38-fauteuil-dos", "id": "chair-back", "label": "Fauteuil · dos", "category": "props",
+      "references": ["public/cellule-assets/05-fauteuil.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Construction arrière proposée ; le fauteuil maître reste prioritaire en cas de contradiction.",
+      "prompt": "Show the EXACT attached restraint chair from directly BEHIND. Keep the same overall dimensions, pale shell, slim dark seams, back support, armrests and floor base. Infer the unseen rear as a simple plausible manufactured continuation, without adding machinery or cables. The seat faces away from the camera. Entire object including all support feet visible with at least 12 percent empty margin. Straight rear near-orthographic product view, uniform light-gray studio background, soft neutral lighting. One chair only, no robot, people, labels, extra objects, room or exploded parts."
+    },
+    {
+      "name": "39-fauteuil-profil", "id": "chair-side", "label": "Fauteuil · profil", "category": "props",
+      "references": ["public/cellule-assets/05-fauteuil.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Vue latérale utile pour le placement d'un robot assis ; proportions à confronter au maître.",
+      "prompt": "Show the exact attached chair in a strict SIDE elevation, its front pointing toward the right edge of the image. Preserve the seat angle, tall pale backrest, armrest height, dark contact surfaces, restraints and base proportions. Rotate the camera only. Whole chair, front and rear of the base and highest point included, with 15 percent empty margin on all sides. Uniform light-gray background, neutral diffuse studio light, crisp realistic materials. No seated character, room, labels, inset views, detached pieces or new accessories. One complete chair, one view."
+    },
+    {
+      "name": "40-verrou-ouvert", "id": "restraint-open", "label": "Verrou · ouvert", "category": "props",
+      "references": ["public/cellule-assets/08-verrou-contention-complet-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Référence de pose ouverte : bracelet, charnière et molette doivent devenir des pièces articulées.",
+      "prompt": "Show the exact complete restraint-lock assembly in the attachment with its curved wrist clamp OPEN at the existing hinge. Preserve the same compact pale support, both finished support ends, dark ridged rotary knob, fittings and proportions. Rotate the clamp upward to expose the empty wrist opening; do not detach it or invent a second hinge. Front three-quarter product view. Entire assembly including open clamp and underside fits in the central 65 percent of the square, wide margins everywhere. Plain uniform light-gray background, neutral diffuse light. No wrist, robot, full chair, scene, labels, extra components or collage."
+    },
+    {
+      "name": "41-verrou-ferme", "id": "restraint-closed", "label": "Verrou · fermé", "category": "props",
+      "references": ["public/cellule-assets/08-verrou-contention-complet-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Référence de fermeture sans bras ; ne définit ni angle de butée ni dommage de gameplay.",
+      "prompt": "Show the exact attached complete restraint-lock assembly with its hinged wrist clamp fully CLOSED around an EMPTY opening. Keep the pale compact mounting section with both complete end caps, dark ridged knob, connected hinge and original proportions. No human or robot limb. Clear front three-quarter view with both support ends, full underside and top visible inside the central 65 percent of the frame. Neutral diffuse product lighting, uninterrupted light-gray studio background. One connected assembly only, no entire chair, scenery, ghost background, labels, additional parts or exploded view."
+    },
+    {
+      "name": "42-sonde-face", "id": "probe-side", "label": "Sonde · vue latérale", "category": "props",
+      "references": ["public/cellule-assets/06-sonde-electrique.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Vue de profil de l'outil ; pointe et connecteur arrière doivent rester distincts.",
+      "prompt": "Show exactly the attached electrical maintenance probe as a horizontal SIDE elevation, blunt working tip on the right and rear socket on the left. Preserve handle shape, pale insulation, dark grip and metal connector. Entire object from tip to rear socket, occupying at most 70 percent of frame width, wide clear margins. Near-orthographic view, uniform light-gray background, neutral diffuse studio light. No hand, wire, arc, sparks, tray, room, text or additional tool. One complete probe, not an enlarged cropped tip."
+    },
+    {
+      "name": "43-pince-face", "id": "pliers-top", "label": "Pince · vue de dessus", "category": "props",
+      "references": ["public/cellule-assets/07-pince-extraction.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Vue orthographique de la pince ; pivot et deux mâchoires à reconstruire séparément.",
+      "prompt": "Show the exact attached extraction plier in a straight TOP near-orthographic view. Both insulated handles, central pivot and both slightly open metal jaws are fully visible and symmetric around their mechanical axis. Preserve the reference design, not scissors or a different tool. Entire plier fits inside the central 70 percent of the square, with complete jaw tips and handle ends. Plain uniform light-gray studio background, soft neutral product light. No gripped wire, hand, tray, room, lettering, annotations or extra tools. One complete assembled plier only."
+    },
+    {
+      "name": "44-module-avant-bras-ferme", "id": "forearm-closed", "label": "Avant-bras · trappe fermée", "category": "props",
+      "references": ["public/cellule-assets/09-module-avant-bras-isole-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Référence de l'état fermé ; la trappe reste indépendante du bras et de son contenu.",
+      "prompt": "Show the same isolated robot forearm component as the attachment, but with its existing gray maintenance panel CLOSED flush over the cable compartment. Preserve the dark slender mechanical construction, fittings and overall length; do not add a hand or elbow assembly. Both COMPLETE end fittings and all edges visible, object inside the central 65 percent of the square. Slight front three-quarter product view, neutral diffuse lighting and uniform light-gray background. One component, no body, room, loose debris, additional tools, labels, collage or cut-off ends."
+    },
+    {
+      "name": "45-obstruction-metal", "id": "metal-obstruction", "label": "Débris métallique", "category": "props",
+      "references": ["public/cellule-assets/09-module-avant-bras-isole-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Proposition de débris extractible, visuellement distinct d'un câble fonctionnel ; dimensions fixées dans le moteur.",
+      "prompt": "Create ONE isolated small metallic obstruction compatible with the lodged fragment in the attached forearm module. A short bent shard of dark brushed metal with a simple folded angular profile, slightly scuffed edges and no cable or connector. This is a proposed complete reconstruction of that tiny part, not the whole forearm. Make its solid irregular silhouette clearly different from a functional wire. Entire shard centered with broad 20 percent margins, modest three-quarter product view, uniform light-gray background and neutral diffuse light. No forearm, hand, pliers, pile of fragments, gore, scene, labels or diagram."
+    },
+    {
+      "name": "46-cable-fonctionnel", "id": "functional-cable", "label": "Câble fonctionnel", "category": "props",
+      "references": ["public/cellule-assets/09-module-avant-bras-isole-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Référence d'un câble intact avec connecteurs, à distinguer des débris et à relier réellement au modèle.",
+      "prompt": "Create ONE complete short functional cable assembly for the attached robot forearm. A neat dark flexible insulated cable in a gentle U curve, fine ribbed jacket, small mechanically plausible connector at EACH end, subdued brushed-metal contacts. It is intact, not severed, frayed, sparking or tangled. Match the robot's restrained realistic manufactured style without including the forearm itself. Entire cable and both connectors inside the central 65 percent of the frame. Plain light-gray studio background, neutral diffuse light, slightly elevated product view. No hands, tools, loose wires, room, text, labels or collage."
+    },
+    {
+      "name": "47-mur-cellule-module", "id": "cell-wall-module", "label": "Cellule · panneau mural", "category": "props",
+      "references": ["public/cellule-assets/10-decor-vide-propre-v2.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Module mural de référence ; dimensions, raccords et collision restent à définir pour la salle.",
+      "prompt": "Design ONE standalone modular wall panel matching the attached clean clinical room. A complete tall rectangular cool off-white composite panel, shallow thickness, precise dark perimeter joint and discreet mounting flanges on the back edge. No window, door, screen or decoration. Show all four corners and a little side thickness in a mild three-quarter product view, with wide empty margins. Render as a NEW isolated product on solid uniform light gray, not as a crop pasted over the room. Soft neutral studio light. No floor, room fragment, chair, character, labels or other panels."
+    },
+    {
+      "name": "48-sol-cellule-module", "id": "cell-floor-module", "label": "Cellule · dalle de sol", "category": "props",
+      "references": ["public/cellule-assets/10-decor-vide-propre-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Dalle de sol modulaire, distincte de la texture couleur et de la collision de la salle.",
+      "prompt": "Design ONE complete square modular floor slab for the attached clinical room. Pale cool-gray manufactured mineral surface, subtle perimeter seam, shallow darker support layer underneath, flat unobstructed upper face. Four clean connection edges, no furniture, drain, footprints or raised obstacle. Elevated three-quarter product view showing all corners and full thickness. Entire slab inside the central 65 percent of the canvas with generous margins. New standalone object on uniform light-gray studio background, neutral diffuse light. Do not retain or paste any room imagery. No text, people, extra slabs or collage."
+    },
+    {
+      "name": "49-plafond-lumineux", "id": "cell-ceiling-light", "label": "Cellule · luminaire", "category": "props",
+      "references": ["public/cellule-assets/10-decor-vide-propre-v2.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Luminaire de plafond ; surface émissive et éclairage réel doivent être gérés séparément.",
+      "prompt": "Create ONE complete rectangular recessed ceiling luminaire in the precise clinical style of the attached room. A long shallow off-white mounting frame, broad frosted white diffuser, thin dark service seam and modest hidden mounting lip. Viewed slightly from underneath and to one side so the entire diffuser and shallow housing are readable. All corners inside frame with 15 percent empty margins. Standalone product on solid light gray, neutral diffuse lighting, diffuser softly white without bloom. No ceiling slab, room, hanging cable, character, lettering, multiple lights or montage."
+    },
+    {
+      "name": "50-angle-cellule", "id": "cell-corner-module", "label": "Cellule · angle mural", "category": "props",
+      "references": ["public/cellule-assets/10-decor-vide-propre-v2.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Raccord intérieur à angle droit pour kit de salle, sans géométrie de niveau imposée.",
+      "prompt": "Design ONE complete modular inside-corner wall assembly for the attached white clinical room. Two narrow pale composite wall panels joined at a clean 90-degree interior corner, precise vertical dark seam, small continuous floor skirting and finished upper edges. It is a self-contained architectural module, not an entire room. Show the whole piece from a front elevated three-quarter angle, all upper and lower edges complete, generous margins. Uniform light-gray studio background and neutral diffuse product lighting. No chair, doorway, character, surrounding floor, text, other modules or source-scene remnants."
+    },
+    {
+      "name": "51-banc-cellule", "id": "cell-bench", "label": "Cellule · banc", "category": "props",
+      "references": ["public/cellule-assets/05-fauteuil.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Mobilier secondaire proposé, à placer hors des interactions obligatoires.",
+      "prompt": "Design ONE simple institutional waiting bench using the attached chair ONLY as material and manufacturing reference. A straight pale rectangular seat for two people, thin dark inset sitting surface, two compact pale slab supports and complete closed ends. This is a bench, not another restraint chair: no backrest, clamps or armrest machinery. Whole object in clear front three-quarter view with all feet and ends visible, occupying at most 70 percent of width. Uniform light-gray studio background, neutral diffuse lighting. No room, people, other furniture, lettering or collage."
+    },
+    {
+      "name": "52-console-cellule", "id": "cell-console", "label": "Cellule · console", "category": "props",
+      "references": ["public/cellule-assets/19-station-energie.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Console proposée ; écran vide à remplir par l'interface réelle, sans nouveau signal de gameplay.",
+      "prompt": "Design ONE waist-height clinical service console in the same material language as the attached energy station. Slim off-white pedestal, dark stable foot, shallow angled upper control surface with one blank dark rectangular display, a narrow cyan status strip and precise manufactured seams. Clearly a control console, not a charging station, robot or weapon. Entire object with complete top and base, wide empty margins, front three-quarter studio view. Uniform light-gray background, neutral diffuse light. No text or interface baked on screen, no cables, room, people, holograms or additional objects."
+    },
+    {
+      "name": "53-drain-cellule", "id": "cell-drain", "label": "Cellule · grille de sol", "category": "props",
+      "references": ["public/cellule-assets/10-decor-vide-propre-v2.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Grille de sol séparée, à encastrer sans créer d'obstacle physique accidentel.",
+      "prompt": "Create ONE complete narrow floor drainage grille compatible with the attached clinical room. A long shallow brushed dark-steel rectangular frame containing evenly spaced clean straight slots, pale thin perimeter flange, complete finished end caps and a shallow mounting lip. Show the full isolated assembly from slightly above at three-quarter angle. Entire object within central 70 percent of width, generous margins on all sides. Uniform light-gray studio background, neutral diffuse illumination. No floor patch, room, liquid, dirt pile, people, chair, labels or extra grilles."
+    },
+    {
+      "name": "54-portique-cellule", "id": "cell-doorframe", "label": "Cellule · cadre de porte", "category": "props",
+      "references": ["public/cellule-assets/18-porte-cellule.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Cadre indépendant du battant, ouverture et seuil à dimensionner dans le moteur.",
+      "prompt": "Show ONE standalone open doorway FRAME matching the attached clinical door, with the sliding door leaf completely absent. Preserve pale slim jambs, dark inner seals, upper rail housing and low threshold. The central opening is completely empty, showing exactly the same uniform light-gray studio background as outside the frame, not a white opaque panel. Entire frame, top and bottom visible with generous margin, modest front three-quarter view, neutral diffuse light. No wall, door leaf, room, person, lettering, additional frame or decorative portal effects."
+    },
+    {
+      "name": "55-robot-assis-neutre", "id": "robot-seated-neutral", "label": "Robot · pose assise neutre", "category": "characters",
+      "references": ["public/cellule-assets/00-robot-master-blue-eyes.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Pose de référence statique pour le rig, sans fauteuil fusionné au robot ni animation livrée.",
+      "prompt": "Pose the EXACT attached skeletal robot as if seated on an invisible chair. Torso upright, hips and knees bent naturally around right angles, feet level, forearms resting at imagined armrest height, hands relaxed. Preserve the gray facial shell, small cyan eyes, narrow ribbed torso, thin mechanical limbs and all proportions. No actual chair or support object is visible: isolate the robot only. Clear front three-quarter view, full body including hands and feet with generous margins. Uniform light-gray studio background, neutral diffuse light, one pose only. No labels, environment, restraints or new accessories. Static pose reference, not an animation."
+    },
+    {
+      "name": "56-robot-assis-apaise", "id": "robot-seated-relieved", "label": "Robot · pose apaisée", "category": "characters",
+      "references": ["public/cellule-assets/00-robot-master-blue-eyes.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Proposition de pose de réaction positive ; garder les réactions et leur déclenchement dans le code.",
+      "prompt": "Show the exact attached robot in a gently relieved seated pose, isolated without a chair. Hips and knees bent, feet level, shoulders relaxed, head lifted slightly, one open mechanical palm turned upward and the other forearm at armrest height. Expression is conveyed by pose only: preserve the fixed gray nonhuman face and small cyan optics, never add a human smile. Unchanged slender anatomy and materials. Entire robot with all fingers and feet, ample empty margins, front three-quarter view. Uniform light-gray background and neutral diffuse light. No room, chair, tools, lettering or pose sequence."
+    },
+    {
+      "name": "57-robot-assis-defensif", "id": "robot-seated-guarded", "label": "Robot · pose de protection", "category": "characters",
+      "references": ["public/cellule-assets/00-robot-master-blue-eyes.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Proposition de pose défensive sans dégâts dessinés ; ne remplace pas les animations du rig.",
+      "prompt": "Show the EXACT attached robot in a restrained defensive seated pose, with no chair visible. Hips and knees bent, feet level, upper torso slightly drawn back, shoulders tense, one mechanical forearm raised protectively in front of its chest, head turned only slightly aside. Keep all limbs intact, the same narrow gray and dark skeletal build and small cyan eyes. No damage, sparks, aggression or weapon. Full body, every extremity in frame with generous margins, front three-quarter production view. Solid light-gray background, neutral diffuse light. One robot, one static pose, no scene, restraints, text or montage."
+    },
+    {
+      "name": "58-main-robot", "id": "robot-hand-detail", "label": "Robot · main mécanique", "category": "characters",
+      "references": ["public/cellule-assets/00-robot-master-blue-eyes.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Détail proposé pour articulation des doigts ; vérifier l'anatomie et l'échelle avec le maître.",
+      "prompt": "Create one isolated complete mechanical LEFT HAND from the attached robot, a production detail reference. Preserve the slender dark articulated fingers, gray knuckle shells, fine cable tendons and wrist style, conservatively resolving tiny details. Five distinct fingers in a relaxed slightly open pose, palm three-quarter view. Include the complete hand and a finished wrist connector; all fingertips inside generous 18 percent margins. Uniform light-gray studio background, soft neutral light. No whole arm, robot, human skin, extra hand, tool, exploded parts, diagram, letters or scene."
+    },
+    {
+      "name": "59-tete-robot", "id": "robot-head-detail", "label": "Robot · tête", "category": "characters",
+      "references": ["public/cellule-assets/00-robot-master-blue-eyes.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Référence rapprochée du visage ; ne pas changer la forme du maître ni fusionner les yeux au matériau opaque.",
+      "prompt": "Create a close but COMPLETE isolated head reference of the exact attached robot. Preserve its distinctive gray nonhuman facial shell, narrow dark mechanical side structures and two small icy-cyan optical apertures. Include the whole skull, both side edges and short complete neck connector, with wide margins; nothing cropped at the top or chin. Modest front three-quarter camera, neutral diffuse studio light and uniform light-gray background. No shoulders, armor, human features, redesign, strong bloom, new head accessories, scene, labels, multiple views or pedestal. One head only."
+    },
+    {
+      "name": "60-connecteur-thorax", "id": "robot-chest-port", "label": "Robot · connecteur thoracique", "category": "props",
+      "references": ["public/cellule-assets/00-robot-master-blue-eyes.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Référence de connecteur séparé ; conserver la compatibilité visuelle avec la sonde et le thorax.",
+      "prompt": "Design ONE complete isolated chest-service connector compatible with the small electrical port of the attached robot. A compact circular dark recessed socket in a small gray mounting collar, restrained concentric contact rings, modest fastening holes and a short finished rear coupling. Infer hidden details conservatively, same precise slender mechanical style. The whole fitting, front rim and rear edge fit inside broad 20 percent margins. Front three-quarter product view, uniform light-gray background, neutral diffuse light. No robot torso, cable, probe, sparks, labels, fantasy reactor, loose parts or scene."
+    },
+    {
+      "name": "61-enfer-rampe", "id": "hell-ramp", "label": "Enfer · rampe", "category": "props",
+      "references": ["public/cellule-assets/21-module-route-enfer-isole-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Référence de rampe optionnelle ; ne pas introduire de pente sans validation de la physique.",
+      "prompt": "Design ONE complete gentle ramp module matching the attached three-lane graphite floor. Three equal unobstructed lanes slope smoothly upward together, precise dark panels, muted red outer edge strips, shallow wedge-shaped support under the surface. Complete straight lower and upper connection ends, no obstacles or railings. Show whole wedge from elevated three-quarter view with at least 15 percent empty margin. Uniform light-gray studio background and neutral diffuse light. No surrounding track, factory, chair, characters, arrows, text or extra modules. This is a proposed geometric reference, not a change to the existing course."
+    },
+    {
+      "name": "62-enfer-route-virage", "id": "hell-route-turn", "label": "Enfer · virage", "category": "props",
+      "references": ["public/cellule-assets/21-module-route-enfer-isole-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Virage proposé pour décor ou futur parcours ; voies et trajectoire restent contrôlées par le jeu.",
+      "prompt": "Design ONE complete flat quarter-turn route slab in the same graphite industrial style as the attached three-lane module. A single broad 90-degree curved deck with three clearly readable parallel lanes, muted red outer edges and shallow structural underside. Both connection ends complete, all lanes unobstructed and level. Elevated three-quarter product view shows the entire outer curve and underside edge within wide empty margins. Solid uniform light-gray studio background, neutral diffuse lighting. No extra straight tracks, rail posts, obstacles, characters, environment, arrows, labels or collage."
+    },
+    {
+      "name": "63-enfer-route-jonction", "id": "hell-route-joint", "label": "Enfer · raccord de route", "category": "props",
+      "references": ["public/cellule-assets/21-module-route-enfer-isole-v2.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Raccord visuel court, à garder affleurant avec la collision des modules adjacents.",
+      "prompt": "Design ONE complete short expansion-joint connector between industrial route modules matching the attachment. A wide shallow graphite metal strip spanning three equal lane widths, simple interlocking plates, flush dark seam, muted red caps at the outer edges. Its walkable upper surface is flat, no raised trap or gap. Whole connector in elevated three-quarter product view, both finished ends and all corners visible inside generous margins. Uniform light-gray background, neutral diffuse light. No adjoining track pieces, floor scene, chair, text, characters, arrows or extra hardware."
+    },
+    {
+      "name": "64-enfer-garde-corps", "id": "hell-railing", "label": "Enfer · garde-corps", "category": "props",
+      "references": ["public/cellule-assets/22-bloc-enfer.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Garde-corps indépendant, hors des trois voies ; collision à définir explicitement.",
+      "prompt": "Design ONE complete short industrial safety-railing segment in the attachment's graphite metal and pale inset material language. Two narrow posts with bolted base plates, one horizontal top rail and one lower rail, restrained muted-red end accents. Sturdy clean sci-fi construction, no spikes or barbed wire. Entire segment including BOTH mounting feet and finished rail ends inside central 70 percent of width. Front three-quarter product view, solid light-gray studio background, neutral diffuse light. No deck, factory, people, multiple segments, labels or source-object remnants."
+    },
+    {
+      "name": "65-enfer-pilier", "id": "hell-pillar", "label": "Enfer · pilier structurel", "category": "props",
+      "references": ["public/cellule-assets/22-bloc-enfer.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Pilier de décor modulaire, à placer hors du chemin et dimensionner dans le moteur.",
+      "prompt": "Design ONE complete tall structural pillar for the hostile industrial institution, matching the attached graphite steel and worn pale panels. Narrow rectangular cross-section, readable vertical ribs, recessed service panel, small subdued red status strip, finished top cap and bolted bottom plate. Functional not ornamental. Entire pillar including top and base inside wide empty margins, front three-quarter view. Uniform light-gray studio background, neutral diffuse light. No factory, floor slab, connected beams, people, lettering, duplicate pillars or cut-off ends."
+    },
+    {
+      "name": "66-enfer-mur", "id": "hell-wall-module", "label": "Enfer · panneau mural", "category": "props",
+      "references": ["public/cellule-assets/22-bloc-enfer.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Panneau mural de décor ; métal et rugosité restent des matériaux à construire.",
+      "prompt": "Design ONE complete square industrial wall panel matching the attachment's graphite structural steel and recessed worn off-white plates. Shallow rectangular depth, clear dark seams, modest bolts, two restrained service vents and a very small dull-red indicator. No doorway, screen or hazard. Entire panel with all four corners and finished side edges visible in mild three-quarter view, wide margins. Uniform light-gray studio background and neutral diffuse light. No surrounding wall, room, track, extra panels, person, warning text or labels."
+    },
+    {
+      "name": "67-enfer-plafond-tuyaux", "id": "hell-pipe-rack", "label": "Enfer · module de conduites", "category": "props",
+      "references": ["public/cellule-assets/24-presse-enfer.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Module de conduites de plafond, sans collision involontaire avec les zones de saut.",
+      "prompt": "Design ONE complete compact ceiling utility rack in the same industrial construction style as the attached press. Three parallel dark metal pipes of different modest diameters held by two connected graphite brackets, small pale ceramic clamps, complete flanged ends. All pipes and brackets belong to a single assembled module. Show the WHOLE rack including both ends and all mounting points with wide margins. Three-quarter studio product view, uniform light-gray background, neutral light. No press, factory ceiling, hanging wires, steam, people, text, loose parts or cropped pipe ends."
+    },
+    {
+      "name": "68-enfer-turbine", "id": "hell-ventilation-fan", "label": "Enfer · turbine", "category": "props",
+      "references": ["public/cellule-assets/24-presse-enfer.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Ventilation de décor ; rotor et carter à séparer si une rotation est ajoutée.",
+      "prompt": "Design ONE complete industrial ventilation-fan module, same graphite metal, pale maintenance covers and restrained red detail as the attached press. A stout square outer frame containing a large circular six-blade rotor and a shallow protective grille, short finished rear housing. Functional readable mechanical silhouette. Entire frame and rear edge inside generous margins, clear front three-quarter studio view. Solid uniform light-gray background, neutral diffuse lighting. No wall, duct network, press, factory, smoke, person, motion blur, warning text or extra fan."
+    },
+    {
+      "name": "69-enfer-caisse", "id": "hell-service-crate", "label": "Enfer · caisse technique", "category": "props",
+      "references": ["public/cellule-assets/22-bloc-enfer.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Accessoire de décor, à ne pas confondre avec l'obstacle infranchissable existant.",
+      "prompt": "Design ONE complete compact technical storage crate in the material language of the attached industrial blocker. A low rectangular graphite case with pale recessed side panels, two dark latches, reinforced corners and a flat closed lid. This is a small storage prop, not another tall obstacle or weapon box. Entire crate visible in elevated front three-quarter view with broad margins. Uniform light-gray studio background, neutral diffuse light. No contents, labels, military insignia, room, pallet, additional crate, people or scene fragments."
+    },
+    {
+      "name": "70-enfer-porte-industrielle", "id": "hell-service-door", "label": "Enfer · porte industrielle", "category": "props",
+      "references": ["public/cellule-assets/22-bloc-enfer.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Porte d'habillage industriel ; panneau mobile distinct du cadre, sans nouvelle règle d'accès.",
+      "prompt": "Design ONE complete closed industrial sliding-door assembly in the attachment's graphite metal and worn pale composite style. Human-scale rectangular fixed frame, two simple central door leaves, narrow red status light over the lintel, robust low threshold and clear mechanical seams. Restrained manufactured design, not a fantasy gate. Full top, sides and threshold visible with generous margins, front three-quarter studio view. Plain light-gray background, neutral diffuse lighting. No surrounding wall, room, lock puzzle, signage, person, extra machinery or additional doors."
+    },
+    {
+      "name": "71-enfer-segment-convoyeur", "id": "hell-conveyor", "label": "Enfer · convoyeur", "category": "props",
+      "references": ["public/cellule-assets/21-module-route-enfer-isole-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Convoyeur de référence ; bande et châssis séparés, mouvement éventuel à valider côté gameplay.",
+      "prompt": "Design ONE complete short conveyor module in the attached floor module's graphite industrial style. Flat dark belt with fine transverse tread, two visible end rollers, pale small side covers, restrained muted-red edge caps and four short stable feet. Entire assembly including both rollers and all feet in frame with generous margins. Elevated three-quarter product view, uniform light-gray background, neutral diffuse lighting. No carried objects, connected conveyors, factory, characters, sparks, arrows, labels or floor scene. One assembled mechanism, stationary, with clear belt/frame separation."
+    },
+    {
+      "name": "72-enfer-balise-alerte", "id": "hell-warning-beacon", "label": "Enfer · balise d'alerte", "category": "props",
+      "references": ["public/cellule-assets/20-emetteur-electrique.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Balise d'avertissement : émission et clignotement indépendants de la collision et du timing du danger.",
+      "prompt": "Design ONE compact floor-mounted warning beacon in the attached emitter's precise industrial material style. Low graphite bolted pedestal, a single protected amber-red lens inside a small pale metal cage, narrow service seam. It is a warning light, not an electrical emitter or turret: no electrodes or barrel. Whole top and base visible with 18 percent margin, front three-quarter studio view. Solid light-gray background, neutral diffuse light, restrained lens brightness without broad glow. No text, room, arcs, sparks, people or extra objects."
+    },
+    {
+      "name": "73-paradis-passerelle", "id": "paradise-bridge", "label": "Paradis · passerelle", "category": "props",
+      "references": ["public/cellule-assets/25-ile-paradis.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Passerelle proposée ; largeur et contacts physiques décidés selon le parcours.",
+      "prompt": "Design ONE complete straight pedestrian bridge module in the attached paradise island's pale engineered mineral style. Long narrow flat deck, shallow layered underside, clean dark panel seams and a subtle cyan strip at each outer edge. Both finished connection ends visible, uncluttered walkable surface, no vegetation on the center path or railings. Elevated three-quarter product view showing the ENTIRE bridge within central 70 percent of width. Uniform light-gray studio background, neutral diffuse light. No sky, clouds, islands, room, characters, text or extra modules."
+    },
+    {
+      "name": "74-paradis-rampe", "id": "paradise-ramp", "label": "Paradis · rampe douce", "category": "props",
+      "references": ["public/cellule-assets/25-ile-paradis.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Module de pente optionnel, à adapter au contrôleur plutôt qu'à imposer à sa physique.",
+      "prompt": "Design ONE complete gently sloped ramp module in the attached island's clean pale mineral and ceramic design language. Broad flat upper walking surface, soft chamfered sides, shallow wedge-shaped support, fine dark seams and subtle cyan edge strip. The lower and upper connection edges are both complete. No vegetation, rails, stairs or bounce mechanism. Whole module seen from elevated three-quarter angle with wide empty margins. Uniform light-gray studio background, neutral diffuse lighting. No clouds, sky, neighboring islands, characters, labels, scene or additional objects."
+    },
+    {
+      "name": "75-paradis-ile-petite", "id": "paradise-small-island", "label": "Paradis · petite île", "category": "props",
+      "references": ["public/cellule-assets/25-ile-paradis.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Petite plateforme de réception proposée ; sa surface réelle doit rester compatible avec le mouvement.",
+      "prompt": "Design ONE small compact floating landing island in the EXACT material family of the attachment. Rounded-square pale manufactured mineral top, shallow layered tapering underside, fine dark seams, tiny cyan edge detail and one very small green planting patch confined to a far corner. Center of the top remains completely flat and clear. Entire island and bottom tip visible with at least 18 percent margin. Elevated three-quarter studio view, uniform light-gray background, neutral diffuse light. No sky, clouds, other islands, character, pedestal, text or large plants."
+    },
+    {
+      "name": "76-paradis-ile-longue", "id": "paradise-long-island", "label": "Paradis · île allongée", "category": "props",
+      "references": ["public/cellule-assets/25-ile-paradis.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Variante allongée de plateforme, sans définir longueur des sauts ou distance de plané.",
+      "prompt": "Design ONE long rectangular floating traversal island in the attached reference's pale engineered style. Broad flat walkable top three times longer than wide, softly chamfered perimeter, shallow layered underside, precise panel seams and restrained cyan edge detail. Small planting only at the two far outer corners, central corridor empty. Show BOTH ends and the complete underside silhouette in an elevated three-quarter view, wide margins on every side. Solid light-gray studio background, neutral diffuse light. No sky, clouds, other islands, people, bridge extensions, labels or scene."
+    },
+    {
+      "name": "77-paradis-arche", "id": "paradise-arch", "label": "Paradis · arche", "category": "props",
+      "references": ["public/cellule-assets/29-portique-sortie.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Arche architecturale d'habillage ; ne constitue pas automatiquement une nouvelle sortie.",
+      "prompt": "Design ONE complete calm architectural arch in the attached gateway's pale manufactured ceramic style. Two slender upright bases joined by a softly rounded rectangular overhead lintel, restrained dark seams and tiny cyan inner-edge inserts. Clear EMPTY central passage, studio background visible through it. Not a religious temple or magical portal. Entire arch and both complete feet inside central 70 percent of the canvas, front three-quarter view. Uniform light-gray studio background, neutral diffuse light. No opaque door, energy plane, floor, garden, text, person or other arch."
+    },
+    {
+      "name": "78-paradis-jardiniere", "id": "paradise-planter", "label": "Paradis · jardinière", "category": "props",
+      "references": ["public/cellule-assets/25-ile-paradis.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Végétation de bordure proposée, à tenir hors du trajet obligatoire et des collisions de réception.",
+      "prompt": "Design ONE complete modular garden planter in the pale engineered style of the attached paradise island. Low rectangular off-white ceramic trough with dark base seam, a tidy cluster of fresh small green grasses and broad leaves, modest natural density. No large tree, flowers, roots outside the container or decorative symbols. Entire planter including all leaves, both ends and its bottom visible with wide empty margins. Elevated three-quarter product view, uniform light-gray studio background, neutral diffuse light. No island, sky, garden scene, people, lettering or extra planter."
+    },
+    {
+      "name": "79-paradis-arbre", "id": "paradise-tree", "label": "Paradis · arbre", "category": "props",
+      "references": ["public/cellule-assets/25-ile-paradis.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Arbre de décor, géométrie et feuillage optimisés à créer séparément de la plateforme.",
+      "prompt": "Create ONE small carefully tended broadleaf tree for the peaceful engineered garden suggested by the attachment. Slender natural gray-brown trunk, modest branching, compact airy green canopy and a small complete circular pale ceramic root planter. Realistic restrained proportions, not a fantasy giant, bonsai caricature or palm. Entire canopy, every branch tip and planter bottom visible within generous margins. Three-quarter product view, uniform light-gray studio background, neutral diffuse light. No island, sky, clouds, landscape, person, labels, extra trees or cut-off foliage."
+    },
+    {
+      "name": "80-paradis-pilier", "id": "paradise-pillar", "label": "Paradis · pilier", "category": "props",
+      "references": ["public/cellule-assets/28-balise-checkpoint.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Pilier structurel de décor, distinct d'une balise de checkpoint interactive.",
+      "prompt": "Design ONE complete pale architectural support pillar in the attachment's precise off-white manufactured style. Tall slender rectangular column, softly chamfered edges, thin dark vertical seam, finished broad base and simple top cap, tiny restrained cyan inlay. No sensor panel or screen, so it reads as structure rather than a checkpoint. Entire pillar from top cap to base with generous empty margins. Slight front three-quarter product view, uniform light-gray background, neutral diffuse light. No attached roof, floor, garden, sky, text, people or extra columns."
+    },
+    {
+      "name": "81-paradis-borne-vent", "id": "paradise-air-vent", "label": "Paradis · borne de ventilation", "category": "props",
+      "references": ["public/cellule-assets/26-tremplin-paradis.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Accessoire de ventilation proposé ; aucune force ou nouvelle mécanique de vol n'est implicite.",
+      "prompt": "Design ONE low gentle air-vent pedestal in the attached rebound pad's clean pale ceramic and dark mechanism style. Wide shallow off-white base, circular upward-facing grille with visible fine vanes, thin cyan status ring, dark rubber feet. It is ventilation, not another spring pad: no pressure plate, spring, rocket nozzle or weapon. Entire assembly and all feet inside generous margins, elevated three-quarter view. Uniform light-gray studio background and neutral diffuse light. No drawn airflow, smoke, particles, scenery, text, people or other objects."
+    },
+    {
+      "name": "82-paradis-anneau-direction", "id": "paradise-guidance-ring", "label": "Paradis · anneau de guidage", "category": "props",
+      "references": ["public/cellule-assets/27-orbe-energie-isole-v2.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Anneau visuel de parcours proposé, distinct de l'orbe collectable et sans collision imposée.",
+      "prompt": "Design ONE complete large open guidance ring in the attached collectible's pale ceramic-metal and restrained cyan material language. A single continuous circular segmented frame with dark precision seams and a thin cyan inner-edge light. The center is EMPTY, showing the same uniform light-gray studio background, with no glass sphere, energy sheet or image. Entire ring occupies central 65 percent of square, slight three-quarter view showing frame thickness. Neutral diffuse light, crisp geometry. No stand, floor, room, sky, glow cloud, lettering, arrows, extra ring or character."
+    },
+    {
+      "name": "83-paradis-fontaine", "id": "paradise-fountain", "label": "Paradis · fontaine", "category": "props",
+      "references": ["public/cellule-assets/25-ile-paradis.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Fontaine de décor ; bassin, eau et animation éventuelle séparés, hors des réceptions.",
+      "prompt": "Design ONE complete modest garden fountain in the attached paradise island's engineered pale mineral style. Low circular off-white basin, small simple central cylindrical outlet, calm shallow clear water surface with only a tiny restrained central flow. Precise dark base seam, no statues, symbols, ornaments or giant jets. Entire basin rim and finished base visible in elevated three-quarter product view with broad margins. Uniform light-gray studio background, neutral diffuse light. No island, garden, sky, clouds, people, text, extra basins or surrounding scenery."
+    },
+    {
+      "name": "84-paradis-repos", "id": "paradise-bench", "label": "Paradis · banc de repos", "category": "props",
+      "references": ["public/cellule-assets/25-ile-paradis.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Mobilier de jardin proposé, purement visuel tant qu'aucune interaction n'est spécifiée.",
+      "prompt": "Design ONE complete calm garden bench matching the attached pale engineered island. Smooth off-white manufactured mineral seat with softly rounded ends, two simple pale supports and a low narrow backrest, thin dark joints. Comfortable restrained institutional design, no ornate wood, cushions or plants growing through it. Whole bench including both ends, backrest and all support feet visible with wide margins. Front three-quarter product view, uniform light-gray studio background and neutral diffuse light. No garden, island, sky, people, text, extra furniture or pedestal."
+    },
+    {
+      "name": "85-cellule-vue-inverse", "id": "cell-reverse-environment", "label": "Cellule · vue inverse proposée", "category": "environments",
+      "references": ["public/cellule-assets/10-decor-vide-propre-v2.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Proposition de l'autre côté de la salle, pas un relevé architectural ni une géométrie validée.",
+      "prompt": "Create ONE coherent 16:9 environment concept looking toward the opposite side of the clean empty clinical room in the attachment. Preserve its cool white panel proportions, precise dark seams, ceiling-light language and floor finish. Infer the unseen entrance-side wall minimally: one closed pale personnel door and otherwise plain panels. Eye-level wide room view, restrained clinical lighting, clean continuous surfaces and straight perspective. Absolutely empty: no robot, chair, tools, people, text, signs or ghost remnants. This is a PROPOSED reverse-angle room design, not an exact measured reconstruction, panorama, collage or playable level."
+    },
+    {
+      "name": "86-enfer-salle-presse", "id": "hell-press-hall", "label": "Enfer · salle des presses", "category": "environments",
+      "references": ["public/cellule-assets/30-environnement-enfer.jpg", "public/cellule-assets/24-presse-enfer.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Référence d'ambiance et placement visuel ; cycles et collisions des presses restent déterministes.",
+      "prompt": "Create ONE wide 16:9 industrial press-hall environment concept. The first image defines the hostile institution's architecture and lighting; the second defines its press construction. A clearly readable central three-lane graphite route passes beneath spaced tall press frames, with generous visible open passages, structural ribs and service conduits. Cool dark steel, controlled red warning accents, enough neutral fill light to read all floor surfaces. Third-person gameplay-height camera looking forward. No people, robots, gore, smoke wall, text, UI or cinematic blur. A coherent proposed room, not a collage, skybox or a promise that hazard timing already works."
+    },
+    {
+      "name": "87-enfer-carrefour", "id": "hell-service-junction", "label": "Enfer · hall de maintenance", "category": "environments",
+      "references": ["public/cellule-assets/30-environnement-enfer.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Hall de décor proposé ; les branches visibles ne constituent pas automatiquement des chemins jouables.",
+      "prompt": "Create ONE coherent 16:9 environment concept of a wider service junction in the same hostile industrial institution as the attachment. A broad unobstructed three-lane graphite route remains visually dominant straight ahead, with recessed closed side service bays, heavy structural ribs, wall ventilation fans and overhead pipe racks. Precise worn pale panels, dark steel and restrained red warning lights; floor and exits remain readable, not black fog. Camera at plausible third-person height. No people, robots, text, UI, fantasy elements, fire, foreground collision trap or motion blur. Proposed environment reference, not a level map or panorama."
+    },
+    {
+      "name": "88-paradis-jardin", "id": "paradise-garden-environment", "label": "Paradis · jardin suspendu", "category": "environments",
+      "references": ["public/cellule-assets/31-environnement-paradis.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Jardin d'ambiance proposé ; reconstruire surfaces, vide et végétation en éléments séparés.",
+      "prompt": "Create ONE coherent 16:9 environment concept of a quiet suspended garden within the attachment's peaceful engineered institution. Broad pale mineral terraces, carefully placed small green trees and low planters at edges, a modest circular water basin to one side, thin cyan guide lights and clean dark panel seams. Clear open central traversal surfaces and visible separate landing terraces over a soft distant cloud layer. Gentle daylight, readable material texture, spacious calm composition at gameplay camera height. No people, robots, religious imagery, signs, UI, decorative clutter or fog hiding the route. Proposed place reference, not a collage, skybox or playable level."
+    },
+    {
+      "name": "89-paradis-arrivee", "id": "paradise-arrival-environment", "label": "Paradis · terrasse d'arrivée", "category": "environments",
+      "references": ["public/cellule-assets/31-environnement-paradis.jpg", "public/cellule-assets/29-portique-sortie.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Direction artistique d'une arrivée ; victoire, transition et replay restent des états du jeu.",
+      "prompt": "Create ONE 16:9 environment concept for a peaceful course arrival terrace. The first attachment defines the luminous pale engineered garden world; the second defines the simple open exit gateway. A broad flat off-white terrace ends at one clearly visible open gateway, with restrained green planting at the outer edges, dark precision seams, tiny cyan guide lights and a soft cloud horizon. Uncluttered landing area, calm bright daylight, camera at plausible third-person height facing the gateway. No player, robot, angel, text, score screen, confetti, opaque portal image or UI. One coherent proposed arrival place, not a playable scene or skybox."
+    },
+    {
+      "name": "90-humain-course", "id": "human-running-pose", "label": "Humain · pose de course", "category": "characters",
+      "references": ["public/cellule-assets/11-humain-maitre.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Pose de référence pour locomotion, pas un sprite détouré ni une animation de course.",
+      "prompt": "Pose the EXACT adult human in the attachment in one readable natural RUNNING stride. Preserve face, short dark hair, complexion, lean proportions, pale institutional coverall, zipper, seams and gray shoes. Slight forward lean, opposite arm and leg swing, one knee forward, rear foot lifted, anatomically plausible hands. Full body with all fingertips and both feet inside generous margins, clear side three-quarter view. Solid light-gray studio background, neutral diffuse light, no motion blur. One character, one frozen pose, no ground scene, equipment, added clothing, text, sequence or collage."
+    },
+    {
+      "name": "91-humain-saut", "id": "human-jumping-pose", "label": "Humain · pose de saut", "category": "characters",
+      "references": ["public/cellule-assets/11-humain-maitre.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Pose de saut statique pour référence du rig ; impulsion et hauteur restent codées.",
+      "prompt": "Show the EXACT attached adult human in one natural airborne JUMP pose near the apex. Same face, short dark hair, complexion, body proportions, pale coverall and gray shoes. Knees moderately flexed, one slightly ahead, arms lifted naturally for balance without hiding the face, fingers anatomically clear. Entire body including all hands and feet with wide margins, front three-quarter production view. Uniform light-gray studio background and neutral diffuse light. No platform, floor scene, equipment, new clothes, motion blur, text, trajectory arrows, other poses or collage. Static animation-reference pose only."
+    },
+    {
+      "name": "92-humain-glissade", "id": "human-sliding-pose", "label": "Humain · pose de glissade", "category": "characters",
+      "references": ["public/cellule-assets/11-humain-maitre.jpg"], "aspectRatio": "16:9", "imageSize": "2K",
+      "integration": "Pose basse de glissade ; hitbox, durée et friction indépendantes de cette image.",
+      "prompt": "Show the EXACT attached adult human in one low FEET-FIRST sliding pose for passing under an obstacle. Same recognizable face, short hair, skin tone, pale coverall and gray shoes. One leg extended forward, other knee bent, torso leaning back but head raised, arms held close for balance. Plausible anatomy, no impossible twisted joints. Entire long body from toes to head inside the central 70 percent of width with wide margins, side three-quarter view. Uniform light-gray studio background, neutral diffuse light. No obstacle, floor scenery, sparks, motion blur, equipment, labels, extra person or pose sequence."
+    },
+    {
+      "name": "93-humain-plane", "id": "human-gliding-pose", "label": "Humain · pose de plané", "category": "characters",
+      "references": ["public/cellule-assets/11-humain-maitre.jpg"], "aspectRatio": "1:1", "imageSize": "2K",
+      "integration": "Pose de plané proposée, sans ailes ni nouvel équipement ; ne livre aucune simulation de vol.",
+      "prompt": "Show the EXACT attached adult human in one controlled gliding body pose. Preserve face, hair, complexion, lean body, pale coverall and gray shoes without adding any equipment. Torso leaning moderately forward, arms extended diagonally sideways for balance, legs trailing naturally with slightly bent knees, head looking ahead. Readable full-body front three-quarter view, all fingertips and shoes inside generous margins. No wings, cape, jetpack, parachute or trails. Uniform light-gray studio background, neutral diffuse light, crisp anatomy. One frozen reference pose, no sky, ground scene, text, sequence or collage."
+    },
+    {
+      "name": "94-humain-atterrissage", "id": "human-landing-pose", "label": "Humain · pose de réception", "category": "characters",
+      "references": ["public/cellule-assets/11-humain-maitre.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Pose de réception à confronter au rig ; absorption, inertie et contrôles ne sont pas déduits de l'image.",
+      "prompt": "Show the EXACT attached adult human in one balanced two-foot LANDING recovery pose. Same face, short hair, skin tone, pale coverall and gray shoes. Both feet at one level shoulder-width apart, knees flexed moderately, hips lowered, torso slightly forward, arms open a little for balance. Natural plausible anatomy, not a superhero three-point landing. Full body with wide margins and all fingers visible, front three-quarter view. Uniform light-gray studio background, neutral diffuse light. No platform, environment, equipment, dust, motion blur, text, multiple figures or pose sequence."
+    },
+    {
+      "name": "95-humain-interaction", "id": "human-reaching-pose", "label": "Humain · pose d'interaction", "category": "characters",
+      "references": ["public/cellule-assets/11-humain-maitre.jpg"], "aspectRatio": "2:3", "imageSize": "2K",
+      "integration": "Pose debout pour interaction, mains vides ; outil, cible et IK doivent rester séparés.",
+      "prompt": "Show the EXACT attached adult human in one calm standing interaction pose. Preserve identity, short hair, complexion, proportions, pale coverall and gray shoes. Feet stable, torso turned slightly, right elbow bent and right empty hand reaching forward at chest height with a relaxed precise grip gesture, left hand relaxed at the side. Anatomically clear fingers, no held object. Full head, both hands and feet with generous margins, front three-quarter view. Uniform light-gray studio background, neutral diffuse light. No robot, chair, tool, room, new accessory, text, sequence or collage."
+    }
+  ]
+}
