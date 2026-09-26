@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>protocole.h — laboratoire dialogue</title>
+<link rel="stylesheet" href="bank.css">
+</head>
+<body>
+<header>
+  <h1>protocole.h — laboratoire dialogue</h1>
+  <p id="subtitle">Chargement…</p>
+  <p class="note">Les indications de jeu (direction, bodyCue) sont des notes d'acting, pas du texte parlé ni des animations implémentées. Aucune voix n'a encore été produite ; la génération est un CLI côté serveur, aucun secret dans le navigateur.</p>
+</header>
+<div id="player-bar">
+  <audio id="player" controls preload="none"></audio>
+  <span id="now-playing">—</span>
+  <button id="stop" type="button">Stop</button>
+  <label>Volume <input id="volume" type="range" min="0" max="1" step="0.01" value="0.25"></label>
+</div>
+<div id="filters">
+  <input id="search" type="search" placeholder="Rechercher…" aria-label="Rechercher">
+  <select id="speaker" aria-label="Voix">
+    <option value="">Toutes voix</option>
+    <option value="unit_h">unit_h (GRADIUM_ROBOT_VOICE_ID)</option>
+    <option value="system">system (GRADIUM_SYSTEM_VOICE_ID)</option>
+  </select>
+  <select id="group" aria-label="Groupe">
+    <option value="">Tous groupes</option>
+  </select>
+  <button id="audition" type="button" aria-pressed="false">Audition (6)</button>
+</div>
+<main id="bank"><p id="state">Chargement du manifeste…</p></main>
+<footer>
+  <p class="note">Génération (exemples, à lancer hors navigateur) :
+  <code>python3 scripts/generate-dialogue.py --env-file .env.local</code> (dry-run des 6 auditions) ·
+  <code>python3 scripts/generate-dialogue.py --env-file .env.local --execute</code> (auditions) ·
+  <code>python3 scripts/generate-dialogue.py --env-file .env.local --scope all --execute</code> (toutes voix après audition).</p>
+  <img id="master" src="../cellule-assets/00-robot-master-blue-eyes.jpg" alt="Référence concept du robot (image 2D)" loading="lazy">
+</footer>
+<script src="bank.js"></script>
+</body>
+</html>

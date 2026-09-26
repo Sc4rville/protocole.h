@@ -1,0 +1,33 @@
+body{margin:0;padding:20px;background:#121317;color:#e6e7ea;font:15px system-ui,sans-serif}
+h1{font-size:22px;margin:0 0 4px}
+header p{margin:0 0 10px;font-size:13px;color:#a8adb8}
+#player-bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:#1b1e24;border:1px solid #2c2f38;border-radius:10px;padding:10px 14px;position:sticky;top:0;z-index:2}
+#player{height:34px;min-width:280px}
+#now-playing{font-size:13px;color:#9fb4d0;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+button{font-size:13px;padding:4px 12px;cursor:pointer;border-radius:6px;border:1px solid #4a4f5c;background:#23262e;color:#eee}
+button:hover{background:#2c3039}
+button:disabled{opacity:.45;cursor:default}
+#player-bar label{font-size:12px;color:#b9bcc4;display:flex;align-items:center;gap:6px}
+#filters{display:flex;gap:12px;margin:14px 0;flex-wrap:wrap}
+#search{flex:1;max-width:340px;padding:6px 10px;border-radius:6px;border:1px solid #3a3d45;background:#1b1e24;color:#eee;font-size:14px}
+#speaker,#group{padding:6px 10px;border-radius:6px;border:1px solid #3a3d45;background:#1b1e24;color:#eee;font-size:14px}
+#audition[aria-pressed="true"]{background:#2c3a4e;border-color:#5a7ab0}
+#bank{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.card{background:#1b1e24;border:1px solid #2c2f38;border-radius:10px;padding:12px 14px}
+.card h2{font-size:14px;margin:0 0 4px}
+.card .line-text{font-size:15px;margin:4px 0 8px;color:#eef0f4}
+.card .emotion{display:inline-block;font-size:11px;color:#d0b46a;border:1px solid #4a4436;border-radius:4px;padding:1px 6px}
+.card .status{display:inline-block;font-size:11px;color:#8f94a0;margin-left:8px}
+.card details{font-size:12px;color:#8f94a0;margin-top:6px}
+.card details summary{cursor:pointer;color:#a8adb8}
+.card details dl{margin:4px 0 0;display:grid;grid-template-columns:auto 1fr;gap:2px 10px}
+.card details dt{color:#6f7480}
+.card details dd{margin:0}
+.card .row{display:flex;gap:8px;align-items:center;margin-top:8px}
+.card.playing{border-color:#5a7ab0}
+#state{color:#a8adb8}
+.err{color:#e08a8a}
+footer{margin-top:18px}
+#master{max-width:260px;border-radius:8px;opacity:.85}
+.note{font-size:12px;color:#8f94a0;line-height:1.5}
+.note code{color:#cfd3dc}

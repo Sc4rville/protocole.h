@@ -41,7 +41,7 @@ Ajouter à chaque reprise : ce qui a été fait, les fichiers touchés, les vér
 
 ## Synchronisation GitHub
 
-À la demande de Yann : après chaque lot de modifications terminé, commiter et pousser sur GitHub sans attendre une nouvelle demande. Vérifier le diff avant chaque commit ; ne jamais inclure de secrets ni écraser le travail concurrent.
+À la demande de Yann : après chaque lot de modifications terminé, commiter et pousser sur GitHub sans attendre une nouvelle demande. Vérifier le diff avant chaque commit ; ne jamais inclure de secrets ni écraser le travail concurrent. Publier chaque lot sur les deux remotes : `origin` (`Sc4rville/protocole.h`) et `shawarmadevin` (`shawarmadevin/protocole.h`), en conservant la même branche et le même commit. Garder les deux dépôts privés ; pas de force-push. Si une destination refuse le push, signaler la synchronisation incomplète au lieu de déclarer le lot publié partout.
 
 ### 2026-09-26 — banque sonore : 30 candidats CC0 en place (non intégrés)
 
