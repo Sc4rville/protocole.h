@@ -1,0 +1,150 @@
+{
+  "sampleRate": 44100,
+  "format": "PCM16-mono",
+  "effects": [
+    {
+      "id": "step-metal-a",
+      "file": "media/sfx/step-metal-a.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "step-metal-b",
+      "file": "media/sfx/step-metal-b.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "step-stone-a",
+      "file": "media/sfx/step-stone-a.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "step-stone-b",
+      "file": "media/sfx/step-stone-b.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "jump",
+      "file": "media/sfx/jump.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "land-soft",
+      "file": "media/sfx/land-soft.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "land-hard",
+      "file": "media/sfx/land-hard.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "lane-whoosh",
+      "file": "media/sfx/lane-whoosh.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "slide",
+      "file": "media/sfx/slide.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "air-dive",
+      "file": "media/sfx/air-dive.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "glider-open",
+      "file": "media/sfx/glider-open.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "rebound",
+      "file": "media/sfx/rebound.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "perfect-rebound",
+      "file": "media/sfx/perfect-rebound.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "collect",
+      "file": "media/sfx/collect.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "checkpoint",
+      "file": "media/sfx/checkpoint.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "press-warning",
+      "file": "media/sfx/press-warning.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "press-impact",
+      "file": "media/sfx/press-impact.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "hit",
+      "file": "media/sfx/hit.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "recover",
+      "file": "media/sfx/recover.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "finish",
+      "file": "media/sfx/finish.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "ui-confirm",
+      "file": "media/sfx/ui-confirm.wav",
+      "loop": false,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "hell-room",
+      "file": "media/sfx/hell-room.wav",
+      "loop": true,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "heaven-air",
+      "file": "media/sfx/heaven-air.wav",
+      "loop": true,
+      "source": "synthesized-zzfx"
+    },
+    {
+      "id": "flight-air",
+      "file": "media/sfx/flight-air.wav",
+      "loop": true,
+      "source": "synthesized-zzfx"
+    }
+  ]
+}
