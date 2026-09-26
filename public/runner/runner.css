@@ -1,0 +1,256 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #10141a;
+  color: #e8eef2;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+#game-container {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+
+.sr-only {
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+#hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.hud-bar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 8px;
+  padding: 6px 16px;
+  background: rgba(10, 14, 20, 0.7);
+  border: 1px solid #46525e;
+  border-radius: 4px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  pointer-events: auto;
+}
+
+.hud-note {
+  margin-top: 4px;
+  font-size: 10px;
+  color: #7a8894;
+  letter-spacing: 1px;
+}
+
+.hud-btn {
+  font: inherit;
+  font-size: 11px;
+  padding: 4px 10px;
+  background: #3a4652;
+  color: #e8eef2;
+  border: 1px solid #56646f;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.hud-btn:hover,
+.hud-btn:focus-visible {
+  background: #4a5866;
+  outline: 2px solid #9fd8e0;
+  outline-offset: 1px;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 12, 18, 0.82);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: 560px;
+  padding: 30px 36px;
+  background: rgba(14, 20, 28, 0.95);
+  border: 2px solid #4a5a6a;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.panel h1 {
+  font-size: 24px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.sub {
+  color: #9fb2c0;
+  font-size: 14px;
+}
+
+.modes {
+  display: flex;
+  gap: 14px;
+}
+
+.mode-btn {
+  min-width: 170px;
+  padding: 16px 20px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: bold;
+  color: #0b0f14;
+  background: #9fd8e0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.mode-btn[data-mode='hell'] {
+  background: #e08a5a;
+}
+
+.mode-btn:hover,
+.mode-btn:focus-visible,
+.primary:hover,
+.primary:focus-visible,
+.panel button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+#menu-info {
+  min-height: 40px;
+  max-width: 460px;
+  font-size: 13px;
+  color: #b8c4ce;
+  line-height: 1.5;
+}
+
+.primary {
+  padding: 12px 40px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #0b0f14;
+  background: #8ae8b0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.panel .btn-select {
+  font: inherit;
+  font-size: 12px;
+  padding: 6px 14px;
+  background: transparent;
+  color: #9fb2c0;
+  border: 1px solid #4a5a6a;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.keys {
+  font-size: 12px;
+  color: #8fa0ae;
+  line-height: 1.6;
+}
+
+.credits {
+  font-size: 11px;
+  color: #6a7884;
+}
+
+.credits a {
+  color: #8fb8c8;
+}
+
+#touch-controls {
+  position: fixed;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  z-index: 15;
+  display: none;
+  justify-content: space-between;
+  padding: 0 14px;
+}
+
+.touch-group {
+  display: flex;
+  gap: 10px;
+}
+
+.touch-btn {
+  min-width: 58px;
+  min-height: 58px;
+  padding: 0 12px;
+  font: inherit;
+  font-size: 18px;
+  color: #e8eef2;
+  background: rgba(40, 52, 64, 0.75);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  touch-action: none;
+}
+
+.touch-btn:active {
+  background: rgba(90, 110, 130, 0.8);
+}
+
+@media (max-width: 1024px), (pointer: coarse) {
+  #touch-controls {
+    display: flex;
+  }
+
+  .hud-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .panel h1 {
+    font-size: 18px;
+  }
+
+  .modes {
+    flex-direction: column;
+  }
+
+  .keys {
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    transition: none;
+  }
+}

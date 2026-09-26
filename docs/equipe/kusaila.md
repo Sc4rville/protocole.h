@@ -35,6 +35,18 @@ Kusaila prend en charge le **jeu de plateforme**. Sa version dépend du résulta
 
 Le contrat technique reste à convenir ; aucun format d'API n'est imposé par ce suivi.
 
+## Direction demandée par Kusaila le 26 septembre
+
+- Priorité au plaisir de jeu après la sentence du robot, indépendamment du verdict encore attendu.
+- Enfer et paradis doivent différer par leurs mécaniques, pas seulement par leur couleur ou la difficulté des sauts.
+- Après comparaison des licences et essai localhost, Kusaila a validé la base 3D `atiqur-rahman-pro/claude-bandicoot` (MIT). Le prototype dérivé reste isolé sous `public/runner/`, sans remplacer le démarrage Phaser ni toucher aux scènes de Yann.
+- Le lot 2D commencé est suspendu, non vérifié et non livré. La migration du jeu principal et le raccord au lobby restent à coordonner.
+- Kusaila a ensuite choisi deux boucles : enfer en runner à trois voies (saut, glissade, obstacles annoncés) ; paradis en glisse et rebonds (plané, collecte d'énergie, récupération douce après une chute). Valider d'abord les sensations avec des formes provisoires, sans figer le lore.
+- Yann prépare les assets détaillés du robot, de l'humain, du miroir et des armes. Les réutiliser à leur publication ; ne pas inventer de noms de fichiers, de formats, de personnage définitif ni de nouveaux signaux d'armes. Les collisions restent indépendantes des modèles visuels.
+- Le contrat de données V1 sera conservé pour le raccord, mais son hypothèse de parcours Phaser 2D ne décrit pas ce nouveau prototype. Le mapping des effets vers les deux boucles 3D reste à coordonner ; les données de test ne sont pas encore branchées.
+- Conserver le sélecteur temporaire, deux parcours gagnables, une fin et rejouer ; commit et push après chaque lot réellement testé.
+- Avant de choisir une base ou d’engager un gros changement, servir une démo sur localhost et attendre la validation de Kusaila ; répéter ce point de contrôle aux étapes importantes.
+
 ## Journal de session
 
 ### 2026-09-26 — répartition confirmée par Yann

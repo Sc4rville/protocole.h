@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>protocole.h · Prototype de mouvement</title>
+  <link rel="stylesheet" href="runner.css">
+</head>
+<body>
+  <div id="game-container"></div>
+  <div id="runner-state" hidden></div>
+  <div id="live-status" class="sr-only" aria-live="polite"></div>
+
+  <div id="hud">
+    <div class="hud-bar">
+      <span id="hud-mode">·</span>
+      <span id="hud-distance">0 m</span>
+      <span id="hud-checkpoint">Checkpoint · aucun</span>
+      <span>Énergie <b id="hud-energy">0</b></span>
+      <span>Chaîne <b id="hud-combo">0</b></span>
+      <button type="button" id="btn-pause" class="hud-btn">Pause</button>
+      <button type="button" class="hud-btn btn-select">Parcours</button>
+    </div>
+    <div class="hud-note">Assets provisoires</div>
+  </div>
+
+  <div id="menu" class="overlay">
+    <div class="panel">
+      <h1>protocole.h</h1>
+      <p class="sub">Prototype de mouvement · modèles provisoires</p>
+      <div class="modes">
+        <button type="button" class="mode-btn" data-mode="hell">Enfer · course</button>
+        <button type="button" class="mode-btn" data-mode="heaven">Paradis · glisse</button>
+      </div>
+      <p id="menu-info"></p>
+      <button type="button" id="btn-play" class="primary">Jouer</button>
+      <p class="keys">
+        ← → ou Q/D : voie · Espace/W/Z : saut (maintenir pour planer au paradis)
+        · ↓/S : glisser (enfer) · Échap : pause
+      </p>
+      <p class="keys">But : rejoindre la sortie.</p>
+      <p class="credits">
+        Moteur adapté de
+        <a href="LICENSE">claude-bandicoot (MIT, Atiqur Rahman)</a>
+        et three.js r128 (MIT).
+      </p>
+    </div>
+  </div>
+
+  <div id="dead-screen" class="overlay" style="display:none">
+    <div class="panel">
+      <h1>Collision</h1>
+      <p id="dead-label">La course s’est arrêtée.</p>
+      <button type="button" id="btn-retry" class="primary">Réessayer</button>
+      <button type="button" class="btn-select">Choisir un parcours</button>
+    </div>
+  </div>
+
+  <div id="win-screen" class="overlay" style="display:none">
+    <div class="panel">
+      <h1>Parcours terminé</h1>
+      <p>Tu as rejoint la sortie. Le verdict et les assets définitifs seront reliés ensuite.</p>
+      <button type="button" id="btn-replay" class="primary">Rejouer</button>
+      <button type="button" class="btn-select">Choisir un parcours</button>
+    </div>
+  </div>
+
+  <div id="pause-screen" class="overlay" style="display:none">
+    <div class="panel">
+      <h1>Pause</h1>
+      <button type="button" id="btn-resume" class="primary">Reprendre</button>
+      <button type="button" class="btn-select">Choisir un parcours</button>
+    </div>
+  </div>
+
+  <div id="touch-controls">
+    <div class="touch-group">
+      <button type="button" class="touch-btn" id="t-left" aria-label="Voie gauche">◀</button>
+      <button type="button" class="touch-btn" id="t-right" aria-label="Voie droite">▶</button>
+    </div>
+    <div class="touch-group">
+      <button type="button" class="touch-btn" id="t-slide" aria-label="Glisser">▼</button>
+      <button type="button" class="touch-btn" id="t-jump" aria-label="Sauter">Saut / Planer</button>
+    </div>
+  </div>
+
+  <script src="vendor/three.min.js"></script>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
