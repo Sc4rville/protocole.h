@@ -46,7 +46,8 @@ with sync_playwright() as p:
                 if urllib.parse.urlparse(u).hostname not in ('127.0.0.1', 'localhost')]
     check('no external requests', not external, str(external))
     meshes = int(page.evaluate(f'{T}.meshes'))
-    check('robot has many parts', meshes > 150, f'{meshes} meshes')
+    tris = int(page.evaluate(f'{T}.triangles'))
+    check('robot is detailed', meshes > 150 and tris > 100000, f'{meshes} meshes, {tris} triangles')
     head_y = float(page.evaluate(f'{T}.headY'))
     check('head pivot near 1.7 m', 1.6 < head_y < 1.85, f'headY={head_y}')
 
