@@ -11,7 +11,7 @@ Kusaila prend en charge le **jeu de plateforme** : voir [kusaila.md](kusaila.md)
 - Hackathon du 26 septembre 2026, avec une fenêtre annoncée de 7 h pour coder.
 - Le README porte une idée, pas un cahier des charges figé. Préserver le retournement : le joueur croit tester une machine, mais c'est lui qui est testé.
 - La base actuellement dans le repo est **Phaser + TypeScript + Vite, en 2D** ; les échanges précédents sur Three.js ne décrivent plus cette base.
-- Référence commune : [README](README.md) et [relais de production](docs/implementation-handoff.md).
+- Référence commune : [README](../../README.md) et [relais de production](../implementation-handoff.md).
 
 ## Périmètre de Sc4rville
 

@@ -10,7 +10,7 @@ Kusaila prend en charge le **jeu de plateforme**. Sa version dépend du résulta
 - Le concept reste modifiable ; le cœur est la conséquence des actes du joueur envers la machine.
 - Base actuelle : **Phaser + TypeScript + Vite, en 2D**, issue de `remarkablegames/phaser-platformer`.
 - Direction actuelle du README : enfer exigeant et paradis apaisé, tous deux gagnables.
-- Référence commune : [README](README.md) et [relais de production](docs/implementation-handoff.md).
+- Référence commune : [README](../../README.md) et [relais de production](../implementation-handoff.md).
 
 ## Périmètre de Kusaila
 

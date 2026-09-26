@@ -23,7 +23,7 @@ Le jury juge **performance**, **exécution/game feel/art/polish/équilibre**, **
 - Le premier import, `It Was the Robots` au commit `392da8c`, a été abandonné après test : trop sombre, commandes peu lisibles, **aucun saut**, presque toute l'histoire déjà écrite. Son code ne doit pas redevenir la base finale. La critique de Kusaila est enregistrée dans le skill `fork-first`.
 - Nouvelle base testée localement : `npm ci --ignore-scripts`, `npm run lint:tsc`, `npm run build` passent. Chromium headless : HTTP 200, canvas chargé, saut visible, aucune erreur console lors de l'essai. URL du serveur local actuellement lancé : `http://127.0.0.1:5173/`.
 - La base est encore un **template**, pas `protocole.h`. Elle n'a ni confrontation ni verdict ni fin. L'art est cohérent mais simple ; la jouabilité mobile est insuffisante : à 390 px, le canvas n'occupe que 195 px de haut et aucun contrôle tactile n'est prêt. FPS et partie complète non mesurés.
-- [Capture desktop de la base](baseline-desktop.png) · [capture mobile](baseline-mobile.png). Elles doivent être remplacées par les captures du vrai jeu à mesure qu'il avance.
+- [Capture desktop de la base](captures/baseline-desktop.png) · [capture mobile](captures/baseline-mobile.png). Elles doivent être remplacées par les captures du vrai jeu à mesure qu'il avance.
 
 ## Partenaires et accès : état réel
 
@@ -64,6 +64,17 @@ La démo source permet de dessiner des tuiles, mais Kusaila a explicitement dit 
 - `src/graphics/TileMarker.ts` : dessin de cases ; optionnel selon la mécanique retenue.
 - `src/components/HelpText.tsx` : consignes temporaires de la démo, à remplacer par une introduction au jeu.
 - `public/tilemaps/` et `public/sprites/` : assets de la base, créditer 0x72.
+
+## Rangement du dépôt
+
+La racine ne garde que ce que l'outillage exige (README, LICENSE, `index.html`, configs Vite/TS/ESLint, `package*.json`). Tout le reste a sa place :
+
+- `docs/implementation-handoff.md` : ce relais, à tenir à jour.
+- `docs/equipe/` : une fiche de suivi par personne (`scarville.md`, `kusaila.md`).
+- `docs/captures/` : captures d'écran du jeu.
+- `src/` : le code ; `public/` : les assets servis tels quels.
+
+Ne pas créer de nouveau fichier de notes à la racine. Identité de commit : `Scarville <205611309+Sc4rville@users.noreply.github.com>`, jamais une adresse personnelle — le dépôt devient public.
 
 ## Règle de livraison
 
