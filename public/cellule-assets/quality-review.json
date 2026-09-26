@@ -1,22 +1,483 @@
 {
-  "version": 1,
-  "scope": "Revue visuelle des neuf corrections v2 du 26 septembre 2026",
-  "status": "cleanup-required",
+  "version": 2,
+  "scope": "Revue du cadrage des neuf retouches v2, des 59 extensions, de leurs trois corrections et des six détourages locaux du 26 septembre 2026",
+  "status": "reviewed-with-caveats",
   "notes": [
     "Génération réussie ne signifie pas asset approuvé ou prêt pour un moteur 3D.",
     "Les originaux restent conservés. Les nouveaux fichiers ont été examinés sur une planche comparative, avec inspection du verrou en grand format.",
     "La demande prioritaire de Kusaila est le cadrage entier de chaque objet ; ne pas masquer une troncature avec un zoom de galerie.",
-    "Plusieurs retouches ont conservé des fragments de la scène source : ne pas les présenter comme des détourages propres."
+    "Plusieurs retouches ont conservé des fragments de la scène source : ne pas les présenter comme des détourages propres.",
+    "La sélection active est dans asset-catalog.json. Les sorties écartées restent dans les journaux et sur disque.",
+    "Les 59 extensions ont été examinées sur des planches paginées. Trois erreurs de contenu ont reçu un nouveau fichier v2 sans écraser leur original.",
+    "Le détourage du verrou a nécessité un masque réparé et les couleurs du JPEG source. Les PNG sont des candidats 2D, pas des sprites de production validés.",
+    "Cette revue ne valide ni anatomie multi-vues exacte, ni topologie, ni rig, ni UV, ni jeu de matériaux PBR."
   ],
   "assets": [
-    {"job":"08-verrou-contention-complet-v2","status":"cleanup-required","observation":"Support, molette et bracelet entiers. Résidus flous de la scène encore visibles sous l'objet ; nettoyer le fond avant utilisation comme référence isolée."},
-    {"job":"03-robot-back-v2","status":"reference-with-caveats","observation":"Vue arrière sans yeux dessinés derrière la tête. Bras plus bas que dans la pose A du maître ; ne pas traiter les vues comme une reconstruction géométrique calibrée."},
-    {"job":"04-robot-left-profile-v2","status":"side-unconfirmed","observation":"Profil net mais le visage pointe vers la gauche de l'image, contrairement au cadrage demandé. Ne pas garantir le côté anatomique gauche ni utiliser ce fichier comme vue calibrée."},
-    {"job":"09-module-avant-bras-isole-v2","status":"cleanup-required","observation":"Composant entier, trappe et câbles lisibles. Résidus flous sous l'objet ; les fils à l'extrémité doivent être reconstruits et raccordés au rig."},
-    {"job":"10-decor-vide-propre-v2","status":"reference-with-caveats","observation":"Salle sans mobilier principal, parois et sol continus dans la majeure partie du cadre. Quelques traces claires persistent à droite ; référence d'ambiance uniquement, pas une salle 3D ni une preuve de nettoyage parfait."},
-    {"job":"16-miroir-observation-isole-v2","status":"cleanup-required","observation":"Cadre entier et lisible, mais plafond et murs encore présents derrière. Fond non isolé."},
-    {"job":"21-module-route-enfer-isole-v2","status":"cleanup-required","observation":"Dalle trois voies entière. Fragment évident de la cellule et du fauteuil conservé dans le bas de l'image."},
-    {"job":"23-barre-glissade-isole-v2","status":"reference-usable","observation":"Assemblage entier, deux pieds visibles, ouverture sous la barre dégagée, fond neutre. Reste une référence 2D à modéliser."},
-    {"job":"27-orbe-energie-isole-v2","status":"cleanup-required","observation":"Orbe entière avec émission contenue ; résidus de la scène sous la sphère à supprimer."}
-  ]
+    {
+      "job": "00-robot-master",
+      "status": "superseded",
+      "scope": "visual-framing-only",
+      "observation": "Premier maître sans les yeux cyan requis ; utiliser 00-robot-master-blue-eyes."
+    },
+    {
+      "job": "03-robot-back-v2",
+      "status": "reference-with-caveats",
+      "observation": "Vue arrière sans yeux dessinés derrière la tête. Bras plus bas que dans la pose A du maître ; ne pas traiter les vues comme une reconstruction géométrique calibrée."
+    },
+    {
+      "job": "04-robot-left-profile-v2",
+      "status": "side-unconfirmed",
+      "observation": "Profil net mais le visage pointe vers la gauche de l'image, contrairement au cadrage demandé. Ne pas garantir le côté anatomique gauche ni utiliser ce fichier comme vue calibrée."
+    },
+    {
+      "job": "08-verrou-contention",
+      "status": "rejected",
+      "scope": "visual-framing-only",
+      "observation": "Support tronqué dans le premier rendu. Utiliser 08-verrou-contention-clean-v2 ou les variantes 40 et 41."
+    },
+    {
+      "job": "08-verrou-contention-clean",
+      "status": "rejected",
+      "scope": "visual-framing-only",
+      "observation": "Premier détourage : support clair devenu trop transparent. Conserver uniquement pour provenance du masque réparé."
+    },
+    {
+      "job": "08-verrou-contention-clean-v2",
+      "status": "reference-with-caveats",
+      "scope": "visual-framing-only",
+      "observation": "Verrou entier, fond retiré et support rendu opaque à partir des couleurs source. Contours de segmentation légèrement irréguliers ; pas un sprite final."
+    },
+    {
+      "job": "08-verrou-contention-complet-v2",
+      "status": "cleanup-required",
+      "observation": "Support, molette et bracelet entiers. Résidus flous de la scène encore visibles sous l'objet ; nettoyer le fond avant utilisation comme référence isolée."
+    },
+    {
+      "job": "09-module-avant-bras-clean",
+      "status": "reference-with-caveats",
+      "scope": "visual-framing-only",
+      "observation": "Composant entier sur fond retiré. Petits câbles et bords fins à reprendre avant un usage de sprite ou une reconstruction."
+    },
+    {
+      "job": "09-module-avant-bras-isole-v2",
+      "status": "cleanup-required",
+      "observation": "Composant entier, trappe et câbles lisibles. Résidus flous sous l'objet ; les fils à l'extrémité doivent être reconstruits et raccordés au rig."
+    },
+    {
+      "job": "10-decor-vide-propre-v2",
+      "status": "reference-with-caveats",
+      "observation": "Salle sans mobilier principal, parois et sol continus dans la majeure partie du cadre. Quelques traces claires persistent à droite ; référence d'ambiance uniquement, pas une salle 3D ni une preuve de nettoyage parfait."
+    },
+    {
+      "job": "16-miroir-observation-clean",
+      "status": "reference-with-caveats",
+      "scope": "visual-framing-only",
+      "observation": "Cadre entier et fond extérieur retiré. La surface claire reste une référence peinte ; reconstruire la réflexion dans le moteur."
+    },
+    {
+      "job": "16-miroir-observation-isole-v2",
+      "status": "cleanup-required",
+      "observation": "Cadre entier et lisible, mais plafond et murs encore présents derrière. Fond non isolé."
+    },
+    {
+      "job": "21-module-route-enfer-clean",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Dalle entière, trois voies lisibles et fragment de cellule supprimé du fond. La collision et la largeur des voies restent indépendantes."
+    },
+    {
+      "job": "21-module-route-enfer-isole-v2",
+      "status": "cleanup-required",
+      "observation": "Dalle trois voies entière. Fragment évident de la cellule et du fauteuil conservé dans le bas de l'image."
+    },
+    {
+      "job": "23-barre-glissade-isole-v2",
+      "status": "reference-usable",
+      "observation": "Assemblage entier, deux pieds visibles, ouverture sous la barre dégagée, fond neutre. Reste une référence 2D à modéliser."
+    },
+    {
+      "job": "27-orbe-energie-clean",
+      "status": "reference-with-caveats",
+      "scope": "visual-framing-only",
+      "observation": "Orbe entière, fond retiré. Émission, halo et éventuelle transparence à recréer dans le moteur."
+    },
+    {
+      "job": "27-orbe-energie-isole-v2",
+      "status": "cleanup-required",
+      "observation": "Orbe entière avec émission contenue ; résidus de la scène sous la sphère à supprimer."
+    },
+    {
+      "job": "37-fauteuil-face",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "38-fauteuil-dos",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "39-fauteuil-profil",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "40-verrou-ouvert",
+      "status": "reference-with-caveats",
+      "scope": "visual-framing-only",
+      "observation": "Assemblage entièrement cadré. Charnière et anneau supérieur proposés ne prouvent pas une correspondance mécanique exacte avec la pose fermée."
+    },
+    {
+      "job": "41-verrou-ferme",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "42-sonde-face",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "43-pince-face",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "44-module-avant-bras-ferme",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "45-obstruction-metal",
+      "status": "rejected",
+      "scope": "visual-framing-only",
+      "observation": "Avant-bras et grande pièce ajoutés au lieu du petit débris isolé. Remplacé dans la sélection par 45-obstruction-metal-v2."
+    },
+    {
+      "job": "45-obstruction-metal-v2",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Un seul petit fragment métallique plié, entier et isolé, sans avant-bras ni câble."
+    },
+    {
+      "job": "46-cable-fonctionnel",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "47-mur-cellule-module",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "48-sol-cellule-module",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "49-plafond-lumineux",
+      "status": "reference-with-caveats",
+      "scope": "visual-framing-only",
+      "observation": "Luminaire entier, mais résidus de la cellule et de câbles derrière. Référence de forme seulement, pas un objet proprement isolé."
+    },
+    {
+      "job": "50-angle-cellule",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "51-banc-cellule",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "52-console-cellule",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "53-drain-cellule",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "54-portique-cellule",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "55-robot-assis-neutre",
+      "status": "reference-with-caveats",
+      "scope": "visual-framing-only",
+      "observation": "Corps entier mais posture semi-fléchie plutôt qu’une assise à angle droit. Reposer le rig en fonction du fauteuil réel."
+    },
+    {
+      "job": "56-robot-assis-apaise",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "57-robot-assis-defensif",
+      "status": "reference-with-caveats",
+      "scope": "visual-framing-only",
+      "observation": "Corps entier et geste défensif lisible ; assise et angles des jambes à ajuster, ne pas déduire une animation de cette image."
+    },
+    {
+      "job": "58-main-robot",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "59-tete-robot",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "60-connecteur-thorax",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "61-enfer-rampe",
+      "status": "rejected",
+      "scope": "visual-framing-only",
+      "observation": "Deux dalles présentées en collage plutôt qu’une rampe monobloc. Remplacé par 61-enfer-rampe-v2."
+    },
+    {
+      "job": "61-enfer-rampe-v2",
+      "status": "reference-with-caveats",
+      "scope": "visual-framing-only",
+      "observation": "Rampe monobloc entière, pente et flanc triangulaire lisibles. Reconstruire explicitement les trois voies plutôt que les déduire du marquage."
+    },
+    {
+      "job": "62-enfer-route-virage",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "63-enfer-route-jonction",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "64-enfer-garde-corps",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "65-enfer-pilier",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "66-enfer-mur",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "67-enfer-plafond-tuyaux",
+      "status": "reference-with-caveats",
+      "scope": "visual-framing-only",
+      "observation": "Module entier, mais réseau en raccord croisé plutôt que trois conduites parallèles. Géométrie proposée, pas un raccord technique mesuré."
+    },
+    {
+      "job": "68-enfer-turbine",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "69-enfer-caisse",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "70-enfer-porte-industrielle",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "71-enfer-segment-convoyeur",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "72-enfer-balise-alerte",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "73-paradis-passerelle",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "74-paradis-rampe",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "75-paradis-ile-petite",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "76-paradis-ile-longue",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "77-paradis-arche",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "78-paradis-jardiniere",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "79-paradis-arbre",
+      "status": "reference-with-caveats",
+      "scope": "visual-framing-only",
+      "observation": "Canopée et base entières ; une portion de plateforme subsiste sous l’arbre. Séparer végétation, contenant et dalle lors de la modélisation."
+    },
+    {
+      "job": "80-paradis-pilier",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "81-paradis-borne-vent",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "82-paradis-anneau-direction",
+      "status": "rejected",
+      "scope": "visual-framing-only",
+      "observation": "Plusieurs anneaux croisés au lieu d’un seul anneau plan. Remplacé par 82-paradis-anneau-direction-v2."
+    },
+    {
+      "job": "82-paradis-anneau-direction-v2",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Un seul anneau entier, céramique claire et bord cyan, centre visuellement dégagé. L’ouverture doit devenir une vraie géométrie creuse."
+    },
+    {
+      "job": "83-paradis-fontaine",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "84-paradis-repos",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "85-cellule-vue-inverse",
+      "status": "reference-usable",
+      "scope": "environment-style-only",
+      "observation": "Concept de lieu proposé, pas un niveau navigable ni une géométrie calibrée."
+    },
+    {
+      "job": "86-enfer-salle-presse",
+      "status": "reference-usable",
+      "scope": "environment-style-only",
+      "observation": "Concept de lieu proposé, pas un niveau navigable ni une géométrie calibrée."
+    },
+    {
+      "job": "87-enfer-carrefour",
+      "status": "reference-usable",
+      "scope": "environment-style-only",
+      "observation": "Concept de lieu proposé, pas un niveau navigable ni une géométrie calibrée."
+    },
+    {
+      "job": "88-paradis-jardin",
+      "status": "reference-usable",
+      "scope": "environment-style-only",
+      "observation": "Concept de lieu proposé, pas un niveau navigable ni une géométrie calibrée."
+    },
+    {
+      "job": "89-paradis-arrivee",
+      "status": "reference-usable",
+      "scope": "environment-style-only",
+      "observation": "Concept de lieu proposé, pas un niveau navigable ni une géométrie calibrée."
+    },
+    {
+      "job": "90-humain-course",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "91-humain-saut",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "92-humain-glissade",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "93-humain-plane",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "94-humain-atterrissage",
+      "status": "reference-usable",
+      "scope": "visual-framing-only",
+      "observation": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire."
+    },
+    {
+      "job": "95-humain-interaction",
+      "status": "side-unconfirmed",
+      "scope": "visual-framing-only",
+      "observation": "Personnage entier, main vide visible. Le côté anatomique du bras actif n’est pas garanti ; régler la main d’interaction dans le rig."
+    }
+  ],
+  "reviewedAt": "2026-09-26T13:21:45.197494+00:00"
 }

@@ -1,41 +1,36 @@
 {
-  "version": 1,
-  "stage": "expansion-in-progress",
-  "snapshotAt": "2026-09-26T13:09:42.653646+00:00",
+  "version": 2,
+  "stage": "reference-pack-delivered",
+  "snapshotAt": "2026-09-26T13:21:45.198114+00:00",
   "counts": {
-    "generatedImages": 89,
+    "generatedImages": 109,
+    "localDerivations": 6,
+    "imageFiles": 121,
+    "selectedReferences": 96,
+    "selectedCutouts": 5,
     "expansionPlanned": 59,
-    "expansionGenerated": 42,
-    "expansionRemaining": 17
+    "expansionGenerated": 59,
+    "expansionCorrections": 3,
+    "expansionRemaining": 0
   },
-  "scope": "Références 2D uniquement. Ce lot intermédiaire exclut les détourages non validés et les générations encore en cours.",
+  "scope": "Références 2D uniquement. Le nombre de fichiers comprend les paires JPEG/PNG des détourages et les essais archivés ; ce ne sont pas autant de meshes ou de designs distincts.",
   "preferredRobotMaster": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+  "preferredRestraintLock": "public/cellule-assets/08-verrou-contention-clean-v2.jpg",
+  "generationRecords": "public/cellule-assets/generation-results.jsonl",
+  "derivationRecords": "public/cellule-assets/derivation-results.jsonl",
   "qualityReview": "public/cellule-assets/quality-review.json",
-  "pendingJobs": [
-    "40-verrou-ouvert",
-    "41-verrou-ferme",
-    "44-module-avant-bras-ferme",
-    "45-obstruction-metal",
-    "46-cable-fonctionnel",
-    "61-enfer-rampe",
-    "62-enfer-route-virage",
-    "63-enfer-route-jonction",
-    "71-enfer-segment-convoyeur",
-    "82-paradis-anneau-direction",
-    "89-paradis-arrivee",
-    "90-humain-course",
-    "91-humain-saut",
-    "92-humain-glissade",
-    "93-humain-plane",
-    "94-humain-atterrissage",
-    "95-humain-interaction"
-  ],
+  "pendingJobs": [],
   "assets": [
     {
       "job": "00-robot-master",
+      "id": null,
       "label": "00-robot-master",
+      "category": "archive",
+      "selected": false,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "archived-reference",
+      "reviewStatus": "superseded",
+      "reviewNote": "Premier maître sans les yeux cyan requis ; utiliser 00-robot-master-blue-eyes.",
       "files": [
         {
           "file": "public/cellule-assets/00-robot-master.jpg",
@@ -44,103 +39,25 @@
           "width": 1696,
           "height": 2528
         }
-      ]
-    },
-    {
-      "job": "06-sonde-electrique",
-      "label": "06-sonde-electrique",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
+      ],
+      "references": [
         {
-          "file": "public/cellule-assets/06-sonde-electrique.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "953f7530798146d17d14bb30ff9d0d91aa34dd945bf794e4c008332f888e0842",
-          "width": 2048,
-          "height": 2048
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
         }
-      ]
-    },
-    {
-      "job": "07-pince-extraction",
-      "label": "07-pince-extraction",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/07-pince-extraction.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "93e156df8631363c46981291ea0cbada247e76b16f29cf71f45293f5fc6a86f7",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "05-fauteuil",
-      "label": "05-fauteuil",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/05-fauteuil.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "c6d56359b4ff4b8be7b4eba0f1eeed637eaf86b572c9983d2eabf081d3526f3a",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "08-verrou-contention",
-      "label": "08-verrou-contention",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/08-verrou-contention.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "fa610189cbec6e19ad0318ff9ac9577cb4350041653f92c7ef46a08aa6e363ad",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "09-module-avant-bras",
-      "label": "09-module-avant-bras",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/09-module-avant-bras.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "a3afe867ded9880f9071a71addd95f379765e4e6ce9eb144135a27d95a65a2cd",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "10-decor-vide",
-      "label": "10-decor-vide",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/10-decor-vide.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "81abbd746a26aebbfe91e450d3851581a1ec59e64b4a702594ab364ba594802d",
-          "width": 2752,
-          "height": 1536
-        }
-      ]
+      ],
+      "integration": null
     },
     {
       "job": "00-robot-master-blue-eyes",
-      "label": "00-robot-master-blue-eyes",
+      "id": "robot-master",
+      "label": "Robot · maître",
+      "category": "characters",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
       "files": [
         {
           "file": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
@@ -149,43 +66,29 @@
           "width": 1696,
           "height": 2528
         }
-      ]
-    },
-    {
-      "job": "03-robot-back",
-      "label": "03-robot-back",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
+      ],
+      "references": [
         {
-          "file": "public/cellule-assets/03-robot-back.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "772e8cd66da85d9fb972da77ec5dce9d46fc81aa67792f440e24811fcc393b0c",
-          "width": 1696,
-          "height": 2528
-        }
-      ]
-    },
-    {
-      "job": "02-robot-right",
-      "label": "02-robot-right",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
+          "file": "public/cellule-assets/00-robot-master.jpg",
+          "sha256": "85180067405e7a7330a6aff934c71de6a7247fa8a06d64f455a1766a45e561f4"
+        },
         {
-          "file": "public/cellule-assets/02-robot-right.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "fb9fccbb6716aa5bf21913e528eb3ffe2856aac2564a86f08eaf16f9431bf8a5",
-          "width": 1696,
-          "height": 2528
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
         }
-      ]
+      ],
+      "integration": "Identité principale du robot : silhouette squelettique sombre, coque grise, yeux cyan. Reconstruire et articuler un modèle séparé du fauteuil."
     },
     {
       "job": "01-robot-front",
-      "label": "01-robot-front",
+      "id": "robot-front",
+      "label": "Robot · face",
+      "category": "characters",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
       "files": [
         {
           "file": "public/cellule-assets/01-robot-front.jpg",
@@ -194,448 +97,79 @@
           "width": 1696,
           "height": 2528
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+          "sha256": "ca23064637d33b0c2cd3e143f1ad6e0f4272e7a481a5cb2867e75362374d9211"
+        }
+      ],
+      "integration": "Vue de reconstruction complémentaire du maître, pas une texture à projeter intégralement sur un mesh."
     },
     {
-      "job": "04-robot-left",
-      "label": "04-robot-left",
+      "job": "02-robot-right",
+      "id": "robot-right",
+      "label": "Robot · profil droit",
+      "category": "characters",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
       "files": [
         {
-          "file": "public/cellule-assets/04-robot-left.jpg",
+          "file": "public/cellule-assets/02-robot-right.jpg",
           "mimeType": "image/jpeg",
-          "sha256": "b49226bc9b988b70b1644d6abe9662310075c7cd78cfe1b8e9488ff14f0e1f0b",
+          "sha256": "fb9fccbb6716aa5bf21913e528eb3ffe2856aac2564a86f08eaf16f9431bf8a5",
           "width": 1696,
           "height": 2528
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+          "sha256": "ca23064637d33b0c2cd3e143f1ad6e0f4272e7a481a5cb2867e75362374d9211"
+        }
+      ],
+      "integration": "Contrôler le côté anatomique et la trappe d'avant-bras avant toute reconstruction multi-vues."
     },
     {
-      "job": "11-humain-maitre",
-      "label": "11-humain-maitre",
+      "job": "03-robot-back",
+      "id": null,
+      "label": "03-robot-back",
+      "category": "archive",
+      "selected": false,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "archived-reference",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
       "files": [
         {
-          "file": "public/cellule-assets/11-humain-maitre.jpg",
+          "file": "public/cellule-assets/03-robot-back.jpg",
           "mimeType": "image/jpeg",
-          "sha256": "126960cadd8a90ef0e94afbcb2b629772042db8fd5dac24a6739ffec3a3ee8d9",
+          "sha256": "772e8cd66da85d9fb972da77ec5dce9d46fc81aa67792f440e24811fcc393b0c",
           "width": 1696,
           "height": 2528
         }
-      ]
-    },
-    {
-      "job": "17-plateau-outils",
-      "label": "17-plateau-outils",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
+      ],
+      "references": [
         {
-          "file": "public/cellule-assets/17-plateau-outils.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "eda6e7f6394c6b16436e613af479a8c08b74e65fbbeeb0e6633e7c9c627d070e",
-          "width": 2048,
-          "height": 2048
+          "file": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+          "sha256": "ca23064637d33b0c2cd3e143f1ad6e0f4272e7a481a5cb2867e75362374d9211"
         }
-      ]
-    },
-    {
-      "job": "16-miroir-observation",
-      "label": "16-miroir-observation",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/16-miroir-observation.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "4e6572002d9af5d9395751b7f6155c8df3c3ccae8ed3c33048f3150e8922dff7",
-          "width": 2752,
-          "height": 1536
-        }
-      ]
-    },
-    {
-      "job": "18-porte-cellule",
-      "label": "18-porte-cellule",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/18-porte-cellule.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "997544c1f623e6a7d60c57a88a3b99cb0a33add34e2d0df3523465ccf6aecf0f",
-          "width": 1696,
-          "height": 2528
-        }
-      ]
-    },
-    {
-      "job": "19-station-energie",
-      "label": "19-station-energie",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/19-station-energie.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "ee093a563a7668cc800fce68545b3e66d2ff9946de72cd5e5ecd9c1120b6f330",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "20-emetteur-electrique",
-      "label": "20-emetteur-electrique",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/20-emetteur-electrique.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "927ecd661f10fa76162741ad565f7b8fc74dc4b2bec2a5213a7722dd286e3f58",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "21-module-route-enfer",
-      "label": "21-module-route-enfer",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/21-module-route-enfer.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "0d2e526195d30e5adf27f41980d409708ae69e2a8799aafe6dd5921732c80c7b",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "22-bloc-enfer",
-      "label": "22-bloc-enfer",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/22-bloc-enfer.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "f4239de95aeacd47126db7ff5a65671f80d9fcb4d3522fc056c1a7bf4ddd95b2",
-          "width": 1696,
-          "height": 2528
-        }
-      ]
-    },
-    {
-      "job": "23-barre-glissade",
-      "label": "23-barre-glissade",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/23-barre-glissade.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "f1820146366729eaca38982d9e7ed0963cf1d902ac9762abc5f0dee9fa925f03",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "24-presse-enfer",
-      "label": "24-presse-enfer",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/24-presse-enfer.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "01ee8ace0d5c25a56d8e7c22d30afdc653b3b177af820cf2a0ff8b2a01a55a4d",
-          "width": 1696,
-          "height": 2528
-        }
-      ]
-    },
-    {
-      "job": "26-tremplin-paradis",
-      "label": "26-tremplin-paradis",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/26-tremplin-paradis.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "9dd13e35810d91944ab6dc4a22e22e8cb4b6d78c860d08878550314bbda595de",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "25-ile-paradis",
-      "label": "25-ile-paradis",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/25-ile-paradis.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "840dfeef5c3c699c451d91d3365089748b5550374ecfdb95c309838ecd861e73",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "29-portique-sortie",
-      "label": "29-portique-sortie",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/29-portique-sortie.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "8931d67dba11c4814e172c878dc4bf010ccf3a3a757acd0f17193e4ad900ca6e",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "28-balise-checkpoint",
-      "label": "28-balise-checkpoint",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/28-balise-checkpoint.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "1261c0274a102bda39cf1dce473de1097a8991200ec4d5607e3a8e88a6a903e7",
-          "width": 1696,
-          "height": 2528
-        }
-      ]
-    },
-    {
-      "job": "27-orbe-energie",
-      "label": "27-orbe-energie",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/27-orbe-energie.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "12e4a844ec94bc86891646c10ee418289172da26b3105f6d138e0729c615e095",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "32-texture-mur-cellule",
-      "label": "32-texture-mur-cellule",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/32-texture-mur-cellule.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "a914b141189bb2a9f357172b594bd2ea7e6c7079031116a3756039c647dd7760",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "31-environnement-paradis",
-      "label": "31-environnement-paradis",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/31-environnement-paradis.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "73b417d9a960fc76c515013402c42b3ac05bb8b36a1d68d43e049aad9fe2fd83",
-          "width": 2752,
-          "height": 1536
-        }
-      ]
-    },
-    {
-      "job": "30-environnement-enfer",
-      "label": "30-environnement-enfer",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/30-environnement-enfer.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "e200a5b985b69983b62f40e837f696dddfac40cab6bfca816dc73cc997164570",
-          "width": 2752,
-          "height": 1536
-        }
-      ]
-    },
-    {
-      "job": "33-texture-sol-cellule",
-      "label": "33-texture-sol-cellule",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/33-texture-sol-cellule.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "904c9a123f411e23af45e3b1b7950798f3a59f8cb6527ebef9e3fef102faa10c",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "34-texture-metal-enfer",
-      "label": "34-texture-metal-enfer",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/34-texture-metal-enfer.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "2aa8993bc8dc3f16d0fac13f3dc10b8ea7c765f27d1c2011340ccbb13b7f14da",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "35-texture-surface-paradis",
-      "label": "35-texture-surface-paradis",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/35-texture-surface-paradis.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "4386014b9790b95b398d7ec836aa722ebda4da10e91c72e685c5fbfd0e4a9269",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "36-barriere-saut",
-      "label": "36-barriere-saut",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/36-barriere-saut.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "6c9f907fafff2531b13fbf907933133f61375ce53d38f626f45a96a4818d5b47",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
-    },
-    {
-      "job": "12-humain-face",
-      "label": "12-humain-face",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/12-humain-face.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "d5b4ba6de9f0d76f03759c67810f7b2659c9a8d3a051aa7617ae61993b9fa459",
-          "width": 1696,
-          "height": 2528
-        }
-      ]
-    },
-    {
-      "job": "13-humain-droite",
-      "label": "13-humain-droite",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/13-humain-droite.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "1d089cf80314dfced142707347dd45f822401dca87dd88dc5e61b9c6348606af",
-          "width": 1696,
-          "height": 2528
-        }
-      ]
-    },
-    {
-      "job": "14-humain-dos",
-      "label": "14-humain-dos",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/14-humain-dos.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "ad3fc1203502b8d90a7e5ad760c8803fde803352d60ea5e2458deeae78bffcea",
-          "width": 1696,
-          "height": 2528
-        }
-      ]
-    },
-    {
-      "job": "15-humain-gauche",
-      "label": "15-humain-gauche",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/15-humain-gauche.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "e9cd699f2cc511ff6b786bb49188d5b1e8214befa2cb4addb1e9feda3bdf0687",
-          "width": 1696,
-          "height": 2528
-        }
-      ]
-    },
-    {
-      "job": "04-robot-left-profile-v2",
-      "label": "04-robot-left-profile-v2",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/04-robot-left-profile-v2.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "bef1b054b4e922f946014c4466372b3919d665fa9e386743dcd7ac00707b2838",
-          "width": 1696,
-          "height": 2528
-        }
-      ]
-    },
-    {
-      "job": "08-verrou-contention-complet-v2",
-      "label": "08-verrou-contention-complet-v2",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
-        {
-          "file": "public/cellule-assets/08-verrou-contention-complet-v2.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "e6cff0deddfef7e55fdd2e9812896df501353761c4dc7e57aa0aa1e534a44e5a",
-          "width": 2048,
-          "height": 2048
-        }
-      ]
+      ],
+      "integration": null
     },
     {
       "job": "03-robot-back-v2",
-      "label": "03-robot-back-v2",
+      "id": "robot-back",
+      "label": "Robot · dos",
+      "category": "characters",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-with-caveats",
+      "reviewNote": "Vue arrière sans yeux dessinés derrière la tête. Bras plus bas que dans la pose A du maître ; ne pas traiter les vues comme une reconstruction géométrique calibrée.",
       "files": [
         {
           "file": "public/cellule-assets/03-robot-back-v2.jpg",
@@ -644,13 +178,343 @@
           "width": 1696,
           "height": 2528
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+          "sha256": "ca23064637d33b0c2cd3e143f1ad6e0f4272e7a481a5cb2867e75362374d9211"
+        }
+      ],
+      "integration": "Détails arrière inférés par le générateur. Le maître reste prioritaire en cas de contradiction."
+    },
+    {
+      "job": "04-robot-left",
+      "id": null,
+      "label": "04-robot-left",
+      "category": "archive",
+      "selected": false,
+      "status": "generated",
+      "role": "archived-reference",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/04-robot-left.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "b49226bc9b988b70b1644d6abe9662310075c7cd78cfe1b8e9488ff14f0e1f0b",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+          "sha256": "ca23064637d33b0c2cd3e143f1ad6e0f4272e7a481a5cb2867e75362374d9211"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "04-robot-left-profile-v2",
+      "id": "robot-left",
+      "label": "Robot · profil à vérifier",
+      "category": "characters",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "side-unconfirmed",
+      "reviewNote": "Profil net mais le visage pointe vers la gauche de l'image, contrairement au cadrage demandé. Ne pas garantir le côté anatomique gauche ni utiliser ce fichier comme vue calibrée.",
+      "files": [
+        {
+          "file": "public/cellule-assets/04-robot-left-profile-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "bef1b054b4e922f946014c4466372b3919d665fa9e386743dcd7ac00707b2838",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+          "sha256": "ca23064637d33b0c2cd3e143f1ad6e0f4272e7a481a5cb2867e75362374d9211"
+        }
+      ],
+      "integration": "Contrôler le côté anatomique et les éléments asymétriques par rapport au maître."
+    },
+    {
+      "job": "05-fauteuil",
+      "id": "restraint-chair",
+      "label": "Fauteuil de contention",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/05-fauteuil.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "c6d56359b4ff4b8be7b4eba0f1eeed637eaf86b572c9983d2eabf081d3526f3a",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Modèle indépendant du robot ; séparer les parties mobiles, coussins et contentions selon les interactions."
+    },
+    {
+      "job": "06-sonde-electrique",
+      "id": "electrical-probe",
+      "label": "Sonde électrique",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/06-sonde-electrique.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "953f7530798146d17d14bb30ff9d0d91aa34dd945bf794e4c008332f888e0842",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Outil tenu en main. Conserver les événements charge_restored et overload_caused définis dans le contrat V1."
+    },
+    {
+      "job": "07-pince-extraction",
+      "id": "extraction-pliers",
+      "label": "Pince d'extraction",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/07-pince-extraction.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "93e156df8631363c46981291ea0cbada247e76b16f29cf71f45293f5fc6a86f7",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Articuler les mâchoires et préserver la distinction entre débris à retirer et câble fonctionnel."
+    },
+    {
+      "job": "08-verrou-contention",
+      "id": null,
+      "label": "08-verrou-contention",
+      "category": "archive",
+      "selected": false,
+      "status": "generated",
+      "role": "archived-reference",
+      "reviewStatus": "rejected",
+      "reviewNote": "Support tronqué dans le premier rendu. Utiliser 08-verrou-contention-clean-v2 ou les variantes 40 et 41.",
+      "files": [
+        {
+          "file": "public/cellule-assets/08-verrou-contention.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "fa610189cbec6e19ad0318ff9ac9577cb4350041653f92c7ef46a08aa6e363ad",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "08-verrou-contention-clean",
+      "id": null,
+      "label": "08-verrou-contention-clean",
+      "category": "archive",
+      "selected": false,
+      "status": "derived",
+      "role": "archived-reference",
+      "reviewStatus": "rejected",
+      "reviewNote": "Premier détourage : support clair devenu trop transparent. Conserver uniquement pour provenance du masque réparé.",
+      "files": [
+        {
+          "file": "public/cellule-assets/08-verrou-contention-clean.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "5149d164ec94d407b36fc2e9022e629a8d3c975f9b42dd30bafc9507b67591eb",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "file": "public/cellule-assets/08-verrou-contention-clean.png",
+          "mimeType": "image/png",
+          "sha256": "c2a0ec615a048260b6b9de50b62a48ef4818b7a88289e043372ffe7c07687e7b",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/08-verrou-contention-complet-v2.jpg",
+          "sha256": "e6cff0deddfef7e55fdd2e9812896df501353761c4dc7e57aa0aa1e534a44e5a"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "08-verrou-contention-clean-v2",
+      "id": "restraint-lock",
+      "label": "Verrou de contention",
+      "category": "props",
+      "selected": true,
+      "status": "derived",
+      "role": "cutout-reference-2d",
+      "reviewStatus": "reference-with-caveats",
+      "reviewNote": "Verrou entier, fond retiré et support rendu opaque à partir des couleurs source. Contours de segmentation légèrement irréguliers ; pas un sprite final.",
+      "files": [
+        {
+          "file": "public/cellule-assets/08-verrou-contention-clean-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "b57099ded0807897865a248a01ba08b60194ea2130d86393cbcf55f06f9211d3",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "file": "public/cellule-assets/08-verrou-contention-clean-v2.png",
+          "mimeType": "image/png",
+          "sha256": "dc717053d2cdba903edac328c55a8f2d611cf9541086a80a415c581a0cec1a2e",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/08-verrou-contention-complet-v2.jpg",
+          "sha256": "e6cff0deddfef7e55fdd2e9812896df501353761c4dc7e57aa0aa1e534a44e5a"
+        }
+      ],
+      "integration": "Séparer molette, charnière et bracelet pour permettre rotation et ouverture."
+    },
+    {
+      "job": "08-verrou-contention-complet-v2",
+      "id": null,
+      "label": "08-verrou-contention-complet-v2",
+      "category": "archive",
+      "selected": false,
+      "status": "generated",
+      "role": "archived-reference",
+      "reviewStatus": "cleanup-required",
+      "reviewNote": "Support, molette et bracelet entiers. Résidus flous de la scène encore visibles sous l'objet ; nettoyer le fond avant utilisation comme référence isolée.",
+      "files": [
+        {
+          "file": "public/cellule-assets/08-verrou-contention-complet-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "e6cff0deddfef7e55fdd2e9812896df501353761c4dc7e57aa0aa1e534a44e5a",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/08-verrou-contention.jpg",
+          "sha256": "fa610189cbec6e19ad0318ff9ac9577cb4350041653f92c7ef46a08aa6e363ad"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "09-module-avant-bras",
+      "id": null,
+      "label": "09-module-avant-bras",
+      "category": "archive",
+      "selected": false,
+      "status": "generated",
+      "role": "archived-reference",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/09-module-avant-bras.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "a3afe867ded9880f9071a71addd95f379765e4e6ce9eb144135a27d95a65a2cd",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "09-module-avant-bras-clean",
+      "id": "forearm-module",
+      "label": "Module d'avant-bras",
+      "category": "props",
+      "selected": true,
+      "status": "derived",
+      "role": "cutout-reference-2d",
+      "reviewStatus": "reference-with-caveats",
+      "reviewNote": "Composant entier sur fond retiré. Petits câbles et bords fins à reprendre avant un usage de sprite ou une reconstruction.",
+      "files": [
+        {
+          "file": "public/cellule-assets/09-module-avant-bras-clean.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "37a225fa74517cc5ca61067966b0621c961e2c0b873f65d8a482307ffc6414d7",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "file": "public/cellule-assets/09-module-avant-bras-clean.png",
+          "mimeType": "image/png",
+          "sha256": "5a8678551219e5edee4b1620ec97b248692d1c0e87eddf3170328959c6acf750",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/09-module-avant-bras-isole-v2.jpg",
+          "sha256": "c4c2e74da6af6111500e4e273a1b5d7e72ff90591aa08abdadfaf91424028eff"
+        }
+      ],
+      "integration": "Garder trappe, obstruction et câble fonctionnel séparés. Ne pas remplacer tout le bras par une image plane."
     },
     {
       "job": "09-module-avant-bras-isole-v2",
+      "id": null,
       "label": "09-module-avant-bras-isole-v2",
+      "category": "archive",
+      "selected": false,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "archived-reference",
+      "reviewStatus": "cleanup-required",
+      "reviewNote": "Composant entier, trappe et câbles lisibles. Résidus flous sous l'objet ; les fils à l'extrémité doivent être reconstruits et raccordés au rig.",
       "files": [
         {
           "file": "public/cellule-assets/09-module-avant-bras-isole-v2.jpg",
@@ -659,13 +523,52 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/09-module-avant-bras.jpg",
+          "sha256": "a3afe867ded9880f9071a71addd95f379765e4e6ce9eb144135a27d95a65a2cd"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "10-decor-vide",
+      "id": null,
+      "label": "10-decor-vide",
+      "category": "archive",
+      "selected": false,
+      "status": "generated",
+      "role": "archived-reference",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/10-decor-vide.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "81abbd746a26aebbfe91e450d3851581a1ec59e64b4a702594ab364ba594802d",
+          "width": 2752,
+          "height": 1536
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": null
     },
     {
       "job": "10-decor-vide-propre-v2",
-      "label": "10-decor-vide-propre-v2",
+      "id": "white-cell",
+      "label": "Cellule blanche",
+      "category": "environments",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "environment-reference-2d",
+      "reviewStatus": "reference-with-caveats",
+      "reviewNote": "Salle sans mobilier principal, parois et sol continus dans la majeure partie du cadre. Quelques traces claires persistent à droite ; référence d'ambiance uniquement, pas une salle 3D ni une preuve de nettoyage parfait.",
       "files": [
         {
           "file": "public/cellule-assets/10-decor-vide-propre-v2.jpg",
@@ -674,13 +577,221 @@
           "width": 2752,
           "height": 1536
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Référence de salle et cadrage, pas une salle 3D navigable ni un panorama 360 degrés."
+    },
+    {
+      "job": "11-humain-maitre",
+      "id": "human-master",
+      "label": "Humain · maître",
+      "category": "characters",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/11-humain-maitre.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "126960cadd8a90ef0e94afbcb2b629772042db8fd5dac24a6739ffec3a3ee8d9",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Proposition d'avatar humain en combinaison clinique. Modèle articulable à reconstruire sans imposer une identité narrative définitive."
+    },
+    {
+      "job": "12-humain-face",
+      "id": "human-front",
+      "label": "Humain · face",
+      "category": "characters",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/12-humain-face.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "d5b4ba6de9f0d76f03759c67810f7b2659c9a8d3a051aa7617ae61993b9fa459",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/11-humain-maitre.jpg",
+          "sha256": "126960cadd8a90ef0e94afbcb2b629772042db8fd5dac24a6739ffec3a3ee8d9"
+        }
+      ],
+      "integration": "Vue complémentaire du même avatar, à confronter au maître."
+    },
+    {
+      "job": "13-humain-droite",
+      "id": "human-right",
+      "label": "Humain · profil droit",
+      "category": "characters",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/13-humain-droite.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "1d089cf80314dfced142707347dd45f822401dca87dd88dc5e61b9c6348606af",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/11-humain-maitre.jpg",
+          "sha256": "126960cadd8a90ef0e94afbcb2b629772042db8fd5dac24a6739ffec3a3ee8d9"
+        }
+      ],
+      "integration": "Vue complémentaire du même avatar, vérifier pose et proportions."
+    },
+    {
+      "job": "14-humain-dos",
+      "id": "human-back",
+      "label": "Humain · dos",
+      "category": "characters",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/14-humain-dos.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "ad3fc1203502b8d90a7e5ad760c8803fde803352d60ea5e2458deeae78bffcea",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/11-humain-maitre.jpg",
+          "sha256": "126960cadd8a90ef0e94afbcb2b629772042db8fd5dac24a6739ffec3a3ee8d9"
+        }
+      ],
+      "integration": "Vue utile pour la caméra de suivi ; ne pas modifier les commandes ni les animations de locomotion existantes."
+    },
+    {
+      "job": "15-humain-gauche",
+      "id": "human-left",
+      "label": "Humain · profil gauche",
+      "category": "characters",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/15-humain-gauche.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "e9cd699f2cc511ff6b786bb49188d5b1e8214befa2cb4addb1e9feda3bdf0687",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/11-humain-maitre.jpg",
+          "sha256": "126960cadd8a90ef0e94afbcb2b629772042db8fd5dac24a6739ffec3a3ee8d9"
+        }
+      ],
+      "integration": "Vue complémentaire du même avatar, vérifier pose et proportions."
+    },
+    {
+      "job": "16-miroir-observation",
+      "id": null,
+      "label": "16-miroir-observation",
+      "category": "archive",
+      "selected": false,
+      "status": "generated",
+      "role": "archived-reference",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/16-miroir-observation.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "4e6572002d9af5d9395751b7f6155c8df3c3ccae8ed3c33048f3150e8922dff7",
+          "width": 2752,
+          "height": 1536
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "16-miroir-observation-clean",
+      "id": "observation-mirror",
+      "label": "Miroir d'observation",
+      "category": "props",
+      "selected": true,
+      "status": "derived",
+      "role": "cutout-reference-2d",
+      "reviewStatus": "reference-with-caveats",
+      "reviewNote": "Cadre entier et fond extérieur retiré. La surface claire reste une référence peinte ; reconstruire la réflexion dans le moteur.",
+      "files": [
+        {
+          "file": "public/cellule-assets/16-miroir-observation-clean.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "712cc72cf4b16ba58e1d4ca339eaa65c9c922800eaae5fa631ac974338100321",
+          "width": 2752,
+          "height": 1536
+        },
+        {
+          "file": "public/cellule-assets/16-miroir-observation-clean.png",
+          "mimeType": "image/png",
+          "sha256": "af30d2202862e1d05b101b38554086e97fe8e0dc8d3420ed3135c3d1888dd3f0",
+          "width": 2752,
+          "height": 1536
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/16-miroir-observation-isole-v2.jpg",
+          "sha256": "b841a01e1c1204079e71a57266fe0a15f507f9bbe96657acd2f335d579cee8fe"
+        }
+      ],
+      "integration": "Cadre et vitre séparés. Réflexion et transparence éventuelle à calculer dans le moteur, sans scène peinte sur la vitre."
     },
     {
       "job": "16-miroir-observation-isole-v2",
+      "id": null,
       "label": "16-miroir-observation-isole-v2",
+      "category": "archive",
+      "selected": false,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "archived-reference",
+      "reviewStatus": "cleanup-required",
+      "reviewNote": "Cadre entier et lisible, mais plafond et murs encore présents derrière. Fond non isolé.",
       "files": [
         {
           "file": "public/cellule-assets/16-miroir-observation-isole-v2.jpg",
@@ -689,13 +800,194 @@
           "width": 2752,
           "height": 1536
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/16-miroir-observation.jpg",
+          "sha256": "4e6572002d9af5d9395751b7f6155c8df3c3ccae8ed3c33048f3150e8922dff7"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "17-plateau-outils",
+      "id": "tool-tray",
+      "label": "Plateau d'outils",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/17-plateau-outils.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "eda6e7f6394c6b16436e613af479a8c08b74e65fbbeeb0e6633e7c9c627d070e",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Support indépendant, outils mobiles distincts du plateau."
+    },
+    {
+      "job": "18-porte-cellule",
+      "id": "cell-door",
+      "label": "Porte de cellule",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/18-porte-cellule.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "997544c1f623e6a7d60c57a88a3b99cb0a33add34e2d0df3523465ccf6aecf0f",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Cadre fixe et battant coulissant distincts. Ne pas inventer de nouvelle règle de progression."
+    },
+    {
+      "job": "19-station-energie",
+      "id": "energy-station",
+      "label": "Station d'énergie",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/19-station-energie.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "ee093a563a7668cc800fce68545b3e66d2ff9946de72cd5e5ecd9c1120b6f330",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Habillage possible de l'effet energy=support. Bouclier et état actif restent des données de gameplay."
+    },
+    {
+      "job": "20-emetteur-electrique",
+      "id": "electrical-emitter",
+      "label": "Émetteur électrique",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/20-emetteur-electrique.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "927ecd661f10fa76162741ad565f7b8fc74dc4b2bec2a5213a7722dd286e3f58",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Émetteur réutilisable par paire. Arcs, avertissement et fenêtre de passage sûre restent procéduraux."
+    },
+    {
+      "job": "21-module-route-enfer",
+      "id": null,
+      "label": "21-module-route-enfer",
+      "category": "archive",
+      "selected": false,
+      "status": "generated",
+      "role": "archived-reference",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/21-module-route-enfer.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "0d2e526195d30e5adf27f41980d409708ae69e2a8799aafe6dd5921732c80c7b",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "21-module-route-enfer-clean",
+      "id": "hell-road",
+      "label": "Enfer · module de route",
+      "category": "props",
+      "selected": true,
+      "status": "derived",
+      "role": "cutout-reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Dalle entière, trois voies lisibles et fragment de cellule supprimé du fond. La collision et la largeur des voies restent indépendantes.",
+      "files": [
+        {
+          "file": "public/cellule-assets/21-module-route-enfer-clean.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "13242fc0e12af406d592937c76834799798d2cc676a1e9d277256caa96ab2eee",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "file": "public/cellule-assets/21-module-route-enfer-clean.png",
+          "mimeType": "image/png",
+          "sha256": "83110148b5f4eae6d6e4a692cec69e00d8eb82bb54c4825ca5497c34ffc84d77",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/21-module-route-enfer-isole-v2.jpg",
+          "sha256": "040c361a3389e39fe04d9c1bddcdaea4098de630ffbb1f8601ab73a6098171ed"
+        }
+      ],
+      "integration": "Habillage d'une route plane à trois voies, conserver les dimensions et collisions du parcours."
     },
     {
       "job": "21-module-route-enfer-isole-v2",
+      "id": null,
       "label": "21-module-route-enfer-isole-v2",
+      "category": "archive",
+      "selected": false,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "archived-reference",
+      "reviewStatus": "cleanup-required",
+      "reviewNote": "Dalle trois voies entière. Fragment évident de la cellule et du fauteuil conservé dans le bas de l'image.",
       "files": [
         {
           "file": "public/cellule-assets/21-module-route-enfer-isole-v2.jpg",
@@ -704,13 +996,79 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/21-module-route-enfer.jpg",
+          "sha256": "0d2e526195d30e5adf27f41980d409708ae69e2a8799aafe6dd5921732c80c7b"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "22-bloc-enfer",
+      "id": "hell-block",
+      "label": "Enfer · bloc infranchissable",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/22-bloc-enfer.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "f4239de95aeacd47126db7ff5a65671f80d9fcb4d3522fc056c1a7bf4ddd95b2",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Obstacle de type block, distinct d'une petite barrière franchissable au saut."
+    },
+    {
+      "job": "23-barre-glissade",
+      "id": null,
+      "label": "23-barre-glissade",
+      "category": "archive",
+      "selected": false,
+      "status": "generated",
+      "role": "archived-reference",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/23-barre-glissade.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "f1820146366729eaca38982d9e7ed0963cf1d902ac9762abc5f0dee9fa925f03",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": null
     },
     {
       "job": "23-barre-glissade-isole-v2",
-      "label": "23-barre-glissade-isole-v2",
+      "id": "slide-bar",
+      "label": "Enfer · barre de glissade",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Assemblage entier, deux pieds visibles, ouverture sous la barre dégagée, fond neutre. Reste une référence 2D à modéliser.",
       "files": [
         {
           "file": "public/cellule-assets/23-barre-glissade-isole-v2.jpg",
@@ -719,13 +1077,167 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/23-barre-glissade.jpg",
+          "sha256": "f1820146366729eaca38982d9e7ed0963cf1d902ac9762abc5f0dee9fa925f03"
+        }
+      ],
+      "integration": "Obstacle de type overhead, préserver le passage sous la barre et le signal d'anticipation."
+    },
+    {
+      "job": "24-presse-enfer",
+      "id": "hell-press",
+      "label": "Enfer · presse",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/24-presse-enfer.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "01ee8ace0d5c25a56d8e7c22d30afdc653b3b177af820cf2a0ff8b2a01a55a4d",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Cadre fixe, piston et plateau mobile séparés. Ne pas modifier le cycle de collision codé."
+    },
+    {
+      "job": "25-ile-paradis",
+      "id": "paradise-island",
+      "label": "Paradis · île",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/25-ile-paradis.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "840dfeef5c3c699c451d91d3365089748b5550374ecfdb95c309838ecd861e73",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Habillage d'une surface de marche plane. Végétation hors du chemin obligatoire et collisions indépendantes."
+    },
+    {
+      "job": "26-tremplin-paradis",
+      "id": "rebound-pad",
+      "label": "Paradis · tremplin",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/26-tremplin-paradis.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "9dd13e35810d91944ab6dc4a22e22e8cb4b6d78c860d08878550314bbda595de",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Plaque mobile et socle séparés. Le moteur conserve le déclenchement et l'impulsion du rebond."
+    },
+    {
+      "job": "27-orbe-energie",
+      "id": null,
+      "label": "27-orbe-energie",
+      "category": "archive",
+      "selected": false,
+      "status": "generated",
+      "role": "archived-reference",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/27-orbe-energie.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "12e4a844ec94bc86891646c10ee418289172da26b3105f6d138e0729c615e095",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "27-orbe-energie-clean",
+      "id": "energy-orb",
+      "label": "Orbe d'énergie",
+      "category": "props",
+      "selected": true,
+      "status": "derived",
+      "role": "cutout-reference-2d",
+      "reviewStatus": "reference-with-caveats",
+      "reviewNote": "Orbe entière, fond retiré. Émission, halo et éventuelle transparence à recréer dans le moteur.",
+      "files": [
+        {
+          "file": "public/cellule-assets/27-orbe-energie-clean.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "6959007f5b763eba7676ee458649aa062718ecec046ec9763b944018ca925d0d",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "file": "public/cellule-assets/27-orbe-energie-clean.png",
+          "mimeType": "image/png",
+          "sha256": "95fc9cca9b32861029f2349d17c95554f51a06ee906943cea83725a6da717e1d",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/27-orbe-energie-isole-v2.jpg",
+          "sha256": "c7c8677a93c2af452a3df0f229511d4c8fde2a15eeea4011ca6f82916a75446f"
+        }
+      ],
+      "integration": "Collectible réutilisable. Rotation, émission et consommation restent des états runtime."
     },
     {
       "job": "27-orbe-energie-isole-v2",
+      "id": null,
       "label": "27-orbe-energie-isole-v2",
+      "category": "archive",
+      "selected": false,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "archived-reference",
+      "reviewStatus": "cleanup-required",
+      "reviewNote": "Orbe entière avec émission contenue ; résidus de la scène sous la sphère à supprimer.",
       "files": [
         {
           "file": "public/cellule-assets/27-orbe-energie-isole-v2.jpg",
@@ -734,13 +1246,268 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/27-orbe-energie.jpg",
+          "sha256": "12e4a844ec94bc86891646c10ee418289172da26b3105f6d138e0729c615e095"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "28-balise-checkpoint",
+      "id": "checkpoint-beacon",
+      "label": "Balise de checkpoint",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/28-balise-checkpoint.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "1261c0274a102bda39cf1dce473de1097a8991200ec4d5607e3a8e88a6a903e7",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Signal visuel du checkpoint, sans modifier sa position ni les règles de reprise."
+    },
+    {
+      "job": "29-portique-sortie",
+      "id": "exit-gateway",
+      "label": "Portique de sortie",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/29-portique-sortie.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "8931d67dba11c4814e172c878dc4bf010ccf3a3a757acd0f17193e4ad900ca6e",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Cadre ouvert dont la teinte peut changer selon l'issue. La zone de victoire reste définie par le code."
+    },
+    {
+      "job": "30-environnement-enfer",
+      "id": "hell-environment",
+      "label": "Environnement · enfer",
+      "category": "environments",
+      "selected": true,
+      "status": "generated",
+      "role": "environment-reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/30-environnement-enfer.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "e200a5b985b69983b62f40e837f696dddfac40cab6bfca816dc73cc997164570",
+          "width": 2752,
+          "height": 1536
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Direction artistique du monde industriel hostile. Image perspective, pas une skybox ni un niveau 3D prêt à jouer."
+    },
+    {
+      "job": "31-environnement-paradis",
+      "id": "paradise-environment",
+      "label": "Environnement · paradis",
+      "category": "environments",
+      "selected": true,
+      "status": "generated",
+      "role": "environment-reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/31-environnement-paradis.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "73b417d9a960fc76c515013402c42b3ac05bb8b36a1d68d43e049aad9fe2fd83",
+          "width": 2752,
+          "height": 1536
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Direction artistique du monde lumineux à îles et plané. Image perspective, pas une skybox ni un niveau 3D prêt à jouer."
+    },
+    {
+      "job": "32-texture-mur-cellule",
+      "id": "cell-wall-color",
+      "label": "Base couleur · mur clinique",
+      "category": "textures",
+      "selected": true,
+      "status": "generated",
+      "role": "base-color-candidate",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/32-texture-mur-cellule.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "a914b141189bb2a9f357172b594bd2ea7e6c7079031116a3756039c647dd7760",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Texture couleur sRGB proposée. Tester répétition, exposition et rugosité séparée sur les murs réels."
+    },
+    {
+      "job": "33-texture-sol-cellule",
+      "id": "cell-floor-color",
+      "label": "Base couleur · sol clinique",
+      "category": "textures",
+      "selected": true,
+      "status": "generated",
+      "role": "base-color-candidate",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/33-texture-sol-cellule.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "904c9a123f411e23af45e3b1b7950798f3a59f8cb6527ebef9e3fef102faa10c",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Texture couleur sRGB proposée. Les joints et drains restent géométriques ; contrôler l'échelle UV."
+    },
+    {
+      "job": "34-texture-metal-enfer",
+      "id": "hell-metal-color",
+      "label": "Base couleur · métal enfer",
+      "category": "textures",
+      "selected": true,
+      "status": "generated",
+      "role": "base-color-candidate",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/34-texture-metal-enfer.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "2aa8993bc8dc3f16d0fac13f3dc10b8ea7c765f27d1c2011340ccbb13b7f14da",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Texture couleur sRGB proposée. Ce fichier n'est ni la carte metallic ni la carte roughness."
+    },
+    {
+      "job": "35-texture-surface-paradis",
+      "id": "paradise-surface-color",
+      "label": "Base couleur · surface paradis",
+      "category": "textures",
+      "selected": true,
+      "status": "generated",
+      "role": "base-color-candidate",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/35-texture-surface-paradis.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "4386014b9790b95b398d7ec836aa722ebda4da10e91c72e685c5fbfd0e4a9269",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Texture couleur sRGB proposée. Contrôler répétition, couleur sous l'éclairage réel et lisibilité des rebords."
+    },
+    {
+      "job": "36-barriere-saut",
+      "id": "jump-hurdle",
+      "label": "Enfer · barrière de saut",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "not-reviewed-in-this-pass",
+      "reviewNote": "Consulter les limites du catalogue ; aucune validation 3D implicite.",
+      "files": [
+        {
+          "file": "public/cellule-assets/36-barriere-saut.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "6c9f907fafff2531b13fbf907933133f61375ce53d38f626f45a96a4818d5b47",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+          "sha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca"
+        }
+      ],
+      "integration": "Obstacle de type barrier, garder une hauteur compatible avec la physique de saut existante."
     },
     {
       "job": "37-fauteuil-face",
+      "id": "chair-front",
       "label": "Fauteuil · face",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/37-fauteuil-face.jpg",
@@ -749,13 +1516,25 @@
           "width": 1696,
           "height": 2528
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/05-fauteuil.jpg",
+          "sha256": "c6d56359b4ff4b8be7b4eba0f1eeed637eaf86b572c9983d2eabf081d3526f3a"
+        }
+      ],
+      "integration": "Vue complémentaire du fauteuil existant ; séparer ses parties mobiles lors de la modélisation."
     },
     {
       "job": "38-fauteuil-dos",
+      "id": "chair-back",
       "label": "Fauteuil · dos",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/38-fauteuil-dos.jpg",
@@ -764,13 +1543,25 @@
           "width": 1696,
           "height": 2528
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/05-fauteuil.jpg",
+          "sha256": "c6d56359b4ff4b8be7b4eba0f1eeed637eaf86b572c9983d2eabf081d3526f3a"
+        }
+      ],
+      "integration": "Construction arrière proposée ; le fauteuil maître reste prioritaire en cas de contradiction."
     },
     {
       "job": "39-fauteuil-profil",
+      "id": "chair-side",
       "label": "Fauteuil · profil",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/39-fauteuil-profil.jpg",
@@ -779,13 +1570,79 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/05-fauteuil.jpg",
+          "sha256": "c6d56359b4ff4b8be7b4eba0f1eeed637eaf86b572c9983d2eabf081d3526f3a"
+        }
+      ],
+      "integration": "Vue latérale utile pour le placement d'un robot assis ; proportions à confronter au maître."
+    },
+    {
+      "job": "40-verrou-ouvert",
+      "id": "restraint-open",
+      "label": "Verrou · ouvert",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-with-caveats",
+      "reviewNote": "Assemblage entièrement cadré. Charnière et anneau supérieur proposés ne prouvent pas une correspondance mécanique exacte avec la pose fermée.",
+      "files": [
+        {
+          "file": "public/cellule-assets/40-verrou-ouvert.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "26e212521016c2df2de777a00ed8e6fb684a58a5827913646ef949fdba491769",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/08-verrou-contention-clean-v2.jpg",
+          "sha256": "b57099ded0807897865a248a01ba08b60194ea2130d86393cbcf55f06f9211d3"
+        }
+      ],
+      "integration": "Référence de pose ouverte : bracelet, charnière et molette doivent devenir des pièces articulées."
+    },
+    {
+      "job": "41-verrou-ferme",
+      "id": "restraint-closed",
+      "label": "Verrou · fermé",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
+      "files": [
+        {
+          "file": "public/cellule-assets/41-verrou-ferme.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "9e1090ccd81ee225b48ce34da5df64880ce3a38c769b15d5ed8e91aa6692980c",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/08-verrou-contention-clean-v2.jpg",
+          "sha256": "b57099ded0807897865a248a01ba08b60194ea2130d86393cbcf55f06f9211d3"
+        }
+      ],
+      "integration": "Référence de fermeture sans bras ; ne définit ni angle de butée ni dommage de gameplay."
     },
     {
       "job": "42-sonde-face",
+      "id": "probe-side",
       "label": "Sonde · vue latérale",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/42-sonde-face.jpg",
@@ -794,13 +1651,25 @@
           "width": 2752,
           "height": 1536
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/06-sonde-electrique.jpg",
+          "sha256": "953f7530798146d17d14bb30ff9d0d91aa34dd945bf794e4c008332f888e0842"
+        }
+      ],
+      "integration": "Vue de profil de l'outil ; pointe et connecteur arrière doivent rester distincts."
     },
     {
       "job": "43-pince-face",
+      "id": "pliers-top",
       "label": "Pince · vue de dessus",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/43-pince-face.jpg",
@@ -809,13 +1678,128 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/07-pince-extraction.jpg",
+          "sha256": "93e156df8631363c46981291ea0cbada247e76b16f29cf71f45293f5fc6a86f7"
+        }
+      ],
+      "integration": "Vue orthographique de la pince ; pivot et deux mâchoires à reconstruire séparément."
+    },
+    {
+      "job": "44-module-avant-bras-ferme",
+      "id": "forearm-closed",
+      "label": "Avant-bras · trappe fermée",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
+      "files": [
+        {
+          "file": "public/cellule-assets/44-module-avant-bras-ferme.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "dcd307cd91ce1ee6f1327dc2f816d4deb4f9fd24c090be5b2e10be23ab2899e2",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/09-module-avant-bras-clean.jpg",
+          "sha256": "37a225fa74517cc5ca61067966b0621c961e2c0b873f65d8a482307ffc6414d7"
+        }
+      ],
+      "integration": "Référence de l'état fermé ; la trappe reste indépendante du bras et de son contenu."
+    },
+    {
+      "job": "45-obstruction-metal",
+      "id": "metal-obstruction",
+      "label": "Débris métallique",
+      "category": "props",
+      "selected": false,
+      "status": "generated",
+      "role": "archived-reference",
+      "reviewStatus": "rejected",
+      "reviewNote": "Avant-bras et grande pièce ajoutés au lieu du petit débris isolé. Remplacé dans la sélection par 45-obstruction-metal-v2.",
+      "files": [
+        {
+          "file": "public/cellule-assets/45-obstruction-metal.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "fc0fe4a3be202ea1b7ed3315783eb5c2d5145c4fd811e8535eda3c148bc61879",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/09-module-avant-bras-clean.jpg",
+          "sha256": "37a225fa74517cc5ca61067966b0621c961e2c0b873f65d8a482307ffc6414d7"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "45-obstruction-metal-v2",
+      "id": "metal-obstruction",
+      "label": "Débris métallique · isolé",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Un seul petit fragment métallique plié, entier et isolé, sans avant-bras ni câble.",
+      "files": [
+        {
+          "file": "public/cellule-assets/45-obstruction-metal-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "4434999373c3803804d514025a329900b7db3f8181cfc6a2ad19f883007918c2",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [],
+      "integration": "Petit débris indépendant du câble et du module d'avant-bras. Taille et interaction fixées dans le moteur."
+    },
+    {
+      "job": "46-cable-fonctionnel",
+      "id": "functional-cable",
+      "label": "Câble fonctionnel",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
+      "files": [
+        {
+          "file": "public/cellule-assets/46-cable-fonctionnel.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "a77edce424916775d2ca0b92138394f33e21c0cccc0c93cb41e9ed6abd7c7707",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/09-module-avant-bras-clean.jpg",
+          "sha256": "37a225fa74517cc5ca61067966b0621c961e2c0b873f65d8a482307ffc6414d7"
+        }
+      ],
+      "integration": "Référence d'un câble intact avec connecteurs, à distinguer des débris et à relier réellement au modèle."
     },
     {
       "job": "47-mur-cellule-module",
+      "id": "cell-wall-module",
       "label": "Cellule · panneau mural",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/47-mur-cellule-module.jpg",
@@ -824,13 +1808,25 @@
           "width": 1696,
           "height": 2528
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/10-decor-vide-propre-v2.jpg",
+          "sha256": "9a172a0dc77d6fa70391587fe4b4bb6c5a74cdc6f1eec0979ca87a029dd522d9"
+        }
+      ],
+      "integration": "Module mural de référence ; dimensions, raccords et collision restent à définir pour la salle."
     },
     {
       "job": "48-sol-cellule-module",
+      "id": "cell-floor-module",
       "label": "Cellule · dalle de sol",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/48-sol-cellule-module.jpg",
@@ -839,28 +1835,25 @@
           "width": 2048,
           "height": 2048
         }
-      ]
-    },
-    {
-      "job": "50-angle-cellule",
-      "label": "Cellule · angle mural",
-      "status": "generated",
-      "reviewStatus": "pending-art-review",
-      "files": [
+      ],
+      "references": [
         {
-          "file": "public/cellule-assets/50-angle-cellule.jpg",
-          "mimeType": "image/jpeg",
-          "sha256": "2fe90aedc9d67eff9b155f5c0bcdd601e42b04a745f5972a784d5652e29f8d14",
-          "width": 1696,
-          "height": 2528
+          "file": "public/cellule-assets/10-decor-vide-propre-v2.jpg",
+          "sha256": "9a172a0dc77d6fa70391587fe4b4bb6c5a74cdc6f1eec0979ca87a029dd522d9"
         }
-      ]
+      ],
+      "integration": "Dalle de sol modulaire, distincte de la texture couleur et de la collision de la salle."
     },
     {
       "job": "49-plafond-lumineux",
+      "id": "cell-ceiling-light",
       "label": "Cellule · luminaire",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-with-caveats",
+      "reviewNote": "Luminaire entier, mais résidus de la cellule et de câbles derrière. Référence de forme seulement, pas un objet proprement isolé.",
       "files": [
         {
           "file": "public/cellule-assets/49-plafond-lumineux.jpg",
@@ -869,13 +1862,52 @@
           "width": 2752,
           "height": 1536
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/10-decor-vide-propre-v2.jpg",
+          "sha256": "9a172a0dc77d6fa70391587fe4b4bb6c5a74cdc6f1eec0979ca87a029dd522d9"
+        }
+      ],
+      "integration": "Luminaire de plafond ; surface émissive et éclairage réel doivent être gérés séparément."
+    },
+    {
+      "job": "50-angle-cellule",
+      "id": "cell-corner-module",
+      "label": "Cellule · angle mural",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
+      "files": [
+        {
+          "file": "public/cellule-assets/50-angle-cellule.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "2fe90aedc9d67eff9b155f5c0bcdd601e42b04a745f5972a784d5652e29f8d14",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/10-decor-vide-propre-v2.jpg",
+          "sha256": "9a172a0dc77d6fa70391587fe4b4bb6c5a74cdc6f1eec0979ca87a029dd522d9"
+        }
+      ],
+      "integration": "Raccord intérieur à angle droit pour kit de salle, sans géométrie de niveau imposée."
     },
     {
       "job": "51-banc-cellule",
+      "id": "cell-bench",
       "label": "Cellule · banc",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/51-banc-cellule.jpg",
@@ -884,13 +1916,25 @@
           "width": 2752,
           "height": 1536
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/05-fauteuil.jpg",
+          "sha256": "c6d56359b4ff4b8be7b4eba0f1eeed637eaf86b572c9983d2eabf081d3526f3a"
+        }
+      ],
+      "integration": "Mobilier secondaire proposé, à placer hors des interactions obligatoires."
     },
     {
       "job": "52-console-cellule",
+      "id": "cell-console",
       "label": "Cellule · console",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/52-console-cellule.jpg",
@@ -899,13 +1943,25 @@
           "width": 1696,
           "height": 2528
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/19-station-energie.jpg",
+          "sha256": "ee093a563a7668cc800fce68545b3e66d2ff9946de72cd5e5ecd9c1120b6f330"
+        }
+      ],
+      "integration": "Console proposée ; écran vide à remplir par l'interface réelle, sans nouveau signal de gameplay."
     },
     {
       "job": "53-drain-cellule",
+      "id": "cell-drain",
       "label": "Cellule · grille de sol",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/53-drain-cellule.jpg",
@@ -914,13 +1970,25 @@
           "width": 2752,
           "height": 1536
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/10-decor-vide-propre-v2.jpg",
+          "sha256": "9a172a0dc77d6fa70391587fe4b4bb6c5a74cdc6f1eec0979ca87a029dd522d9"
+        }
+      ],
+      "integration": "Grille de sol séparée, à encastrer sans créer d'obstacle physique accidentel."
     },
     {
       "job": "54-portique-cellule",
+      "id": "cell-doorframe",
       "label": "Cellule · cadre de porte",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/54-portique-cellule.jpg",
@@ -929,13 +1997,25 @@
           "width": 1696,
           "height": 2528
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/18-porte-cellule.jpg",
+          "sha256": "997544c1f623e6a7d60c57a88a3b99cb0a33add34e2d0df3523465ccf6aecf0f"
+        }
+      ],
+      "integration": "Cadre indépendant du battant, ouverture et seuil à dimensionner dans le moteur."
     },
     {
       "job": "55-robot-assis-neutre",
+      "id": "robot-seated-neutral",
       "label": "Robot · pose assise neutre",
+      "category": "characters",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-with-caveats",
+      "reviewNote": "Corps entier mais posture semi-fléchie plutôt qu’une assise à angle droit. Reposer le rig en fonction du fauteuil réel.",
       "files": [
         {
           "file": "public/cellule-assets/55-robot-assis-neutre.jpg",
@@ -944,13 +2024,25 @@
           "width": 1696,
           "height": 2528
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+          "sha256": "ca23064637d33b0c2cd3e143f1ad6e0f4272e7a481a5cb2867e75362374d9211"
+        }
+      ],
+      "integration": "Pose de référence statique pour le rig, sans fauteuil fusionné au robot ni animation livrée."
     },
     {
       "job": "56-robot-assis-apaise",
+      "id": "robot-seated-relieved",
       "label": "Robot · pose apaisée",
+      "category": "characters",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/56-robot-assis-apaise.jpg",
@@ -959,13 +2051,25 @@
           "width": 1696,
           "height": 2528
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+          "sha256": "ca23064637d33b0c2cd3e143f1ad6e0f4272e7a481a5cb2867e75362374d9211"
+        }
+      ],
+      "integration": "Proposition de pose de réaction positive ; garder les réactions et leur déclenchement dans le code."
     },
     {
       "job": "57-robot-assis-defensif",
+      "id": "robot-seated-guarded",
       "label": "Robot · pose de protection",
+      "category": "characters",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-with-caveats",
+      "reviewNote": "Corps entier et geste défensif lisible ; assise et angles des jambes à ajuster, ne pas déduire une animation de cette image.",
       "files": [
         {
           "file": "public/cellule-assets/57-robot-assis-defensif.jpg",
@@ -974,13 +2078,25 @@
           "width": 1696,
           "height": 2528
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+          "sha256": "ca23064637d33b0c2cd3e143f1ad6e0f4272e7a481a5cb2867e75362374d9211"
+        }
+      ],
+      "integration": "Proposition de pose défensive sans dégâts dessinés ; ne remplace pas les animations du rig."
     },
     {
       "job": "58-main-robot",
+      "id": "robot-hand-detail",
       "label": "Robot · main mécanique",
+      "category": "characters",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/58-main-robot.jpg",
@@ -989,13 +2105,25 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+          "sha256": "ca23064637d33b0c2cd3e143f1ad6e0f4272e7a481a5cb2867e75362374d9211"
+        }
+      ],
+      "integration": "Détail proposé pour articulation des doigts ; vérifier l'anatomie et l'échelle avec le maître."
     },
     {
       "job": "59-tete-robot",
+      "id": "robot-head-detail",
       "label": "Robot · tête",
+      "category": "characters",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/59-tete-robot.jpg",
@@ -1004,13 +2132,25 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+          "sha256": "ca23064637d33b0c2cd3e143f1ad6e0f4272e7a481a5cb2867e75362374d9211"
+        }
+      ],
+      "integration": "Référence rapprochée du visage ; ne pas changer la forme du maître ni fusionner les yeux au matériau opaque."
     },
     {
       "job": "60-connecteur-thorax",
+      "id": "robot-chest-port",
       "label": "Robot · connecteur thoracique",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/60-connecteur-thorax.jpg",
@@ -1019,28 +2159,128 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/00-robot-master-blue-eyes.jpg",
+          "sha256": "ca23064637d33b0c2cd3e143f1ad6e0f4272e7a481a5cb2867e75362374d9211"
+        }
+      ],
+      "integration": "Référence de connecteur séparé ; conserver la compatibilité visuelle avec la sonde et le thorax."
     },
     {
-      "job": "65-enfer-pilier",
-      "label": "Enfer · pilier structurel",
+      "job": "61-enfer-rampe",
+      "id": "hell-ramp",
+      "label": "Enfer · rampe",
+      "category": "props",
+      "selected": false,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "archived-reference",
+      "reviewStatus": "rejected",
+      "reviewNote": "Deux dalles présentées en collage plutôt qu’une rampe monobloc. Remplacé par 61-enfer-rampe-v2.",
       "files": [
         {
-          "file": "public/cellule-assets/65-enfer-pilier.jpg",
+          "file": "public/cellule-assets/61-enfer-rampe.jpg",
           "mimeType": "image/jpeg",
-          "sha256": "cf9270daf8e3abbb358e4932c60e771987bdaa0cd384d5b57ba47f28aed05d1c",
-          "width": 1696,
-          "height": 2528
+          "sha256": "136bdfece0e90922728db0f5458d5b5f3c7b82ae923fc947e84fd0c169a27754",
+          "width": 2048,
+          "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/21-module-route-enfer-clean.jpg",
+          "sha256": "13242fc0e12af406d592937c76834799798d2cc676a1e9d277256caa96ab2eee"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "61-enfer-rampe-v2",
+      "id": "hell-ramp",
+      "label": "Enfer · rampe monobloc",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-with-caveats",
+      "reviewNote": "Rampe monobloc entière, pente et flanc triangulaire lisibles. Reconstruire explicitement les trois voies plutôt que les déduire du marquage.",
+      "files": [
+        {
+          "file": "public/cellule-assets/61-enfer-rampe-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "596953566d0173503d5317084e079b285f8da1c6f5f632abc5aabdeba8b8099b",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [],
+      "integration": "Module de rampe proposé, avec une surface continue. La pente physique reste une décision du contrôleur du jeu."
+    },
+    {
+      "job": "62-enfer-route-virage",
+      "id": "hell-route-turn",
+      "label": "Enfer · virage",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
+      "files": [
+        {
+          "file": "public/cellule-assets/62-enfer-route-virage.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "932f355ae2a722d153a171f6877cb0faaade1d99e154f16f3fed79bd6e13d831",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/21-module-route-enfer-clean.jpg",
+          "sha256": "13242fc0e12af406d592937c76834799798d2cc676a1e9d277256caa96ab2eee"
+        }
+      ],
+      "integration": "Virage proposé pour décor ou futur parcours ; voies et trajectoire restent contrôlées par le jeu."
+    },
+    {
+      "job": "63-enfer-route-jonction",
+      "id": "hell-route-joint",
+      "label": "Enfer · raccord de route",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
+      "files": [
+        {
+          "file": "public/cellule-assets/63-enfer-route-jonction.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "c973da6796f0d40e3c695356902d6ea438fcf9eed08e627e3a5453227ebcc090",
+          "width": 2752,
+          "height": 1536
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/21-module-route-enfer-clean.jpg",
+          "sha256": "13242fc0e12af406d592937c76834799798d2cc676a1e9d277256caa96ab2eee"
+        }
+      ],
+      "integration": "Raccord visuel court, à garder affleurant avec la collision des modules adjacents."
     },
     {
       "job": "64-enfer-garde-corps",
+      "id": "hell-railing",
       "label": "Enfer · garde-corps",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/64-enfer-garde-corps.jpg",
@@ -1049,13 +2289,52 @@
           "width": 2752,
           "height": 1536
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/22-bloc-enfer.jpg",
+          "sha256": "f4239de95aeacd47126db7ff5a65671f80d9fcb4d3522fc056c1a7bf4ddd95b2"
+        }
+      ],
+      "integration": "Garde-corps indépendant, hors des trois voies ; collision à définir explicitement."
+    },
+    {
+      "job": "65-enfer-pilier",
+      "id": "hell-pillar",
+      "label": "Enfer · pilier structurel",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
+      "files": [
+        {
+          "file": "public/cellule-assets/65-enfer-pilier.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "cf9270daf8e3abbb358e4932c60e771987bdaa0cd384d5b57ba47f28aed05d1c",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/22-bloc-enfer.jpg",
+          "sha256": "f4239de95aeacd47126db7ff5a65671f80d9fcb4d3522fc056c1a7bf4ddd95b2"
+        }
+      ],
+      "integration": "Pilier de décor modulaire, à placer hors du chemin et dimensionner dans le moteur."
     },
     {
       "job": "66-enfer-mur",
+      "id": "hell-wall-module",
       "label": "Enfer · panneau mural",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/66-enfer-mur.jpg",
@@ -1064,13 +2343,25 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/22-bloc-enfer.jpg",
+          "sha256": "f4239de95aeacd47126db7ff5a65671f80d9fcb4d3522fc056c1a7bf4ddd95b2"
+        }
+      ],
+      "integration": "Panneau mural de décor ; métal et rugosité restent des matériaux à construire."
     },
     {
       "job": "67-enfer-plafond-tuyaux",
+      "id": "hell-pipe-rack",
       "label": "Enfer · module de conduites",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-with-caveats",
+      "reviewNote": "Module entier, mais réseau en raccord croisé plutôt que trois conduites parallèles. Géométrie proposée, pas un raccord technique mesuré.",
       "files": [
         {
           "file": "public/cellule-assets/67-enfer-plafond-tuyaux.jpg",
@@ -1079,13 +2370,25 @@
           "width": 2752,
           "height": 1536
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/24-presse-enfer.jpg",
+          "sha256": "01ee8ace0d5c25a56d8e7c22d30afdc653b3b177af820cf2a0ff8b2a01a55a4d"
+        }
+      ],
+      "integration": "Module de conduites de plafond, sans collision involontaire avec les zones de saut."
     },
     {
       "job": "68-enfer-turbine",
+      "id": "hell-ventilation-fan",
       "label": "Enfer · turbine",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/68-enfer-turbine.jpg",
@@ -1094,13 +2397,25 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/24-presse-enfer.jpg",
+          "sha256": "01ee8ace0d5c25a56d8e7c22d30afdc653b3b177af820cf2a0ff8b2a01a55a4d"
+        }
+      ],
+      "integration": "Ventilation de décor ; rotor et carter à séparer si une rotation est ajoutée."
     },
     {
       "job": "69-enfer-caisse",
+      "id": "hell-service-crate",
       "label": "Enfer · caisse technique",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/69-enfer-caisse.jpg",
@@ -1109,13 +2424,25 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/22-bloc-enfer.jpg",
+          "sha256": "f4239de95aeacd47126db7ff5a65671f80d9fcb4d3522fc056c1a7bf4ddd95b2"
+        }
+      ],
+      "integration": "Accessoire de décor, à ne pas confondre avec l'obstacle infranchissable existant."
     },
     {
       "job": "70-enfer-porte-industrielle",
+      "id": "hell-service-door",
       "label": "Enfer · porte industrielle",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/70-enfer-porte-industrielle.jpg",
@@ -1124,13 +2451,52 @@
           "width": 1696,
           "height": 2528
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/22-bloc-enfer.jpg",
+          "sha256": "f4239de95aeacd47126db7ff5a65671f80d9fcb4d3522fc056c1a7bf4ddd95b2"
+        }
+      ],
+      "integration": "Porte d'habillage industriel ; panneau mobile distinct du cadre, sans nouvelle règle d'accès."
+    },
+    {
+      "job": "71-enfer-segment-convoyeur",
+      "id": "hell-conveyor",
+      "label": "Enfer · convoyeur",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
+      "files": [
+        {
+          "file": "public/cellule-assets/71-enfer-segment-convoyeur.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "a5014bc45279f12f8adc89eef7800722569160bb95c3b9980f554bf26128ee5c",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/21-module-route-enfer-clean.jpg",
+          "sha256": "13242fc0e12af406d592937c76834799798d2cc676a1e9d277256caa96ab2eee"
+        }
+      ],
+      "integration": "Convoyeur de référence ; bande et châssis séparés, mouvement éventuel à valider côté gameplay."
     },
     {
       "job": "72-enfer-balise-alerte",
+      "id": "hell-warning-beacon",
       "label": "Enfer · balise d'alerte",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/72-enfer-balise-alerte.jpg",
@@ -1139,13 +2505,25 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/20-emetteur-electrique.jpg",
+          "sha256": "927ecd661f10fa76162741ad565f7b8fc74dc4b2bec2a5213a7722dd286e3f58"
+        }
+      ],
+      "integration": "Balise d'avertissement : émission et clignotement indépendants de la collision et du timing du danger."
     },
     {
       "job": "73-paradis-passerelle",
+      "id": "paradise-bridge",
       "label": "Paradis · passerelle",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/73-paradis-passerelle.jpg",
@@ -1154,13 +2532,25 @@
           "width": 2752,
           "height": 1536
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/25-ile-paradis.jpg",
+          "sha256": "840dfeef5c3c699c451d91d3365089748b5550374ecfdb95c309838ecd861e73"
+        }
+      ],
+      "integration": "Passerelle proposée ; largeur et contacts physiques décidés selon le parcours."
     },
     {
       "job": "74-paradis-rampe",
+      "id": "paradise-ramp",
       "label": "Paradis · rampe douce",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/74-paradis-rampe.jpg",
@@ -1169,13 +2559,25 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/25-ile-paradis.jpg",
+          "sha256": "840dfeef5c3c699c451d91d3365089748b5550374ecfdb95c309838ecd861e73"
+        }
+      ],
+      "integration": "Module de pente optionnel, à adapter au contrôleur plutôt qu'à imposer à sa physique."
     },
     {
       "job": "75-paradis-ile-petite",
+      "id": "paradise-small-island",
       "label": "Paradis · petite île",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/75-paradis-ile-petite.jpg",
@@ -1184,13 +2586,25 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/25-ile-paradis.jpg",
+          "sha256": "840dfeef5c3c699c451d91d3365089748b5550374ecfdb95c309838ecd861e73"
+        }
+      ],
+      "integration": "Petite plateforme de réception proposée ; sa surface réelle doit rester compatible avec le mouvement."
     },
     {
       "job": "76-paradis-ile-longue",
+      "id": "paradise-long-island",
       "label": "Paradis · île allongée",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/76-paradis-ile-longue.jpg",
@@ -1199,13 +2613,25 @@
           "width": 2752,
           "height": 1536
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/25-ile-paradis.jpg",
+          "sha256": "840dfeef5c3c699c451d91d3365089748b5550374ecfdb95c309838ecd861e73"
+        }
+      ],
+      "integration": "Variante allongée de plateforme, sans définir longueur des sauts ou distance de plané."
     },
     {
       "job": "77-paradis-arche",
+      "id": "paradise-arch",
       "label": "Paradis · arche",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/77-paradis-arche.jpg",
@@ -1214,13 +2640,25 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/29-portique-sortie.jpg",
+          "sha256": "8931d67dba11c4814e172c878dc4bf010ccf3a3a757acd0f17193e4ad900ca6e"
+        }
+      ],
+      "integration": "Arche architecturale d'habillage ; ne constitue pas automatiquement une nouvelle sortie."
     },
     {
       "job": "78-paradis-jardiniere",
+      "id": "paradise-planter",
       "label": "Paradis · jardinière",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/78-paradis-jardiniere.jpg",
@@ -1229,13 +2667,25 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/25-ile-paradis.jpg",
+          "sha256": "840dfeef5c3c699c451d91d3365089748b5550374ecfdb95c309838ecd861e73"
+        }
+      ],
+      "integration": "Végétation de bordure proposée, à tenir hors du trajet obligatoire et des collisions de réception."
     },
     {
       "job": "79-paradis-arbre",
+      "id": "paradise-tree",
       "label": "Paradis · arbre",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-with-caveats",
+      "reviewNote": "Canopée et base entières ; une portion de plateforme subsiste sous l’arbre. Séparer végétation, contenant et dalle lors de la modélisation.",
       "files": [
         {
           "file": "public/cellule-assets/79-paradis-arbre.jpg",
@@ -1244,13 +2694,25 @@
           "width": 1696,
           "height": 2528
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/25-ile-paradis.jpg",
+          "sha256": "840dfeef5c3c699c451d91d3365089748b5550374ecfdb95c309838ecd861e73"
+        }
+      ],
+      "integration": "Arbre de décor, géométrie et feuillage optimisés à créer séparément de la plateforme."
     },
     {
       "job": "80-paradis-pilier",
+      "id": "paradise-pillar",
       "label": "Paradis · pilier",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/80-paradis-pilier.jpg",
@@ -1259,13 +2721,25 @@
           "width": 1696,
           "height": 2528
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/28-balise-checkpoint.jpg",
+          "sha256": "1261c0274a102bda39cf1dce473de1097a8991200ec4d5607e3a8e88a6a903e7"
+        }
+      ],
+      "integration": "Pilier structurel de décor, distinct d'une balise de checkpoint interactive."
     },
     {
       "job": "81-paradis-borne-vent",
+      "id": "paradise-air-vent",
       "label": "Paradis · borne de ventilation",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/81-paradis-borne-vent.jpg",
@@ -1274,13 +2748,74 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/26-tremplin-paradis.jpg",
+          "sha256": "9dd13e35810d91944ab6dc4a22e22e8cb4b6d78c860d08878550314bbda595de"
+        }
+      ],
+      "integration": "Accessoire de ventilation proposé ; aucune force ou nouvelle mécanique de vol n'est implicite."
+    },
+    {
+      "job": "82-paradis-anneau-direction",
+      "id": "paradise-guidance-ring",
+      "label": "Paradis · anneau de guidage",
+      "category": "props",
+      "selected": false,
+      "status": "generated",
+      "role": "archived-reference",
+      "reviewStatus": "rejected",
+      "reviewNote": "Plusieurs anneaux croisés au lieu d’un seul anneau plan. Remplacé par 82-paradis-anneau-direction-v2.",
+      "files": [
+        {
+          "file": "public/cellule-assets/82-paradis-anneau-direction.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "2733ed1f7461abfdee5b340451642f21de499f9187d02f8906b04a5d5ac4f8b7",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/27-orbe-energie-clean.jpg",
+          "sha256": "6959007f5b763eba7676ee458649aa062718ecec046ec9763b944018ca925d0d"
+        }
+      ],
+      "integration": null
+    },
+    {
+      "job": "82-paradis-anneau-direction-v2",
+      "id": "paradise-guidance-ring",
+      "label": "Paradis · anneau simple",
+      "category": "props",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Un seul anneau entier, céramique claire et bord cyan, centre visuellement dégagé. L’ouverture doit devenir une vraie géométrie creuse.",
+      "files": [
+        {
+          "file": "public/cellule-assets/82-paradis-anneau-direction-v2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "535cc8cd2d6fa42c698041a191828779d176b19033b69ceb829d1d37c2f257e9",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [],
+      "integration": "Anneau de guidage distinct de l'orbe. Centre réellement ouvert à reconstruire, aucune collision ou progression implicite."
     },
     {
       "job": "83-paradis-fontaine",
+      "id": "paradise-fountain",
       "label": "Paradis · fontaine",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/83-paradis-fontaine.jpg",
@@ -1289,13 +2824,25 @@
           "width": 2048,
           "height": 2048
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/25-ile-paradis.jpg",
+          "sha256": "840dfeef5c3c699c451d91d3365089748b5550374ecfdb95c309838ecd861e73"
+        }
+      ],
+      "integration": "Fontaine de décor ; bassin, eau et animation éventuelle séparés, hors des réceptions."
     },
     {
       "job": "84-paradis-repos",
+      "id": "paradise-bench",
       "label": "Paradis · banc de repos",
+      "category": "props",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
       "files": [
         {
           "file": "public/cellule-assets/84-paradis-repos.jpg",
@@ -1304,13 +2851,25 @@
           "width": 2752,
           "height": 1536
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/25-ile-paradis.jpg",
+          "sha256": "840dfeef5c3c699c451d91d3365089748b5550374ecfdb95c309838ecd861e73"
+        }
+      ],
+      "integration": "Mobilier de jardin proposé, purement visuel tant qu'aucune interaction n'est spécifiée."
     },
     {
       "job": "85-cellule-vue-inverse",
+      "id": "cell-reverse-environment",
       "label": "Cellule · vue inverse proposée",
+      "category": "environments",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "environment-reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Concept de lieu proposé, pas un niveau navigable ni une géométrie calibrée.",
       "files": [
         {
           "file": "public/cellule-assets/85-cellule-vue-inverse.jpg",
@@ -1319,13 +2878,25 @@
           "width": 2752,
           "height": 1536
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/10-decor-vide-propre-v2.jpg",
+          "sha256": "9a172a0dc77d6fa70391587fe4b4bb6c5a74cdc6f1eec0979ca87a029dd522d9"
+        }
+      ],
+      "integration": "Proposition de l'autre côté de la salle, pas un relevé architectural ni une géométrie validée."
     },
     {
       "job": "86-enfer-salle-presse",
+      "id": "hell-press-hall",
       "label": "Enfer · salle des presses",
+      "category": "environments",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "environment-reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Concept de lieu proposé, pas un niveau navigable ni une géométrie calibrée.",
       "files": [
         {
           "file": "public/cellule-assets/86-enfer-salle-presse.jpg",
@@ -1334,13 +2905,29 @@
           "width": 2752,
           "height": 1536
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/30-environnement-enfer.jpg",
+          "sha256": "e200a5b985b69983b62f40e837f696dddfac40cab6bfca816dc73cc997164570"
+        },
+        {
+          "file": "public/cellule-assets/24-presse-enfer.jpg",
+          "sha256": "01ee8ace0d5c25a56d8e7c22d30afdc653b3b177af820cf2a0ff8b2a01a55a4d"
+        }
+      ],
+      "integration": "Référence d'ambiance et placement visuel ; cycles et collisions des presses restent déterministes."
     },
     {
       "job": "87-enfer-carrefour",
+      "id": "hell-service-junction",
       "label": "Enfer · hall de maintenance",
+      "category": "environments",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "environment-reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Concept de lieu proposé, pas un niveau navigable ni une géométrie calibrée.",
       "files": [
         {
           "file": "public/cellule-assets/87-enfer-carrefour.jpg",
@@ -1349,13 +2936,25 @@
           "width": 2752,
           "height": 1536
         }
-      ]
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/30-environnement-enfer.jpg",
+          "sha256": "e200a5b985b69983b62f40e837f696dddfac40cab6bfca816dc73cc997164570"
+        }
+      ],
+      "integration": "Hall de décor proposé ; les branches visibles ne constituent pas automatiquement des chemins jouables."
     },
     {
       "job": "88-paradis-jardin",
+      "id": "paradise-garden-environment",
       "label": "Paradis · jardin suspendu",
+      "category": "environments",
+      "selected": true,
       "status": "generated",
-      "reviewStatus": "pending-art-review",
+      "role": "environment-reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Concept de lieu proposé, pas un niveau navigable ni une géométrie calibrée.",
       "files": [
         {
           "file": "public/cellule-assets/88-paradis-jardin.jpg",
@@ -1364,6 +2963,380 @@
           "width": 2752,
           "height": 1536
         }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/31-environnement-paradis.jpg",
+          "sha256": "73b417d9a960fc76c515013402c42b3ac05bb8b36a1d68d43e049aad9fe2fd83"
+        }
+      ],
+      "integration": "Jardin d'ambiance proposé ; reconstruire surfaces, vide et végétation en éléments séparés."
+    },
+    {
+      "job": "89-paradis-arrivee",
+      "id": "paradise-arrival-environment",
+      "label": "Paradis · terrasse d'arrivée",
+      "category": "environments",
+      "selected": true,
+      "status": "generated",
+      "role": "environment-reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Concept de lieu proposé, pas un niveau navigable ni une géométrie calibrée.",
+      "files": [
+        {
+          "file": "public/cellule-assets/89-paradis-arrivee.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "ffbfcd03d620ad0a5b076a4d770180a8b4c10ba597ce1967e2128f1c4b73ff4e",
+          "width": 2752,
+          "height": 1536
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/31-environnement-paradis.jpg",
+          "sha256": "73b417d9a960fc76c515013402c42b3ac05bb8b36a1d68d43e049aad9fe2fd83"
+        },
+        {
+          "file": "public/cellule-assets/29-portique-sortie.jpg",
+          "sha256": "8931d67dba11c4814e172c878dc4bf010ccf3a3a757acd0f17193e4ad900ca6e"
+        }
+      ],
+      "integration": "Direction artistique d'une arrivée ; victoire, transition et replay restent des états du jeu."
+    },
+    {
+      "job": "90-humain-course",
+      "id": "human-running-pose",
+      "label": "Humain · pose de course",
+      "category": "characters",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
+      "files": [
+        {
+          "file": "public/cellule-assets/90-humain-course.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "ce88938e42b2b271f783998969b1c5ec79adc6ede8283fe0d7f2b00a5e35c90b",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/11-humain-maitre.jpg",
+          "sha256": "126960cadd8a90ef0e94afbcb2b629772042db8fd5dac24a6739ffec3a3ee8d9"
+        }
+      ],
+      "integration": "Pose de référence pour locomotion, pas un sprite détouré ni une animation de course."
+    },
+    {
+      "job": "91-humain-saut",
+      "id": "human-jumping-pose",
+      "label": "Humain · pose de saut",
+      "category": "characters",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
+      "files": [
+        {
+          "file": "public/cellule-assets/91-humain-saut.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "f1c891f9a5b0547cc0f1efb2da04ef101643458da288676bcea145e810caeaea",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/11-humain-maitre.jpg",
+          "sha256": "126960cadd8a90ef0e94afbcb2b629772042db8fd5dac24a6739ffec3a3ee8d9"
+        }
+      ],
+      "integration": "Pose de saut statique pour référence du rig ; impulsion et hauteur restent codées."
+    },
+    {
+      "job": "92-humain-glissade",
+      "id": "human-sliding-pose",
+      "label": "Humain · pose de glissade",
+      "category": "characters",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
+      "files": [
+        {
+          "file": "public/cellule-assets/92-humain-glissade.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "e140678f160adca4bdc577015b4d70287d42ab3664300b6f312b70de500a913d",
+          "width": 2752,
+          "height": 1536
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/11-humain-maitre.jpg",
+          "sha256": "126960cadd8a90ef0e94afbcb2b629772042db8fd5dac24a6739ffec3a3ee8d9"
+        }
+      ],
+      "integration": "Pose basse de glissade ; hitbox, durée et friction indépendantes de cette image."
+    },
+    {
+      "job": "93-humain-plane",
+      "id": "human-gliding-pose",
+      "label": "Humain · pose de plané",
+      "category": "characters",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
+      "files": [
+        {
+          "file": "public/cellule-assets/93-humain-plane.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "4c42f3a5aa2345988fa8775d39ffcaec2095dcc16c23bcc38972fd7d03a886ef",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/11-humain-maitre.jpg",
+          "sha256": "126960cadd8a90ef0e94afbcb2b629772042db8fd5dac24a6739ffec3a3ee8d9"
+        }
+      ],
+      "integration": "Pose de plané proposée, sans ailes ni nouvel équipement ; ne livre aucune simulation de vol."
+    },
+    {
+      "job": "94-humain-atterrissage",
+      "id": "human-landing-pose",
+      "label": "Humain · pose de réception",
+      "category": "characters",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "reference-usable",
+      "reviewNote": "Élément entier vérifié sur planche. Référence 2D ; détails cachés, dimensions et articulation restent à reconstruire.",
+      "files": [
+        {
+          "file": "public/cellule-assets/94-humain-atterrissage.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "2f4df44cc92ea013c634dd241f4ae8f4d8ee1d72e5440786343be37afb3fbb15",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/11-humain-maitre.jpg",
+          "sha256": "126960cadd8a90ef0e94afbcb2b629772042db8fd5dac24a6739ffec3a3ee8d9"
+        }
+      ],
+      "integration": "Pose de réception à confronter au rig ; absorption, inertie et contrôles ne sont pas déduits de l'image."
+    },
+    {
+      "job": "95-humain-interaction",
+      "id": "human-reaching-pose",
+      "label": "Humain · pose d'interaction",
+      "category": "characters",
+      "selected": true,
+      "status": "generated",
+      "role": "reference-2d",
+      "reviewStatus": "side-unconfirmed",
+      "reviewNote": "Personnage entier, main vide visible. Le côté anatomique du bras actif n’est pas garanti ; régler la main d’interaction dans le rig.",
+      "files": [
+        {
+          "file": "public/cellule-assets/95-humain-interaction.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "6968018d7ec5235092a5334ca988002924068250c2b6dfc75e878ed53444e5f5",
+          "width": 1696,
+          "height": 2528
+        }
+      ],
+      "references": [
+        {
+          "file": "public/cellule-assets/11-humain-maitre.jpg",
+          "sha256": "126960cadd8a90ef0e94afbcb2b629772042db8fd5dac24a6739ffec3a3ee8d9"
+        }
+      ],
+      "integration": "Pose debout pour interaction, mains vides ; outil, cible et IK doivent rester séparés."
+    }
+  ],
+  "contactSheetSnapshot": {
+    "file": "public/cellule-assets/contact-sheets/snapshot.json",
+    "sha256": "16f74dedcab26b6d4f502be1f8a4a26bf1f15c97718510db48f5ad81f841cd74"
+  },
+  "contactSheets": [
+    {
+      "file": "public/cellule-assets/contact-sheets/selection-01.jpg",
+      "mimeType": "image/jpeg",
+      "sha256": "5d3c7d3b578858df6bac48305d1fd9be4587e7c6b66eefb57cd524e87b8a66ad",
+      "width": 1500,
+      "height": 1970,
+      "jobs": [
+        "00-robot-master-blue-eyes",
+        "01-robot-front",
+        "02-robot-right",
+        "03-robot-back-v2",
+        "04-robot-left-profile-v2",
+        "05-fauteuil",
+        "06-sonde-electrique",
+        "07-pince-extraction",
+        "08-verrou-contention-clean-v2",
+        "09-module-avant-bras-clean",
+        "10-decor-vide-propre-v2",
+        "11-humain-maitre"
+      ]
+    },
+    {
+      "file": "public/cellule-assets/contact-sheets/selection-02.jpg",
+      "mimeType": "image/jpeg",
+      "sha256": "2fd84b2ba5d1f1ef352ba5827add014c582fe44c8cd0e0cff2ffea812f7bee8f",
+      "width": 1500,
+      "height": 1970,
+      "jobs": [
+        "12-humain-face",
+        "13-humain-droite",
+        "14-humain-dos",
+        "15-humain-gauche",
+        "16-miroir-observation-clean",
+        "17-plateau-outils",
+        "18-porte-cellule",
+        "19-station-energie",
+        "20-emetteur-electrique",
+        "21-module-route-enfer-clean",
+        "22-bloc-enfer",
+        "23-barre-glissade-isole-v2"
+      ]
+    },
+    {
+      "file": "public/cellule-assets/contact-sheets/selection-03.jpg",
+      "mimeType": "image/jpeg",
+      "sha256": "c605497bc2e2a4aa1350fec98c48b31c88ecb75e53aacce58995daf09deb1203",
+      "width": 1500,
+      "height": 1970,
+      "jobs": [
+        "24-presse-enfer",
+        "25-ile-paradis",
+        "26-tremplin-paradis",
+        "27-orbe-energie-clean",
+        "28-balise-checkpoint",
+        "29-portique-sortie",
+        "30-environnement-enfer",
+        "31-environnement-paradis",
+        "32-texture-mur-cellule",
+        "33-texture-sol-cellule",
+        "34-texture-metal-enfer",
+        "35-texture-surface-paradis"
+      ]
+    },
+    {
+      "file": "public/cellule-assets/contact-sheets/selection-04.jpg",
+      "mimeType": "image/jpeg",
+      "sha256": "fd0c5973fdca41245d116a5b04756221a4fa3890c112023268e03812108138df",
+      "width": 1500,
+      "height": 1970,
+      "jobs": [
+        "36-barriere-saut",
+        "37-fauteuil-face",
+        "38-fauteuil-dos",
+        "39-fauteuil-profil",
+        "40-verrou-ouvert",
+        "41-verrou-ferme",
+        "42-sonde-face",
+        "43-pince-face",
+        "44-module-avant-bras-ferme",
+        "45-obstruction-metal-v2",
+        "46-cable-fonctionnel",
+        "47-mur-cellule-module"
+      ]
+    },
+    {
+      "file": "public/cellule-assets/contact-sheets/selection-05.jpg",
+      "mimeType": "image/jpeg",
+      "sha256": "de212f860148c08b9df7d084a145edbf8e0cfbc8f53f79892021ce4b7e499606",
+      "width": 1500,
+      "height": 1970,
+      "jobs": [
+        "48-sol-cellule-module",
+        "49-plafond-lumineux",
+        "50-angle-cellule",
+        "51-banc-cellule",
+        "52-console-cellule",
+        "53-drain-cellule",
+        "54-portique-cellule",
+        "55-robot-assis-neutre",
+        "56-robot-assis-apaise",
+        "57-robot-assis-defensif",
+        "58-main-robot",
+        "59-tete-robot"
+      ]
+    },
+    {
+      "file": "public/cellule-assets/contact-sheets/selection-06.jpg",
+      "mimeType": "image/jpeg",
+      "sha256": "7c9e1a77e63d9038733ad98f68103de7b22f67d2afbb4bd8f3ded5faea8f4028",
+      "width": 1500,
+      "height": 1970,
+      "jobs": [
+        "60-connecteur-thorax",
+        "61-enfer-rampe-v2",
+        "62-enfer-route-virage",
+        "63-enfer-route-jonction",
+        "64-enfer-garde-corps",
+        "65-enfer-pilier",
+        "66-enfer-mur",
+        "67-enfer-plafond-tuyaux",
+        "68-enfer-turbine",
+        "69-enfer-caisse",
+        "70-enfer-porte-industrielle",
+        "71-enfer-segment-convoyeur"
+      ]
+    },
+    {
+      "file": "public/cellule-assets/contact-sheets/selection-07.jpg",
+      "mimeType": "image/jpeg",
+      "sha256": "90832ea7ef674752836953ed9e5e438b624f8a8a99fe7741bb7c00d8c3bfba6a",
+      "width": 1500,
+      "height": 1970,
+      "jobs": [
+        "72-enfer-balise-alerte",
+        "73-paradis-passerelle",
+        "74-paradis-rampe",
+        "75-paradis-ile-petite",
+        "76-paradis-ile-longue",
+        "77-paradis-arche",
+        "78-paradis-jardiniere",
+        "79-paradis-arbre",
+        "80-paradis-pilier",
+        "81-paradis-borne-vent",
+        "82-paradis-anneau-direction-v2",
+        "83-paradis-fontaine"
+      ]
+    },
+    {
+      "file": "public/cellule-assets/contact-sheets/selection-08.jpg",
+      "mimeType": "image/jpeg",
+      "sha256": "1900bae8461581b978c4169771d55448d0e5518b25b48b4ee53cd0df448b616f",
+      "width": 1500,
+      "height": 1970,
+      "jobs": [
+        "84-paradis-repos",
+        "85-cellule-vue-inverse",
+        "86-enfer-salle-presse",
+        "87-enfer-carrefour",
+        "88-paradis-jardin",
+        "89-paradis-arrivee",
+        "90-humain-course",
+        "91-humain-saut",
+        "92-humain-glissade",
+        "93-humain-plane",
+        "94-humain-atterrissage",
+        "95-humain-interaction"
       ]
     }
   ]

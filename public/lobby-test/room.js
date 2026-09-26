@@ -271,11 +271,31 @@ function buildObservationWindow(group, mats) {
   glass.position.set(0, 0, -depth + 0.02);
   reveal.add(glass);
 
+  // Reference 16-miroir-observation: a proud cream frame around the pane and
+  // a single vertical mullion, so the glass reads as an installed unit.
+  const ft = 0.09;
+  const fd = 0.05;
+  for (const [fw, fh, fx, fy] of [
+    [w + ft * 2, ft, 0, h / 2 + ft / 2],
+    [w + ft * 2, ft, 0, -h / 2 - ft / 2],
+    [ft, h, -w / 2 - ft / 2, 0],
+    [ft, h, w / 2 + ft / 2, 0],
+  ]) {
+    const bar = new THREE.Mesh(new THREE.BoxGeometry(fw, fh, fd), mats.shell);
+    bar.position.set(fx, fy, fd / 2 - 0.01);
+    bar.castShadow = true;
+    bar.receiveShadow = true;
+    reveal.add(bar);
+  }
+  const mullion = new THREE.Mesh(new THREE.BoxGeometry(0.035, h - 0.04, 0.02), mats.charcoal);
+  mullion.position.set(w * 0.18, 0, -depth + 0.035);
+  reveal.add(mullion);
+
   group.add(reveal);
   return { windowGroup: reveal, windowGlass: glass, windowGlow: glow, windowFigure: figure };
 }
 
-// Flush door: only the shadow gap and the recessed plate give it away.
+// Door set into the wall: shadow gap, architrave, recessed leaf and pull.
 function buildDoor(group, mats) {
   const x = ROOM.halfX;
   const zc = 1.55;
@@ -289,15 +309,35 @@ function buildDoor(group, mats) {
   const gap = new THREE.Mesh(new THREE.PlaneGeometry(w + 0.03, h + 0.015), mats.shadowGap);
   gap.position.z = 0.002;
   doorGroup.add(gap);
-  const leaf = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mats.wall);
+  const leaf = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mats.shell);
   leaf.position.z = 0.012;
+  leaf.receiveShadow = true;
   doorGroup.add(leaf);
 
-  const plate = new THREE.Mesh(new THREE.PlaneGeometry(0.16, 0.26), mats.steel);
-  plate.position.set(w / 2 - 0.16, -0.05, 0.016);
-  doorGroup.add(plate);
+  // Reference 18-porte-cellule: slim cream architrave, recessed leaf, one
+  // dark vertical pull on the strike side.
+  const ft = 0.07;
+  for (const [fw, fh, fx, fy] of [
+    [w + 0.03 + ft * 2, ft, 0, h / 2 + 0.0075 + ft / 2],
+    [ft, h + 0.015, -(w + 0.03) / 2 - ft / 2, 0],
+    [ft, h + 0.015, (w + 0.03) / 2 + ft / 2, 0],
+  ]) {
+    const bar = new THREE.Mesh(new THREE.BoxGeometry(fw, fh, 0.045), mats.shell);
+    bar.position.set(fx, fy, 0.0225);
+    bar.castShadow = true;
+    bar.receiveShadow = true;
+    doorGroup.add(bar);
+  }
+  const inset = new THREE.Mesh(new THREE.PlaneGeometry(w - 0.16, h - 0.2), mats.wall);
+  inset.position.set(0, 0.02, 0.014);
+  doorGroup.add(inset);
+  const pull = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.3, 0.035), mats.charcoal);
+  pull.position.set(w / 2 - 0.1, -0.02, 0.03);
+  pull.castShadow = true;
+  doorGroup.add(pull);
+
   const reader = new THREE.Mesh(new THREE.PlaneGeometry(0.05, 0.012), mats.cove.clone());
-  reader.position.set(w / 2 - 0.16, 0.03, 0.018);
+  reader.position.set(w / 2 - 0.1, 0.22, 0.018);
   doorGroup.add(reader);
 
   group.add(doorGroup);

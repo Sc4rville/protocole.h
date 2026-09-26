@@ -1,57 +1,804 @@
 {
-  "version": 1,
+  "version": 2,
   "project": "protocole.h",
-  "scope": "Pack visuel V1 : personnages, accessoires, modules de parcours, lieux et bases couleur",
-  "stage": "production-in-progress",
+  "scope": "Sélection de 96 références : personnages, accessoires, modules, lieux et bases couleur",
+  "stage": "reference-pack-delivered",
   "approvedSource": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
   "approvedSourceSha256": "f8424050fbacc5a7152df562ac802ce0b4ef8d3fcdfc239ca1d9f9f1a8d7bfca",
   "generationRecords": "public/cellule-assets/generation-results.jsonl",
   "notes": [
-    "Ce catalogue est la sélection prévue. La présence et l'état réel de chaque sortie seront consignés dans delivery-manifest.json.",
+    "Ce catalogue est la sélection active. delivery-manifest.json distingue fichiers retenus, archives, variantes et réserves de revue.",
     "00-robot-master-blue-eyes remplace visuellement le premier essai 00-robot-master, conservé pour traçabilité mais exclu de la sélection principale.",
     "Le robot et la cellule s'appuient sur l'image approuvée. L'humain, les modules de jeu et les mondes étendus sont de nouvelles propositions cohérentes, pas des designs déjà approuvés par Yann.",
     "Les références de personnages et objets ne contiennent ni meshes, ni rig, ni animation, ni collision. La cohérence parfaite des côtés invisibles n'est pas garantie par la génération d'images.",
     "Les textures sont des propositions de base couleur 2D. Elles ne sont pas des ensembles PBR mesurés : normales, rugosité, métal et géométrie restent à régler dans le moteur.",
     "Ne pas changer la physique, les dimensions de collision, les voies, les événements du verdict ou les timings pour faire rentrer un visuel.",
-    "Le miroir nécessite une réflexion calculée dans le moteur. Les yeux bleus, arcs électriques, lumières, ressorts et presses nécessitent des matériaux ou animations séparés."
+    "Le miroir nécessite une réflexion calculée dans le moteur. Les yeux bleus, arcs électriques, lumières, ressorts et presses nécessitent des matériaux ou animations séparés.",
+    "Les 59 entrées du complément sont livrées. Les débris, la rampe et l’anneau utilisent leurs corrections v2 ; leurs premiers rendus sont archivés."
   ],
   "assets": [
-    {"id":"robot-master","job":"00-robot-master-blue-eyes","label":"Robot · maître","category":"characters","role":"reference-2d","integration":"Identité principale du robot : silhouette squelettique sombre, coque grise, yeux cyan. Reconstruire et articuler un modèle séparé du fauteuil."},
-    {"id":"robot-front","job":"01-robot-front","label":"Robot · face","category":"characters","role":"reference-2d","integration":"Vue de reconstruction complémentaire du maître, pas une texture à projeter intégralement sur un mesh."},
-    {"id":"robot-right","job":"02-robot-right","label":"Robot · profil droit","category":"characters","role":"reference-2d","integration":"Contrôler le côté anatomique et la trappe d'avant-bras avant toute reconstruction multi-vues."},
-    {"id":"robot-back","job":"03-robot-back","label":"Robot · dos","category":"characters","role":"reference-2d","integration":"Détails arrière inférés par le générateur. Le maître reste prioritaire en cas de contradiction."},
-    {"id":"robot-left","job":"04-robot-left","label":"Robot · profil gauche","category":"characters","role":"reference-2d","integration":"Contrôler le côté anatomique et les éléments asymétriques par rapport au maître."},
-    {"id":"restraint-chair","job":"05-fauteuil","label":"Fauteuil de contention","category":"props","role":"reference-2d","integration":"Modèle indépendant du robot ; séparer les parties mobiles, coussins et contentions selon les interactions."},
-    {"id":"electrical-probe","job":"06-sonde-electrique","label":"Sonde électrique","category":"props","role":"reference-2d","integration":"Outil tenu en main. Conserver les événements charge_restored et overload_caused définis dans le contrat V1."},
-    {"id":"extraction-pliers","job":"07-pince-extraction","label":"Pince d'extraction","category":"props","role":"reference-2d","integration":"Articuler les mâchoires et préserver la distinction entre débris à retirer et câble fonctionnel."},
-    {"id":"restraint-lock","job":"08-verrou-contention","label":"Verrou de contention","category":"props","role":"reference-2d","integration":"Séparer molette, charnière et bracelet pour permettre rotation et ouverture."},
-    {"id":"forearm-module","job":"09-module-avant-bras","label":"Module d'avant-bras","category":"props","role":"reference-2d","integration":"Garder trappe, obstruction et câble fonctionnel séparés. Ne pas remplacer tout le bras par une image plane."},
-    {"id":"white-cell","job":"10-decor-vide","label":"Cellule blanche","category":"environments","role":"environment-reference-2d","integration":"Référence de salle et cadrage, pas une salle 3D navigable ni un panorama 360 degrés."},
-    {"id":"human-master","job":"11-humain-maitre","label":"Humain · maître","category":"characters","role":"reference-2d","integration":"Proposition d'avatar humain en combinaison clinique. Modèle articulable à reconstruire sans imposer une identité narrative définitive."},
-    {"id":"human-front","job":"12-humain-face","label":"Humain · face","category":"characters","role":"reference-2d","integration":"Vue complémentaire du même avatar, à confronter au maître."},
-    {"id":"human-right","job":"13-humain-droite","label":"Humain · profil droit","category":"characters","role":"reference-2d","integration":"Vue complémentaire du même avatar, vérifier pose et proportions."},
-    {"id":"human-back","job":"14-humain-dos","label":"Humain · dos","category":"characters","role":"reference-2d","integration":"Vue utile pour la caméra de suivi ; ne pas modifier les commandes ni les animations de locomotion existantes."},
-    {"id":"human-left","job":"15-humain-gauche","label":"Humain · profil gauche","category":"characters","role":"reference-2d","integration":"Vue complémentaire du même avatar, vérifier pose et proportions."},
-    {"id":"observation-mirror","job":"16-miroir-observation","label":"Miroir d'observation","category":"props","role":"reference-2d","integration":"Cadre et vitre séparés. Réflexion et transparence éventuelle à calculer dans le moteur, sans scène peinte sur la vitre."},
-    {"id":"tool-tray","job":"17-plateau-outils","label":"Plateau d'outils","category":"props","role":"reference-2d","integration":"Support indépendant, outils mobiles distincts du plateau."},
-    {"id":"cell-door","job":"18-porte-cellule","label":"Porte de cellule","category":"props","role":"reference-2d","integration":"Cadre fixe et battant coulissant distincts. Ne pas inventer de nouvelle règle de progression."},
-    {"id":"energy-station","job":"19-station-energie","label":"Station d'énergie","category":"props","role":"reference-2d","integration":"Habillage possible de l'effet energy=support. Bouclier et état actif restent des données de gameplay."},
-    {"id":"electrical-emitter","job":"20-emetteur-electrique","label":"Émetteur électrique","category":"props","role":"reference-2d","integration":"Émetteur réutilisable par paire. Arcs, avertissement et fenêtre de passage sûre restent procéduraux."},
-    {"id":"hell-road","job":"21-module-route-enfer","label":"Enfer · module de route","category":"props","role":"reference-2d","integration":"Habillage d'une route plane à trois voies, conserver les dimensions et collisions du parcours."},
-    {"id":"hell-block","job":"22-bloc-enfer","label":"Enfer · bloc infranchissable","category":"props","role":"reference-2d","integration":"Obstacle de type block, distinct d'une petite barrière franchissable au saut."},
-    {"id":"slide-bar","job":"23-barre-glissade","label":"Enfer · barre de glissade","category":"props","role":"reference-2d","integration":"Obstacle de type overhead, préserver le passage sous la barre et le signal d'anticipation."},
-    {"id":"hell-press","job":"24-presse-enfer","label":"Enfer · presse","category":"props","role":"reference-2d","integration":"Cadre fixe, piston et plateau mobile séparés. Ne pas modifier le cycle de collision codé."},
-    {"id":"paradise-island","job":"25-ile-paradis","label":"Paradis · île","category":"props","role":"reference-2d","integration":"Habillage d'une surface de marche plane. Végétation hors du chemin obligatoire et collisions indépendantes."},
-    {"id":"rebound-pad","job":"26-tremplin-paradis","label":"Paradis · tremplin","category":"props","role":"reference-2d","integration":"Plaque mobile et socle séparés. Le moteur conserve le déclenchement et l'impulsion du rebond."},
-    {"id":"energy-orb","job":"27-orbe-energie","label":"Orbe d'énergie","category":"props","role":"reference-2d","integration":"Collectible réutilisable. Rotation, émission et consommation restent des états runtime."},
-    {"id":"checkpoint-beacon","job":"28-balise-checkpoint","label":"Balise de checkpoint","category":"props","role":"reference-2d","integration":"Signal visuel du checkpoint, sans modifier sa position ni les règles de reprise."},
-    {"id":"exit-gateway","job":"29-portique-sortie","label":"Portique de sortie","category":"props","role":"reference-2d","integration":"Cadre ouvert dont la teinte peut changer selon l'issue. La zone de victoire reste définie par le code."},
-    {"id":"hell-environment","job":"30-environnement-enfer","label":"Environnement · enfer","category":"environments","role":"environment-reference-2d","integration":"Direction artistique du monde industriel hostile. Image perspective, pas une skybox ni un niveau 3D prêt à jouer."},
-    {"id":"paradise-environment","job":"31-environnement-paradis","label":"Environnement · paradis","category":"environments","role":"environment-reference-2d","integration":"Direction artistique du monde lumineux à îles et plané. Image perspective, pas une skybox ni un niveau 3D prêt à jouer."},
-    {"id":"cell-wall-color","job":"32-texture-mur-cellule","label":"Base couleur · mur clinique","category":"textures","role":"base-color-candidate","integration":"Texture couleur sRGB proposée. Tester répétition, exposition et rugosité séparée sur les murs réels."},
-    {"id":"cell-floor-color","job":"33-texture-sol-cellule","label":"Base couleur · sol clinique","category":"textures","role":"base-color-candidate","integration":"Texture couleur sRGB proposée. Les joints et drains restent géométriques ; contrôler l'échelle UV."},
-    {"id":"hell-metal-color","job":"34-texture-metal-enfer","label":"Base couleur · métal enfer","category":"textures","role":"base-color-candidate","integration":"Texture couleur sRGB proposée. Ce fichier n'est ni la carte metallic ni la carte roughness."},
-    {"id":"paradise-surface-color","job":"35-texture-surface-paradis","label":"Base couleur · surface paradis","category":"textures","role":"base-color-candidate","integration":"Texture couleur sRGB proposée. Contrôler répétition, couleur sous l'éclairage réel et lisibilité des rebords."},
-    {"id":"jump-hurdle","job":"36-barriere-saut","label":"Enfer · barrière de saut","category":"props","role":"reference-2d","integration":"Obstacle de type barrier, garder une hauteur compatible avec la physique de saut existante."}
-  ]
+    {
+      "id": "robot-master",
+      "job": "00-robot-master-blue-eyes",
+      "label": "Robot · maître",
+      "category": "characters",
+      "role": "reference-2d",
+      "integration": "Identité principale du robot : silhouette squelettique sombre, coque grise, yeux cyan. Reconstruire et articuler un modèle séparé du fauteuil."
+    },
+    {
+      "id": "robot-front",
+      "job": "01-robot-front",
+      "label": "Robot · face",
+      "category": "characters",
+      "role": "reference-2d",
+      "integration": "Vue de reconstruction complémentaire du maître, pas une texture à projeter intégralement sur un mesh."
+    },
+    {
+      "id": "robot-right",
+      "job": "02-robot-right",
+      "label": "Robot · profil droit",
+      "category": "characters",
+      "role": "reference-2d",
+      "integration": "Contrôler le côté anatomique et la trappe d'avant-bras avant toute reconstruction multi-vues."
+    },
+    {
+      "id": "robot-back",
+      "job": "03-robot-back-v2",
+      "label": "Robot · dos",
+      "category": "characters",
+      "role": "reference-2d",
+      "integration": "Détails arrière inférés par le générateur. Le maître reste prioritaire en cas de contradiction.",
+      "previousJob": "03-robot-back"
+    },
+    {
+      "id": "robot-left",
+      "job": "04-robot-left-profile-v2",
+      "label": "Robot · profil à vérifier",
+      "category": "characters",
+      "role": "reference-2d",
+      "integration": "Contrôler le côté anatomique et les éléments asymétriques par rapport au maître.",
+      "previousJob": "04-robot-left"
+    },
+    {
+      "id": "restraint-chair",
+      "job": "05-fauteuil",
+      "label": "Fauteuil de contention",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Modèle indépendant du robot ; séparer les parties mobiles, coussins et contentions selon les interactions."
+    },
+    {
+      "id": "electrical-probe",
+      "job": "06-sonde-electrique",
+      "label": "Sonde électrique",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Outil tenu en main. Conserver les événements charge_restored et overload_caused définis dans le contrat V1."
+    },
+    {
+      "id": "extraction-pliers",
+      "job": "07-pince-extraction",
+      "label": "Pince d'extraction",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Articuler les mâchoires et préserver la distinction entre débris à retirer et câble fonctionnel."
+    },
+    {
+      "id": "restraint-lock",
+      "job": "08-verrou-contention-clean-v2",
+      "label": "Verrou de contention",
+      "category": "props",
+      "role": "cutout-reference-2d",
+      "integration": "Séparer molette, charnière et bracelet pour permettre rotation et ouverture.",
+      "previousJob": "08-verrou-contention"
+    },
+    {
+      "id": "forearm-module",
+      "job": "09-module-avant-bras-clean",
+      "label": "Module d'avant-bras",
+      "category": "props",
+      "role": "cutout-reference-2d",
+      "integration": "Garder trappe, obstruction et câble fonctionnel séparés. Ne pas remplacer tout le bras par une image plane.",
+      "previousJob": "09-module-avant-bras"
+    },
+    {
+      "id": "white-cell",
+      "job": "10-decor-vide-propre-v2",
+      "label": "Cellule blanche",
+      "category": "environments",
+      "role": "environment-reference-2d",
+      "integration": "Référence de salle et cadrage, pas une salle 3D navigable ni un panorama 360 degrés.",
+      "previousJob": "10-decor-vide"
+    },
+    {
+      "id": "human-master",
+      "job": "11-humain-maitre",
+      "label": "Humain · maître",
+      "category": "characters",
+      "role": "reference-2d",
+      "integration": "Proposition d'avatar humain en combinaison clinique. Modèle articulable à reconstruire sans imposer une identité narrative définitive."
+    },
+    {
+      "id": "human-front",
+      "job": "12-humain-face",
+      "label": "Humain · face",
+      "category": "characters",
+      "role": "reference-2d",
+      "integration": "Vue complémentaire du même avatar, à confronter au maître."
+    },
+    {
+      "id": "human-right",
+      "job": "13-humain-droite",
+      "label": "Humain · profil droit",
+      "category": "characters",
+      "role": "reference-2d",
+      "integration": "Vue complémentaire du même avatar, vérifier pose et proportions."
+    },
+    {
+      "id": "human-back",
+      "job": "14-humain-dos",
+      "label": "Humain · dos",
+      "category": "characters",
+      "role": "reference-2d",
+      "integration": "Vue utile pour la caméra de suivi ; ne pas modifier les commandes ni les animations de locomotion existantes."
+    },
+    {
+      "id": "human-left",
+      "job": "15-humain-gauche",
+      "label": "Humain · profil gauche",
+      "category": "characters",
+      "role": "reference-2d",
+      "integration": "Vue complémentaire du même avatar, vérifier pose et proportions."
+    },
+    {
+      "id": "observation-mirror",
+      "job": "16-miroir-observation-clean",
+      "label": "Miroir d'observation",
+      "category": "props",
+      "role": "cutout-reference-2d",
+      "integration": "Cadre et vitre séparés. Réflexion et transparence éventuelle à calculer dans le moteur, sans scène peinte sur la vitre.",
+      "previousJob": "16-miroir-observation"
+    },
+    {
+      "id": "tool-tray",
+      "job": "17-plateau-outils",
+      "label": "Plateau d'outils",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Support indépendant, outils mobiles distincts du plateau."
+    },
+    {
+      "id": "cell-door",
+      "job": "18-porte-cellule",
+      "label": "Porte de cellule",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Cadre fixe et battant coulissant distincts. Ne pas inventer de nouvelle règle de progression."
+    },
+    {
+      "id": "energy-station",
+      "job": "19-station-energie",
+      "label": "Station d'énergie",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Habillage possible de l'effet energy=support. Bouclier et état actif restent des données de gameplay."
+    },
+    {
+      "id": "electrical-emitter",
+      "job": "20-emetteur-electrique",
+      "label": "Émetteur électrique",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Émetteur réutilisable par paire. Arcs, avertissement et fenêtre de passage sûre restent procéduraux."
+    },
+    {
+      "id": "hell-road",
+      "job": "21-module-route-enfer-clean",
+      "label": "Enfer · module de route",
+      "category": "props",
+      "role": "cutout-reference-2d",
+      "integration": "Habillage d'une route plane à trois voies, conserver les dimensions et collisions du parcours.",
+      "previousJob": "21-module-route-enfer"
+    },
+    {
+      "id": "hell-block",
+      "job": "22-bloc-enfer",
+      "label": "Enfer · bloc infranchissable",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Obstacle de type block, distinct d'une petite barrière franchissable au saut."
+    },
+    {
+      "id": "slide-bar",
+      "job": "23-barre-glissade-isole-v2",
+      "label": "Enfer · barre de glissade",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Obstacle de type overhead, préserver le passage sous la barre et le signal d'anticipation.",
+      "previousJob": "23-barre-glissade"
+    },
+    {
+      "id": "hell-press",
+      "job": "24-presse-enfer",
+      "label": "Enfer · presse",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Cadre fixe, piston et plateau mobile séparés. Ne pas modifier le cycle de collision codé."
+    },
+    {
+      "id": "paradise-island",
+      "job": "25-ile-paradis",
+      "label": "Paradis · île",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Habillage d'une surface de marche plane. Végétation hors du chemin obligatoire et collisions indépendantes."
+    },
+    {
+      "id": "rebound-pad",
+      "job": "26-tremplin-paradis",
+      "label": "Paradis · tremplin",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Plaque mobile et socle séparés. Le moteur conserve le déclenchement et l'impulsion du rebond."
+    },
+    {
+      "id": "energy-orb",
+      "job": "27-orbe-energie-clean",
+      "label": "Orbe d'énergie",
+      "category": "props",
+      "role": "cutout-reference-2d",
+      "integration": "Collectible réutilisable. Rotation, émission et consommation restent des états runtime.",
+      "previousJob": "27-orbe-energie"
+    },
+    {
+      "id": "checkpoint-beacon",
+      "job": "28-balise-checkpoint",
+      "label": "Balise de checkpoint",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Signal visuel du checkpoint, sans modifier sa position ni les règles de reprise."
+    },
+    {
+      "id": "exit-gateway",
+      "job": "29-portique-sortie",
+      "label": "Portique de sortie",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Cadre ouvert dont la teinte peut changer selon l'issue. La zone de victoire reste définie par le code."
+    },
+    {
+      "id": "hell-environment",
+      "job": "30-environnement-enfer",
+      "label": "Environnement · enfer",
+      "category": "environments",
+      "role": "environment-reference-2d",
+      "integration": "Direction artistique du monde industriel hostile. Image perspective, pas une skybox ni un niveau 3D prêt à jouer."
+    },
+    {
+      "id": "paradise-environment",
+      "job": "31-environnement-paradis",
+      "label": "Environnement · paradis",
+      "category": "environments",
+      "role": "environment-reference-2d",
+      "integration": "Direction artistique du monde lumineux à îles et plané. Image perspective, pas une skybox ni un niveau 3D prêt à jouer."
+    },
+    {
+      "id": "cell-wall-color",
+      "job": "32-texture-mur-cellule",
+      "label": "Base couleur · mur clinique",
+      "category": "textures",
+      "role": "base-color-candidate",
+      "integration": "Texture couleur sRGB proposée. Tester répétition, exposition et rugosité séparée sur les murs réels."
+    },
+    {
+      "id": "cell-floor-color",
+      "job": "33-texture-sol-cellule",
+      "label": "Base couleur · sol clinique",
+      "category": "textures",
+      "role": "base-color-candidate",
+      "integration": "Texture couleur sRGB proposée. Les joints et drains restent géométriques ; contrôler l'échelle UV."
+    },
+    {
+      "id": "hell-metal-color",
+      "job": "34-texture-metal-enfer",
+      "label": "Base couleur · métal enfer",
+      "category": "textures",
+      "role": "base-color-candidate",
+      "integration": "Texture couleur sRGB proposée. Ce fichier n'est ni la carte metallic ni la carte roughness."
+    },
+    {
+      "id": "paradise-surface-color",
+      "job": "35-texture-surface-paradis",
+      "label": "Base couleur · surface paradis",
+      "category": "textures",
+      "role": "base-color-candidate",
+      "integration": "Texture couleur sRGB proposée. Contrôler répétition, couleur sous l'éclairage réel et lisibilité des rebords."
+    },
+    {
+      "id": "jump-hurdle",
+      "job": "36-barriere-saut",
+      "label": "Enfer · barrière de saut",
+      "category": "props",
+      "role": "reference-2d",
+      "integration": "Obstacle de type barrier, garder une hauteur compatible avec la physique de saut existante."
+    },
+    {
+      "id": "chair-front",
+      "label": "Fauteuil · face",
+      "category": "props",
+      "integration": "Vue complémentaire du fauteuil existant ; séparer ses parties mobiles lors de la modélisation.",
+      "job": "37-fauteuil-face",
+      "role": "reference-2d"
+    },
+    {
+      "id": "chair-back",
+      "label": "Fauteuil · dos",
+      "category": "props",
+      "integration": "Construction arrière proposée ; le fauteuil maître reste prioritaire en cas de contradiction.",
+      "job": "38-fauteuil-dos",
+      "role": "reference-2d"
+    },
+    {
+      "id": "chair-side",
+      "label": "Fauteuil · profil",
+      "category": "props",
+      "integration": "Vue latérale utile pour le placement d'un robot assis ; proportions à confronter au maître.",
+      "job": "39-fauteuil-profil",
+      "role": "reference-2d"
+    },
+    {
+      "id": "restraint-open",
+      "label": "Verrou · ouvert",
+      "category": "props",
+      "integration": "Référence de pose ouverte : bracelet, charnière et molette doivent devenir des pièces articulées.",
+      "job": "40-verrou-ouvert",
+      "role": "reference-2d"
+    },
+    {
+      "id": "restraint-closed",
+      "label": "Verrou · fermé",
+      "category": "props",
+      "integration": "Référence de fermeture sans bras ; ne définit ni angle de butée ni dommage de gameplay.",
+      "job": "41-verrou-ferme",
+      "role": "reference-2d"
+    },
+    {
+      "id": "probe-side",
+      "label": "Sonde · vue latérale",
+      "category": "props",
+      "integration": "Vue de profil de l'outil ; pointe et connecteur arrière doivent rester distincts.",
+      "job": "42-sonde-face",
+      "role": "reference-2d"
+    },
+    {
+      "id": "pliers-top",
+      "label": "Pince · vue de dessus",
+      "category": "props",
+      "integration": "Vue orthographique de la pince ; pivot et deux mâchoires à reconstruire séparément.",
+      "job": "43-pince-face",
+      "role": "reference-2d"
+    },
+    {
+      "id": "forearm-closed",
+      "label": "Avant-bras · trappe fermée",
+      "category": "props",
+      "integration": "Référence de l'état fermé ; la trappe reste indépendante du bras et de son contenu.",
+      "job": "44-module-avant-bras-ferme",
+      "role": "reference-2d"
+    },
+    {
+      "id": "metal-obstruction",
+      "label": "Débris métallique · isolé",
+      "category": "props",
+      "integration": "Petit débris indépendant du câble et du module d'avant-bras. Taille et interaction fixées dans le moteur.",
+      "job": "45-obstruction-metal-v2",
+      "role": "reference-2d",
+      "previousJob": "45-obstruction-metal"
+    },
+    {
+      "id": "functional-cable",
+      "label": "Câble fonctionnel",
+      "category": "props",
+      "integration": "Référence d'un câble intact avec connecteurs, à distinguer des débris et à relier réellement au modèle.",
+      "job": "46-cable-fonctionnel",
+      "role": "reference-2d"
+    },
+    {
+      "id": "cell-wall-module",
+      "label": "Cellule · panneau mural",
+      "category": "props",
+      "integration": "Module mural de référence ; dimensions, raccords et collision restent à définir pour la salle.",
+      "job": "47-mur-cellule-module",
+      "role": "reference-2d"
+    },
+    {
+      "id": "cell-floor-module",
+      "label": "Cellule · dalle de sol",
+      "category": "props",
+      "integration": "Dalle de sol modulaire, distincte de la texture couleur et de la collision de la salle.",
+      "job": "48-sol-cellule-module",
+      "role": "reference-2d"
+    },
+    {
+      "id": "cell-ceiling-light",
+      "label": "Cellule · luminaire",
+      "category": "props",
+      "integration": "Luminaire de plafond ; surface émissive et éclairage réel doivent être gérés séparément.",
+      "job": "49-plafond-lumineux",
+      "role": "reference-2d"
+    },
+    {
+      "id": "cell-corner-module",
+      "label": "Cellule · angle mural",
+      "category": "props",
+      "integration": "Raccord intérieur à angle droit pour kit de salle, sans géométrie de niveau imposée.",
+      "job": "50-angle-cellule",
+      "role": "reference-2d"
+    },
+    {
+      "id": "cell-bench",
+      "label": "Cellule · banc",
+      "category": "props",
+      "integration": "Mobilier secondaire proposé, à placer hors des interactions obligatoires.",
+      "job": "51-banc-cellule",
+      "role": "reference-2d"
+    },
+    {
+      "id": "cell-console",
+      "label": "Cellule · console",
+      "category": "props",
+      "integration": "Console proposée ; écran vide à remplir par l'interface réelle, sans nouveau signal de gameplay.",
+      "job": "52-console-cellule",
+      "role": "reference-2d"
+    },
+    {
+      "id": "cell-drain",
+      "label": "Cellule · grille de sol",
+      "category": "props",
+      "integration": "Grille de sol séparée, à encastrer sans créer d'obstacle physique accidentel.",
+      "job": "53-drain-cellule",
+      "role": "reference-2d"
+    },
+    {
+      "id": "cell-doorframe",
+      "label": "Cellule · cadre de porte",
+      "category": "props",
+      "integration": "Cadre indépendant du battant, ouverture et seuil à dimensionner dans le moteur.",
+      "job": "54-portique-cellule",
+      "role": "reference-2d"
+    },
+    {
+      "id": "robot-seated-neutral",
+      "label": "Robot · pose assise neutre",
+      "category": "characters",
+      "integration": "Pose de référence statique pour le rig, sans fauteuil fusionné au robot ni animation livrée.",
+      "job": "55-robot-assis-neutre",
+      "role": "reference-2d"
+    },
+    {
+      "id": "robot-seated-relieved",
+      "label": "Robot · pose apaisée",
+      "category": "characters",
+      "integration": "Proposition de pose de réaction positive ; garder les réactions et leur déclenchement dans le code.",
+      "job": "56-robot-assis-apaise",
+      "role": "reference-2d"
+    },
+    {
+      "id": "robot-seated-guarded",
+      "label": "Robot · pose de protection",
+      "category": "characters",
+      "integration": "Proposition de pose défensive sans dégâts dessinés ; ne remplace pas les animations du rig.",
+      "job": "57-robot-assis-defensif",
+      "role": "reference-2d"
+    },
+    {
+      "id": "robot-hand-detail",
+      "label": "Robot · main mécanique",
+      "category": "characters",
+      "integration": "Détail proposé pour articulation des doigts ; vérifier l'anatomie et l'échelle avec le maître.",
+      "job": "58-main-robot",
+      "role": "reference-2d"
+    },
+    {
+      "id": "robot-head-detail",
+      "label": "Robot · tête",
+      "category": "characters",
+      "integration": "Référence rapprochée du visage ; ne pas changer la forme du maître ni fusionner les yeux au matériau opaque.",
+      "job": "59-tete-robot",
+      "role": "reference-2d"
+    },
+    {
+      "id": "robot-chest-port",
+      "label": "Robot · connecteur thoracique",
+      "category": "props",
+      "integration": "Référence de connecteur séparé ; conserver la compatibilité visuelle avec la sonde et le thorax.",
+      "job": "60-connecteur-thorax",
+      "role": "reference-2d"
+    },
+    {
+      "id": "hell-ramp",
+      "label": "Enfer · rampe monobloc",
+      "category": "props",
+      "integration": "Module de rampe proposé, avec une surface continue. La pente physique reste une décision du contrôleur du jeu.",
+      "job": "61-enfer-rampe-v2",
+      "role": "reference-2d",
+      "previousJob": "61-enfer-rampe"
+    },
+    {
+      "id": "hell-route-turn",
+      "label": "Enfer · virage",
+      "category": "props",
+      "integration": "Virage proposé pour décor ou futur parcours ; voies et trajectoire restent contrôlées par le jeu.",
+      "job": "62-enfer-route-virage",
+      "role": "reference-2d"
+    },
+    {
+      "id": "hell-route-joint",
+      "label": "Enfer · raccord de route",
+      "category": "props",
+      "integration": "Raccord visuel court, à garder affleurant avec la collision des modules adjacents.",
+      "job": "63-enfer-route-jonction",
+      "role": "reference-2d"
+    },
+    {
+      "id": "hell-railing",
+      "label": "Enfer · garde-corps",
+      "category": "props",
+      "integration": "Garde-corps indépendant, hors des trois voies ; collision à définir explicitement.",
+      "job": "64-enfer-garde-corps",
+      "role": "reference-2d"
+    },
+    {
+      "id": "hell-pillar",
+      "label": "Enfer · pilier structurel",
+      "category": "props",
+      "integration": "Pilier de décor modulaire, à placer hors du chemin et dimensionner dans le moteur.",
+      "job": "65-enfer-pilier",
+      "role": "reference-2d"
+    },
+    {
+      "id": "hell-wall-module",
+      "label": "Enfer · panneau mural",
+      "category": "props",
+      "integration": "Panneau mural de décor ; métal et rugosité restent des matériaux à construire.",
+      "job": "66-enfer-mur",
+      "role": "reference-2d"
+    },
+    {
+      "id": "hell-pipe-rack",
+      "label": "Enfer · module de conduites",
+      "category": "props",
+      "integration": "Module de conduites de plafond, sans collision involontaire avec les zones de saut.",
+      "job": "67-enfer-plafond-tuyaux",
+      "role": "reference-2d"
+    },
+    {
+      "id": "hell-ventilation-fan",
+      "label": "Enfer · turbine",
+      "category": "props",
+      "integration": "Ventilation de décor ; rotor et carter à séparer si une rotation est ajoutée.",
+      "job": "68-enfer-turbine",
+      "role": "reference-2d"
+    },
+    {
+      "id": "hell-service-crate",
+      "label": "Enfer · caisse technique",
+      "category": "props",
+      "integration": "Accessoire de décor, à ne pas confondre avec l'obstacle infranchissable existant.",
+      "job": "69-enfer-caisse",
+      "role": "reference-2d"
+    },
+    {
+      "id": "hell-service-door",
+      "label": "Enfer · porte industrielle",
+      "category": "props",
+      "integration": "Porte d'habillage industriel ; panneau mobile distinct du cadre, sans nouvelle règle d'accès.",
+      "job": "70-enfer-porte-industrielle",
+      "role": "reference-2d"
+    },
+    {
+      "id": "hell-conveyor",
+      "label": "Enfer · convoyeur",
+      "category": "props",
+      "integration": "Convoyeur de référence ; bande et châssis séparés, mouvement éventuel à valider côté gameplay.",
+      "job": "71-enfer-segment-convoyeur",
+      "role": "reference-2d"
+    },
+    {
+      "id": "hell-warning-beacon",
+      "label": "Enfer · balise d'alerte",
+      "category": "props",
+      "integration": "Balise d'avertissement : émission et clignotement indépendants de la collision et du timing du danger.",
+      "job": "72-enfer-balise-alerte",
+      "role": "reference-2d"
+    },
+    {
+      "id": "paradise-bridge",
+      "label": "Paradis · passerelle",
+      "category": "props",
+      "integration": "Passerelle proposée ; largeur et contacts physiques décidés selon le parcours.",
+      "job": "73-paradis-passerelle",
+      "role": "reference-2d"
+    },
+    {
+      "id": "paradise-ramp",
+      "label": "Paradis · rampe douce",
+      "category": "props",
+      "integration": "Module de pente optionnel, à adapter au contrôleur plutôt qu'à imposer à sa physique.",
+      "job": "74-paradis-rampe",
+      "role": "reference-2d"
+    },
+    {
+      "id": "paradise-small-island",
+      "label": "Paradis · petite île",
+      "category": "props",
+      "integration": "Petite plateforme de réception proposée ; sa surface réelle doit rester compatible avec le mouvement.",
+      "job": "75-paradis-ile-petite",
+      "role": "reference-2d"
+    },
+    {
+      "id": "paradise-long-island",
+      "label": "Paradis · île allongée",
+      "category": "props",
+      "integration": "Variante allongée de plateforme, sans définir longueur des sauts ou distance de plané.",
+      "job": "76-paradis-ile-longue",
+      "role": "reference-2d"
+    },
+    {
+      "id": "paradise-arch",
+      "label": "Paradis · arche",
+      "category": "props",
+      "integration": "Arche architecturale d'habillage ; ne constitue pas automatiquement une nouvelle sortie.",
+      "job": "77-paradis-arche",
+      "role": "reference-2d"
+    },
+    {
+      "id": "paradise-planter",
+      "label": "Paradis · jardinière",
+      "category": "props",
+      "integration": "Végétation de bordure proposée, à tenir hors du trajet obligatoire et des collisions de réception.",
+      "job": "78-paradis-jardiniere",
+      "role": "reference-2d"
+    },
+    {
+      "id": "paradise-tree",
+      "label": "Paradis · arbre",
+      "category": "props",
+      "integration": "Arbre de décor, géométrie et feuillage optimisés à créer séparément de la plateforme.",
+      "job": "79-paradis-arbre",
+      "role": "reference-2d"
+    },
+    {
+      "id": "paradise-pillar",
+      "label": "Paradis · pilier",
+      "category": "props",
+      "integration": "Pilier structurel de décor, distinct d'une balise de checkpoint interactive.",
+      "job": "80-paradis-pilier",
+      "role": "reference-2d"
+    },
+    {
+      "id": "paradise-air-vent",
+      "label": "Paradis · borne de ventilation",
+      "category": "props",
+      "integration": "Accessoire de ventilation proposé ; aucune force ou nouvelle mécanique de vol n'est implicite.",
+      "job": "81-paradis-borne-vent",
+      "role": "reference-2d"
+    },
+    {
+      "id": "paradise-guidance-ring",
+      "label": "Paradis · anneau simple",
+      "category": "props",
+      "integration": "Anneau de guidage distinct de l'orbe. Centre réellement ouvert à reconstruire, aucune collision ou progression implicite.",
+      "job": "82-paradis-anneau-direction-v2",
+      "role": "reference-2d",
+      "previousJob": "82-paradis-anneau-direction"
+    },
+    {
+      "id": "paradise-fountain",
+      "label": "Paradis · fontaine",
+      "category": "props",
+      "integration": "Fontaine de décor ; bassin, eau et animation éventuelle séparés, hors des réceptions.",
+      "job": "83-paradis-fontaine",
+      "role": "reference-2d"
+    },
+    {
+      "id": "paradise-bench",
+      "label": "Paradis · banc de repos",
+      "category": "props",
+      "integration": "Mobilier de jardin proposé, purement visuel tant qu'aucune interaction n'est spécifiée.",
+      "job": "84-paradis-repos",
+      "role": "reference-2d"
+    },
+    {
+      "id": "cell-reverse-environment",
+      "label": "Cellule · vue inverse proposée",
+      "category": "environments",
+      "integration": "Proposition de l'autre côté de la salle, pas un relevé architectural ni une géométrie validée.",
+      "job": "85-cellule-vue-inverse",
+      "role": "environment-reference-2d"
+    },
+    {
+      "id": "hell-press-hall",
+      "label": "Enfer · salle des presses",
+      "category": "environments",
+      "integration": "Référence d'ambiance et placement visuel ; cycles et collisions des presses restent déterministes.",
+      "job": "86-enfer-salle-presse",
+      "role": "environment-reference-2d"
+    },
+    {
+      "id": "hell-service-junction",
+      "label": "Enfer · hall de maintenance",
+      "category": "environments",
+      "integration": "Hall de décor proposé ; les branches visibles ne constituent pas automatiquement des chemins jouables.",
+      "job": "87-enfer-carrefour",
+      "role": "environment-reference-2d"
+    },
+    {
+      "id": "paradise-garden-environment",
+      "label": "Paradis · jardin suspendu",
+      "category": "environments",
+      "integration": "Jardin d'ambiance proposé ; reconstruire surfaces, vide et végétation en éléments séparés.",
+      "job": "88-paradis-jardin",
+      "role": "environment-reference-2d"
+    },
+    {
+      "id": "paradise-arrival-environment",
+      "label": "Paradis · terrasse d'arrivée",
+      "category": "environments",
+      "integration": "Direction artistique d'une arrivée ; victoire, transition et replay restent des états du jeu.",
+      "job": "89-paradis-arrivee",
+      "role": "environment-reference-2d"
+    },
+    {
+      "id": "human-running-pose",
+      "label": "Humain · pose de course",
+      "category": "characters",
+      "integration": "Pose de référence pour locomotion, pas un sprite détouré ni une animation de course.",
+      "job": "90-humain-course",
+      "role": "reference-2d"
+    },
+    {
+      "id": "human-jumping-pose",
+      "label": "Humain · pose de saut",
+      "category": "characters",
+      "integration": "Pose de saut statique pour référence du rig ; impulsion et hauteur restent codées.",
+      "job": "91-humain-saut",
+      "role": "reference-2d"
+    },
+    {
+      "id": "human-sliding-pose",
+      "label": "Humain · pose de glissade",
+      "category": "characters",
+      "integration": "Pose basse de glissade ; hitbox, durée et friction indépendantes de cette image.",
+      "job": "92-humain-glissade",
+      "role": "reference-2d"
+    },
+    {
+      "id": "human-gliding-pose",
+      "label": "Humain · pose de plané",
+      "category": "characters",
+      "integration": "Pose de plané proposée, sans ailes ni nouvel équipement ; ne livre aucune simulation de vol.",
+      "job": "93-humain-plane",
+      "role": "reference-2d"
+    },
+    {
+      "id": "human-landing-pose",
+      "label": "Humain · pose de réception",
+      "category": "characters",
+      "integration": "Pose de réception à confronter au rig ; absorption, inertie et contrôles ne sont pas déduits de l'image.",
+      "job": "94-humain-atterrissage",
+      "role": "reference-2d"
+    },
+    {
+      "id": "human-reaching-pose",
+      "label": "Humain · pose d'interaction",
+      "category": "characters",
+      "integration": "Pose debout pour interaction, mains vides ; outil, cible et IK doivent rester séparés.",
+      "job": "95-humain-interaction",
+      "role": "reference-2d"
+    }
+  ],
+  "deliveryManifest": "public/cellule-assets/delivery-manifest.json",
+  "qualityReview": "public/cellule-assets/quality-review.json",
+  "derivationRecords": "public/cellule-assets/derivation-results.jsonl"
 }

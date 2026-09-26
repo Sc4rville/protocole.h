@@ -18,6 +18,58 @@ function valueNoise(ctx, size, cell, alpha) {
   }
 }
 
+const TEXTURES = 'assets/textures/';
+
+// Kusaila's base-colour candidates (public/cellule-assets/32-35), downscaled
+// to 1024 px. They are sRGB colour only: roughness stays procedural.
+function colorMap(file, repeatX, repeatY = repeatX, wrap = THREE.MirroredRepeatWrapping) {
+  const t = new THREE.TextureLoader().load(TEXTURES + file);
+  t.encoding = THREE.sRGBEncoding;
+  t.wrapS = wrap;
+  t.wrapT = wrap;
+  t.repeat.set(repeatX, repeatY);
+  t.anisotropy = 8;
+  return t;
+}
+
+// Kusaila's colour image tiled (mirrored) under a procedural wear layer. The
+// texture shows the flat fallback colour until the image arrives.
+function grimeOver(file, tiles, fallback, wear, makeTexture) {
+  const size = wear.width;
+  const c = canvas(size);
+  const ctx = c.getContext('2d');
+  const compose = (img) => {
+    ctx.clearRect(0, 0, size, size);
+    ctx.fillStyle = fallback;
+    ctx.fillRect(0, 0, size, size);
+    if (img) {
+      const step = size / tiles;
+      const n = Math.ceil(tiles);
+      for (let j = 0; j < n; j++) {
+        for (let i = 0; i < n; i++) {
+          ctx.save();
+          ctx.translate(i * step + (i % 2 ? step : 0), j * step + (j % 2 ? step : 0));
+          ctx.scale(i % 2 ? -1 : 1, j % 2 ? -1 : 1);
+          ctx.drawImage(img, 0, 0, step, step);
+          ctx.restore();
+        }
+      }
+    }
+    ctx.drawImage(wear, 0, 0);
+    ctx.globalCompositeOperation = 'multiply';
+    valueNoise(ctx, size, 2, 0.035);
+    ctx.globalCompositeOperation = 'source-over';
+  };
+  compose(null);
+  const t = makeTexture(c);
+  t.encoding = THREE.sRGBEncoding;
+  new THREE.ImageLoader().load(TEXTURES + file, (img) => {
+    compose(img);
+    t.needsUpdate = true;
+  });
+  return t;
+}
+
 function texture(c, repeat) {
   const t = new THREE.CanvasTexture(c);
   t.wrapS = THREE.RepeatWrapping;
@@ -147,8 +199,6 @@ function floorTint() {
   const size = 512;
   const c = canvas(size);
   const ctx = c.getContext('2d');
-  ctx.fillStyle = '#e4e2da';
-  ctx.fillRect(0, 0, size, size);
   for (let i = 0; i < 300; i++) {
     const a = 0.02 + Math.random() * 0.05;
     ctx.fillStyle = Math.random() > 0.5 ? `rgba(120,118,110,${a})` : `rgba(255,255,255,${a})`;
@@ -220,8 +270,6 @@ function wallGrime() {
   const size = 1024;
   const c = canvas(size);
   const ctx = c.getContext('2d');
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, size, size);
   const metre = size / 3;
   const yOf = (h) => size - h * metre;
 
@@ -280,16 +328,7 @@ function wallGrime() {
     ctx.fill();
   }
 
-  ctx.globalCompositeOperation = 'multiply';
-  valueNoise(ctx, size, 3, 0.05);
-  ctx.globalCompositeOperation = 'source-over';
-
-  const t = new THREE.CanvasTexture(c);
-  t.wrapS = THREE.RepeatWrapping;
-  t.wrapT = THREE.RepeatWrapping;
-  t.repeat.set(1 / 3, 1 / 3);
-  t.anisotropy = 8;
-  return t;
+  return c;
 }
 
 // Ceiling: rust ring and heat marks around the lamp mount, damp stain by the
@@ -298,8 +337,6 @@ function ceilingStains(span) {
   const size = 1024;
   const c = canvas(size);
   const ctx = c.getContext('2d');
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, size, size);
   // the ceiling shape is rotated +90° about X, so world z runs against canvas y
   const px = (x, z) => [size * (0.5 + x / span), size * (0.5 - z / span)];
 
@@ -379,17 +416,7 @@ function ceilingStains(span) {
     tideLine(x, z, r, 0.4);
   }
 
-  ctx.globalCompositeOperation = 'multiply';
-  valueNoise(ctx, size, 4, 0.05);
-  ctx.globalCompositeOperation = 'source-over';
-
-  const t = new THREE.CanvasTexture(c);
-  t.wrapS = THREE.ClampToEdgeWrapping;
-  t.wrapT = THREE.ClampToEdgeWrapping;
-  t.repeat.set(1 / span, 1 / span);
-  t.offset.set(0.5, 0.5);
-  t.anisotropy = 8;
-  return t;
+  return c;
 }
 
 // Fine orange-peel relief for the resin panels: without it the surface reads
@@ -445,26 +472,34 @@ export function createMaterials(renderer) {
   const wallRough = texture(resinRoughness(0.62, 0.22), 2);
   const ceilRough = texture(resinRoughness(0.72, 0.16), 2);
   const floorRough = floorTexture(floorRoughness(), 8);
-  const floorMap = floorTexture(floorTint(), 8);
-  const wallMap = wallGrime();
-  const ceilMap = ceilingStains(8);
+  // Kusaila's colour maps under procedural wear. Tile counts follow the
+  // plain maps: wall panels ~1.1 m over a 3 m tile, floor 2.2 m over 8 m,
+  // ceiling one tile per 2.5 m over 8 m.
+  const wallMap = grimeOver('mur-cellule.jpg', 2.7, '#f4f3ee', wallGrime(), (c) => texture(c, 1 / 3));
+  const ceilMap = grimeOver('mur-cellule.jpg', 3.2, '#f7f6f1', ceilingStains(8), (c) => floorTexture(c, 8));
+  const floorMap = grimeOver('sol-cellule.jpg', 8 / 2.2, '#f2f1ec', floorTint(), (c) => floorTexture(c, 8));
+  const metalMap = colorMap('metal-sombre.jpg', 2);
   const bump = texture(reliefBump(), 6);
 
   const wall = new THREE.MeshStandardMaterial({
-    color: 0xe7e6df, map: wallMap, roughness: 0.62, roughnessMap: wallRough, metalness: 0.02,
+    color: 0xf4f3ee, map: wallMap, roughness: 0.62, roughnessMap: wallRough, metalness: 0.02,
     bumpMap: bump, bumpScale: 0.0022, envMap, envMapIntensity: 0.55,
   });
   const ceiling = new THREE.MeshStandardMaterial({
-    color: 0xeceae3, map: ceilMap, roughness: 0.78, roughnessMap: ceilRough, metalness: 0.0,
+    color: 0xf7f6f1, map: ceilMap, roughness: 0.78, roughnessMap: ceilRough, metalness: 0.0,
     bumpMap: bump, bumpScale: 0.0015, envMap, envMapIntensity: 0.3,
   });
   const floor = new THREE.MeshStandardMaterial({
-    color: 0xdedcd4, map: floorMap, roughness: 0.45, roughnessMap: floorRough, metalness: 0.04,
+    color: 0xf2f1ec, map: floorMap, roughness: 0.45, roughnessMap: floorRough, metalness: 0.04,
     bumpMap: bump, bumpScale: 0.001, envMap, envMapIntensity: 0.75,
   });
   const inlay = new THREE.MeshStandardMaterial({
-    color: 0xd2d0c7, roughness: 0.35, roughnessMap: floorRough, metalness: 0.05, envMap, envMapIntensity: 0.9,
+    color: 0xd6d5cf, roughness: 0.35, roughnessMap: floorRough, metalness: 0.05, envMap, envMapIntensity: 0.9,
   });
+  const gunmetal = new THREE.MeshStandardMaterial({
+    color: 0xb8b6b0, map: metalMap, roughness: 0.48, metalness: 0.7, envMap, envMapIntensity: 0.7,
+  });
+  const cyanStrip = new THREE.MeshStandardMaterial({ color: 0x0c1416, emissive: 0x6fe3ef, emissiveIntensity: 0.9, roughness: 0.4 });
   const joint = new THREE.MeshStandardMaterial({ color: 0xc3c1b8, roughness: 0.55, metalness: 0.08, envMap, envMapIntensity: 0.5 });
   const shadowGap = new THREE.MeshStandardMaterial({ color: 0x8e8d87, roughness: 0.9 });
   const glass = new THREE.MeshStandardMaterial({
@@ -504,12 +539,12 @@ export function createMaterials(renderer) {
 
   // The environment map fakes bounced light, so it has to fade with the room
   // state: kept constant it would keep the walls bright during the blackout.
-  const envDriven = [wall, ceiling, floor, inlay, joint, glass, steel, charcoal, dark, shell, lampShell, rubber, rubberGrey, rubberBlue, copper, paintedSteel, warningTape]
+  const envDriven = [wall, ceiling, floor, inlay, joint, glass, steel, charcoal, dark, shell, lampShell, gunmetal, rubber, rubberGrey, rubberBlue, copper, paintedSteel, warningTape]
     .map((mat) => ({ mat, base: mat.envMapIntensity }));
 
   return {
     envMap, envDriven, wall, ceiling, floor, inlay, joint, shadowGap, glass, steel, charcoal, dark,
-    shell, cushion, lampShell, lens, cove, windowGlow, presence, ledSpare,
+    shell, cushion, lampShell, lens, cove, windowGlow, presence, ledSpare, gunmetal, cyanStrip,
     rubber, rubberGrey, rubberBlue, copper, paintedSteel, spark, tape, warningTape,
   };
 }

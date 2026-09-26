@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "model": "gemini-3-pro-image",
+  "source": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+  "imageSize": "2K",
+  "notes": [
+    "Corrections ciblées après inspection des 59 extensions ; aucun lot terminé n'est relancé et aucun original n'est écrasé.",
+    "Les premières sorties 45, 61 et 82 restent archivées : avant-bras non demandé, collage de deux dalles, anneaux multiples.",
+    "Ces trois propositions utilisent des descriptions de matériaux sans image jointe pour éviter la copie de la géométrie fautive de la référence.",
+    "Toujours des références 2D, sans mesh, rig, animation ni collision. Maximum trois requêtes simultanées et aucune relance automatique."
+  ],
+  "jobs": [
+    {
+      "name": "45-obstruction-metal-v2",
+      "id": "metal-obstruction",
+      "label": "Débris métallique · isolé",
+      "category": "props",
+      "references": [],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "integration": "Petit débris indépendant du câble et du module d'avant-bras. Taille et interaction fixées dans le moteur.",
+      "prompt": "A single complete small bent scrap of dark graphite brushed sheet metal, isolated product reference. ONE short irregular angular metal fragment with a compact folded L-shaped profile, a shallow bend, visible sheet thickness and slightly scuffed uneven finished edges. It is a loose obstruction removed from a small machine, NOT a functional machine part. No sockets, joints, fasteners or electronics. Restrained realistic clean science-fiction manufacturing style, matte charcoal metal, subtle fine brushed texture. The ONE fragment occupies the central 55 percent of a square canvas, with very wide empty margins and the entire silhouette visible. Elevated three-quarter product camera, soft neutral studio lighting, perfectly uniform light-gray background with a very small soft contact shadow. Do NOT show any arm, forearm, robot, person, hand, cable, panel, tool, other object, source scene, inset, diagram, lettering or collage. One solid metal shard only."
+    },
+    {
+      "name": "61-enfer-rampe-v2",
+      "id": "hell-ramp",
+      "label": "Enfer · rampe monobloc",
+      "category": "props",
+      "references": [],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "integration": "Module de rampe proposé, avec une surface continue. La pente physique reste une décision du contrôleur du jeu.",
+      "prompt": "ONE complete solid wedge-shaped industrial walking ramp, one assembled object, shown once. The ramp has exactly ONE continuous gently inclined rectangular top deck, a low front connection edge and a clearly higher rear connection edge, joined by visible triangular wedge-shaped sidewalls. Three equal parallel lanes are engraved as two shallow flush seams along the same continuous top surface. Graphite steel structural frame, slightly worn pale steel deck panels, narrow muted-red trim on the TWO outer side edges. Simple manufactured science-fiction service architecture. The ramp is supported by its single continuous wedge base, with no legs or second slab. A low elevated three-quarter product view must clearly reveal the triangular side profile and sloped top, while showing the ENTIRE front, rear and underside edges with at least 15 percent empty margin. Uniform light-gray studio background and neutral diffuse light. Exactly ONE connected wedge. NO flat separate floor tile, duplicate ramp, before-and-after comparison, split image, inset, floating layer, exploded view, stairs, gap, road scene, environment, text, symbols or people."
+    },
+    {
+      "name": "82-paradis-anneau-direction-v2",
+      "id": "paradise-guidance-ring",
+      "label": "Paradis · anneau simple",
+      "category": "props",
+      "references": [],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "integration": "Anneau de guidage distinct de l'orbe. Centre réellement ouvert à reconstruire, aucune collision ou progression implicite.",
+      "prompt": "Exactly ONE complete hollow circular guidance ring as a standalone science-fiction product. A SINGLE thick flat annulus made of satin off-white ceramic with a few precise thin graphite panel seams and one narrow softly cyan luminous strip embedded flush along its inner edge. The structure is one continuous circular band in ONE plane with shallow extrusion thickness. Its central opening is completely EMPTY, occupying most of the circle, showing the exact same uniform light-gray background as the outside. No sphere, glass, image, disc or membrane inside. Slight front three-quarter product camera, only a small perspective tilt so the entire single ring is clearly readable. Entire outer circle inside the central 65 percent of the square canvas with broad margins. Neutral diffuse studio lighting, restrained glow and realistic clean materials. ONE circular band only: no second ring, orbit, orbital wire, crossing hoop, inner separate circle, stand, pedestal, floor, room, sky, person, label, diagram or collage."
+    }
+  ]
+}
