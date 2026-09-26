@@ -310,7 +310,7 @@
       "title": "Alerte électrique pulsée",
       "kind": "synthesis",
       "lavfi": "sine=frequency=880:sample_rate=48000:duration=2",
-      "filter": "volume=0.12,tremolo=f=4:d=0.95,afade=t=in:d=0.02,afade=t=out:st=1.8:d=0.2"
+      "filter": "volume=0.5,tremolo=f=4:d=0.95,afade=t=in:d=0.02,afade=t=out:st=1.8:d=0.2"
     },
     {
       "id": "alarm_pulse_low_01",
@@ -318,7 +318,7 @@
       "title": "Alerte grave pulsée",
       "kind": "synthesis",
       "lavfi": "sine=frequency=440:sample_rate=48000:duration=4",
-      "filter": "volume=0.12,tremolo=f=2:d=0.95,afade=t=in:d=0.02,afade=t=out:st=3.8:d=0.2"
+      "filter": "volume=0.5,tremolo=f=2:d=0.95,afade=t=in:d=0.02,afade=t=out:st=3.8:d=0.2"
     }
   ],
   "processing": {

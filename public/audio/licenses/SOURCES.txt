@@ -87,3 +87,103 @@ Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
 Date d'accès : 2026-09-26
 Attribution : non requise (crédit de courtoisie)
 Candidats : seal_release_01
+
+
+== EXTENSION TENSION / HORREUR (2026-09-26)
+Les entrées 'dérivé' sont des traitements ffmpeg d'un enregistrement CC0 crédité ci-dessous ;
+aucune n'est un nouvel enregistrement brut.
+
+== OpenGameArt — Vinrax
+Page : https://opengameart.org/content/horror-scream1
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : scream_horror_01, robot_distress_low_01
+
+== OpenGameArt — Nocturnal_Vanguard / AuraVoice
+Page : https://opengameart.org/content/female-scream-1
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : scream_performance_01, robot_distress_grain_01
+
+== OpenGameArt — Nocturnal_Vanguard / AuraVoice
+Page : https://opengameart.org/content/evil-screech-1
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : screech_performance_01, robot_screech_modulated_01
+
+== OpenGameArt — TinyWorlds
+Page : https://opengameart.org/content/horror-sfx
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : horror_texture_01, horror_texture_02
+
+== OpenGameArt — techiew
+Page : https://opengameart.org/content/ambient-horror
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : horror_ambience_01, horror_ambience_muffled_01
+
+== OpenGameArt — congusbongus
+Page : https://opengameart.org/content/lost-in-a-bad-place-horror-ambience-loop
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : space_dread_01
+
+== OpenGameArt — pyranostudios
+Page : https://opengameart.org/content/air-whoosh
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : air_whoosh_01, whoosh_reverse_01
+
+== BigSoundBank — Joseph SARDIN
+Page : https://bigsoundbank.com/heart-beat-5-s1930.html
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : heartbeat_fast_01, heartbeat_distant_01
+
+== BigSoundBank — Joseph SARDIN
+Page : https://bigsoundbank.com/metal-grinding-s0779.html
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : metal_strain_01, metal_strain_low_01
+
+== BigSoundBank — Joseph SARDIN
+Page : https://bigsoundbank.com/creaking-metallic-door-s0616.html
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : metal_door_creak_01, metal_door_low_01
+
+== BigSoundBank — Joseph SARDIN
+Page : https://bigsoundbank.com/sigh-by-the-mouth-s1405.html
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : breath_sigh_01
+
+== BigSoundBank — Joseph SARDIN
+Page : https://bigsoundbank.com/man-breathing-s2195.html
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : breathing_slow_01
+
+== OpenGameArt — BMacZero / Brian MacIntosh
+Page : https://opengameart.org/content/mechanical-sounds
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : metal_impact_low_01
+
+== Synthèse ffmpeg — protocole.h
+Générés localement (filtre sine), aucune source externe.
+Candidats : alarm_pulse_high_01, alarm_pulse_low_01
