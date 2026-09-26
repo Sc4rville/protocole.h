@@ -20,7 +20,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 
-async def capture(url, frames_dir, width, height, fps, start, end, voices):
+async def capture(url, frames_dir, width, height, fps, start, end, voices, warmup=0.0):
     from playwright.async_api import async_playwright
 
     async with async_playwright() as p:
@@ -28,6 +28,7 @@ async def capture(url, frames_dir, width, height, fps, start, end, voices):
             args=["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"]
         )
         page = await browser.new_page(viewport={"width": width, "height": height})
+        page.set_default_timeout(0)
         page.on("pageerror", lambda e: print("pageerror:", e, file=sys.stderr))
         await page.goto(url, wait_until="load")
         await page.wait_for_function("window.__trailer && window.__trailer.ready", timeout=120000)
@@ -35,6 +36,8 @@ async def capture(url, frames_dir, width, height, fps, start, end, voices):
             await page.evaluate("(m) => window.__trailer.setVoiceDurations(m)", voices)
         first = int(round(start * fps))
         last = int(round(end * fps))
+        for i in range(max(0, first - int(round(warmup * fps))), first):
+            await page.evaluate(f"window.__trailer.seek({i / fps})")
         for i in range(first, last):
             t = i / fps
             await page.evaluate(f"window.__trailer.seek({t})")
@@ -55,7 +58,10 @@ def main():
     ap.add_argument("--fps", type=int, default=24)
     ap.add_argument("--start", type=float, default=0)
     ap.add_argument("--end", type=float, default=152)
+    ap.add_argument("--warmup", type=float, default=2.0, help="seconds simulated before --start so eased state settles")
     ap.add_argument("--skip-capture", action="store_true")
+    ap.add_argument("--keep-frames", action="store_true", help="do not wipe --frames before capture")
+    ap.add_argument("--skip-encode", action="store_true", help="capture only (parallel segment workers)")
     args = ap.parse_args()
 
     frames_dir = Path(args.frames)
@@ -68,10 +74,15 @@ def main():
         voices = json.loads(voices_file.read_text())
 
     if not args.skip_capture:
-        if frames_dir.exists():
+        if frames_dir.exists() and not args.keep_frames:
             shutil.rmtree(frames_dir)
-        frames_dir.mkdir(parents=True)
-        asyncio.run(capture(args.url, frames_dir, args.width, args.height, args.fps, args.start, args.end, voices))
+        frames_dir.mkdir(parents=True, exist_ok=True)
+        asyncio.run(
+            capture(args.url, frames_dir, args.width, args.height, args.fps, args.start, args.end, voices, args.warmup)
+        )
+
+    if args.skip_encode:
+        return
 
     first = int(round(args.start * args.fps))
     cmd = [
