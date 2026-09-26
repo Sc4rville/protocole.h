@@ -1,0 +1,1572 @@
+{
+ "version": 1,
+ "status": "Candidats à écouter — non intégrés au jeu",
+ "sounds": [
+  {
+   "id": "room_ventilation_01",
+   "category": "ambience",
+   "title": "Ventilation #1",
+   "intendedUse": "Ventilation principale de la cellule",
+   "sourceName": "BigSoundBank",
+   "author": "Joseph SARDIN",
+   "sourcePage": "https://bigsoundbank.com/ventilation-1-s0032.html",
+   "downloadUrl": "https://bigsoundbank.com/UPLOAD/mp3/0032.mp3",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "ventilation",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": true,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/ambience/room_ventilation_01.mp3",
+   "files": {
+    "ogg": "ambience/room_ventilation_01.ogg",
+    "mp3": "ambience/room_ventilation_01.mp3"
+   },
+   "sourceSha256": "f122dee35b8a13711a11517c75cf5afea0e8bd9135a587b62f5f97c7a5925c4c",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "8.071854"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "8.112000"
+     }
+    }
+   }
+  },
+  {
+   "id": "room_fan_01",
+   "category": "ambience",
+   "title": "Computer 2 (Ventilation)",
+   "intendedUse": "Ventilation localisée sur une machine",
+   "sourceName": "BigSoundBank",
+   "author": "Joseph SARDIN",
+   "sourcePage": "https://bigsoundbank.com/computer-2-ventilation-s0126.html",
+   "downloadUrl": "https://bigsoundbank.com/UPLOAD/mp3/0126.mp3",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "computer-fan",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": true,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/ambience/room_fan_01.mp3",
+   "files": {
+    "ogg": "ambience/room_fan_01.ogg",
+    "mp3": "ambience/room_fan_01.mp3"
+   },
+   "sourceSha256": "955f82bacfdf50d1f581441391ef76fb7e074efd76375ca4b02924e5a21655c5",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "9.613063"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "9.648000"
+     }
+    }
+   }
+  },
+  {
+   "id": "room_electrical_hum_01",
+   "category": "ambience",
+   "title": "Electric transformer #1",
+   "intendedUse": "Présence électrique discrète",
+   "sourceName": "BigSoundBank",
+   "author": "Joseph SARDIN",
+   "sourcePage": "https://bigsoundbank.com/electric-transformer-1-s0064.html",
+   "downloadUrl": "https://bigsoundbank.com/UPLOAD/mp3/0064.mp3",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "transformer",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": true,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/ambience/room_electrical_hum_01.mp3",
+   "files": {
+    "ogg": "ambience/room_electrical_hum_01.ogg",
+    "mp3": "ambience/room_electrical_hum_01.mp3"
+   },
+   "sourceSha256": "1a3eea73ebd6a4b42b9a19ea6e41f701eb2fd854aeec3e2cf482115e6e9d4a52",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "10.814708"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "10.848000"
+     }
+    }
+   }
+  },
+  {
+   "id": "room_generator_01",
+   "category": "ambience",
+   "title": "Generator (loop)",
+   "intendedUse": "Grondement mécanique lointain",
+   "sourceName": "OpenGameArt",
+   "author": "YCbCr",
+   "sourcePage": "https://opengameart.org/content/generator-loop",
+   "downloadUrl": "https://opengameart.org/sites/default/files/loop_generator_1.mp3",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "generator",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": true,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/ambience/room_generator_01.mp3",
+   "files": {
+    "ogg": "ambience/room_generator_01.ogg",
+    "mp3": "ambience/room_generator_01.mp3"
+   },
+   "sourceSha256": "c5989e33550cefb84e7e224c531662d02530e0484caa814a7fa7e7bed39f2062",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "5.436083"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "5.472000"
+     }
+    }
+   }
+  },
+  {
+   "id": "robot_servo_01",
+   "category": "robot",
+   "title": "Servomotor 1, 45° #2",
+   "intendedUse": "Petit mouvement articulaire",
+   "sourceName": "BigSoundBank",
+   "author": "Joseph SARDIN",
+   "sourcePage": "https://bigsoundbank.com/servomotor-1-45-2-s2908.html",
+   "downloadUrl": "https://bigsoundbank.com/UPLOAD/mp3/2908.mp3",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "servo-a",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/robot/robot_servo_01.mp3",
+   "files": {
+    "ogg": "robot/robot_servo_01.ogg",
+    "mp3": "robot/robot_servo_01.mp3"
+   },
+   "sourceSha256": "c890ff7dfda14043dfd07a6fbf12aa53b23beb1fc664720eb90dbeb309cab24b",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.312000"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.336000"
+     }
+    }
+   }
+  },
+  {
+   "id": "robot_servo_02",
+   "category": "robot",
+   "title": "Servomotor 2, 20° #1",
+   "intendedUse": "Variante de mouvement articulaire",
+   "sourceName": "BigSoundBank",
+   "author": "Joseph SARDIN",
+   "sourcePage": "https://bigsoundbank.com/servomotor-2-20-1-s2913.html",
+   "downloadUrl": "https://bigsoundbank.com/UPLOAD/mp3/2913.mp3",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "servo-b",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/robot/robot_servo_02.mp3",
+   "files": {
+    "ogg": "robot/robot_servo_02.ogg",
+    "mp3": "robot/robot_servo_02.mp3"
+   },
+   "sourceSha256": "e85e870e6879d6298f4f5b383e7725a99f9399eef4b1c889b513ccb686c22e01",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.168000"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.192000"
+     }
+    }
+   }
+  },
+  {
+   "id": "metal_impact_01",
+   "category": "mechanics",
+   "title": "Clank 1",
+   "intendedUse": "Impact sur coque",
+   "sourceName": "OpenGameArt",
+   "author": "BMacZero / Brian MacIntosh",
+   "sourcePage": "https://opengameart.org/content/mechanical-sounds",
+   "downloadUrl": "https://opengameart.org/sites/default/files/clank1.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "mechanical",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/mechanics/metal_impact_01.wav",
+   "files": {
+    "ogg": "mechanics/metal_impact_01.ogg",
+    "mp3": "mechanics/metal_impact_01.mp3"
+   },
+   "sourceSha256": "899a46a8423fa0ca349b3c70a07a422d1eaa3a58695ce6facfbae074dd70226f",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.673396"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.720000"
+     }
+    }
+   }
+  },
+  {
+   "id": "tool_pickup_01",
+   "category": "mechanics",
+   "title": "Light clunk 1",
+   "intendedUse": "Prise d’outil",
+   "sourceName": "OpenGameArt",
+   "author": "BMacZero / Brian MacIntosh",
+   "sourcePage": "https://opengameart.org/content/mechanical-sounds",
+   "downloadUrl": "https://opengameart.org/sites/default/files/lightclunk1.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "mechanical",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/mechanics/tool_pickup_01.wav",
+   "files": {
+    "ogg": "mechanics/tool_pickup_01.ogg",
+    "mp3": "mechanics/tool_pickup_01.mp3"
+   },
+   "sourceSha256": "d5a2aa8764c02924f6ed6fbaad0c650ab2d57ec57a626cee9e6645f941dbc8fa",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.371521"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.408000"
+     }
+    }
+   }
+  },
+  {
+   "id": "tool_putdown_01",
+   "category": "mechanics",
+   "title": "Light clunk 2",
+   "intendedUse": "Outil posé sur plateau",
+   "sourceName": "OpenGameArt",
+   "author": "BMacZero / Brian MacIntosh",
+   "sourcePage": "https://opengameart.org/content/mechanical-sounds",
+   "downloadUrl": "https://opengameart.org/sites/default/files/lightclunk2.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "mechanical",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/mechanics/tool_putdown_01.wav",
+   "files": {
+    "ogg": "mechanics/tool_putdown_01.ogg",
+    "mp3": "mechanics/tool_putdown_01.mp3"
+   },
+   "sourceSha256": "987be837a5941ded9a81572c319b9bf8f57d9f89741a5781fc7104adc87d60f5",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.301875"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.336000"
+     }
+    }
+   }
+  },
+  {
+   "id": "robot_rattle_01",
+   "category": "mechanics",
+   "title": "Rattle 1",
+   "intendedUse": "Vibration ou pièce desserrée",
+   "sourceName": "OpenGameArt",
+   "author": "BMacZero / Brian MacIntosh",
+   "sourcePage": "https://opengameart.org/content/mechanical-sounds",
+   "downloadUrl": "https://opengameart.org/sites/default/files/rattle1.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "mechanical",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/mechanics/robot_rattle_01.wav",
+   "files": {
+    "ogg": "mechanics/robot_rattle_01.ogg",
+    "mp3": "mechanics/robot_rattle_01.mp3"
+   },
+   "sourceSha256": "65ae71cd800986e4e4c0c1a180221c0f240f6ffd9e306f8634c0335a5e3f039a",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.777875"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.816000"
+     }
+    }
+   }
+  },
+  {
+   "id": "restraint_mechanism_01",
+   "category": "mechanics",
+   "title": "Mechanical 1",
+   "intendedUse": "Mouvement du verrou",
+   "sourceName": "OpenGameArt",
+   "author": "BMacZero / Brian MacIntosh",
+   "sourcePage": "https://opengameart.org/content/mechanical-sounds",
+   "downloadUrl": "https://opengameart.org/sites/default/files/mechanical1.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "mechanical",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/mechanics/restraint_mechanism_01.wav",
+   "files": {
+    "ogg": "mechanics/restraint_mechanism_01.ogg",
+    "mp3": "mechanics/restraint_mechanism_01.mp3"
+   },
+   "sourceSha256": "de520ad93fa9f4df357b31a8fdef7778d8df994574c861f9337d5241fee5db33",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.917208"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.960000"
+     }
+    }
+   }
+  },
+  {
+   "id": "restraint_mechanism_02",
+   "category": "mechanics",
+   "title": "Mechanical 2",
+   "intendedUse": "Variante de mécanisme",
+   "sourceName": "OpenGameArt",
+   "author": "BMacZero / Brian MacIntosh",
+   "sourcePage": "https://opengameart.org/content/mechanical-sounds",
+   "downloadUrl": "https://opengameart.org/sites/default/files/mechanical2.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "mechanical",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/mechanics/restraint_mechanism_02.wav",
+   "files": {
+    "ogg": "mechanics/restraint_mechanism_02.ogg",
+    "mp3": "mechanics/restraint_mechanism_02.mp3"
+   },
+   "sourceSha256": "27b4b6c3517c90d635295fca48fccd747950f869d680c871662f26038c3665ef",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.603729"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.648000"
+     }
+    }
+   }
+  },
+  {
+   "id": "restraint_click_01",
+   "category": "mechanics",
+   "title": "Squeaky click 1",
+   "intendedUse": "Cran de serrage",
+   "sourceName": "OpenGameArt",
+   "author": "BMacZero / Brian MacIntosh",
+   "sourcePage": "https://opengameart.org/content/mechanical-sounds",
+   "downloadUrl": "https://opengameart.org/sites/default/files/squeakyclick1.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "mechanical",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/mechanics/restraint_click_01.wav",
+   "files": {
+    "ogg": "mechanics/restraint_click_01.ogg",
+    "mp3": "mechanics/restraint_click_01.mp3"
+   },
+   "sourceSha256": "27b9430c35123a6b2e662b4268adb2238c59fa02522b060756d47666c6b0ffe0",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.406354"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.432000"
+     }
+    }
+   }
+  },
+  {
+   "id": "restraint_click_02",
+   "category": "mechanics",
+   "title": "Squeaky click 2",
+   "intendedUse": "Variante de cran",
+   "sourceName": "OpenGameArt",
+   "author": "BMacZero / Brian MacIntosh",
+   "sourcePage": "https://opengameart.org/content/mechanical-sounds",
+   "downloadUrl": "https://opengameart.org/sites/default/files/squeakyclick2.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "mechanical",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/mechanics/restraint_click_02.wav",
+   "files": {
+    "ogg": "mechanics/restraint_click_02.ogg",
+    "mp3": "mechanics/restraint_click_02.mp3"
+   },
+   "sourceSha256": "33adab3bd231593b4d1a7d3735b869275550e469fa6656ff7f836d8c391e5f0e",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.545688"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.576000"
+     }
+    }
+   }
+  },
+  {
+   "id": "probe_arc_continuous_01",
+   "category": "electricity",
+   "title": "Continuous spark",
+   "intendedUse": "Arc électrique maintenu",
+   "sourceName": "OpenGameArt",
+   "author": "BMacZero / Brian MacIntosh",
+   "sourcePage": "https://opengameart.org/content/electricity-sound-effects-0",
+   "downloadUrl": "https://opengameart.org/sites/default/files/continuousspark.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "electricity",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": true,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/electricity/probe_arc_continuous_01.wav",
+   "files": {
+    "ogg": "electricity/probe_arc_continuous_01.ogg",
+    "mp3": "electricity/probe_arc_continuous_01.mp3"
+   },
+   "sourceSha256": "4ec24045b4fb6a88b958d00f16cc39b8aa992cd6e6a5edb4ecb0f34b36ddb18b",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.217688"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.264000"
+     }
+    }
+   }
+  },
+  {
+   "id": "probe_arc_snap_01",
+   "category": "electricity",
+   "title": "Spark",
+   "intendedUse": "Claquage électrique bref",
+   "sourceName": "OpenGameArt",
+   "author": "BMacZero / Brian MacIntosh",
+   "sourcePage": "https://opengameart.org/content/electricity-sound-effects-0",
+   "downloadUrl": "https://opengameart.org/sites/default/files/spark.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "electricity",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/electricity/probe_arc_snap_01.wav",
+   "files": {
+    "ogg": "electricity/probe_arc_snap_01.ogg",
+    "mp3": "electricity/probe_arc_snap_01.mp3"
+   },
+   "sourceSha256": "9a3d987bdf7f405570aa015f6da42596ce84c5073c18c0561be7cd3ae401bc97",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.336708"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.384000"
+     }
+    }
+   }
+  },
+  {
+   "id": "probe_charge_01",
+   "category": "electricity",
+   "title": "Charge",
+   "intendedUse": "Montée en charge",
+   "sourceName": "OpenGameArt",
+   "author": "faxcorp",
+   "sourcePage": "https://opengameart.org/content/electricity-game-sound-pack",
+   "downloadUrl": "https://opengameart.org/sites/default/files/charge.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "electric-pack",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/electricity/probe_charge_01.wav",
+   "files": {
+    "ogg": "electricity/probe_charge_01.ogg",
+    "mp3": "electricity/probe_charge_01.mp3"
+   },
+   "sourceSha256": "397e4a4da793558cc541d9fce3da5791cb21dddadf31c02442e67f3a58cbe1c8",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "4.133333"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "4.176000"
+     }
+    }
+   }
+  },
+  {
+   "id": "probe_connect_01",
+   "category": "electricity",
+   "title": "Charge start",
+   "intendedUse": "Début d’alimentation",
+   "sourceName": "OpenGameArt",
+   "author": "faxcorp",
+   "sourcePage": "https://opengameart.org/content/electricity-game-sound-pack",
+   "downloadUrl": "https://opengameart.org/sites/default/files/chargestart.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "electric-pack",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/electricity/probe_connect_01.wav",
+   "files": {
+    "ogg": "electricity/probe_connect_01.ogg",
+    "mp3": "electricity/probe_connect_01.mp3"
+   },
+   "sourceSha256": "af02239346e70f3a7d75113e19d0bf5c6605c1b3bc3cc3f38fffab2b1f731210",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "8.088021"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "8.136000"
+     }
+    }
+   }
+  },
+  {
+   "id": "probe_disconnect_01",
+   "category": "electricity",
+   "title": "Power down",
+   "intendedUse": "Coupure électrique",
+   "sourceName": "OpenGameArt",
+   "author": "faxcorp",
+   "sourcePage": "https://opengameart.org/content/electricity-game-sound-pack",
+   "downloadUrl": "https://opengameart.org/sites/default/files/powerdown.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "electric-pack",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/electricity/probe_disconnect_01.wav",
+   "files": {
+    "ogg": "electricity/probe_disconnect_01.ogg",
+    "mp3": "electricity/probe_disconnect_01.mp3"
+   },
+   "sourceSha256": "3db6a8a58a9b71460dda4208c14b347a02086c1567d0e870d1e5370f75611bb5",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "2.002000"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "2.040000"
+     }
+    }
+   }
+  },
+  {
+   "id": "probe_recharge_01",
+   "category": "electricity",
+   "title": "Recharge",
+   "intendedUse": "Rétablissement de l’énergie",
+   "sourceName": "OpenGameArt",
+   "author": "faxcorp",
+   "sourcePage": "https://opengameart.org/content/electricity-game-sound-pack",
+   "downloadUrl": "https://opengameart.org/sites/default/files/recharge.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "electric-pack",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/electricity/probe_recharge_01.wav",
+   "files": {
+    "ogg": "electricity/probe_recharge_01.ogg",
+    "mp3": "electricity/probe_recharge_01.mp3"
+   },
+   "sourceSha256": "d79959002eae63aa86b506b3e1a3ef87f802d88a34227ae3ed19cf1211556f73",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "6.615688"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "6.648000"
+     }
+    }
+   }
+  },
+  {
+   "id": "probe_crackle_01",
+   "category": "electricity",
+   "title": "Crackle electricity loop",
+   "intendedUse": "Crépitement maintenu",
+   "sourceName": "OpenGameArt",
+   "author": "faxcorp",
+   "sourcePage": "https://opengameart.org/content/electricity-game-sound-pack",
+   "downloadUrl": "https://opengameart.org/sites/default/files/crackleelectricityloop.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "electric-pack",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": true,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/electricity/probe_crackle_01.wav",
+   "files": {
+    "ogg": "electricity/probe_crackle_01.ogg",
+    "mp3": "electricity/probe_crackle_01.mp3"
+   },
+   "sourceSha256": "c872ff9719f9bdf503e5d87fe9b1b128255fe2f9506e3a380ff022b83e0b7be8",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "0.500333"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "0.528000"
+     }
+    }
+   }
+  },
+  {
+   "id": "room_powerup_01",
+   "category": "electricity",
+   "title": "Power up",
+   "intendedUse": "Activation de la salle",
+   "sourceName": "OpenGameArt",
+   "author": "faxcorp",
+   "sourcePage": "https://opengameart.org/content/electricity-game-sound-pack",
+   "downloadUrl": "https://opengameart.org/sites/default/files/powerup.wav",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "electric-pack",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/electricity/room_powerup_01.wav",
+   "files": {
+    "ogg": "electricity/room_powerup_01.ogg",
+    "mp3": "electricity/room_powerup_01.mp3"
+   },
+   "sourceSha256": "83995e33a847656ec6120e111de27293be962437ff79b7d85ca061ba374bfb4c",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "2.109625"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "2.136000"
+     }
+    }
+   }
+  },
+  {
+   "id": "ui_click_01",
+   "category": "ui",
+   "title": "Click 001",
+   "intendedUse": "Clic discret",
+   "sourceName": "Kenney",
+   "author": "Kenney",
+   "sourcePage": "https://kenney.nl/assets/interface-sounds",
+   "downloadUrl": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "interface",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "archiveMember": "Audio/click_001.ogg",
+   "originalPath": "audio-source/ui/ui_click_01.ogg",
+   "files": {
+    "ogg": "ui/ui_click_01.ogg",
+    "mp3": "ui/ui_click_01.mp3"
+   },
+   "sourceSha256": "ccfb7fa0cccdd9faec0eb16033c732b1e308d139d80f799161495d58f7adcdb9",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.100021"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.144000"
+     }
+    }
+   }
+  },
+  {
+   "id": "ui_select_01",
+   "category": "ui",
+   "title": "Select 001",
+   "intendedUse": "Sélection d’outil",
+   "sourceName": "Kenney",
+   "author": "Kenney",
+   "sourcePage": "https://kenney.nl/assets/interface-sounds",
+   "downloadUrl": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "interface",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "archiveMember": "Audio/select_001.ogg",
+   "originalPath": "audio-source/ui/ui_select_01.ogg",
+   "files": {
+    "ogg": "ui/ui_select_01.ogg",
+    "mp3": "ui/ui_select_01.mp3"
+   },
+   "sourceSha256": "aec0c31ea934a35936ae0d2ab8fac8123c93aa5647f935853a58dbaf90278b7a",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "0.043292"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "0.072000"
+     }
+    }
+   }
+  },
+  {
+   "id": "ui_confirm_01",
+   "category": "ui",
+   "title": "Confirmation 001",
+   "intendedUse": "Confirmation / seuil sûr",
+   "sourceName": "Kenney",
+   "author": "Kenney",
+   "sourcePage": "https://kenney.nl/assets/interface-sounds",
+   "downloadUrl": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "interface",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "archiveMember": "Audio/confirmation_001.ogg",
+   "originalPath": "audio-source/ui/ui_confirm_01.ogg",
+   "files": {
+    "ogg": "ui/ui_confirm_01.ogg",
+    "mp3": "ui/ui_confirm_01.mp3"
+   },
+   "sourceSha256": "063564703b6094d70718a3e787a55cc9141611e4ecd6b6637f8828f79b4a8c3a",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.289854"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "0.336000"
+     }
+    }
+   }
+  },
+  {
+   "id": "ui_warning_01",
+   "category": "ui",
+   "title": "Error 001",
+   "intendedUse": "Avertissement avant dommage",
+   "sourceName": "Kenney",
+   "author": "Kenney",
+   "sourcePage": "https://kenney.nl/assets/interface-sounds",
+   "downloadUrl": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "interface",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "archiveMember": "Audio/error_001.ogg",
+   "originalPath": "audio-source/ui/ui_warning_01.ogg",
+   "files": {
+    "ogg": "ui/ui_warning_01.ogg",
+    "mp3": "ui/ui_warning_01.mp3"
+   },
+   "sourceSha256": "46e67425d16339772e8d328fb36a49426c9467418686e11beeb71ff84b0f6433",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "0.164563"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "0.192000"
+     }
+    }
+   }
+  },
+  {
+   "id": "ui_switch_01",
+   "category": "ui",
+   "title": "Switch 001",
+   "intendedUse": "Commutation de commande",
+   "sourceName": "Kenney",
+   "author": "Kenney",
+   "sourcePage": "https://kenney.nl/assets/interface-sounds",
+   "downloadUrl": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "interface",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "archiveMember": "Audio/switch_001.ogg",
+   "originalPath": "audio-source/ui/ui_switch_01.ogg",
+   "files": {
+    "ogg": "ui/ui_switch_01.ogg",
+    "mp3": "ui/ui_switch_01.mp3"
+   },
+   "sourceSha256": "3b74efad87f1e69dbd1d05c5ad952ab90859b5a3d11da6ec5bd79b4f03b42afa",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "0.617667"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "0.648000"
+     }
+    }
+   }
+  },
+  {
+   "id": "robot_glitch_01",
+   "category": "ui",
+   "title": "Glitch 001",
+   "intendedUse": "Dysfonctionnement numérique",
+   "sourceName": "Kenney",
+   "author": "Kenney",
+   "sourcePage": "https://kenney.nl/assets/interface-sounds",
+   "downloadUrl": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "interface",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "archiveMember": "Audio/glitch_001.ogg",
+   "originalPath": "audio-source/ui/robot_glitch_01.ogg",
+   "files": {
+    "ogg": "ui/robot_glitch_01.ogg",
+    "mp3": "ui/robot_glitch_01.mp3"
+   },
+   "sourceSha256": "da78c642bbd95da2c364ed0e991ebbfc5a4c0d281165d932b5819e0dd31a39d2",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "0.020021"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 2
+      }
+     ],
+     "format": {
+      "duration": "0.048000"
+     }
+    }
+   }
+  },
+  {
+   "id": "fluid_suction_01",
+   "category": "fluids",
+   "title": "Straw, suction #3",
+   "intendedUse": "Matière liquide pour hydraulique, à traiter",
+   "sourceName": "BigSoundBank",
+   "author": "Joseph SARDIN",
+   "sourcePage": "https://bigsoundbank.com/straw-suction-3-s1246.html",
+   "downloadUrl": "https://bigsoundbank.com/UPLOAD/mp3/1246.mp3",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "liquid",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/fluids/fluid_suction_01.mp3",
+   "files": {
+    "ogg": "fluids/fluid_suction_01.ogg",
+    "mp3": "fluids/fluid_suction_01.mp3"
+   },
+   "sourceSha256": "1df3f60a1b824aa3f0738cf99ecf372d79d47923f60ca6a11a73d3d294d34355",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "3.850188"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "3.888000"
+     }
+    }
+   }
+  },
+  {
+   "id": "seal_release_01",
+   "category": "fluids",
+   "title": "Suction cup on window",
+   "intendedUse": "Décollage de joint, matière à découper",
+   "sourceName": "BigSoundBank",
+   "author": "Joseph SARDIN",
+   "sourcePage": "https://bigsoundbank.com/suction-cup-on-window-s1262.html",
+   "downloadUrl": "https://bigsoundbank.com/UPLOAD/mp3/1262.mp3",
+   "license": "CC0-1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "attributionRequired": false,
+   "sourceEvidence": "suction",
+   "reviewStatus": "candidate_not_auditioned",
+   "loopCandidate": false,
+   "seamlessLoopVerified": false,
+   "originalPath": "audio-source/fluids/seal_release_01.mp3",
+   "files": {
+    "ogg": "fluids/seal_release_01.ogg",
+    "mp3": "fluids/seal_release_01.mp3"
+   },
+   "sourceSha256": "a7523d1e8de874bc7aef712a182d44a07359bed875b8036d566a21787ccb85aa",
+   "modifications": "Transcodage 48 kHz OGG Vorbis q5 + MP3 VBR q2 ; canaux et gain conservés ; aucun montage",
+   "metadata": {
+    "ogg": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "vorbis",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "7.230854"
+     }
+    },
+    "mp3": {
+     "programs": [],
+     "streams": [
+      {
+       "codec_name": "mp3",
+       "sample_rate": "48000",
+       "channels": 1
+      }
+     ],
+     "format": {
+      "duration": "7.272000"
+     }
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>protocole.h · Assets</title>
+<style>
+:root{color-scheme:light;font-family:system-ui,sans-serif;color:#17191c;background:#fff}
+*{box-sizing:border-box}
+body{margin:0}
+header{padding:28px 32px 22px;border-bottom:1px solid #dedfe1;display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+h1{font-size:24px;letter-spacing:-.025em;margin:0 0 7px;font-weight:650}
+p{margin:0;color:#50545b;line-height:1.5}
+header p{font-size:14px;max-width:65ch}
+.toolbar{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+#status{font-size:14px}
+button,a{font:inherit}
+.action{min-height:44px;padding:9px 16px;background:white;color:#17191c;border:1px solid #b9bdc3;border-radius:6px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.action:hover{background:#f0f2f4}
+.action:disabled{opacity:.6;cursor:wait}
+button:focus-visible,a:focus-visible{outline:3px solid #0076aa;outline-offset:4px}
+main{padding:28px 32px 48px}
+#gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:30px 22px}
+figure{margin:0;min-width:0}
+.thumb{display:block;width:100%;padding:0;border:1px solid #e1e3e6;background:#f3f4f5;cursor:zoom-in;border-radius:3px;overflow:hidden}
+.thumb:hover{border-color:#737981}
+.thumb img{display:block;width:100%;height:350px;object-fit:contain}
+figcaption{padding:12px 0 0}
+figcaption strong{font-size:15px;font-weight:600;display:block;overflow-wrap:anywhere}
+figcaption small{display:block;color:#595e66;font-size:12px;margin-top:4px}
+#empty{padding:24px 0}
+dialog{width:min(1180px,96vw);max-height:96vh;padding:18px;border:1px solid #d2d5d9;border-radius:7px;background:white;color:#17191c;overflow:auto}
+dialog::backdrop{background:rgba(10,14,20,.78)}
+.dialog-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:12px;flex-wrap:wrap}
+#zoom-title{font-size:16px;font-weight:600;overflow-wrap:anywhere}
+#zoom-image{display:block;max-width:100%;width:auto;max-height:76vh;object-fit:contain;margin:auto}
+#zoom-info{padding-top:12px;text-align:center;font-size:13px}
+@media(max-width:600px){header{padding:22px 18px;gap:16px}main{padding:22px 18px 36px}.toolbar{width:100%;justify-content:space-between}h1{font-size:22px}.thumb img{height:380px}dialog{padding:12px}.dialog-head{gap:10px}.dialog-head .toolbar{width:auto}}
+</style>
+</head>
+<body>
+<header>
+<div><h1>protocole.h · Assets</h1><p>Références 2D pour la 3D. Les nouvelles images apparaissent automatiquement.</p></div>
+<div class="toolbar"><p id="status" role="status">Lecture des rendus…</p><button id="refresh" class="action" type="button">Actualiser</button></div>
+</header>
+<main><p id="empty">Les rendus terminés apparaîtront ici. Clique sur une image pour l’agrandir.</p><section id="gallery" aria-label="Rendus disponibles"></section></main>
+<dialog id="zoom" aria-labelledby="zoom-title">
+<div class="dialog-head"><span id="zoom-title"></span><div class="toolbar"><a id="download" class="action" download>Télécharger</a><button id="close" class="action" type="button">Fermer</button></div></div>
+<img id="zoom-image" alt=""><p id="zoom-info"></p>
+</dialog>
+<script type="module">
+const gallery=document.querySelector('#gallery');
+const status=document.querySelector('#status');
+const refreshButton=document.querySelector('#refresh');
+const zoom=document.querySelector('#zoom');
+const cards=new Map();
+const labels={'00-robot-master':'Robot · premier rendu','00-robot-master-blue-eyes':'Robot · maître','01-robot-front':'Robot · face','02-robot-right':'Robot · profil droit','03-robot-back':'Robot · dos','04-robot-left':'Robot · profil gauche','05-fauteuil':'Fauteuil','06-sonde-electrique':'Sonde électrique','07-pince-extraction':'Pince d’extraction','08-verrou-contention':'Verrou de contention','09-module-avant-bras':'Module d’avant-bras','10-decor-vide':'Cellule blanche · décor vide'};
+let busy=false;
+function setStatus(text){if(status.textContent!==text)status.textContent=text}
+function showImage(title,file,url){document.querySelector('#zoom-title').textContent=title;document.querySelector('#zoom-image').src=url;document.querySelector('#zoom-image').alt=title;document.querySelector('#zoom-info').textContent=`${file.width} × ${file.height} px · référence 2D`;const download=document.querySelector('#download');download.href=url;download.download=file.file.split('/').pop();if(!zoom.open)zoom.showModal()}
+async function refresh(){
+if(busy)return;busy=true;refreshButton.disabled=true;
+try{
+const response=await fetch('generation-results.jsonl',{cache:'no-store'});
+if(!response.ok)throw new Error('Journal indisponible');
+const results=new Map();
+for(const line of (await response.text()).split('\n')){if(!line.trim())continue;let record;try{record=JSON.parse(line)}catch{continue}if(record.status==='generated'&&record.files?.length)results.set(record.job,record)}
+if(results.has('00-robot-master-blue-eyes'))results.delete('00-robot-master');
+for(const [job,figure]of cards){if(!results.has(job)){figure.remove();cards.delete(job)}}
+for(const [job,record]of [...results].sort(([a],[b])=>a.localeCompare(b))){
+const file=record.files[0];const basename=file.file.split('/').pop();if(!/^[a-zA-Z0-9_.-]+\.(jpg|jpeg|png|webp)$/.test(basename))continue;
+if(cards.get(job)?.dataset.sha===file.sha256)continue;
+const title=labels[job]||job.replace(/^\d+-/,'').replaceAll('-',' ');
+const url=`./${encodeURIComponent(basename)}?v=${file.sha256.slice(0,12)}`;
+const figure=document.createElement('figure');figure.dataset.sha=file.sha256;
+const button=document.createElement('button');button.type='button';button.className='thumb';button.setAttribute('aria-label',`Agrandir ${title}`);
+const image=document.createElement('img');image.src=url;image.alt=title;image.loading='lazy';image.width=file.width;image.height=file.height;button.append(image);button.addEventListener('click',()=>showImage(title,file,url));
+const caption=document.createElement('figcaption');const name=document.createElement('strong');name.textContent=title;const info=document.createElement('small');info.textContent=`${file.width} × ${file.height} px`;caption.append(name,info);figure.append(button,caption);
+if(cards.has(job))cards.get(job).replaceWith(figure);else gallery.append(figure);cards.set(job,figure);
+}
+document.querySelector('#empty').hidden=cards.size>0;setStatus(`${cards.size} images disponibles · auto 5 s`);
+}catch{setStatus(cards.size?'Actualisation indisponible, rendus conservés.':'En attente du journal de génération…')}
+finally{busy=false;refreshButton.disabled=false}
+}
+refreshButton.addEventListener('click',refresh);
+document.querySelector('#close').addEventListener('click',()=>zoom.close());
+zoom.addEventListener('click',event=>{if(event.target===zoom){const box=zoom.getBoundingClientRect();if(event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom)zoom.close()}});
+refresh();setInterval(refresh,5000);
+</script>
+</body>
+</html>

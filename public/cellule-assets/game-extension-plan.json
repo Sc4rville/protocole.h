@@ -1,0 +1,223 @@
+{
+  "version": 1,
+  "model": "gemini-3-pro-image",
+  "source": "public/concepts/lobby-v3/05-cellule-blanche.jpg",
+  "imageSize": "2K",
+  "notes": [
+    "Extension visuelle demandée par Kusaila pour les personnages, objets et lieux du jeu.",
+    "La cellule et le robot viennent de la référence approuvée. L'humain et les éléments absents de cette référence sont de nouvelles propositions, pas des designs déjà validés par l'équipe.",
+    "Les personnages, objets et environnements sont des références 2D. Les quatre textures sont des propositions de base couleur, pas des jeux de textures PBR mesurées.",
+    "Conserver les collisions, dimensions, timings et règles de jeu du développeur. Ces images ne définissent pas la physique.",
+    "Produire et contrôler 11-humain-maitre avant ses quatre vues. Ne jamais écraser une image existante. Maximum trois requêtes simultanées."
+  ],
+  "jobs": [
+    {
+      "name": "11-humain-maitre",
+      "kind": "character-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "2:3",
+      "imageSize": "2K",
+      "prompt": "Create one isolated full-body production reference for the HUMAN playable test participant in the science-fiction world of the attached white-cell image. The attachment defines only the clinical world, restrained material palette and realistic rendering, NOT the character's anatomy. This is an ordinary adult human, not a robot, cyborg, armored soldier or superhero. Androgynous appearance, short dark hair, medium-brown skin, natural dark human eyes, neutral calm expression, average lean proportions. A practical unbranded light-gray institutional coverall with a simple dark center zipper, fitted but not tight, subtle elbow and knee seams, bare human hands, simple gray ankle shoes with dark soles. No weapons, helmet, backpack, accessories, insignia or lettering. Stand in a relaxed A-pose with arms approximately thirty degrees away from the torso, hands open with fingers visibly separated, legs slightly apart. Modest front three-quarter view, full head and feet with clear margins. Uniform light-gray studio background, neutral diffuse light, realistic fabric and skin, no dramatic baked shadows, colored rim lights or pedestal. One character, one view, no collage. This establishes a proposed new human design and consistent body proportions for subsequent views."
+    },
+    {
+      "name": "12-humain-face",
+      "kind": "character-reference",
+      "references": ["public/cellule-assets/11-humain-maitre.jpg"],
+      "aspectRatio": "2:3",
+      "imageSize": "2K",
+      "prompt": "Use the attached isolated human master as the sole authoritative character reference. Show EXACTLY the same adult human in a straight FRONT view, full body, near-orthographic perspective, unchanged relaxed A-pose and finger positions. Preserve face, short dark hair, complexion, body proportions, light-gray coverall, zipper, all seams, bare hands and gray shoes with dark soles. Rotate only the viewpoint; do not restyle, beautify, change gender presentation, add accessories or turn the person into a robot. Maintain the same neutral diffuse studio lighting and uniform light-gray background. Keep all fingertips and feet within the frame with clear margin. One character and one view, no text, panels, ground pedestal or cast environment. This is a 2D reconstruction reference, not a claim of exact measured multiview geometry."
+    },
+    {
+      "name": "13-humain-droite",
+      "kind": "character-reference",
+      "references": ["public/cellule-assets/11-humain-maitre.jpg"],
+      "aspectRatio": "2:3",
+      "imageSize": "2K",
+      "prompt": "Use the attached isolated human master as the sole authoritative character reference. Show EXACTLY the same adult human in exact RIGHT-SIDE PROFILE, full body, near-orthographic perspective, unchanged relaxed A-pose and finger positions. Preserve face, short dark hair, complexion, body proportions, light-gray coverall, zipper, all seams, bare hands and gray shoes with dark soles. Rotate only the viewpoint; do not mirror a left-side view or change anatomy. Infer unseen fabric surfaces conservatively without introducing new design elements. Maintain the same neutral diffuse studio lighting and uniform light-gray background. Keep all fingertips and feet within the frame with clear margin. One character and one view, no text, panels, ground pedestal, accessories or environment. This is a 2D reconstruction reference, not a claim of exact measured multiview geometry."
+    },
+    {
+      "name": "14-humain-dos",
+      "kind": "character-reference",
+      "references": ["public/cellule-assets/11-humain-maitre.jpg"],
+      "aspectRatio": "2:3",
+      "imageSize": "2K",
+      "prompt": "Use the attached isolated human master as the sole authoritative character reference. Show EXACTLY the same adult human in a straight REAR view, full body, near-orthographic perspective, unchanged relaxed A-pose and finger positions. Preserve short dark hair, complexion, body proportions, light-gray coverall, seams, bare hands and gray shoes with dark soles. Infer a simple practical back construction consistent with the master, with no backpack, armor, new logos, exposed skin cutouts or decorative equipment. Rotate only the viewpoint, do not redesign the character. Maintain the same neutral diffuse studio lighting and uniform light-gray background. Keep all fingertips and feet within the frame with clear margin. One character and one view, no lettering, panels, pedestal or environment. This is a 2D reconstruction reference, not a claim of exact measured multiview geometry."
+    },
+    {
+      "name": "15-humain-gauche",
+      "kind": "character-reference",
+      "references": ["public/cellule-assets/11-humain-maitre.jpg"],
+      "aspectRatio": "2:3",
+      "imageSize": "2K",
+      "prompt": "Use the attached isolated human master as the sole authoritative character reference. Show EXACTLY the same adult human in exact LEFT-SIDE PROFILE, full body, near-orthographic perspective, unchanged relaxed A-pose and finger positions. Preserve face, short dark hair, complexion, body proportions, light-gray coverall, zipper, all seams, bare hands and gray shoes with dark soles. Rotate only the viewpoint; do not mirror the opposite side or change anatomy. Infer unseen fabric surfaces conservatively without new design elements. Maintain the same neutral diffuse studio lighting and uniform light-gray background. Keep all fingertips and feet within the frame with clear margin. One character and one view, no text, panels, ground pedestal, accessories or environment. This is a 2D reconstruction reference, not a claim of exact measured multiview geometry."
+    },
+    {
+      "name": "16-miroir-observation",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "16:9",
+      "imageSize": "2K",
+      "prompt": "Create one isolated production reference of the long horizontal dark observation-mirror assembly in the attached white-cell scene. A wide shallow rectangular dark smoked-glass panel inside a minimal off-white flush-mount institutional frame, approximately six times wider than high. Show the complete assembly in a slight front three-quarter view with enough depth to understand its mounting. Preserve the scene's precise clinical design and dark seams. The glass is unlettered and nearly uniform, with only a restrained neutral studio reflection: no reflected robot, person, room, screen graphics or imagery baked into it. No wall slab, cables, loose parts or supporting stand. Uniform light-gray background, neutral diffuse light, entire object visible with margins. One object and viewpoint, no collage, annotations or logo. This image defines appearance; the game must provide the actual mirror/reflection material separately."
+    },
+    {
+      "name": "17-plateau-outils",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "prompt": "Create one isolated empty maintenance-tool tray stand matching the foreground clinical equipment in the attached white-cell reference. A shallow rectangular off-white tray with a small raised rim, clean black seam under the lip, one narrow brushed-metal support column and a compact stable wheeled base. Realistic modest equipment scale, sharply controlled institutional design, functional joints, not a decorative table or large medical machine. It is a proposed complete reconstruction of the partially visible tray, not a claimed exact extraction. Show the entire empty stand in clear front three-quarter view including all small caster wheels. No tools, hands, robot, chair, cables, floor environment, text or logo. Uniform light-gray studio background, neutral diffuse lighting and readable materials, no dramatic shadows or pedestal. One assembled object and viewpoint, ready as an image-to-3D reference."
+    },
+    {
+      "name": "18-porte-cellule",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "2:3",
+      "imageSize": "2K",
+      "prompt": "Create one complete isolated sealed personnel-door assembly for the attached white-cell environment. A tall narrow off-white flush sliding door inside a precise thin rectangular frame, subtle dark perimeter seal, one vertical panel seam, small blank dark access sensor and restrained metal threshold. Realistic human scale, no handle requiring an invented gameplay interaction, no spaceship airlock bulk or ornamental armor. Appearance must belong to the same pristine clinical institution as the reference. Show a modest front three-quarter angle so the shallow frame depth is readable. Keep the whole frame, threshold and top inside the image. Uniform light-gray background, neutral diffuse studio lighting. No surrounding room, people, robot, warning words, serial numbers, logos or collage. One closed door assembly, with seams making the movable door and fixed frame visually distinct for later modeling."
+    },
+    {
+      "name": "19-station-energie",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "prompt": "Design one small floor-mounted energy-support station for the game world in the attached clinical reference. An off-white waist-height monolithic service pedestal with dark inset technical seams, a readable circular charging connector on the front and a narrow icy-cyan status light. Its palette and manufactured detail echo the robot maintenance equipment, but it is clearly a freestanding world prop, not a weapon or humanoid. Compact sturdy base, chamfered edges, plausible vents and fittings; no long cables obstructing the path. Show the complete object in front three-quarter view, neutral diffuse studio light on a uniform light-gray background. No text, numbers, holograms, user-interface labels, scenery, hands, floating parts or decorative pedestal. One object only. The support/shield gameplay and light animation will be implemented by the developer, not implied to exist in this reference image."
+    },
+    {
+      "name": "20-emetteur-electrique",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "prompt": "Design one isolated electrical hazard emitter for a corrupted version of the attached clinical science-fiction facility. A compact dark steel column on a bolted base with two short blunt conductive tips at its top, ceramic off-white insulators, visible protective ribs and one small amber warning lens. Strong readable silhouette, plausible functional construction, modest wear, no fantasy spikes or weapon barrel. It must be reusable in pairs along a route, so show ONLY ONE complete emitter, not a pair connected by an arc. No lightning baked into the image, no smoke, sparks, UI, text or environment. Whole object in a clear front three-quarter view, uniform light-gray studio background, neutral diffuse lighting. The developer will create the timed electrical effect and collision independently. One production reference, not an animated or articulated asset."
+    },
+    {
+      "name": "21-module-route-enfer",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "prompt": "Create a single isolated modular floor segment for a THREE-LANE industrial runner in the hostile version of the attached clinical facility. A wide low flat rectangular slab, three equal walkable lanes defined by subtle recessed longitudinal strips, graphite steel floor panels, dark structural underside and restrained dull-red strips at the outer edges. All three lanes stay flat, unobstructed and at one height. Straight clean open ends designed to meet identical segments; no ramps, gaps, traps, rail posts or objects baked into the floor module. Fine manufactured panel joints and bolts, readable at game scale, not a gritty pile of scrap. Show a clear elevated three-quarter view of the whole slab and its shallow thickness. Uniform light-gray studio background, neutral light, no environment, text, arrows or characters. This is a proposed appearance reference; length, collisions and lane widths remain controlled by the game code."
+    },
+    {
+      "name": "22-bloc-enfer",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "2:3",
+      "imageSize": "2K",
+      "prompt": "Create one isolated solid tall lane-blocker for the hostile industrial runner in the same science-fiction world as the attached cell. A massive rectangular vertical barrier roughly 2.3 times taller than wide, shallow front-to-back depth, graphite metal structural chassis, recessed dirty off-white panels, heavy chamfered corners, dark seams and one restrained dull-red warning strip. The front is solid and obviously impassable: no doorway, holes, ladders, inviting footholds, weapons or spikes. A broad stable rectangular base, entire object visible in a modest front three-quarter view. Realistic manufactured material detail rather than fantasy decoration. Uniform light-gray studio background, neutral diffuse light, no cast environment, labels, letters or additional props. One object only. It visually marks a lane that must be avoided; exact dimensions and collision remain the developer's responsibility."
+    },
+    {
+      "name": "23-barre-glissade",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "prompt": "Create one isolated overhead slide-under obstacle for a single lane in a science-fiction industrial runner. A wide low gantry with two narrow outer support posts and one thick rectangular horizontal overhead beam, leaving a visibly clear low opening underneath for a crouched/sliding person. The beam must read as an overhead obstruction, not a low hurdle to jump over. Dark graphite structural metal, off-white worn inset panels, a restrained muted-red warning band, functional bolts and flat stable feet outside the opening. Match the precise manufactured language of the attached clinical scene in a harsher variant. Whole assembly in readable front three-quarter view, uniform light-gray background and neutral studio light. No floor segment, person, arrows, words, glowing force field, extra machinery or disconnected parts. One complete reference assembly; the fixed opening and collisions will be modeled explicitly by the developer."
+    },
+    {
+      "name": "24-presse-enfer",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "2:3",
+      "imageSize": "2K",
+      "prompt": "Create one isolated compact vertical industrial press gate for a runner hazard in the same clinical science-fiction world as the attached cell. Two fixed graphite guide posts, a top crossmember, a central hydraulic piston and one wide heavy moving platen currently raised, leaving the passage underneath visible. Fixed frame, piston and movable head must be distinguished by clear seams and materials, not floating exploded-view parts. Mechanical construction is plausible, with clean guide rails, small off-white protective covers and restrained dull-red safety accents. No gore, victims, spikes, text, labels, sparks or enormous surrounding factory. Show the complete press from a modest front three-quarter view, including its support feet, on a uniform light-gray studio background with neutral diffuse lighting. One assembly only. This reference does not contain animation or separate mesh parts; the actual press motion and safe timing stay in game code."
+    },
+    {
+      "name": "25-ile-paradis",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "prompt": "Design one isolated floating traversal-island module for the peaceful counterpart of the attached clinical science-fiction institution. A broad flat walkable upper surface of pale off-white manufactured mineral panels, softly chamfered perimeter, shallow layered structural underside tapering modestly below. Tiny controlled patches of fresh green planting only near two outer edges, never blocking the flat central traversal area. A subtle icy-cyan embedded guide strip, clean seams and restrained realistic materials connect it to the cell's design language. No fantasy ruins, religious symbols, roots, giant trees, houses, springs, characters, sky or neighboring islands. Show the complete single floating module in an elevated three-quarter studio view, uniform light-gray background, soft neutral diffuse lighting. No pedestal or labels. This is a world-prop reference; the developer keeps level geometry, gaps and collisions deterministic."
+    },
+    {
+      "name": "26-tremplin-paradis",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "prompt": "Design one isolated low mechanical rebound pad for a peaceful science-fiction traversal course in the visual family of the attached white cell. A rounded rectangular off-white base with dark rubber feet, a broad pale circular pressure plate on top, a clearly visible short compression-spring mechanism between plate and base, and a thin icy-cyan indicator ring. The pad looks safe, springy and functional, not like a weapon, toy trampoline, magic rune or launch rocket. All components form one compact assembled object with readable seams for later modeling. Show the whole object in a slightly elevated front three-quarter view, neutral diffuse studio lighting, uniform light-gray background. No arrows, words, holograms, characters, environment or dramatic glow. The real bounce strength and animation will be handled by the developer; this image is only the appearance reference."
+    },
+    {
+      "name": "27-orbe-energie",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "prompt": "Design one isolated energy collectible for the peaceful course of the science-fiction world in the attached clinical reference. A small spherical icy-cyan luminous glass core partly held by three thin segmented off-white ceramic-metal arcs, with dark precision seams. A simple strong silhouette readable while moving, controlled soft light inside the sphere, no bright bloom that obscures its shape. All arcs belong to the single object; no loose debris, orbiting extra spheres or decorative plinth. Whole collectible centered in a clear three-quarter studio view with ample margin, uniform light-gray background, neutral diffuse illumination. No lettering, logos, UI, characters, scene or magic symbols. This is a material and shape reference; floating motion, glow and collection behavior are separate runtime effects."
+    },
+    {
+      "name": "28-balise-checkpoint",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "2:3",
+      "imageSize": "2K",
+      "prompt": "Design one isolated checkpoint beacon that can be reused in both routes of the attached clinical science-fiction world. A slim human-height off-white service pillar with a grounded dark rectangular foot, a recessed vertical icy-cyan light strip and one dark unlettered sensor panel near its top. Precise panel construction, restrained chamfers, a few readable structural joints. It must read as a calm route marker, not a sentry turret, robot, advertising screen or medical cabinet. Show the whole pillar and base in a modest front three-quarter view with generous margins, uniform light-gray studio background and neutral diffuse illumination. No words, arrows, numbers, symbols, surrounding level, characters or holograms. One object only; the code changes light color/state and decides when the checkpoint activates."
+    },
+    {
+      "name": "29-portique-sortie",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "prompt": "Design one isolated exit gateway frame for a science-fiction traversal course in the same manufactured world as the attached clinical cell. Two clean vertical off-white pillars and a thin rectangular top lintel, dark inner recesses, small icy-cyan edge indicators, low stable feet outside a broad completely open passage. Elegant and functional institutional construction, not an ornate temple or magic portal. The center must remain empty with the studio background visible through it: no door, opaque energy surface, painted destination, text or logo. Show the entire frame in a modest front three-quarter view, uniform light-gray background and neutral diffuse lighting, no platform or surrounding environment. One complete assembly. The developer may reuse the geometry with different light colors; finishing the course and any transition effects remain coded separately."
+    },
+    {
+      "name": "30-environnement-enfer",
+      "kind": "environment-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "16:9",
+      "imageSize": "2K",
+      "prompt": "Create one wide environment reference for HELL, the hostile traversal zone of the same science-fiction institution as the attached white cell. Preserve its precise industrial design language but reveal a vast darker service hall: a readable three-lane graphite-metal route recedes through the center, towering structural ribs, cable conduits, hydraulic machinery and distant maintenance gantries. Controlled saturated red warning lights and hot dark-red accents contrast with cool desaturated steel; keep actual floor surfaces and the path readable, not swallowed in black or fog. Tense and oppressive but physically manufactured, no supernatural demons, flames everywhere, religious iconography or fantasy castles. Camera at plausible third-person gameplay height looking along the empty route. No playable character, robot, UI, lettering, collision-critical foreground obstacle or cinematic motion blur. One coherent environment in 16:9, not a collage, panorama or seamless skybox. This is a proposed art-direction/background reference only; the playable geometry and hazard timing must be built separately."
+    },
+    {
+      "name": "31-environnement-paradis",
+      "kind": "environment-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "16:9",
+      "imageSize": "2K",
+      "prompt": "Create one wide environment reference for PARADISE, the peaceful gliding and rebound course of the same science-fiction institution as the attached white cell. A luminous open engineered garden suspended above a soft cloud layer: broad pale mineral and off-white ceramic traversal terraces, generous clear gaps for gliding, restrained green planting along edges, precise dark seams and subtle icy-cyan guide lights. The architecture feels like the cell's immaculate design language expanded into a strangely perfect outdoor simulation, not a fantasy temple. Bright clean sky, gentle daylight, calm spacious composition, natural readable materials and accessible uncluttered traversal surfaces. Camera at plausible third-person gameplay height looking into the route. No people, robot, angel, religious iconography, UI, lettering, giant decorative objects or thick fog obscuring landings. One coherent 16:9 environment, not a collage, panorama or skybox. This is proposed art direction and background reference; the actual islands, gaps, pads and collisions remain built by the developer."
+    },
+    {
+      "name": "32-texture-mur-cellule",
+      "kind": "base-color-texture",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "prompt": "Generate a square full-frame BASE COLOR material texture for the off-white clinical wall finish visible in the attached cell. Show ONLY a flat orthographic unlit material swatch filling every pixel: cool off-white painted ceramic/composite, very fine restrained manufacturing grain and subtle low-contrast wear. No wall perspective, panel edges, geometry bevels, shadows, highlights, reflection, ambient occlusion, light gradient, text, robot or objects. The material should be visually uniform enough to repeat, with matching appearance at opposite borders and no unique large marks. Not a normal map, not a roughness map, not a shaded material sphere or a PBR channel collage. Neutral diffuse color information only, suitable as a proposed base-color texture to be checked for tiling before use. One square 2K texture, no margin or frame."
+    },
+    {
+      "name": "33-texture-sol-cellule",
+      "kind": "base-color-texture",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "prompt": "Generate a square full-frame BASE COLOR material texture for the pale cool-gray floor finish of the attached clinical cell. A flat orthographic unlit swatch of fine manufactured mineral/composite flooring, slightly darker than the wall, very restrained fine grain and low-contrast surface variation. Do not include drains, tile borders, panel seams or perspective; those are built in geometry separately. No shadow, highlight, reflection, ambient occlusion, lighting gradient, footprints, dirt piles, objects, text or robot. Opposite borders should match in color and grain so the swatch can repeat without a conspicuous seam. This is diffuse color only, not a normal/roughness/height map or a shaded sphere. One square 2K texture filling the entire image without frame or margin, to be checked for tiling before game integration."
+    },
+    {
+      "name": "34-texture-metal-enfer",
+      "kind": "base-color-texture",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "prompt": "Generate a square full-frame BASE COLOR texture for graphite industrial metal in the hostile service areas of the attached clinical science-fiction institution. Flat orthographic unlit material swatch, dark neutral charcoal steel paint with very fine subdued abrasion and controlled low-contrast grime. Keep enough diffuse detail to remain readable in a game; avoid pure black. No rust-orange color wash, glowing red light, bolts, grilles, panel seams, geometry, perspective, specular highlights, shadows, ambient occlusion, labels or objects. Fine grain and color must continue plausibly across opposite borders for tiling, with no isolated large scratches or unique focal mark. Diffuse albedo-style color only, not metallic/normal/roughness channels or a PBR collage. One square 2K swatch, edge-to-edge, no frame or margin."
+    },
+    {
+      "name": "35-texture-surface-paradis",
+      "kind": "base-color-texture",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "prompt": "Generate a square full-frame BASE COLOR texture for pale manufactured mineral/ceramic traversal surfaces in the peaceful counterpart of the attached science-fiction cell. Flat orthographic unlit swatch, clean neutral white with a very slight cool-gray cast, fine believable mineral grain and subtle low-contrast tonal variation. A restrained engineered finish, not glossy marble with strong veins, beige sandstone, fantasy stone or glitter. No panel edges, foliage, perspective, shadow, highlights, reflections, ambient occlusion, sunlight gradient, text or objects. Opposite borders must have matching color and texture character so the image can repeat without conspicuous seams. Only diffuse color information, not a normal map, displacement map or shaded material ball. One square 2K texture filling every pixel, no border or margin; tiling still requires an integration check."
+    },
+    {
+      "name": "36-barriere-saut",
+      "kind": "prop-reference",
+      "references": ["public/concepts/lobby-v3/05-cellule-blanche.jpg"],
+      "aspectRatio": "1:1",
+      "imageSize": "2K",
+      "prompt": "Create one isolated LOW JUMP HURDLE for a single lane in an industrial science-fiction runner, in the harsher version of the attached clinical facility. A broad low solid rectangular barrier roughly twice as wide as it is tall and shallow in depth, with a flat clean upper edge that reads as jumpable, a graphite metal core, worn off-white inset face and a restrained dull-red warning strip. Broad small support feet, chamfered corners, believable bolts and panel seams. Clearly different from a tall impassable blocker and from a high slide-under gantry: no overhead frame, open doorway, spikes or moving parts. Whole object in a front three-quarter view on a uniform light-gray studio background with neutral diffuse lighting. No person, arrows, words, logos, floor module or environment. One object only; its actual height and hitbox will stay compatible with the existing jump physics."
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+SOURCES ET LICENCES — banque sonore protocole.h
+
+Tous les sons ci-dessous sont des candidats CC0 à écouter, pas encore intégrés ni mixés.
+Les libellés d'usage (intendedUse) sont des suggestions internes, pas des affirmations
+sur le contenu des enregistrements sources.
+
+== BigSoundBank — Joseph SARDIN
+Page : https://bigsoundbank.com/ventilation-1-s0032.html
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : room_ventilation_01
+
+== BigSoundBank — Joseph SARDIN
+Page : https://bigsoundbank.com/computer-2-ventilation-s0126.html
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : room_fan_01
+
+== BigSoundBank — Joseph SARDIN
+Page : https://bigsoundbank.com/electric-transformer-1-s0064.html
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : room_electrical_hum_01
+
+== OpenGameArt — YCbCr
+Page : https://opengameart.org/content/generator-loop
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : room_generator_01
+
+== BigSoundBank — Joseph SARDIN
+Page : https://bigsoundbank.com/servomotor-1-45-2-s2908.html
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : robot_servo_01
+
+== BigSoundBank — Joseph SARDIN
+Page : https://bigsoundbank.com/servomotor-2-20-1-s2913.html
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : robot_servo_02
+
+== OpenGameArt — BMacZero / Brian MacIntosh
+Page : https://opengameart.org/content/mechanical-sounds
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : metal_impact_01, tool_pickup_01, tool_putdown_01, robot_rattle_01, restraint_mechanism_01, restraint_mechanism_02, restraint_click_01, restraint_click_02
+
+== OpenGameArt — BMacZero / Brian MacIntosh
+Page : https://opengameart.org/content/electricity-sound-effects-0
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : probe_arc_continuous_01, probe_arc_snap_01
+
+== OpenGameArt — faxcorp
+Page : https://opengameart.org/content/electricity-game-sound-pack
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : probe_charge_01, probe_connect_01, probe_disconnect_01, probe_recharge_01, probe_crackle_01, room_powerup_01
+
+== Kenney — Kenney
+Page : https://kenney.nl/assets/interface-sounds
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : ui_click_01, ui_select_01, ui_confirm_01, ui_warning_01, ui_switch_01, robot_glitch_01
+
+== BigSoundBank — Joseph SARDIN
+Page : https://bigsoundbank.com/straw-suction-3-s1246.html
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : fluid_suction_01
+
+== BigSoundBank — Joseph SARDIN
+Page : https://bigsoundbank.com/suction-cup-on-window-s1262.html
+Licence : CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Date d'accès : 2026-09-26
+Attribution : non requise (crédit de courtoisie)
+Candidats : seal_release_01

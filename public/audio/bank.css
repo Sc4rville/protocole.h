@@ -1,0 +1,24 @@
+body{margin:0;padding:20px;background:#121317;color:#e6e7ea;font:15px system-ui,sans-serif}
+h1{font-size:22px;margin:0 0 4px}
+header p{margin:0 0 14px;color:#a8adb8;font-size:13px}
+#player-bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:#1b1e24;border:1px solid #2c2f38;border-radius:10px;padding:10px 14px;position:sticky;top:0;z-index:2}
+#player{height:34px;min-width:280px}
+#now-playing{font-size:13px;color:#9fb4d0;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+button{font-size:13px;padding:4px 12px;cursor:pointer;border-radius:6px;border:1px solid #4a4f5c;background:#23262e;color:#eee}
+button:hover{background:#2c3039}
+#player-bar label{font-size:12px;color:#b9bcc4;display:flex;align-items:center;gap:6px}
+#player-bar a{color:#cfd3dc;font-size:12px;margin-left:auto}
+#filters{display:flex;gap:12px;margin:14px 0}
+#search{flex:1;max-width:340px;padding:6px 10px;border-radius:6px;border:1px solid #3a3d45;background:#1b1e24;color:#eee;font-size:14px}
+#category{padding:6px 10px;border-radius:6px;border:1px solid #3a3d45;background:#1b1e24;color:#eee;font-size:14px}
+#bank{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{background:#1b1e24;border:1px solid #2c2f38;border-radius:10px;padding:12px 14px}
+.card h2{font-size:15px;margin:0 0 2px}
+.card .use{font-size:12px;color:#a8adb8;margin:0 0 8px}
+.card .meta{font-size:12px;color:#8f94a0;line-height:1.5}
+.card .meta a{color:#cfd3dc}
+.card .badge{display:inline-block;font-size:11px;color:#d0b46a;border:1px solid #4a4436;border-radius:4px;padding:1px 6px;margin-top:6px}
+.card .row{display:flex;gap:8px;align-items:center;margin-top:8px}
+.card.playing{border-color:#5a7ab0}
+#state{color:#a8adb8}
+.err{color:#e08a8a}

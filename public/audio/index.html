@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>protocole.h — banque sonore</title>
+<link rel="stylesheet" href="bank.css">
+</head>
+<body>
+<header>
+  <h1>protocole.h — banque sonore</h1>
+  <p id="subtitle">Chargement…</p>
+</header>
+<div id="player-bar">
+  <audio id="player" controls preload="metadata"></audio>
+  <span id="now-playing">—</span>
+  <button id="stop" type="button">Stop</button>
+  <label>Volume <input id="volume" type="range" min="0" max="1" step="0.01" value="0.25"></label>
+  <label><input id="loop" type="checkbox"> Boucle de test — raccord non validé</label>
+  <a href="licenses/SOURCES.txt" target="_blank" rel="noopener">Crédits et licences</a>
+</div>
+<div id="filters">
+  <input id="search" type="search" placeholder="Rechercher…" aria-label="Rechercher">
+  <select id="category" aria-label="Catégorie">
+    <option value="">Toutes catégories</option>
+    <option value="ambience">ambience</option>
+    <option value="robot">robot</option>
+    <option value="mechanics">mechanics</option>
+    <option value="electricity">electricity</option>
+    <option value="ui">ui</option>
+    <option value="fluids">fluids</option>
+  </select>
+</div>
+<main id="bank"><p id="state">Chargement du manifeste…</p></main>
+<script src="bank.js"></script>
+</body>
+</html>
