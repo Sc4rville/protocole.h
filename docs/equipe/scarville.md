@@ -59,3 +59,4 @@ Ajouter à chaque reprise : ce qui a été fait, les fichiers touchés, les vér
 - Échap ou « Skip » saute au briefing ; « Begin evaluation » fond au blanc puis ouvre `../lobby-test/` (`?next=` pour changer la cible). `?test=1&speed=12` accélère la timeline et expose `#telemetry`.
 - Vérifications : `tests/intro-preview.py` (Playwright, serveur `python3 -m http.server 8768 -d public`) 14/14 ; 12 échantillons décodés, aucune requête externe, aucune erreur console hors 404 attendu du theme song.
 - Texte du briefing = brouillon à valider ; le prologue reprend le texte convenu en session.
+- Retour Yann : une seule typo (Space Grotesk, OFL, servie en local `public/intro/fonts/`), zéro texte parasite (stamp, note theme, « sound on », Skip retirés ; Échap saute toujours), briefing réduit à 3 lignes, fond du prologue « noir pas noir » : dégradés bruns très sombres + fumée fractale dérivante + grain. `tests/intro-preview.py` 14/14.

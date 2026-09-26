@@ -9,31 +9,29 @@
 <body class="phase-gate">
 <noscript><p style="padding:24px;color:#ddd">JavaScript is required.</p></noscript>
 
+<div class="bg"></div>
+<div class="bg-smoke"></div>
+<div class="grain"></div>
+
 <div id="gate" class="layer">
   <div class="gate-card">
     <div class="wordmark">protocole<span>.h</span></div>
-    <p class="gate-note">Sound on. Headphones recommended.</p>
-    <button id="start" type="button">Start</button>
-    <p id="gate-status" class="gate-status" role="status">Loading sound bank…</p>
+    <button id="start" type="button" disabled>start</button>
   </div>
 </div>
 
 <div id="stage" class="layer" hidden>
   <div id="lines" class="lines" aria-live="polite"></div>
-  <div id="flash" class="flash"></div>
-  <div id="grain" class="grain"></div>
-  <button id="skip" type="button" class="skip">Skip ›</button>
 </div>
 
 <div id="briefing" class="layer" hidden>
   <div class="briefing-card">
-    <div class="stamp">PROTOCOL H · FINAL EVALUATION</div>
     <div id="briefing-lines" class="briefing-lines" aria-live="polite"></div>
-    <button id="begin" type="button" class="begin" hidden>Begin evaluation</button>
-    <p id="theme-note" class="theme-note" hidden></p>
+    <button id="begin" type="button" class="begin" hidden>begin</button>
   </div>
 </div>
 
+<div id="flash" class="flash"></div>
 <div id="telemetry" hidden aria-hidden="true"></div>
 <script type="module" src="intro.js"></script>
 </body>

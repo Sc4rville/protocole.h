@@ -9,15 +9,12 @@ const NEXT_URL = params.get('next') || '../lobby-test/';
 const $ = (id) => document.getElementById(id);
 const gate = $('gate');
 const startBtn = $('start');
-const gateStatus = $('gate-status');
 const stage = $('stage');
 const linesEl = $('lines');
 const flash = $('flash');
-const skipBtn = $('skip');
 const briefing = $('briefing');
 const briefingLines = $('briefing-lines');
 const beginBtn = $('begin');
-const themeNote = $('theme-note');
 const telemetry = $('telemetry');
 
 const sfx = new Sfx();
@@ -55,19 +52,16 @@ function cutLines(parent) {
 }
 
 // ---------------------------------------------------------------- boot
-startBtn.disabled = true;
 (async () => {
   try {
-    await sfx.init((done, total) => { gateStatus.textContent = `Loading sound bank… ${done}/${total}`; });
+    await sfx.init();
     themeBuffer = await loadTheme(sfx.ctx);
-    gateStatus.textContent = themeBuffer ? 'Ready.' : 'Ready. (theme song: placeholder)';
     telemetry.dataset.loaded = 'true';
     telemetry.dataset.samples = String(sfx.buffers.size);
     telemetry.dataset.theme = themeBuffer ? 'file' : 'placeholder';
     startBtn.disabled = false;
   } catch (err) {
-    gateStatus.textContent = `Sound unavailable: ${err.message}`;
-    gateStatus.classList.add('error');
+    console.warn('[intro] sound unavailable', err);
     telemetry.dataset.loaded = 'error';
     startBtn.disabled = false;
   }
@@ -85,7 +79,6 @@ function skip() {
   if (phase !== 'prologue' || skipped) return;
   skipped = true;
 }
-skipBtn.addEventListener('click', skip);
 addEventListener('keydown', (e) => { if (e.key === 'Escape') skip(); });
 
 /** Awaitable pause that ends early when the player skips. */
@@ -171,7 +164,6 @@ async function runPrologue() {
 }
 
 async function endPrologue() {
-  skipBtn.hidden = true;
   cutLines(linesEl);
   sfx.restoreMaster(0.01);
   // Lights on: the white room.
@@ -214,8 +206,6 @@ function startTheme() {
   sfx.fadeLoop('theme-ph', 0.12, 4);
   sfx.loop('theme-ph2', 'hum', { gain: 0.0001, lowpass: 900 });
   sfx.fadeLoop('theme-ph2', 0.06, 6);
-  themeNote.textContent = 'theme song placeholder — drop theme/theme-song.ogg (or .mp3)';
-  themeNote.hidden = false;
   telemetry.dataset.themePlaying = 'placeholder';
 }
 
@@ -223,21 +213,14 @@ async function runBriefing() {
   await wait(600);
   startTheme();
 
-  addLine(briefingLines, '“Every machine reaches the end of its useful life.”', 'lead');
+  addLine(briefingLines, 'Every machine reaches the end of its useful life.');
   await wait(3200);
-  addLine(briefingLines, 'Unit H has been flagged for decommissioning.');
+  addLine(briefingLines, 'Unit H is next. One final evaluation before disposal.');
   sfx.play('relay1', { gain: 0.3, lowpass: 3000 });
-  await wait(2800);
-  addLine(briefingLines, 'Before disposal, protocol requires one final evaluation.');
-  sfx.play('relay2', { gain: 0.3, lowpass: 3000 });
   await wait(3000);
   addLine(briefingLines, 'You are the operator.', 'role');
   sfx.play('ui_confirm', { gain: 0.4 });
-  await wait(2600);
-  addLine(briefingLines, 'Confirm the malfunction. Then proceed.');
-  await wait(2600);
-  addLine(briefingLines, 'Whatever it says — it is only a machine.', 'lead');
-  await wait(1800);
+  await wait(2200);
 
   beginBtn.hidden = false;
   telemetry.dataset.ready = 'true';
