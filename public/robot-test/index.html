@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>protocole.h — robot articulé (test technique)</title>
+<link rel="icon" href="data:,">
+<style>
+  body{margin:0;background:#c9c9c7;color:#1d1e22;font:15px system-ui,sans-serif;overflow:hidden}
+  #canvas-host{position:fixed;inset:0}
+  #canvas-host canvas{display:block;width:100%;height:100%;cursor:grab}
+  #canvas-host canvas:active{cursor:grabbing}
+  header{position:fixed;top:0;left:0;right:0;padding:10px 16px;display:flex;justify-content:space-between;align-items:baseline;pointer-events:none}
+  header h1{font-size:15px;font-weight:600;margin:0}
+  header .note{font-size:12px;color:#3d3f46}
+  header a{color:#2b2d33;pointer-events:auto}
+  #legend{position:fixed;bottom:0;left:0;right:0;padding:8px 14px;display:flex;gap:14px;align-items:center;font-size:12px;color:#3d3f46;flex-wrap:wrap}
+  #legend button{font-size:12px;padding:4px 12px;cursor:pointer;border-radius:6px;border:1px solid #6a6e78;background:rgba(255,255,255,.55);color:#1d1e22}
+  #legend button[aria-pressed="true"]{background:#2b2d33;color:#f2f2f0}
+  #status{font-size:12px;color:#2f4a5a;margin-left:auto}
+  #status.error{color:#a33}
+  #ref{position:fixed;top:44px;right:14px;width:150px;border:1px solid rgba(0,0,0,.25);border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<noscript><p style="padding:24px">Ce test technique nécessite JavaScript.</p></noscript>
+<div id="canvas-host" aria-label="Scène 3D : robot articulé construit par code"></div>
+<header>
+  <h1>Robot — reconstruction articulée par code · d'après la référence approuvée</h1>
+  <div class="note">
+    <a href="../cellule-assets/00-robot-master-blue-eyes.jpg" target="_blank" rel="noopener">Référence 2D</a>
+    · <a href="../lobby-test/" target="_blank" rel="noopener">Cellule blanche</a>
+  </div>
+</header>
+<img id="ref" src="../cellule-assets/00-robot-master-blue-eyes.jpg" alt="Référence : robot maître, yeux bleus">
+<div id="legend">
+  <span>Glisser : orbite</span><span>Molette : zoom</span><span>Souris : regard</span>
+  <button data-pose="debout" aria-pressed="true">1 Debout</button>
+  <button data-pose="assis" aria-pressed="false">2 Assis</button>
+  <button data-pose="defensif" aria-pressed="false">3 Défensif</button>
+  <button id="turn" aria-pressed="true">A Rotation</button>
+  <button id="cell" aria-pressed="false">C Lumière cellule</button>
+  <button id="wire" aria-pressed="false">W Filaire</button>
+  <span id="status" role="status">Chargement…</span>
+</div>
+<div id="telemetry" hidden aria-hidden="true"></div>
+<script src="../lobby-test/vendor/three.min.js"></script>
+<script type="module" src="game.js"></script>
+</body>
+</html>
