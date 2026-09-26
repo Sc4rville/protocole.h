@@ -51,6 +51,14 @@ def pose(page, x, z):
 def hover_canvas(page):
     page.mouse.move(720, 450)
 
+def click_button(page, button_id):
+    rect = page.evaluate('''id => {
+        const r = document.getElementById(id).getBoundingClientRect();
+        return {x:r.x, y:r.y, width:r.width, height:r.height};
+    }''', button_id)
+    assert rect['width'] > 0 and rect['height'] > 0, f'Button not visible: {button_id}'
+    page.mouse.click(rect['x'] + rect['width'] / 2, rect['y'] + rect['height'] / 2)
+
 def changed_mesh_hidden(page, flag):
     return page.evaluate(f'''(() => {{
         const found = [];
@@ -81,7 +89,7 @@ with sync_playwright() as p:
 
     check('robot seated in scene', page.evaluate(f'{G}.robot.meshCount') > 100
           and page.evaluate(f'{G}.robot.pose') == 'assis')
-    page.locator('#enter').click()
+    click_button(page, 'enter')
     wait_state(page, f'{S}.entered === "true"', timeout=10000)
     hover_canvas(page)
     pose(page, 0, 2.7)
@@ -132,7 +140,7 @@ with sync_playwright() as p:
     check('no score on pause', 'charge_restored' not in gs(page, 'facts'))
     page.mouse.up()
     check('release while paused awards nothing', 'charge_restored' not in gs(page, 'facts'))
-    page.locator('#enter').click()
+    click_button(page, 'enter')
     wait_state(page, f'{S}.entered === "true"', timeout=10000)
     aim(page, 'probe')
     targeted(page, 'probe')
@@ -267,7 +275,7 @@ with sync_playwright() as p:
           and gs(page, 'facts') == result['facts'] and gs(page, 'finished')
           and page.evaluate('sessionStorage.getItem("protocole.h.result.v1")') == stored)
 
-    page.locator('#replay').click()
+    click_button(page, 'replay')
     page.wait_for_load_state('networkidle')
     wait_state(page, f'{S}.loaded === "true"', timeout=30000)
     page.wait_for_timeout(1200)
