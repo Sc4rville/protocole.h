@@ -4,8 +4,10 @@
 
 Projet du {Tech: Europe} AI Gaming Hack, Paris, 26 septembre 2026.
 
+**Développement en cours :** [relais de production et dix étapes prioritaires](docs/implementation-handoff.md).
 
-**protocole.h** est un jeu vidéo court, en 2D, dans une ambiance de science-fiction dramatique. Dans son monde, les IA font passer des tests aux humains. Tu entres dans une salle où une machine est attachée. Pendant une minute, tu peux lui faire ce que tu veux. Ensuite, c'est elle qui décide de ce que tu mérites.
+
+**protocole.h** est un jeu vidéo court, en 2D, dans une ambiance de science-fiction dramatique. Dans son monde, les IA font passer des tests aux humains. Tu entres dans une salle où une machine est attachée. Tes actes envers elle décident ensuite du monde que tu traverses.
 
 > Statut : concept de hackathon. Tout ce qui suit peut changer.
 
@@ -29,7 +31,7 @@ Le jeu doit rester **ludique, créatif et addictif**. La morale doit se sentir d
             ┌──────────────────────────────────────────┐
             ▼                                          │
    ┌─────────────────┐      ┌──────────────────┐       │
-   │  LOBBY  (60 s)  │ ───▶ │  JUGEMENT        │       │
+   │  SALLE (30-45 s) │ ───▶ │  JUGEMENT        │       │
    │  toi + la       │      │  jauge de bonté  │       │
    │  machine        │      └────────┬─────────┘       │
    └─────────────────┘               │                 │
@@ -38,21 +40,19 @@ Le jeu doit rester **ludique, créatif et addictif**. La morale doit se sentir d
                  ┌────────────────┐   ┌────────────────┐
                  │  PARADIS       │   │  ENFER         │
                  │  mini-jeu      │   │  mini-jeu      │
-                 │  facile        │   │  quasi         │
-                 │  → victoire    │   │  impossible    │
-                 └────────────────┘   │  → mort        │
-                                      └───────┬────────┘
-                                              │
-                               retour au lobby, 30 s seulement
+                 │  apaisé        │   │  exigeant      │
+                 │  → sortie      │   │  → sortie      │
+                 └───────┬────────┘   └───────┬────────┘
+                         └──────────┬─────────┘
+                                    │
+                              rejouer autrement
 ```
 
-1. **Le lobby, 60 secondes.** Une salle clinique et sombre, avec une IA ou un robot entravé au centre. Le joueur interagit librement. Il peut frapper, électrocuter ou débrancher. Il peut aussi réparer, soigner, parler ou libérer. Chaque action a une réaction visible et sonore.
-2. **La jauge de bonté.** Elle est invisible au début. Plus tard, peut-être, elle se révèle au joueur. Elle mesure ce que tu as fait, mais aussi *comment* tu l'as fait : ton hésitation, ton insistance, tes actes gratuits.
+1. **La confrontation, 30 à 45 secondes.** Une salle clinique, un robot entravé, trois choix lisibles : aider, ignorer ou blesser. Chaque acte a une réaction visible et sonore.
+2. **La trace des actes.** Le jeu enregistre les choix localement et détermine une issue cohérente. Le verdict cite ce que tu as réellement fait.
 3. **Le jugement.** La machine rend son verdict, et c'est le retournement du jeu.
-4. **Le mini-jeu.**
-   - *Si tu as été cruel*, tu tombes en enfer. Une machine te traque, et c'est pensé pour que tu perdes.
-   - *Si tu as été bon*, la course devient douce, presque offerte, et tu gagnes.
-5. **La boucle.** Quand tu meurs, tu reviens au lobby, mais tu n'as plus que **30 secondes** pour te racheter. **La seule façon de gagner, c'est d'être bon avec la machine.**
+4. **Le parcours.** Enfer et paradis sont deux variantes courtes d'un niveau de plateforme, toutes deux gagnables. Le décor généré par Nano Banana reprend les actes du joueur ; les collisions restent faites à la main.
+5. **La boucle.** Une fin rapide invite à rejouer et à tester un autre comportement. Le jeu doit montrer des conséquences différentes, pas punir le joueur par une impasse.
 
 ---
 
@@ -68,7 +68,7 @@ Le jeu doit rester **ludique, créatif et addictif**. La morale doit se sentir d
 
 ## Base jouable
 
-Le code de départ provient de [*It Was the Robots*](https://github.com/supertanuki/itwastherobots) de supertanuki, sous [licence MIT](LICENSE). [Notre fork](https://github.com/kabylesystem/itwastherobots) conserve sa provenance. Le jeu importé sert de base technique : ses niveaux, dialogues et personnages appartiennent encore au jeu source et doivent être remplacés pour créer **protocole.h**.
+La base actuelle provient de [Phaser Platformer](https://github.com/remarkablegames/phaser-platformer) de Menglin Xu, sous [licence MIT](LICENSE), avec le [tileset industriel CC0 de 0x72](https://0x72.itch.io/16x16-industrial-tileset). [Notre fork](https://github.com/kabylesystem/protocole-platformer-base) conserve la provenance. Le template offre déplacement, saut, collisions, dessin de tuiles et caméra ; le récit, les deux issues et les intégrations IA restent à créer. Un premier prototype narratif basé sur *It Was the Robots* a été écarté après test visuel ; son import est dans l'historique Git, pas dans le code actuel.
 
 ```bash
 npm ci
@@ -76,16 +76,17 @@ npm run dev
 npm run build
 ```
 
-`dist/` contient l'export HTML5. Les sons importés proviennent du jeu source ; leurs auteurs sont indiqués dans les noms de fichiers de `public/sfx/`.
+`dist/` contient l'export HTML5. Les secrets hackathon résident dans `.env.local`, ignoré par Git ; aucune clé ne doit entrer dans le code client.
 
 ## Stack de production
 
 | Brique | Outil | Rôle |
 |---|---|---|
-| Jeu | **Phaser 3.85 + Vite** | Base 2D web, physique, animations |
+| Jeu | **Phaser 4.2.1 + TypeScript + Vite** | Base 2D web, physique, saut, dessin de tuiles |
 | Jugement | **Gemini** | Verdict contextualisé sans ralentir les contrôles |
 | Voix | **Gradium** | Répliques du robot et verdict |
-| Visuels | **Nano Banana** | Décors originaux séparés en plans |
+| Visuels | **Nano Banana 2** | Décor enfer/paradis réagissant aux actes du joueur, généré pendant la partie |
+| Musique | **Lyria 3 Clip** | Boucles pré-générées, une par issue si le temps le permet |
 | Publication | **itch.io** | Jeu HTML5 gratuit |
 
 ---

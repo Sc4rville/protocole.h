@@ -1,18 +1,39 @@
 {
   "name": "protocole-h",
-  "version": "1.0.0",
+  "private": true,
+  "version": "1.0.0-alpha",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:itch": "vite build",
-    "build:wavedash": "node scripts/build-wavedash.js",
-    "preview": "vite preview"
+    "build": "npm run clean && vite build",
+    "dev": "vite --host 127.0.0.1",
+    "clean": "rm -rf dist",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix",
+    "lint:tsc": "tsc --project tsconfig.app.json",
+    "preview": "vite preview",
+    "start": "vite"
   },
+  "homepage": "https://github.com/Sc4rville/protocole.h",
   "dependencies": {
-    "phaser": "3.85.0"
+    "phaser": "4.2.1",
+    "phaser-jsx": "1.0.2"
   },
   "devDependencies": {
-    "vite": "^5.4.0"
+    "@commitlint/cli": "21.2.3",
+    "@commitlint/config-conventional": "21.2.3",
+    "@eslint/eslintrc": "3.3.7",
+    "@eslint/js": "10.0.1",
+    "@types/gtag.js": "0.0.20",
+    "@types/react": "19.3.0",
+    "eslint": "10.11.0",
+    "eslint-plugin-prettier": "5.5.6",
+    "eslint-plugin-simple-import-sort": "14.0.0",
+    "husky": "9.1.7",
+    "lint-staged": "17.5.1",
+    "prettier": "3.9.8",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.70.1",
+    "vite": "8.3.0",
+    "vite-plugin-html": "3.2.2"
   }
 }
