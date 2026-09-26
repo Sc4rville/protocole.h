@@ -1,3 +1,11 @@
+# PLEASE WATCH IT
+
+**Official trailer · 2 min 32 · Enable sound in the player**
+
+https://github.com/user-attachments/assets/ab264fed-b63d-48cd-af05-ae1f67e1bd87
+
+---
+
 <div align="center">
 
 <h1>protocole.h</h1>
@@ -9,10 +17,6 @@
 <p>First-person sci-fi horror · A room, a robot, and the choices you make</p>
 
 <p><a href="#play-locally">Play locally</a> · <a href="#built-with-gradium-devin-and-google-gemini">Our partner tools</a> · <a href="#controls">Controls</a></p>
-
-<img src="docs/media/unit-h.gif" alt="In-game footage of Unit H restrained in the clinical examination room, watching the player approach" width="840">
-
-<p><sub>Edited in-game capture. The GIF is silent; the game is not.</sub></p>
 
 </div>
 
@@ -50,6 +54,14 @@ There is no visible morality meter. No dialogue option labelled “good.” Unit
 - **Unit H has a voice, not just a damage bar.** It offers guidance, warns you, and remembers earlier harm. You can put the tools down and talk to it.
 - **The room is part of the performance.** Lights flicker, mechanisms stir, and sounds from beyond the glass turn a routine procedure into something less certain.
 - **The ending has receipts.** Your recorded actions shape the conclusion. Replaying means trying a different relationship with Unit H, not just chasing a higher score.
+
+<div align="center">
+
+<img src="docs/media/unit-h.gif" alt="In-game footage of Unit H restrained in the clinical examination room, watching the player approach" width="840">
+
+<p><sub>Edited in-game capture. The GIF is silent; the game is not.</sub></p>
+
+</div>
 
 ## Play locally
 
