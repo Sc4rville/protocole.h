@@ -33,7 +33,7 @@ function panel(w, h, depth, mat) {
   return m;
 }
 
-export function buildChair(scene, mats) {
+export function buildChair(scene, mats, { armSpan = 0.55, armHeight = 0.98, armZ = 0.28 } = {}) {
   const chair = new THREE.Group();
 
   const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.5, 0.07, 28), mats.charcoal);
@@ -92,17 +92,17 @@ export function buildChair(scene, mats) {
   const restraints = [];
   for (const sx of [-1, 1]) {
     const post = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.3, 0.08), mats.charcoal);
-    post.position.set(sx * 0.55, 0.8, 0.05);
+    post.position.set(sx * armSpan, armHeight - 0.18, 0.05);
     post.castShadow = true;
     chair.add(post);
 
     const arm = panel(0.14, 0.62, 0.07, mats.shell);
     arm.rotation.x = -Math.PI / 2;
-    arm.position.set(sx * 0.55, 0.98, 0.05);
+    arm.position.set(sx * armSpan, armHeight, 0.05);
     chair.add(arm);
 
     const cuffPivot = new THREE.Group();
-    cuffPivot.position.set(sx * 0.55, 1.02, 0.28);
+    cuffPivot.position.set(sx * armSpan, armHeight + 0.04, armZ);
     const cuff = new THREE.Mesh(new THREE.TorusGeometry(0.075, 0.018, 12, 24, Math.PI), mats.steel);
     cuff.rotation.x = Math.PI / 2;
     cuff.castShadow = true;
@@ -112,7 +112,7 @@ export function buildChair(scene, mats) {
 
     const knob = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.05, 14), mats.dark);
     knob.rotation.z = Math.PI / 2;
-    knob.position.set(sx * 0.64, 0.98, 0.28);
+    knob.position.set(sx * (armSpan + 0.09), armHeight, armZ);
     knob.castShadow = true;
     chair.add(knob);
   }
@@ -174,5 +174,5 @@ export function buildChair(scene, mats) {
   chair.add(trayAssembly);
 
   scene.add(chair);
-  return { group: chair, restraints, leds, trayAssembly };
+  return { group: chair, restraints, leds, trayAssembly, footRest, footBar };
 }
