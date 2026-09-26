@@ -2,7 +2,7 @@
 
 **Official trailer · 2 min 32 · Enable sound in the player**
 
-https://github.com/user-attachments/assets/ab264fed-b63d-48cd-af05-ae1f67e1bd87
+https://github.com/user-attachments/assets/ca7236d0-f3ca-4017-809b-8b4ac0dc8e6e
 
 ---
 
