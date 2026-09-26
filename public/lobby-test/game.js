@@ -229,7 +229,7 @@ if (TEST_MODE) {
     },
     levels: () => ({ ...sequence.levels }),
     pause,
-    debug: { scene, rig, mats, room, chair, details },
+    debug: { scene, rig, mats, room, chair, props, details },
   };
 }
 
@@ -238,10 +238,9 @@ let elapsed = 0;
 
 function tick() {
   requestAnimationFrame(tick);
-  const dt = clock.getDelta();
-  elapsed += dt;
-
+  const dt = Math.min(0.1, clock.getDelta());
   const active = entered && document.hasFocus() && !document.hidden;
+  if (active) elapsed += dt;
   let moving = 0;
   if (active) {
     const dir = directionFromKeys(keys, yaw);
@@ -260,9 +259,11 @@ function tick() {
     if (CUE_TEXT[event]) showCue(CUE_TEXT[event]);
   }
   if (audio) audio.setLevels(frame.levels);
-  applyLevels(rig, mats, refs, frame.levels, elapsed, dt);
-  for (const event of animateDetails(details, rig, mats, refs, frame.levels, elapsed, dt)) {
-    if (audio) audio.cue(event);
+  applyLevels(rig, mats, refs, frame.levels, elapsed, active ? dt : 0);
+  if (active) {
+    for (const event of animateDetails(details, rig, mats, refs, frame.levels, elapsed, dt)) {
+      if (audio) audio.cue(event);
+    }
   }
 
   bobPhase += dt * 7.5 * moving;

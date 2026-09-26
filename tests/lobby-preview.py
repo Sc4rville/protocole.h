@@ -63,7 +63,8 @@ with sync_playwright() as p:
 
     page.keyboard.press('2')
     # the surgical head ramps up over several seconds by design
-    page.wait_for_timeout(4000)
+    page.wait_for_function(f'{T}.state === "intervention" && Number({T}.lamp) > 0.5',
+                           timeout=15000)
     lamp_i = float(page.evaluate(f'{T}.lamp'))
     check('intervention lights the chair', page.evaluate(f'{T}.state') == 'intervention'
           and lamp_i > 0.5, f'lamp={lamp_i}')

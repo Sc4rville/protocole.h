@@ -18,12 +18,12 @@ function valueNoise(ctx, size, cell, alpha) {
   }
 }
 
-const TEXTURES = 'assets/textures/';
+const TEXTURES = new URL('./assets/textures/', import.meta.url);
 
 // Kusaila's base-colour candidates (public/cellule-assets/32-35), downscaled
 // to 1024 px. They are sRGB colour only: roughness stays procedural.
 function colorMap(file, repeatX, repeatY = repeatX, wrap = THREE.MirroredRepeatWrapping) {
-  const t = new THREE.TextureLoader().load(TEXTURES + file);
+  const t = new THREE.TextureLoader().load(new URL(file, TEXTURES).href);
   t.encoding = THREE.sRGBEncoding;
   t.wrapS = wrap;
   t.wrapT = wrap;
@@ -63,7 +63,7 @@ function grimeOver(file, tiles, fallback, wear, makeTexture) {
   compose(null);
   const t = makeTexture(c);
   t.encoding = THREE.sRGBEncoding;
-  new THREE.ImageLoader().load(TEXTURES + file, (img) => {
+  new THREE.ImageLoader().load(new URL(file, TEXTURES).href, (img) => {
     compose(img);
     t.needsUpdate = true;
   });
