@@ -1,6 +1,7 @@
 import { createAudio } from './audio.js';
 import { buildChair } from './chair.js';
 import { animateDetails, buildDetails } from './details.js';
+import { createDirector } from './director.js';
 import { createGameplay } from './gameplay.js';
 import { applyLevels, buildLighting } from './lighting.js';
 import { createMaterials } from './materials.js';
@@ -93,6 +94,7 @@ const audio = createAudio();
 const gameplay = createGameplay({
   scene, camera, canvas, chair, props, room, materials: mats, audio,
   onFinish: () => {
+    director?.onFinish();
     sequence.setState('jugement');
     setStateLabel();
     entered = false;
@@ -101,6 +103,8 @@ const gameplay = createGameplay({
     if (document.pointerLockElement) document.exitPointerLock();
   },
 });
+
+const director = createDirector({ scene, camera, renderer, gameplay, robot: gameplay.debug.robot });
 
 let loaded = false;
 let entered = false;
@@ -144,6 +148,7 @@ function toggleSound() {
   statusEl.textContent = muted ? 'Son coupé' : 'Son actif';
   soundBtn.textContent = muted ? 'Son : coupé' : 'Son : actif';
   gameplay.setMuted(muted);
+  director.setMuted(muted);
   return muted;
 }
 
@@ -178,6 +183,12 @@ addEventListener('keydown', (e) => {
   }
   if (!entered) return;
   const playable = document.hasFocus() && !document.hidden && !gameplay.debug.getState().finished;
+  if (e.code === 'KeyT') {
+    keys.clear();
+    director.openTalk();
+    e.preventDefault();
+    return;
+  }
   if (e.code === 'KeyE') {
     if (playable) gameplay.interact();
     return;
@@ -313,6 +324,7 @@ if (TEST_MODE) {
       yaw = Math.atan2(-dx, -dz);
       pitch = Math.max(-1.25, Math.min(1.25, Math.atan2(dy, Math.hypot(dx, dz))));
     },
+    director: director.debug,
     debug: { scene, rig, mats, room, chair, props, details, gameplay: gameplay.debug },
   };
 }
@@ -355,6 +367,7 @@ function tick() {
   camera.position.set(pose.x, PLAYER_EYE + bob.y, pose.z);
   camera.rotation.set(pitch, yaw, bob.roll);
   gameplay.update(active ? dt : 0, elapsed, active);
+  director.update(dt, active);
 
   if (cueTimer > 0) {
     cueTimer -= dt;

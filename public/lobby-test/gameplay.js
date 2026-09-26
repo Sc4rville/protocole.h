@@ -435,6 +435,8 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
 
   const api = {
     update,
+    say: react,
+    finish: endAssessment,
     interact() {
       if (s.finished) return false;
       refreshTarget();

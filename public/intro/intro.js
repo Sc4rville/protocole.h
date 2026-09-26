@@ -280,5 +280,5 @@ beginBtn.addEventListener('click', () => {
   briefing.style.opacity = '0';
   telemetry.dataset.leaving = 'true';
   if (TEST_MODE) return;
-  setTimeout(() => { location.href = NEXT_URL; }, 1700);
+  setTimeout(() => { try { sessionStorage.setItem('protocole.h.fromIntro', '1'); } catch {} location.href = NEXT_URL; }, 1700);
 });

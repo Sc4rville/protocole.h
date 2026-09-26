@@ -11,7 +11,8 @@
     "lint:fix": "npm run lint -- --fix",
     "lint:tsc": "tsc --project tsconfig.app.json",
     "preview": "vite preview",
-    "start": "vite"
+    "start": "vite",
+    "serve": "node server/director-server.mjs"
   },
   "homepage": "https://github.com/Sc4rville/protocole.h",
   "dependencies": {
