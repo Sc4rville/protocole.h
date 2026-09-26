@@ -1,8 +1,19 @@
-export const ROOM_HALF = 4;
-export const PLAYER_RADIUS = 0.25;
-export const CHAIR = { minX: -0.85, maxX: 0.85, minZ: -0.95, maxZ: 0.95 };
+export const ROOM = {
+  halfX: 3.1,
+  halfZ: 3.7,
+  height: 3.0,
+  chamfer: 0.65,
+  ceilingChamfer: 0.34,
+};
 
-const INTERIOR = ROOM_HALF - PLAYER_RADIUS;
+export const ROOM_HALF_X = ROOM.halfX;
+export const ROOM_HALF_Z = ROOM.halfZ;
+export const PLAYER_RADIUS = 0.25;
+export const PLAYER_EYE = 1.62;
+export const CHAIR = { minX: -0.85, maxX: 0.85, minZ: -0.95, maxZ: 0.95 };
+export const CHAIR_CENTER = { x: 0, z: 0 };
+
+const SQRT2 = Math.SQRT2;
 const EXPANDED = {
   minX: CHAIR.minX - PLAYER_RADIUS,
   maxX: CHAIR.maxX + PLAYER_RADIUS,
@@ -14,8 +25,29 @@ function insideChair(x, z) {
   return x > EXPANDED.minX && x < EXPANDED.maxX && z > EXPANDED.minZ && z < EXPANDED.maxZ;
 }
 
-function clampInterior(v) {
-  return Math.min(INTERIOR, Math.max(-INTERIOR, v));
+function clampAxis(v, half) {
+  const lim = half - PLAYER_RADIUS;
+  return Math.min(lim, Math.max(-lim, v));
+}
+
+// The four corners are cut at 45°, so the walkable area is a rectangle minus
+// four diagonal half-planes |x| + |z| <= limit.
+function clampCorner(x, z) {
+  const limit = ROOM.halfX + ROOM.halfZ - ROOM.chamfer - PLAYER_RADIUS * SQRT2;
+  const excess = Math.abs(x) + Math.abs(z) - limit;
+  if (excess <= 0) return { x, z };
+  const shift = excess / 2;
+  return { x: x - Math.sign(x) * shift, z: z - Math.sign(z) * shift };
+}
+
+export function clampToRoom(x, z) {
+  return clampCorner(clampAxis(x, ROOM.halfX), clampAxis(z, ROOM.halfZ));
+}
+
+export function distanceToChair(x, z) {
+  const dx = Math.max(CHAIR.minX - x, 0, x - CHAIR.maxX);
+  const dz = Math.max(CHAIR.minZ - z, 0, z - CHAIR.maxZ);
+  return Math.hypot(dx, dz);
 }
 
 export function movePlayer(position, direction, dt, speed = 2.2) {
@@ -35,10 +67,16 @@ export function movePlayer(position, direction, dt, speed = 2.2) {
     const sx = (dx * dist) / n;
     const sz = (dz * dist) / n;
     for (let i = 0; i < n; i++) {
-      const nx = clampInterior(x + sx);
-      if (!insideChair(nx, z)) x = nx;
-      const nz = clampInterior(z + sz);
-      if (!insideChair(x, nz)) z = nz;
+      const alongX = clampToRoom(x + sx, z);
+      if (!insideChair(alongX.x, alongX.z)) {
+        x = alongX.x;
+        z = alongX.z;
+      }
+      const alongZ = clampToRoom(x, z + sz);
+      if (!insideChair(alongZ.x, alongZ.z)) {
+        x = alongZ.x;
+        z = alongZ.z;
+      }
     }
   }
   return { x, z };
@@ -50,5 +88,13 @@ export function directionFromKeys(keys, yaw) {
   return {
     x: right * Math.cos(yaw) - forward * Math.sin(yaw),
     z: -right * Math.sin(yaw) - forward * Math.cos(yaw),
+  };
+}
+
+// Head bob is subtle on purpose: the room should feel walked, not shaken.
+export function headBob(phase, speedRatio) {
+  return {
+    y: Math.sin(phase * 2) * 0.014 * speedRatio,
+    roll: Math.sin(phase) * 0.006 * speedRatio,
   };
 }

@@ -22,6 +22,7 @@
   #status{font-size:12px;color:#9fb4d0}
   #status.error{color:#e08a8a}
   #help{font-size:12px;color:#d0b46a;margin-left:auto}
+  #cue{position:fixed;left:50%;bottom:64px;transform:translateX(-50%);font-size:14px;letter-spacing:.02em;color:#e7e9ee;background:rgba(10,11,14,.55);border:1px solid rgba(150,160,180,.25);border-radius:6px;padding:7px 14px;pointer-events:none}
   [hidden]{display:none!important}
 </style>
 </head>
@@ -37,17 +38,20 @@
 </header>
 <div id="overlay">
   <div class="card">
-    <p>Cellule blanche 8×8 m — test de déplacement et d'éclairage.<br>
-    ZQSD / WASD pour marcher, souris pour regarder, <kbd>L</kbd> pour l'éclairage, <kbd>Échap</kbd> pour pause.</p>
+    <p>Cellule blanche 6,2 × 7,4 m — déplacement, matières et mise en lumière.<br>
+    Approchez-vous du fauteuil : la salle s'active toute seule.<br>
+    ZQSD / WASD pour marcher, souris pour regarder, <kbd>L</kbd> ou <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> pour l'état,
+    <kbd>M</kbd> pour le son, <kbd>Échap</kbd> pour pause.</p>
     <button id="enter">Entrer dans la cellule</button>
   </div>
 </div>
 <div id="legend">
-  <span>ZQSD/WASD déplacement</span><span>Souris regard</span><span>L éclairage</span><span>Échap pause</span>
-  <button id="lighting" aria-label="Changer le preset d'éclairage">Éclairage : clinique</button>
+  <span>ZQSD/WASD déplacement</span><span>Souris regard</span><span>L / 1-2-3 état</span><span>M son</span><span>Échap pause</span>
+  <button id="lighting" aria-label="Changer l'état de la salle">État : repos</button>
   <span id="status" role="status">Chargement…</span>
   <span id="help" hidden>Pointer lock indisponible — cliquer-glisser pour regarder</span>
 </div>
+<div id="cue" role="status" hidden></div>
 <div id="telemetry" hidden aria-hidden="true"></div>
 <script src="vendor/three.min.js"></script>
 <script type="module" src="game.js"></script>
