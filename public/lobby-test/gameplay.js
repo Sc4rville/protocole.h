@@ -437,6 +437,12 @@ export function createGameplay({ scene, camera, canvas, chair, props, room, mate
   const api = {
     update,
     say: react,
+    addFact(fact) {
+      if (s.finished || s.facts.includes(fact)) return false;
+      s.facts.push(fact);
+      s.events.push(fact);
+      return true;
+    },
     voice,
     finish: endAssessment,
     interact() {

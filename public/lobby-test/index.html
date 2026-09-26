@@ -93,6 +93,10 @@
   #reveal button:hover{background:#c4563a}
   @keyframes rv{to{opacity:1}}
   #legend>span:not(#status):not(#help),#legend #lighting,header .note{display:none}
+  #fx-prompt{position:fixed;left:50%;top:calc(50% + 34px);transform:translateX(-50%);font:13px ui-monospace,monospace;letter-spacing:.06em;color:#fff;background:rgba(8,9,12,.62);border:1px solid rgba(34,200,255,.45);border-radius:3px;padding:6px 12px;pointer-events:none;z-index:4}
+  #cell-log{position:fixed;left:24px;top:64px;font:600 14px ui-monospace,monospace;letter-spacing:.14em;color:#ff5a3c;text-shadow:0 0 10px rgba(255,60,30,.6);pointer-events:none;z-index:6;line-height:1.9}
+  #cell-log div{animation:rv .4s ease both}
+  #reveal .coda{font-size:15px;color:#b9bcc4;margin:10px 0 0;opacity:0;animation:rv 1.2s ease 6.4s forwards}
   [hidden]{display:none!important}
 </style>
 </head>
@@ -153,6 +157,8 @@
   </div>
 </div>
 <div id="director-line" role="status" hidden></div>
+<div id="fx-prompt" hidden></div>
+<div id="cell-log" hidden></div>
 <div id="director-hint" hidden></div>
 <div id="countdown" hidden></div>
 <form id="talk" hidden><input type="text" maxlength="160" placeholder="Say something to Unit H, then Enter" autocomplete="off"></form>
@@ -161,6 +167,7 @@
     <div class="tag">REVIEW 0413 · CLOSED · SUBJECT: OPERATOR</div>
     <h2>Unit H was never the one under review.</h2>
     <h2 class="you">You were.</h2>
+    <p class="coda"></p>
     <div class="label">WHAT YOU DID</div>
     <ul class="did"></ul>
     <button type="button" onclick="location.href='/intro/index.html'">Play again</button>

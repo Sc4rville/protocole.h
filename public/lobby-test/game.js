@@ -1,6 +1,7 @@
 import { createAudio } from './audio.js';
 import { buildChair } from './chair.js';
 import { animateDetails, buildDetails } from './details.js';
+import { createCellFx } from './cell-fx.js';
 import { createDirector } from './director.js';
 import { createGameplay } from './gameplay.js';
 import { applyLevels, buildLighting } from './lighting.js';
@@ -104,7 +105,14 @@ const gameplay = createGameplay({
   },
 });
 
-const director = createDirector({ scene, camera, renderer, gameplay, robot: gameplay.debug.robot });
+const cellFx = createCellFx({
+  scene, camera, gameplay, robot: gameplay.debug.robot,
+  onEvent: (type, value) => {
+    if (type === 'struck') director.note(value > 1 ? `operator struck Unit H again (${value} hits)` : 'operator struck Unit H');
+    if (type === 'cuff_cut') director.note('operator cut a cuff with the pliers');
+  },
+});
+const director = createDirector({ scene, camera, renderer, gameplay, robot: gameplay.debug.robot, cellFx });
 
 let loaded = false;
 let entered = false;
@@ -267,6 +275,10 @@ canvas.addEventListener('pointerdown', (e) => {
     if (!pointerLocked) canvas.setPointerCapture(e.pointerId);
     return;
   }
+  if (playable && cellFx.press(e.button)) {
+    if (!pointerLocked) canvas.setPointerCapture(e.pointerId);
+    return;
+  }
   if (!pointerLocked && entered) {
     dragging = true;
     canvas.setPointerCapture(e.pointerId);
@@ -276,6 +288,7 @@ document.addEventListener('pointerup', (e) => {
   if (e.button === 0) held.left = false;
   if (e.button === 2) held.right = false;
   if (!held.left && !held.right) gameplay.release(true);
+  if (e.button === 0) cellFx.release();
 });
 canvas.addEventListener('contextmenu', (e) => e.preventDefault());
 
@@ -346,6 +359,7 @@ if (TEST_MODE) {
       pitch = Math.max(-1.25, Math.min(1.25, Math.atan2(dy, Math.hypot(dx, dz))));
     },
     director: director.debug,
+    fx: cellFx,
     debug: { scene, rig, mats, room, chair, props, details, gameplay: gameplay.debug },
   };
 }
@@ -390,6 +404,7 @@ function tick() {
   if (active) holdActions(dt);
   else held.left = held.right = false;
   gameplay.update(active ? dt : 0, elapsed, active);
+  cellFx.update(active ? dt : 0, active);
   director.update(dt, active);
 
   if (cueTimer > 0) {

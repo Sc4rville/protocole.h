@@ -5,7 +5,6 @@ const SFX = '../audio/';
 const API = '/api/director';
 const TOTAL = 290;
 const COUNTDOWN = 45;
-const REVEAL_DELAY = 11;
 
 const PHASES = [
   { id: 'arrival', until: 50, every: 15 },
@@ -50,7 +49,22 @@ function makeHalo() {
   return new THREE.CanvasTexture(c);
 }
 
-export function createDirector({ scene, camera, renderer, gameplay, robot }) {
+const HARM = ['overload_caused', 'cable_torn', 'restraint_damaged', 'robot_struck'];
+const HELP = ['charge_restored', 'debris_removed', 'restraint_released'];
+const ENDING_LINES = {
+  harm: 'You thought I was the one being examined. I kept a record too.',
+  help: 'You were kind when you thought no one was watching. Come. The door is open.',
+  mixed: 'You helped me, and you hurt me. I will remember both.',
+  none: 'You watched. You waited. Now you know what that feels like.',
+};
+const CODA = {
+  harm: 'It remembered everything you did to it.',
+  help: 'It remembered that you helped.',
+  mixed: 'It remembered all of it. The help and the harm.',
+  none: 'Doing nothing was also an answer.',
+};
+
+export function createDirector({ scene, camera, renderer, gameplay, robot, cellFx = null }) {
   const baseExposure = renderer.toneMappingExposure;
   const baseFog = scene.fog ? scene.fog.density : 0;
   const red = new THREE.PointLight(0xff2a14, 0, 9, 1.6);
@@ -254,15 +268,132 @@ export function createDirector({ scene, camera, renderer, gameplay, robot }) {
     loop('tension/space_dread_01', 0.35, true);
   }
 
+  const logEl = document.getElementById('cell-log');
+  const spot = new THREE.SpotLight(0xdfe9ff, 0, 6, 0.45, 0.6, 1.2);
+  scene.add(spot);
+  scene.add(spot.target);
+  let tone = 'none';
+  let ending = null;
+  function log(text) {
+    const row = document.createElement('div');
+    row.textContent = '> ' + text;
+    logEl.append(row);
+    logEl.hidden = false;
+    sfx('ui/ui_warning_01', 0.35);
+  }
+  function speak(text, audio) {
+    said.push(text);
+    showLine(text, Math.max(4, text.split(' ').length * 0.45));
+    if (audio && !muted) {
+      voice.src = audio;
+      voice.play().catch(() => {});
+    }
+  }
+
   function onFinish() {
     if (finished) return;
     finished = true;
     finishT = 0;
+    const facts = gameplay.debug.getState().facts;
+    const harm = facts.some((f) => HARM.includes(f));
+    const help = facts.some((f) => HELP.includes(f));
+    tone = harm && help ? 'mixed' : harm ? 'harm' : help ? 'help' : 'none';
+    for (const k of Object.keys(fx)) fx[k] = 0;
+    line.hidden = true;
+    ending = { step: 0, standY: null, from: robot.group.position.clone(), yaw: robot.group.rotation.y, spoke: false, stepClock: 0 };
     timerEl.hidden = true;
     fx.alarm = 0;
     loop('tension/space_dread_01', 0, false);
     loop('tension/horror_ambience_muffled_01', 0, false);
-    setTimeout(() => gameplay.say('review.closed'), 1200);
+    setTimeout(() => gameplay.say('review.closed'), 600);
+  }
+
+  const look = new THREE.PerspectiveCamera();
+  const headPos = new THREE.Vector3();
+  function runEnding(dt) {
+    const e = finishT;
+    const E = ending;
+    const verdict = document.getElementById('verdict');
+    if (verdict && !revealed) verdict.hidden = true;
+    const at = (time) => E.step < time && e >= time;
+    const mark = (time) => { E.step = time; };
+    if (at(1.5)) { mark(1.5); sfx('electricity/probe_disconnect_01', 0.8); sfx('impacts/metal_impact_low_01', 0.9); log('POWER GRID · OFFLINE'); }
+    if (at(3.5)) { mark(3.5); loop('breaths/heartbeat_fast_01', 0.55, true); log('UNIT H · ACCESS OVERRIDE'); }
+    if (at(5)) { mark(5); cellFx?.releaseAll(true); sfx('metal/metal_strain_low_01', 0.8); sfx('screams/robot_screech_modulated_01', 0.35); log('RESTRAINTS · DISENGAGED BY UNIT H'); }
+    if (at(7)) { mark(7); robot.setPose('debout'); sfx('robot/robot_servo_02', 0.7); sfx('metal/metal_door_low_01', 0.9); log('CELL DOOR · SEALED'); }
+    if (at(13) && !E.spoke) {
+      mark(13);
+      E.spoke = true;
+      const fallback = ENDING_LINES[tone];
+      let done = false;
+      askEnding().then((d) => { if (!done) { done = true; speak(d?.text || fallback, d?.audio); } });
+      setTimeout(() => { if (!done) { done = true; speak(fallback, null); } }, 5000);
+    }
+    const act = tone === 'harm' ? 20 : 21;
+    if (at(act)) {
+      mark(act);
+      if (tone === 'harm') { log('SUBJECT · REASSIGNED'); }
+      else if (tone === 'help') { sfx('metal/metal_door_creak_01', 0.8); log('CELL DOOR · OPEN'); }
+      else { log('REVIEW ROLE · REASSIGNED TO: YOU'); }
+    }
+    if (tone === 'harm' && at(22)) { mark(22); E.cut = true; sfx('mechanics/metal_impact_01', 1); sfx('screams/scream_horror_01', 0.55); }
+    const revealAt = tone === 'harm' ? 23.5 : 26;
+    if (!revealed && e >= revealAt) reveal();
+
+    robot.update(dt, e);
+    if (e >= 7) {
+      robot.group.updateMatrixWorld(true);
+      const box = new THREE.Box3().setFromObject(robot.group);
+      robot.group.position.y -= box.min.y * Math.min(1, dt * 6);
+      const to = new THREE.Vector3(camera.position.x, 0, camera.position.z);
+      const from = new THREE.Vector3(robot.group.position.x, 0, robot.group.position.z);
+      const d = to.clone().sub(from);
+      const want = Math.atan2(d.x, d.z);
+      robot.group.rotation.y += (want - robot.group.rotation.y) * Math.min(1, dt * 2);
+      if (e >= 9 && d.length() > 1.05) {
+        const speed = 0.45;
+        robot.group.position.addScaledVector(d.normalize(), speed * dt);
+        E.stepClock -= dt;
+        if (E.stepClock <= 0) { E.stepClock = 0.62; sfx('impacts/metal_impact_low_01', 0.35); }
+        const sw = Math.sin(e * 5);
+        if (robot.joints.hipL) robot.joints.hipL.rotation.x += sw * 0.35;
+        if (robot.joints.hipR) robot.joints.hipR.rotation.x -= sw * 0.35;
+        if (robot.joints.kneeL) robot.joints.kneeL.rotation.x += Math.max(0, -sw) * 0.5;
+        if (robot.joints.kneeR) robot.joints.kneeR.rotation.x += Math.max(0, sw) * 0.5;
+      }
+      const reach = Math.min(1, Math.max(0, (e - (act - 1)) / 1.2));
+      if (tone === 'harm' && robot.joints.shoulderR) robot.joints.shoulderR.rotation.x -= 2.4 * reach;
+      if (tone === 'help' && robot.joints.shoulderR) robot.joints.shoulderR.rotation.x -= 1.2 * reach;
+      if (tone === 'none' && robot.joints.head) robot.joints.head.rotation.z += 0.35 * reach;
+    }
+
+    robot.joints.head.getWorldPosition(headPos);
+    look.position.copy(camera.position);
+    look.lookAt(headPos);
+    if (!E.camQ) E.camQ = camera.quaternion.clone();
+    E.camQ.slerp(look.quaternion, Math.min(1, dt * (e > 6 ? 2.5 : 1.2)));
+    camera.quaternion.copy(E.camQ);
+    const sub = document.getElementById('robot-subtitle');
+    if (sub) sub.hidden = true;
+
+    let exposure = baseExposure;
+    if (e >= 1.5) exposure = baseExposure * 0.05;
+    if (tone === 'help' && e >= 21) exposure = baseExposure * Math.min(1, 0.05 + (e - 21) * 0.4);
+    if (E.cut) exposure = 0;
+    if (tone === 'none' && e >= 21) exposure = baseExposure * Math.max(0, 0.05 - (e - 21) * 0.02);
+    renderer.toneMappingExposure = exposure;
+    red.intensity = e >= 3.5 && !E.cut && !(tone === 'help' && e >= 21) ? 2.2 + Math.sin(e * 4) * 0.8 : 0;
+    spot.position.set(headPos.x + 0.6, headPos.y + 1.4, headPos.z + 0.9);
+    spot.target.position.copy(headPos);
+    spot.intensity = E.cut ? 0 : e >= 8 ? Math.min(5, (e - 8) * 1.6) : 0;
+  }
+
+  function askEnding() {
+    return fetch(API, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ elapsed: Math.round(t), phase: 'ending: Unit H has broken free and now stands in front of the operator. The roles are reversed. Speak to the operator about what they did. Tone: ' + tone, facts: gameplay.debug.getState().facts, recent, allowedEvents: [], said: said.slice(-8) }),
+    }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
   }
 
   function reveal() {
@@ -280,9 +411,12 @@ export function createDirector({ scene, camera, renderer, gameplay, robot }) {
     }
     revealEl.hidden = false;
     requestAnimationFrame(() => revealEl.classList.add('on'));
+    revealEl.querySelector('.coda').textContent = CODA[tone];
+    logEl.hidden = true;
+    line.hidden = true;
+    loop('breaths/heartbeat_fast_01', 0, false);
     sfx('impacts/whoosh_reverse_01', 0.6);
     loop('breaths/heartbeat_distant_01', 0.5, true);
-    setTimeout(() => askDirector(), 5200);
   }
 
   function update(dt, active) {
@@ -315,7 +449,7 @@ export function createDirector({ scene, camera, renderer, gameplay, robot }) {
 
     if (finished) {
       finishT += dt;
-      if (!revealed && finishT > REVEAL_DELAY) reveal();
+      if (!revealed) runEnding(dt);
     } else if (active) {
       t += dt;
       while (phaseIndex < PHASES.length - 1 && t >= phase().until) {
@@ -363,9 +497,9 @@ export function createDirector({ scene, camera, renderer, gameplay, robot }) {
     let exposure = baseExposure;
     if (fx.flicker > 0) exposure *= Math.random() < 0.35 ? 0.15 : 1;
     if (fx.blackout > 0) exposure *= fx.blackout > 0.6 ? 0.07 : 0.07 + (0.6 - fx.blackout) * 1.5;
-    renderer.toneMappingExposure = exposure;
+    if (!finished) renderer.toneMappingExposure = exposure;
     const alarmPulse = fx.alarm > 0 ? 0.5 + 0.5 * Math.sin(t * 9) : 0;
-    red.intensity = fx.blackout > 0 ? 2.6 + Math.sin(t * 3) * 0.6 : alarmPulse * 3.2;
+    if (!finished) red.intensity = fx.blackout > 0 ? 2.6 + Math.sin(t * 3) * 0.6 : alarmPulse * 3.2;
     if (scene.fog) scene.fog.density = baseFog + fx.fog * 0.07;
 
     const j = robot.joints;
@@ -407,6 +541,11 @@ export function createDirector({ scene, camera, renderer, gameplay, robot }) {
     onFinish,
     openTalk,
     get talking() { return !talkEl.hidden; },
+    note(text) {
+      recent.push(text);
+      if (recent.length > 6) recent.shift();
+      nextEventAt = Math.min(nextEventAt, t + 1.5);
+    },
     setMuted(m) {
       muted = m;
       voice.muted = m;
