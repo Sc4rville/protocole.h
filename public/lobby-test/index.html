@@ -124,6 +124,25 @@
   #brief .box{max-width:640px;padding:30px 34px;background:rgba(6,7,9,.86);border:1px solid #2e3139;border-left:3px solid #c4563a;font:18px/1.6 ui-monospace,monospace;color:#e8e9ec}
   #brief b{color:#fff}
   #brief .k{color:#c4563a}
+  #objective{width:auto;min-width:200px}
+  #objective .step{font-size:14px;color:#e3e5ea;margin:2px 0 6px}
+  #choice{position:fixed;left:50%;bottom:150px;transform:translateX(-50%);width:min(760px,92vw);padding:18px 22px 20px;background:rgba(6,7,9,.9);border:1px solid #2e3139;border-radius:4px;font-family:ui-monospace,monospace;color:#fff;z-index:6;pointer-events:none;animation:rv .35s ease both}
+  #choice .n{font-size:12px;letter-spacing:.24em;color:#9aa0aa}
+  #choice .q{font-size:26px;margin:6px 0 16px;font-weight:700}
+  #choice .opts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  #choice .opt{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border:2px solid;border-radius:4px}
+  #choice .opt.help{border-color:#39d4ff;background:rgba(57,212,255,.08);color:#9fe9ff}
+  #choice .opt.hurt{border-color:#ff5a3c;background:rgba(255,90,60,.08);color:#ffb3a3}
+  #choice kbd{font:700 28px ui-monospace,monospace;min-width:44px;text-align:center;padding:4px 0;border:2px solid currentColor;border-bottom-width:4px;border-radius:5px;color:#fff}
+  #choice .tag{font-size:12px;letter-spacing:.24em;font-weight:700}
+  #choice .help .tag{color:#39d4ff}
+  #choice .hurt .tag{color:#ff5a3c}
+  #choice .t{font-size:21px;color:#fff;font-weight:700;margin:2px 0}
+  #choice .e{font-size:14px;opacity:.85}
+  #flash{position:fixed;inset:0;pointer-events:none;z-index:5;animation:fl .7s ease-out forwards}
+  #flash.help{background:rgba(57,212,255,.28)}
+  #flash.hurt{background:rgba(255,40,20,.45)}
+  @keyframes fl{to{opacity:0}}
   #cue{display:none!important}
   [hidden]{display:none!important}
 </style>
@@ -146,10 +165,7 @@
     <div class="keys">
       <span><kbd>Z</kbd><kbd>Q</kbd><kbd>S</kbd><kbd>D</kbd></span><span>se déplacer</span>
       <span><kbd>souris</kbd></span><span>regarder</span>
-      <span><kbd>E</kbd></span><span>prendre un objet qui brille</span>
-      <span class="pause-only"><kbd>clic gauche</kbd></span><span class="pause-only">utiliser l'objet (maintenir)</span>
-      <span class="pause-only"><kbd>clic droit</kbd></span><span class="pause-only">serrer le verrou (maintenir)</span>
-      <span class="pause-only"><kbd>R</kbd></span><span class="pause-only">reposer l'objet</span>
+      <span><kbd>1</kbd> <kbd>2</kbd></span><span>choisir : aider (1) ou blesser (2)</span>
       <span class="pause-only"><kbd>T</kbd></span><span class="pause-only">parler à Unit H</span>
       <span><kbd>Échap</kbd></span><span>menu</span>
     </div>
@@ -184,9 +200,11 @@
     </div>
   </div>
 </div>
-<div id="objective" hidden><h3>UNIT H · LAST REVIEW BEFORE SCRAPPING</h3><div class="time"></div><p class="lead">3 choices. For each one: <span class="c">help</span> or <span class="k">hurt</span>. Press the number.</p><div class="rows"></div><p class="foot"><kbd>T</kbd> talk to it · the <b>COMPLETE REVIEW</b> screen on the wall ends it</p></div>
+<div id="objective" hidden><h3>UNIT H · LAST REVIEW</h3><div class="time"></div><div class="step"></div><p class="foot"><kbd>T</kbd> talk to it</p></div>
+<div id="choice" hidden><div class="n"></div><div class="q"></div><div class="opts"><div class="opt help"><kbd>1</kbd><div><div class="tag">HELP</div><div class="t"></div><div class="e"></div></div></div><div class="opt hurt"><kbd>2</kbd><div><div class="tag">HURT</div><div class="t"></div><div class="e"></div></div></div></div></div>
+<div id="flash" hidden></div>
 <div id="act" hidden></div>
-<div id="brief" hidden><div class="box"><b>Unit H is a robot. It can feel pain.</b><br>It is chained to a chair and will be scrapped.<br>You run its last review. <b>3 minutes.</b> Nobody is watching.<br><br>You will face <b>3 choices</b>. For each one:<br><span class="c">help it</span> or <span class="k">hurt it</span>. Press the number on the right.<br><br>Whatever you choose, it will remember.</div></div>
+<div id="brief" hidden><div class="box"><b>Unit H is a robot. It can feel pain.</b><br>It is chained to a chair and will be scrapped.<br>You run its last review. <b>3 minutes.</b> Nobody is watching.<br><br>You will face <b>3 decisions</b>.<br>Each time, press <b>1</b> to <span class="c">help it</span> or <b>2</b> to <span class="k">hurt it</span>.<br><br>Whatever you choose, it will remember.</div></div>
 <div id="director-line" role="status" hidden></div>
 <div id="fx-prompt" hidden></div>
 <div id="cell-log" hidden></div>

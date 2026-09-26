@@ -106,7 +106,7 @@ const gameplay = createGameplay({
   },
 });
 
-const painting = createPainting(scene, { position: new THREE.Vector3(ROOM.halfX - 0.03, 1.72, 2.35), rotationY: -Math.PI / 2 });
+const painting = createPainting(scene, { position: new THREE.Vector3(ROOM.halfX - 0.03, 1.72, -0.35), rotationY: -Math.PI / 2 });
 const cellFx = createCellFx({
   scene, camera, gameplay, robot: gameplay.debug.robot,
   onEvent: (type, value) => {

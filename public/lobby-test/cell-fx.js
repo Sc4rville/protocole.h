@@ -118,6 +118,7 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
   let hits = 0;
   let blink = 0;
   let released = false;
+  let freedT = -1;
   let cutAll = 0;
   const tmpA = new THREE.Vector3();
   const tmpB = new THREE.Vector3();
@@ -137,7 +138,7 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
     c.ring.position.copy(world);
     c.ring.quaternion.copy(q);
     scene.add(c.ring);
-    c.fall = { v: 0.3, spin: (Math.random() - 0.5) * 6 };
+    c.fall = { v: 0, delay: 0.25, spin: 0, landed: false };
     if (loud) {
       sfx('fluids/seal_release_01', 0.6);
       sfx('mechanics/restraint_click_02', 0.7);
@@ -145,6 +146,7 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
   }
 
   function releaseAll(loud) {
+    if (freedT < 0) freedT = 0;
     for (const c of cuffs) openCuff(c, loud && c === cuffs[0]);
   }
 
@@ -215,10 +217,17 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
       for (const c of cuffs) {
         if (c.open) {
           if (c.fall) {
-            c.fall.v += 9.8 * dt;
-            c.ring.position.y = Math.max(0.03, c.ring.position.y - c.fall.v * dt);
-            c.ring.rotation.z += c.fall.spin * dt;
-            if (c.ring.position.y <= 0.03) c.fall = null;
+            if (c.fall.delay > 0) {
+              c.fall.delay -= dt;
+            } else {
+              c.fall.v += 9.8 * dt;
+              c.ring.position.y = Math.max(0.03, c.ring.position.y - c.fall.v * dt);
+              if (c.ring.position.y <= 0.03) {
+                c.ring.quaternion.setFromEuler(new THREE.Euler(0, Math.random() * 3, 0));
+                if (c.wrist) sfx('mechanics/metal_impact_01', 0.45);
+                c.fall = null;
+              }
+            }
           }
           continue;
         }
@@ -282,6 +291,17 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
       }
       if (punchT > 0) punchT = Math.max(0, punchT - dt);
 
+      if (freedT >= 0 && freedT < 5 && !st.finished) {
+        freedT += dt;
+        const k = Math.min(1, freedT / 0.8) * Math.min(1, Math.max(0, (5 - freedT) / 1.2));
+        const j = robot.joints;
+        for (const side of ['L', 'R']) {
+          if (j['shoulder' + side]) j['shoulder' + side].rotation.x -= 0.75 * k;
+          if (j['elbow' + side]) j['elbow' + side].rotation.x -= 0.9 * k;
+          if (j['wrist' + side]) j['wrist' + side].rotation.z += (side === 'L' ? 0.3 : -0.3) * k * Math.sin(freedT * 3);
+        }
+        if (j.head) j.head.rotation.x += 0.35 * k;
+      }
       if (recoil > 0) {
         const k = recoil / 0.7;
         robot.joints.head.rotation.y += Math.sin(recoil * 30) * 0.25 * k;

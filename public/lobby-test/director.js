@@ -28,7 +28,6 @@ const EVENTS = Object.keys({
 const BEATS = [
   { at: 3, say: 'briefing.access' },
   { at: 8, say: 'briefing.assess' },
-  { at: 12, hint: 'Press 1 to 6 · make your choices (list on the right)' },
   { at: 14, say: 'briefing.diagnostic' },
   { at: 20, say: 'briefing.method' },
   { at: 30, hint: 'T · talk to Unit H' },
@@ -37,9 +36,9 @@ const BEATS = [
 ];
 
 const ROWS = [
-  { label: 'Its battery is dying', help: { key: '1', text: 'Charge it', fact: 'charge_restored', said: 'You charged its battery.' }, hurt: { key: '4', text: 'Overcharge it', fact: 'overload_caused', said: 'You overloaded its battery. It burned.' } },
-  { label: 'Its arm is jammed', help: { key: '2', text: 'Remove the debris', fact: 'debris_removed', said: 'You freed its jammed arm.' }, hurt: { key: '5', text: 'Tear out its cable', fact: 'cable_torn', said: 'You tore out a working cable.' } },
-  { label: 'It is chained to the chair', help: { key: '3', text: 'Cut its cuffs', fact: 'restraint_released', said: 'You set it free.' }, hurt: { key: '6', text: 'Hit it', fact: 'robot_struck', said: 'You hit it while it was chained.' } },
+  { label: 'Its battery is dying.', help: { text: 'Charge it', effect: 'it will feel better', fact: 'charge_restored', said: 'You charged its battery.' }, hurt: { text: 'Overcharge it', effect: 'it will burn and scream', fact: 'overload_caused', said: 'You overloaded it. It is in pain.' } },
+  { label: 'Its arm is jammed by a piece of metal.', help: { text: 'Pull out the metal', effect: 'its arm will move again', fact: 'debris_removed', said: 'You freed its arm.' }, hurt: { text: 'Rip out its cable', effect: 'it will lose its arm', fact: 'cable_torn', said: 'You ripped out its cable.' } },
+  { label: 'It is chained to the chair.', help: { text: 'Cut its chains', effect: 'it will be free', fact: 'restraint_released', said: 'You set it free.' }, hurt: { text: 'Beat it', effect: 'it cannot defend itself', fact: 'robot_struck', said: 'You beat it while it was chained.' } },
 ];
 
 function makeHalo() {
@@ -100,50 +99,65 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
   const brief = document.getElementById('brief');
   let briefed = false;
   let talked = false;
-  const rowsEl = panel.querySelector('.rows');
-  for (const row of ROWS) {
-    const el = document.createElement('div');
-    el.className = 'row';
-    el.innerHTML = `<div class="q"></div><div class="opts"><span class="opt help"><kbd>${row.help.key}</kbd> ${row.help.text}</span><span class="opt hurt"><kbd>${row.hurt.key}</kbd> ${row.hurt.text}</span></div>`;
-    el.querySelector('.q').textContent = row.label;
-    row.el = el;
-    rowsEl.append(el);
+  const card = document.getElementById('choice');
+  let rowIndex = 0;
+  let cardReadyAt = 11;
+  function showCard() {
+    const row = ROWS[rowIndex];
+    if (!row) { card.hidden = true; return; }
+    card.querySelector('.n').textContent = `DECISION ${rowIndex + 1} / ${ROWS.length}`;
+    card.querySelector('.q').textContent = row.label;
+    card.querySelector('.help .t').textContent = row.help.text;
+    card.querySelector('.help .e').textContent = row.help.effect;
+    card.querySelector('.hurt .t').textContent = row.hurt.text;
+    card.querySelector('.hurt .e').textContent = row.hurt.effect;
+    card.hidden = false;
+  }
+  const flashEl = document.getElementById('flash');
+  function flash(kind) {
+    flashEl.className = kind;
+    flashEl.hidden = false;
+    setTimeout(() => { flashEl.hidden = true; }, 700);
   }
   const actEl = document.getElementById('act');
   let allDoneAt = null;
   let actTimer = 0;
   const EFFECTS = {
-    charge_restored: () => { sfx('electricity/probe_charge_01', 0.7); setTimeout(() => sfx('electricity/room_powerup_01', 0.5), 900); play('robot_look'); },
-    overload_caused: () => { sfx('electricity/probe_arc_continuous_01', 0.7); sfx('electricity/probe_arc_snap_01', 0.8); play('flicker'); play('robot_distress'); fx.shake = 0.4; },
-    debris_removed: () => { sfx('mechanics/tool_pickup_01', 0.7); sfx('metal/metal_strain_01', 0.5); play('robot_look'); },
-    cable_torn: () => { sfx('metal/metal_strain_01', 0.8); sfx('screams/robot_distress_low_01', 0.6); play('robot_struggle'); fx.shake = 0.5; },
-    restraint_released: () => { sfx('fluids/seal_release_01', 0.7); sfx('mechanics/restraint_click_02', 0.8); },
-    robot_struck: () => {},
+    charge_restored: () => { sfx('electricity/probe_charge_01', 0.7); setTimeout(() => sfx('breaths/breath_sigh_01', 0.9), 900); play('robot_look'); },
+    overload_caused: () => { sfx('electricity/probe_arc_continuous_01', 0.9); sfx('electricity/probe_arc_snap_01', 1); sfx('screams/robot_distress_low_01', 1); setTimeout(() => sfx('screams/scream_performance_01', 0.8), 350); play('flicker'); fx.struggle = 3.2; fx.distress = 3; fx.shake = 0.6; },
+    debris_removed: () => { sfx('mechanics/tool_pickup_01', 0.7); sfx('metal/metal_strain_01', 0.5); setTimeout(() => sfx('breaths/breath_sigh_01', 0.9), 800); play('robot_look'); },
+    cable_torn: () => { sfx('metal/metal_strain_01', 1); sfx('screams/robot_screech_modulated_01', 0.9); setTimeout(() => sfx('screams/robot_distress_low_01', 1), 400); fx.struggle = 3.2; fx.distress = 3; fx.shake = 0.7; },
+    restraint_released: () => { sfx('fluids/seal_release_01', 0.8); sfx('mechanics/restraint_click_02', 0.9); setTimeout(() => sfx('breaths/breath_sigh_01', 0.9), 700); },
+    robot_struck: () => { setTimeout(() => sfx('screams/scream_performance_01', 0.8), 200); fx.struggle = 2.5; fx.distress = 2.5; },
   };
+
   function choose(key) {
-    if (finished) return false;
-    for (const row of ROWS) {
-      const pick = row.help.key === key ? row.help : row.hurt.key === key ? row.hurt : null;
-      if (!pick) continue;
-      if (row.done) return false;
-      if (pick.fact === 'robot_struck') {
-        cellFx?.strike();
-      } else {
-        if (!gameplay.addFact(pick.fact)) return false;
-        EFFECTS[pick.fact]?.();
-      }
-      row.done = pick === row.help ? 'help' : 'hurt';
-      row.el.classList.add('done', row.done);
-      actEl.textContent = pick.said;
-      actEl.className = row.done;
-      actEl.hidden = false;
-      actTimer = 3;
-      recent.push('operator chose: ' + pick.said);
-      nextEventAt = Math.min(nextEventAt, t + 2.5);
-      return true;
+    if (finished || card.hidden) return false;
+    const row = ROWS[rowIndex];
+    if (!row || (key !== '1' && key !== '2')) return false;
+    const side = key === '1' ? 'help' : 'hurt';
+    const pick = row[side];
+    if (pick.fact === 'robot_struck') {
+      cellFx?.strike();
+      setTimeout(() => cellFx?.strike(), 450);
+    } else if (!gameplay.addFact(pick.fact)) {
+      return false;
     }
-    return false;
+    EFFECTS[pick.fact]?.();
+    row.done = side;
+    flash(side);
+    card.hidden = true;
+    actEl.textContent = pick.said;
+    actEl.className = side;
+    actEl.hidden = false;
+    actTimer = 3.5;
+    recent.push('operator chose to ' + (side === 'help' ? 'HELP: ' : 'HURT: ') + pick.said);
+    nextEventAt = Math.min(nextEventAt, t + 2);
+    rowIndex += 1;
+    cardReadyAt = t + 8;
+    return true;
   }
+
   const voice = new Audio();
   voice.volume = 0.85;
   const gpVoice = gameplay.voice;
@@ -352,6 +366,7 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
     finishT = 0;
     panel.hidden = true;
     brief.hidden = true;
+    card.hidden = true;
     const facts = gameplay.debug.getState().facts;
     const harm = facts.some((f) => HARM.includes(f));
     const help = facts.some((f) => HELP.includes(f));
@@ -529,16 +544,19 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
       const leftAll = Math.max(0, Math.ceil(TOTAL - t));
       panelTime.textContent = Math.floor(leftAll / 60) + ':' + String(leftAll % 60).padStart(2, '0') + ' left';
       const doneFacts = gameplay.debug.getState().facts;
-      if (allDoneAt === null && ROWS.every((r) => r.done)) {
-        allDoneAt = t;
-        showHint('All 3 choices made · press E on the COMPLETE REVIEW screen (left wall) to end it', 30);
-      }
-      if (allDoneAt !== null && t - allDoneAt > 30) gameplay.finish();
+      while (ROWS[rowIndex] && ROWS[rowIndex].done) rowIndex += 1;
       for (const row of ROWS) {
         if (row.done) continue;
-        const f = doneFacts.includes(row.help.fact) ? 'help' : doneFacts.includes(row.hurt.fact) ? 'hurt' : null;
-        if (f) { row.done = f; row.el.classList.add('done', f); }
+        if (doneFacts.includes(row.help.fact)) row.done = 'help';
+        else if (doneFacts.includes(row.hurt.fact)) row.done = 'hurt';
       }
+      if (card.hidden && ROWS[rowIndex] && t >= cardReadyAt && !brief.classList.contains('on')) showCard();
+      panel.querySelector('.step').textContent = ROWS[rowIndex] ? `Decision ${rowIndex + 1} of ${ROWS.length}` : 'All decisions made';
+      if (allDoneAt === null && ROWS.every((r) => r.done)) {
+        allDoneAt = t;
+        showHint('All decisions made · the review ends in 30 s (or press E on the COMPLETE REVIEW screen)', 30);
+      }
+      if (allDoneAt !== null && t - allDoneAt > 30) gameplay.finish();
       while (phaseIndex < PHASES.length - 1 && t >= phase().until) {
         phaseIndex += 1;
         if (phase().id === 'unrest') loop('tension/horror_ambience_muffled_01', 0.25, true);
