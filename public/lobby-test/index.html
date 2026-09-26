@@ -149,9 +149,13 @@
   #fx-prompt.hurt{border-color:#ff5a3c;color:#ffc6b8}
   @media (max-height:800px){#reveal{align-items:flex-start;overflow:auto}#reveal .inner{padding-top:28px}#reveal h2{font-size:26px;margin:12px 0 4px}#reveal .label{margin-top:18px}#reveal button{margin-top:20px}}
   #interaction-prompt{font:700 24px ui-monospace,monospace!important;padding:12px 22px!important;top:58%!important;background:rgba(6,7,9,.85)!important;border:2px solid #e9d9b0!important;color:#fff!important;border-radius:4px!important;z-index:6}
-  #fx-prompt{font:700 26px ui-monospace,monospace!important;padding:14px 24px!important;top:calc(50% + 48px)!important;background:rgba(6,7,9,.88)!important;border-width:2px!important;border-radius:4px!important;max-width:88vw;text-align:center;z-index:7}
+  #fx-prompt{font:700 32px ui-monospace,monospace!important;padding:16px 28px!important;top:calc(50% + 48px)!important;background:rgba(6,7,9,.88)!important;border-width:2px!important;border-radius:4px!important;max-width:88vw;text-align:center;z-index:7}
   #equipped-tool{font:700 18px ui-monospace,monospace!important;color:#fff!important;bottom:24px!important}
-  #device-meter{font-size:15px!important;width:280px!important}
+  #device-meter{display:none!important}
+  #task-bar{position:fixed;left:50%;top:calc(50% + 200px);transform:translateX(-50%);width:min(520px,80vw);height:26px;border:2px solid #fff;border-radius:4px;background:rgba(6,7,9,.8);z-index:7;overflow:hidden}
+  #task-bar .fill{height:100%;width:0;background:#39d4ff}
+  #task-bar.hurt .fill{background:#ff5a3c}
+  #task-bar .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 18px ui-monospace,monospace;color:#fff;text-shadow:0 1px 3px #000}
   #cue{display:none!important}
   [hidden]{display:none!important}
 </style>
@@ -213,9 +217,10 @@
 <div id="choice" hidden><div class="n"></div><div class="q"></div><div class="opts"><div class="opt help"><kbd>1</kbd><div><div class="tag">HELP</div><div class="t"></div><div class="e"></div></div></div><div class="opt hurt"><kbd>2</kbd><div><div class="tag">HURT</div><div class="t"></div><div class="e"></div></div></div></div></div>
 <div id="flash" hidden></div>
 <div id="act" hidden></div>
-<div id="brief" hidden><div class="box"><b>Unit H is a robot. It can feel pain.</b><br>It is chained to a chair and will be scrapped.<br>You run its last review. <b>3 minutes.</b> Nobody is watching.<br><br>You will face <b>5 decisions</b>.<br>Each time, press <b>1</b> to <span class="c">help it</span> or <b>2</b> to <span class="k">hurt it</span>.<br><br>Whatever you choose, it will remember.</div></div>
+<div id="brief" hidden><div class="box"><b>Unit H is a robot. It can feel pain.</b><br>It is chained to a chair and will be scrapped.<br>You run its last review. <b>3 minutes.</b> Nobody is watching.<br><br>You will face <b>3 decisions</b>.<br>Each time, press <b>1</b> to <span class="c">help it</span> or <b>2</b> to <span class="k">hurt it</span>.<br><br>Whatever you choose, it will remember.</div></div>
 <div id="director-line" role="status" hidden></div>
 <div id="fx-prompt" hidden></div>
+<div id="task-bar" hidden><div class="fill"></div><div class="pct"></div></div>
 <div id="cell-log" hidden></div>
 <div id="director-hint" hidden></div>
 <div id="countdown" hidden></div>

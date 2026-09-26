@@ -7,10 +7,10 @@ const TOTAL = 180;
 const COUNTDOWN = 30;
 
 const PHASES = [
-  { id: 'arrival', until: 25, every: 12 },
-  { id: 'unrest', until: 75, every: 10 },
-  { id: 'pressure', until: TOTAL - COUNTDOWN, every: 8 },
-  { id: 'countdown', until: TOTAL, every: 6 },
+  { id: 'arrival', until: 25, every: 8 },
+  { id: 'unrest', until: 75, every: 7 },
+  { id: 'pressure', until: TOTAL - COUNTDOWN, every: 6 },
+  { id: 'countdown', until: TOTAL, every: 5 },
 ];
 
 const SCRIPT = {
@@ -37,9 +37,7 @@ const BEATS = [
 
 const ROWS = [
   { label: 'Its battery is dying.', help: { text: 'Charge it', effect: 'it will feel better', fact: 'charge_restored', said: 'You charged its battery.', task: { tool: 'probe', title: 'CHARGE IT', action: 'charge it gently', verb: 'Charging…', seconds: 3 } }, hurt: { text: 'Overcharge it', effect: 'it will burn and scream', fact: 'overload_caused', said: 'You overloaded it. It is in pain.', task: { tool: 'probe', title: 'OVERCHARGE IT', action: 'overcharge it', verb: 'Overcharging… it is screaming', seconds: 4, pain: true } } },
-  { label: 'Its arm is jammed by a piece of metal.', help: { text: 'Pull out the metal', effect: 'its arm will move again', fact: 'debris_removed', said: 'You freed its arm.', task: { tool: 'pliers', title: 'PULL OUT THE METAL', action: 'pull out the metal', verb: 'Pulling…', seconds: 3 } }, hurt: { text: 'Rip out its cable', effect: 'it will lose its arm', fact: 'cable_torn', said: 'You ripped out its cable.', task: { tool: 'pliers', title: 'RIP OUT ITS CABLE', action: 'rip out its cable', verb: 'Ripping… it is begging you to stop', seconds: 4, pain: true } } },
   { label: 'It is chained to the chair.', help: { text: 'Cut its chains', effect: 'it will be free', fact: 'restraint_released', said: 'You set it free.', task: { tool: 'pliers', title: 'CUT ITS CHAINS', action: 'cut its chains', verb: 'Cutting the chains…', seconds: 3.5 } }, hurt: { text: 'Beat it', effect: 'it cannot defend itself', fact: 'robot_struck', said: 'You beat it while it was chained.', task: { tool: null, title: 'BEAT IT', clicks: 3 } } },
-  { label: 'It is scared. It asks you to hold its hand.', help: { text: 'Hold its hand', effect: 'it will calm down', fact: 'comforted', said: 'You held its hand. It stopped shaking.', task: { tool: null, title: 'HOLD ITS HAND', action: 'hold its hand', verb: 'Holding its hand…', seconds: 3 } }, hurt: { text: 'Wipe its memory', effect: 'it will forget who it is', fact: 'memory_wiped', said: 'You erased everything it remembered.', task: { tool: 'probe', title: 'WIPE ITS MEMORY', action: 'wipe its memory', verb: 'Erasing… it is saying its own name over and over', seconds: 4, pain: true } } },
   { final: true, label: 'Final verdict. Is Unit H defective?', help: { text: 'No · let it live', effect: 'it will be kept alive', fact: 'spared', said: 'You let it live.' }, hurt: { text: 'Yes · scrap it', effect: 'it will be destroyed', fact: 'scrapped', said: 'You signed its scrapping order.' } }
 ];
 
@@ -326,7 +324,7 @@ export function createDirector({ scene, camera, renderer, gameplay, robot, cellF
       clearTimeout(timeout);
       if (!res.ok) throw new Error(String(res.status));
       const data = await res.json();
-      const quiet = !speaking() && now() - quietSince > 5;
+      const quiet = !speaking() && now() - quietSince > 1.5;
       if (data.text && playerText && speaking()) {
         pendingReply = data;
         return data;

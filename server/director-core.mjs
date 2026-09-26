@@ -52,6 +52,7 @@ Rules:
   * it is afraid of being hit or switched off,
   * the review ends at the COMPLETE REVIEW console on the wall.
   Rotate between these, and skip anything already in facts.
+- Unit H is TALKATIVE: about 4 out of 5 lines should be spoken by "unit_h". It comments on what the operator is doing right now, asks them questions, tells tiny memories, pleads, jokes nervously, thanks or blames them.
 - "system" lines are short procedural reminders (time left, what the review is for: decide if Unit H is kept or scrapped).
 - Never repeat or paraphrase a line from "said".
 - Never reveal that the human is the one being tested unless phase is exactly "reveal". In "reveal", the system may state it plainly.

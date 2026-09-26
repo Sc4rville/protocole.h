@@ -107,6 +107,7 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
   camera.add(hands.right);
 
   const prompt = document.getElementById('fx-prompt');
+  const bar = document.getElementById('task-bar');
   const ray = new THREE.Raycaster();
   ray.far = REACH;
   const center = new THREE.Vector2(0, 0);
@@ -309,12 +310,20 @@ export function createCellFx({ scene, camera, gameplay, robot, onEvent }) {
           else if (!task.tool && !toolOk) text = `${task.title} · put your tool down first · press R`;
           else if (aim?.type !== 'task') text = `${task.title} · now look at Unit H`;
           else if (task.clicks) text = `LEFT CLICK to hit it · ${task.hits} / ${task.clicks}`;
-          else if (holding) text = `${task.verb} ${Math.min(100, Math.round((task.progress / task.seconds) * 100))}%`;
+          else if (holding) text = task.verb;
           else text = `HOLD LEFT CLICK to ${task.action}`;
           prompt.textContent = text;
           prompt.className = task.side;
           prompt.hidden = false;
+          const pct = task.clicks ? task.hits / task.clicks : task.progress / task.seconds;
+          bar.hidden = !(holding || (task.clicks && task.hits > 0) || task.progress > 0);
+          bar.className = task.side;
+          bar.querySelector('.fill').style.width = Math.min(100, pct * 100) + '%';
+          bar.querySelector('.pct').textContent = Math.min(100, Math.round(pct * 100)) + '%';
         }
+      }
+      if (!task) bar.hidden = true;
+      {
       }
       if (!task && holding && (!aim || aim.type !== 'cuff' || !active)) holding = false;
       if (holding && aim?.type === 'cuff') {
