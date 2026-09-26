@@ -1,0 +1,18 @@
+{
+  "name": "protocole-h",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:itch": "vite build",
+    "build:wavedash": "node scripts/build-wavedash.js",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "phaser": "3.85.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}

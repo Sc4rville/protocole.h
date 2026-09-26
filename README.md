@@ -5,7 +5,7 @@
 Projet du {Tech: Europe} AI Gaming Hack, Paris, 26 septembre 2026.
 
 
-**protocole.h** est un jeu vidéo court, en 3D, dans une ambiance de science-fiction dramatique. Dans son monde, les IA font passer des tests aux humains. Tu entres dans une salle où une machine est attachée. Pendant une minute, tu peux lui faire ce que tu veux. Ensuite, c'est elle qui décide de ce que tu mérites.
+**protocole.h** est un jeu vidéo court, en 2D, dans une ambiance de science-fiction dramatique. Dans son monde, les IA font passer des tests aux humains. Tu entres dans une salle où une machine est attachée. Pendant une minute, tu peux lui faire ce que tu veux. Ensuite, c'est elle qui décide de ce que tu mérites.
 
 > Statut : concept de hackathon. Tout ce qui suit peut changer.
 
@@ -66,18 +66,27 @@ Le jeu doit rester **ludique, créatif et addictif**. La morale doit se sentir d
 
 ---
 
-## Stack envisagée : suite Google
+## Base jouable
+
+Le code de départ provient de [*It Was the Robots*](https://github.com/supertanuki/itwastherobots) de supertanuki, sous [licence MIT](LICENSE). [Notre fork](https://github.com/kabylesystem/itwastherobots) conserve sa provenance. Le jeu importé sert de base technique : ses niveaux, dialogues et personnages appartiennent encore au jeu source et doivent être remplacés pour créer **protocole.h**.
+
+```bash
+npm ci
+npm run dev
+npm run build
+```
+
+`dist/` contient l'export HTML5. Les sons importés proviennent du jeu source ; leurs auteurs sont indiqués dans les noms de fichiers de `public/sfx/`.
+
+## Stack de production
 
 | Brique | Outil | Rôle |
 |---|---|---|
-| Cerveau de la machine | **Gemini** (API Gemini / Vertex AI) | Dialogues, réactions contextuelles, verdict final argumenté |
-| Voix | **Gemini TTS / Cloud Text-to-Speech** | Voix de la machine, qui se dégrade ou s'adoucit selon tes actes |
-| Écoute | **Gemini Live / Speech-to-Text** | Tu peux parler à la machine, et elle t'entend |
-| Musique | **Lyria** | Bande-son générée qui suit la jauge de bonté |
-| Cinématiques | **Veo** | Séquences de jugement, entrée en enfer ou au paradis |
-| Visuels | **Imagen** | Textures, affiches, variations de la machine |
-| 3D | Three.js / WebGL (ou moteur à définir) | Lobby, machine, mini-jeux |
-| Hébergement | **Firebase / Cloud Run** | Déploiement web, scores, partage |
+| Jeu | **Phaser 3.85 + Vite** | Base 2D web, physique, animations |
+| Jugement | **Gemini** | Verdict contextualisé sans ralentir les contrôles |
+| Voix | **Gradium** | Répliques du robot et verdict |
+| Visuels | **Nano Banana** | Décors originaux séparés en plans |
+| Publication | **itch.io** | Jeu HTML5 gratuit |
 
 ---
 
