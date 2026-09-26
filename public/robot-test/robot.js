@@ -12,7 +12,7 @@ function shadowed(mesh) {
 }
 
 // Rounded rod: sphere caps on a cylinder, built as a lathe (three r128 has no CapsuleGeometry).
-function capsuleGeometry(radius, length, segments = 12) {
+function capsuleGeometry(radius, length, segments = 20) {
   const pts = [];
   const half = Math.max(0, length / 2 - radius);
   for (let i = 0; i <= 6; i++) {
@@ -27,9 +27,9 @@ function capsuleGeometry(radius, length, segments = 12) {
 }
 
 // Muscle bundle: thin at the tendons, full in the belly. `bulge` shifts the belly along the axis.
-function muscleGeometry(length, rEnd, rBelly, bulge = 0.5, segments = 14) {
+function muscleGeometry(length, rEnd, rBelly, bulge = 0.5, segments = 22) {
   const pts = [new THREE.Vector2(0, 0)];
-  const steps = 12;
+  const steps = 18;
   for (let i = 0; i <= steps; i++) {
     const t = i / steps;
     const d = t < bulge ? t / bulge : (1 - t) / (1 - bulge);
@@ -110,9 +110,9 @@ export function buildRobot(mats) {
   root.name = 'robot';
   const joints = {};
   const geos = {
-    jointS: new THREE.SphereGeometry(0.03, 16, 12),
-    jointM: new THREE.SphereGeometry(0.045, 18, 14),
-    jointL: new THREE.SphereGeometry(0.06, 20, 16),
+    jointS: new THREE.SphereGeometry(0.03, 24, 18),
+    jointM: new THREE.SphereGeometry(0.042, 28, 20),
+    jointL: new THREE.SphereGeometry(0.058, 32, 24),
   };
 
   function joint(name, parent, x, y, z) {
@@ -512,8 +512,10 @@ export function buildRobot(mats) {
     },
   };
   const FINGER_CURL = { debout: 0.35, assis: 0.55, defensif: 1.15 };
-  // seated poses put the pelvis at seat height (thigh horizontal, shin vertical)
-  const ROOT_Y = { debout: 0, assis: -0.45, defensif: -0.42 };
+  // the root is lowered each frame so the lowest foot rests on the floor
+  const footBox = new THREE.Box3();
+  const tmpBox = new THREE.Box3();
+  const tmpVec = new THREE.Vector3();
 
   const current = {};
   for (const name of Object.keys(joints)) current[name] = { ...rest[name] };
@@ -521,7 +523,6 @@ export function buildRobot(mats) {
   let poseName = 'debout';
   let fingerCurl = FINGER_CURL.debout;
   let fingerTarget = fingerCurl;
-  let rootTarget = 0;
 
   function setPose(name) {
     if (!POSES[name]) return false;
@@ -536,7 +537,6 @@ export function buildRobot(mats) {
       };
     }
     fingerTarget = FINGER_CURL[name];
-    rootTarget = ROOT_Y[name];
     return true;
   }
   setPose('debout');
@@ -570,7 +570,12 @@ export function buildRobot(mats) {
     joints.neck.rotation.y += look.x * 0.3;
     // fingers ease toward the pose's curl with a per-finger wave
     fingerCurl += (fingerTarget - fingerCurl) * k;
-    root.position.y += (rootTarget - root.position.y) * k;
+    root.updateMatrixWorld(true);
+    footBox.setFromObject(joints.ankleL);
+    footBox.union(tmpBox.setFromObject(joints.ankleR));
+    // footBox is in world space; the floor sits at the root parent's y = 0
+    const parentY = root.parent ? root.parent.getWorldPosition(tmpVec).y : 0;
+    root.position.y -= footBox.min.y - parentY;
     for (const side of ['L', 'R']) {
       arms[side].fingers.forEach((chain, i) => {
         const wave = Math.sin(elapsed * 1.1 + i * 0.7 + (side === 'L' ? 0 : 1.5)) * 0.06;

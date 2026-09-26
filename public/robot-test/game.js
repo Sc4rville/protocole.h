@@ -80,7 +80,7 @@ function applyBackdrop() {
 }
 applyBackdrop();
 
-let autoTurn = true;
+let autoTurn = !TEST_MODE;
 let wire = false;
 let dragging = false;
 let lastX = 0;
@@ -158,7 +158,7 @@ if (TEST_MODE) {
       applyBackdrop();
     },
     robot,
-    debug: { scene, mats },
+    debug: { scene, mats, camera },
   };
 }
 
@@ -172,6 +172,9 @@ function tick() {
   if (autoTurn) orbit.yaw += dt * 0.35;
   robot.update(dt, elapsed);
 
+  // keep the camera above the floor whatever the pitch/distance combination
+  const minPitch = Math.asin(Math.min(0.99, Math.max(-0.99, (0.15 - orbit.targetY) / orbit.dist)));
+  orbit.pitch = Math.max(minPitch, orbit.pitch);
   camera.position.set(
     Math.sin(orbit.yaw) * Math.cos(orbit.pitch) * orbit.dist,
     orbit.targetY + Math.sin(orbit.pitch) * orbit.dist,

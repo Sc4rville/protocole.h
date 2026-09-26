@@ -50,6 +50,13 @@ with sync_playwright() as p:
     head_y = float(page.evaluate(f'{T}.headY'))
     check('head pivot near 1.7 m', 1.6 < head_y < 1.85, f'headY={head_y}')
 
+    FEET_MIN_Y = '''(() => {
+      const r = window.__robotTest.robot; r.group.updateMatrixWorld(true);
+      const b = new THREE.Box3().setFromObject(r.joints.ankleL);
+      b.union(new THREE.Box3().setFromObject(r.joints.ankleR));
+      return b.min.y;
+    })()'''
+
     page.evaluate('window.__robotTest.setTurn(false)')
     for name, pose, (yaw, pitch, dist, ty), cell in SHOTS:
         page.evaluate(f'window.__robotTest.setPose("{pose}")')
@@ -57,7 +64,14 @@ with sync_playwright() as p:
         page.evaluate(f'window.__robotTest.setOrbit({yaw}, {pitch}, {dist}, {ty})')
         page.wait_for_timeout(1400 if pose != 'debout' else 300)
         check(f'pose {pose} applied', page.evaluate(f'{T}.pose') == pose)
+        feet_y = page.evaluate(FEET_MIN_Y)
+        check(f'feet on floor ({pose})', abs(feet_y) < 0.005, f'minY={feet_y:.4f}')
         page.screenshot(path=os.path.join(OUT, f'protocole-robot-{name}.png'))
+
+    page.evaluate('window.__robotTest.setOrbit(0.4, -1.2, 7, 1.0)')
+    page.wait_for_timeout(200)
+    cam_y = page.evaluate('window.__robotTest.debug.camera.position.y')
+    check('camera stays above floor', cam_y > 0.1, f'cameraY={cam_y:.3f}')
 
     check('no page errors', not page_errors, str(page_errors))
     check('no console errors', not console_errors, str(console_errors[:3]))
