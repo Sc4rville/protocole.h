@@ -123,8 +123,11 @@ body { font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif; col
 .look-social .card-word.tone-grey { color: #d4d7de; text-shadow: 0 0 3px #000, 0 0 36px rgba(0,0,0,.85); }
 .look-social .card-word.tone-red { text-shadow: 0 0 3px #000, 0 0 36px rgba(0,0,0,.8), 0 0 60px rgba(196,86,58,.7); }
 .look-social .card-title { font-size: 8.4vw; }
-.look-social .card-tagline { top: 63%; font-size: 2.35vw; line-height: 1.35; font-weight: 400; max-width: 72vw; }
-.look-social .card-credits { top: 3.4vh; bottom: auto; transform: translateX(-50%); font-size: 1.35vw; color: #9ba0aa; }
+.look-social .card-tagline { top: 63%; font-size: 2.35vw; line-height: 1.35; font-weight: 400; max-width: 72vw; text-wrap: balance; }
+.look-social .card-credits {
+  top: 3.4vh; bottom: auto; transform: translateX(-50%); font-size: 1.2vw; letter-spacing: .2em;
+  white-space: nowrap; max-width: none; color: #9ba0aa;
+}
 .look-social #subtitle {
   bottom: 0; height: 12%; max-width: 94vw; width: max-content; padding: 0 1em; box-sizing: border-box;
   display: flex; align-items: center; justify-content: center;
