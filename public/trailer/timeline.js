@@ -157,6 +157,9 @@ export const BLACKS = [
   { from: 128, to: 139.5 },
 ];
 
+// REC timecode overlay windows.
+export const HUD = [{ from: 120, to: 124 }];
+
 // White frames on hard hits.
 export const FLASHES = [
   { at: 86, dur: 0.18, color: '#eaf6ff' },

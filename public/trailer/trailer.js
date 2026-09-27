@@ -3,26 +3,38 @@
 //               draws the frame at trailer time t (used by scripts/trailer).
 //   ?t=SECONDS  start (or preview) from that time.
 //   ?speed=N    playback speed (live mode only).
+//   ?cut=60     the 60-second social cut (timeline-60.js) instead of the full trailer.
 import { createAudioEngine, loadVoiceIndex } from './audio.js';
 import { createCameraRig, sampleTrack, shotAt } from './camera.js';
 import { createOverlay } from './overlay.js';
 import { createStage } from './stage.js';
-import * as timeline from './timeline.js';
+
+const CUTS = { 60: './timeline-60.js' };
 
 const THREE = globalThis.THREE;
 const params = new URLSearchParams(location.search);
 const RENDER = params.has('render');
 const START_AT = Math.max(0, Number(params.get('t')) || 0);
 const SPEED = Math.max(0.1, Number(params.get('speed')) || 1);
+const timeline = await import(CUTS[params.get('cut')] || './timeline.js');
+if (timeline.LOOK) document.body.classList.add(`look-${timeline.LOOK}`);
 
 const host = document.getElementById('stage');
 const gate = document.getElementById('gate');
 const gateBtn = document.getElementById('gate-play');
 const gateStatus = document.getElementById('gate-status');
 const progress = document.getElementById('progress');
+// the progress line belongs to the player, not to the exported film
+if (RENDER && progress) progress.hidden = true;
+const gateSub = document.querySelector('.gate-box .sub');
+if (gateSub) {
+  const d = Math.round(timeline.DURATION);
+  gateSub.textContent = `official trailer · ${Math.floor(d / 60)}:${String(d % 60).padStart(2, '0')} · sound on`;
+}
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: RENDER });
-renderer.setPixelRatio(RENDER ? 1 : Math.min(devicePixelRatio, 1.5));
+// render: follow the capture's device scale, so --scale 2 supersamples the 3D too
+renderer.setPixelRatio(RENDER ? devicePixelRatio : Math.min(devicePixelRatio, 1.5));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputEncoding = THREE.sRGBEncoding;
@@ -70,7 +82,7 @@ function drawFrame(t, dt) {
 }
 
 async function boot() {
-  voiceIndex = await loadVoiceIndex();
+  voiceIndex = await loadVoiceIndex(timeline.VOICE);
   overlay = createOverlay(document.getElementById('overlay'), timeline, voiceIndex);
 
   if (RENDER) {
@@ -78,6 +90,11 @@ async function boot() {
     // durations for subtitles come from the renderer through voiceDurations
     globalThis.__trailer = {
       ready: true,
+      gl: (() => {
+        const gl = renderer.getContext();
+        const ext = gl.getExtension('WEBGL_debug_renderer_info');
+        return ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : 'unknown';
+      })(),
       duration: timeline.DURATION,
       fps: timeline.FPS,
       setVoiceDurations(map) {
@@ -103,7 +120,7 @@ async function boot() {
     return;
   }
 
-  const audio = createAudioEngine();
+  const audio = createAudioEngine(timeline);
   gateStatus.textContent = 'loading audio…';
   await audio.preload(voiceIndex);
   gateStatus.textContent = '';

@@ -25,7 +25,7 @@ body { font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif; col
 #cards { inset: 0; z-index: 6; }
 .card {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-  text-align: center; white-space: pre-wrap; max-width: 78vw;
+  text-align: center; white-space: pre-wrap; max-width: 78vw; width: max-content;
   will-change: opacity, letter-spacing;
 }
 .card-meta {
@@ -108,3 +108,28 @@ body { font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif; col
 }
 #gate-play:disabled { opacity: .35; cursor: wait; }
 #gate-status { margin: 18px 0 0; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: #6f747e; min-height: 1.2em; }
+
+/* ---- look: social (the 60-second cut, ?cut=60) ---------------------------
+   Read muted on a phone: type roughly doubled, subtitles set inside the
+   bottom letterbox bar so they never cover the picture. */
+.look-social .card-quote, .look-social .card-stress, .look-social .card-tagline {
+  text-shadow: 0 0 2px #000, 0 0 16px rgba(0,0,0,.95), 0 0 44px rgba(0,0,0,.85);
+}
+.look-social .card-quote { font-size: 3.9vw; font-weight: 400; line-height: 1.25; }
+.look-social .card-stress { font-size: 4.3vw; font-weight: 500; }
+.look-social .card-statement { font-size: 3.1vw; letter-spacing: .24em; font-weight: 600; color: #eceef2; }
+.look-social .card-word { font-size: 11vw; font-weight: 800; }
+.look-social .card-word.tone-cyan { text-shadow: 0 0 3px #000, 0 0 36px rgba(0,0,0,.8), 0 0 60px rgba(53,216,232,.6); }
+.look-social .card-word.tone-grey { color: #d4d7de; text-shadow: 0 0 3px #000, 0 0 36px rgba(0,0,0,.85); }
+.look-social .card-word.tone-red { text-shadow: 0 0 3px #000, 0 0 36px rgba(0,0,0,.8), 0 0 60px rgba(196,86,58,.7); }
+.look-social .card-title { font-size: 8.4vw; }
+.look-social .card-tagline { top: 63%; font-size: 2.35vw; line-height: 1.35; font-weight: 400; max-width: 72vw; }
+.look-social .card-credits { top: 3.4vh; bottom: auto; transform: translateX(-50%); font-size: 1.35vw; color: #9ba0aa; }
+.look-social #subtitle {
+  bottom: 0; height: 12%; max-width: 94vw; width: max-content; padding: 0 1em; box-sizing: border-box;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3vw; line-height: 1.05; z-index: 8;
+}
+.look-social #subtitle.speaker-h { font-weight: 400; }
+.look-social #subtitle.speaker-sys { font-size: 2.3vw; letter-spacing: .14em; }
+.look-social #hud { font-size: 1.6vw; }

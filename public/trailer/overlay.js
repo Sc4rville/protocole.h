@@ -59,7 +59,8 @@ export function createOverlay(root, timeline, voiceText) {
     timeline.CARDS.forEach((card, i) => {
       const el = cardNodes[i];
       let a;
-      if (card.style === 'word') a = fade(t, card.at, card.until, 0.08, 0.2);
+      if (card.fadeIn || card.fadeOut) a = fade(t, card.at, card.until, card.fadeIn || FADE_IN, card.fadeOut || FADE_OUT);
+      else if (card.style === 'word') a = fade(t, card.at, card.until, 0.08, 0.2);
       else if (card.style === 'hud') a = t >= card.at && t < card.until ? (Math.sin(t * 40) > -0.6 ? 1 : 0.3) : 0;
       else if (card.style === 'title') a = fade(t, card.at, card.until, 1.6, 0.6);
       else if (card.style === 'statement') a = fade(t, card.at, card.until, 0.25, 0.25);
@@ -69,9 +70,10 @@ export function createOverlay(root, timeline, voiceText) {
         const life = clamp01((t - card.at) / Math.max(0.5, card.until - card.at));
         if (card.style === 'quote' || card.style === 'stress' || card.style === 'tagline') {
           el.style.letterSpacing = `${0.02 + life * 0.03}em`;
-          el.style.transform = `translateY(${(1 - a) * 6}px)`;
+          // keep the CSS centring (-50%, -50%) under the drift
+          el.style.transform = `translate(-50%, calc(-50% + ${(1 - a) * 6}px))`;
         } else if (card.style === 'word') {
-          el.style.transform = `scale(${1 + life * 0.06})`;
+          el.style.transform = `translate(-50%, -50%) scale(${1 + life * 0.06})`;
         } else if (card.style === 'title') {
           el.style.letterSpacing = `${0.34 + life * 0.05}em`;
         }
@@ -82,7 +84,7 @@ export function createOverlay(root, timeline, voiceText) {
     let line = null;
     for (const v of timeline.VOICE) {
       const info = voiceText[v.id];
-      if (!info) continue;
+      if (!info || v.sub === false) continue;
       const until = v.at + info.duration + 0.35;
       if (t >= v.at && t < until) line = { text: info.text, speaker: info.speaker, a: fade(t, v.at, until, 0.15, 0.3) };
     }
@@ -106,7 +108,7 @@ export function createOverlay(root, timeline, voiceText) {
     grainEl.style.transform = `translate(${gx}px, ${gy}px)`;
 
     // hud (timecode + phase) only in the shots that ask for it
-    const hud = t >= 120 && t < 124;
+    const hud = (timeline.HUD || []).some((w) => t >= w.from && t < w.to);
     hudEl.style.opacity = hud ? '1' : '0';
     if (hud) {
       const s = Math.floor(t);

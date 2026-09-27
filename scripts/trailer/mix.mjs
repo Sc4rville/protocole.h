@@ -2,6 +2,7 @@
 // Offline audio mix of the trailer: reproduces public/trailer/audio.js with
 // ffmpeg so the MP4 hears exactly what the browser plays.
 //   node scripts/trailer/mix.mjs out/trailer/mix.wav
+//   node scripts/trailer/mix.mjs out/trailer/mix-60.wav --cut 60
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
@@ -9,10 +10,14 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const PUBLIC = join(ROOT, 'public');
-const timeline = await import(join(PUBLIC, 'trailer/timeline.js'));
+const { musicCues } = await import(join(PUBLIC, 'trailer/audio.js'));
+const argv = process.argv.slice(2);
+const cutAt = argv.indexOf('--cut');
+const cut = cutAt >= 0 ? argv.splice(cutAt, 2)[1] : null;
+const timeline = await import(join(PUBLIC, cut ? `trailer/timeline-${cut}.js` : 'trailer/timeline.js'));
 const { DURATION, MUSIC, SFX, VOICE } = timeline;
 
-const out = resolve(process.argv[2] || join(ROOT, 'out/trailer/mix.wav'));
+const out = resolve(argv[0] || join(ROOT, 'out/trailer/mix.wav'));
 mkdirSync(dirname(out), { recursive: true });
 const SR = 48000;
 
@@ -43,13 +48,15 @@ function addCue(file, cue) {
   const idx = inputs.length;
   inputs.push(file);
   const rate = cue.rate || 1;
-  const natural = probeDuration(file) / rate;
+  const from = cue.offset || 0;
+  const natural = (probeDuration(file) - from) / rate;
   let length = natural;
   if (cue.loopUntil) length = cue.loopUntil - cue.at;
   if (cue.cut) length = Math.min(length, cue.cut);
   length = Math.min(length, DURATION - cue.at);
   if (length <= 0) return;
   const f = [`aresample=${SR}`, 'aformat=channel_layouts=stereo'];
+  if (from) f.push(`atrim=start=${from.toFixed(3)}`, 'asetpts=PTS-STARTPTS');
   if (rate !== 1) f.push(`asetrate=${SR * rate}`, `aresample=${SR}`);
   if (cue.loopUntil) f.push('aloop=loop=-1:size=2147483647');
   f.push(`atrim=0:${length.toFixed(3)}`, 'asetpts=PTS-STARTPTS');
@@ -65,10 +72,8 @@ function addCue(file, cue) {
   return idx;
 }
 
-addCue(join(PUBLIC, 'intro/theme', MUSIC.file.split('/').pop()), {
-  at: MUSIC.at, gain: MUSIC.gain, fadeIn: MUSIC.fadeIn,
-  cut: MUSIC.fadeOut[1] - MUSIC.at, fadeOut: MUSIC.fadeOut[1] - MUSIC.fadeOut[0],
-});
+const theme = join(PUBLIC, 'intro/theme', MUSIC.file.split('/').pop());
+for (const cue of musicCues(MUSIC)) addCue(theme, cue);
 for (const s of SFX) addCue(join(PUBLIC, 'audio', s.sample + '.mp3'), s);
 for (const v of VOICE) {
   const file = voiceFile(v.id);

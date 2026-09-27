@@ -1,7 +1,6 @@
 // WebAudio scheduler for the theme, the SFX bank and the Gradium clips.
 // Everything is scheduled against one AudioContext clock from a start time,
 // so the mix is identical each run and can be reproduced offline by ffmpeg.
-import { MUSIC, SFX, VOICE } from './timeline.js';
 
 const AUDIO_BASE = '../audio/';
 const DIALOGUE_BASE = '../dialogue/';
@@ -14,7 +13,19 @@ function pickClipFile(clip) {
   return null;
 }
 
-export async function loadVoiceIndex() {
+// The theme as a list of cues. A cut can edit the song: each segment plays
+// the file from `from` (song seconds) at trailer time `at` until `until`.
+export function musicCues(MUSIC) {
+  const segments = MUSIC.segments || [
+    { at: MUSIC.at, from: 0, until: MUSIC.fadeOut[1], fadeIn: MUSIC.fadeIn, fadeOut: MUSIC.fadeOut[1] - MUSIC.fadeOut[0] },
+  ];
+  return segments.map((s) => ({
+    at: s.at, offset: s.from || 0, cut: s.until - s.at,
+    gain: s.gain ?? MUSIC.gain, fadeIn: s.fadeIn, fadeOut: s.fadeOut,
+  }));
+}
+
+export async function loadVoiceIndex(VOICE) {
   const res = await fetch(DIALOGUE_BASE + 'generated.json');
   const gen = res.ok ? await res.json() : { clips: {} };
   const out = {};
@@ -26,7 +37,7 @@ export async function loadVoiceIndex() {
   return out;
 }
 
-export function createAudioEngine() {
+export function createAudioEngine({ MUSIC, SFX, VOICE }) {
   const ctx = new (globalThis.AudioContext || globalThis.webkitAudioContext)();
   const master = ctx.createGain();
   master.gain.value = 1;
@@ -64,7 +75,8 @@ export function createAudioEngine() {
   function schedule(buf, cue, t0, offset) {
     const start = cue.at - offset;
     const rate = cue.rate || 1;
-    const natural = buf.duration / rate;
+    const from = cue.offset || 0;
+    const natural = (buf.duration - from) / rate;
     let length = natural;
     if (cue.loopUntil) length = cue.loopUntil - cue.at;
     if (cue.cut) length = Math.min(length, cue.cut);
@@ -104,7 +116,7 @@ export function createAudioEngine() {
       a.setValueAtTime(gain, Math.max(when, t0 + end - fo));
       a.linearRampToValueAtTime(0, t0 + end);
     }
-    src.start(when, src.loop ? (skip * rate) % buf.duration : skip * rate);
+    src.start(when, src.loop ? (skip * rate) % buf.duration : from + skip * rate);
     src.stop(t0 + end + 0.02);
     live.push(src);
   }
@@ -113,12 +125,7 @@ export function createAudioEngine() {
     await ctx.resume();
     const t0 = ctx.currentTime + 0.15;
     const theme = await buffers.get(MUSIC.file);
-    if (theme) {
-      schedule(theme, {
-        at: MUSIC.at, gain: MUSIC.gain, fadeIn: MUSIC.fadeIn,
-        cut: MUSIC.fadeOut[1] - MUSIC.at, fadeOut: MUSIC.fadeOut[1] - MUSIC.fadeOut[0],
-      }, t0, offset);
-    }
+    if (theme) for (const cue of musicCues(MUSIC)) schedule(theme, cue, t0, offset);
     for (const s of SFX) {
       const buf = await buffers.get(AUDIO_BASE + s.sample + '.mp3');
       if (buf) schedule(buf, s, t0, offset);
