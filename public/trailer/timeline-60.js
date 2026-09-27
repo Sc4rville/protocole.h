@@ -4,13 +4,14 @@
 // Built for a feed that autoplays muted: a hook in the first frame, big type,
 // every line subtitled, the title before the viewer scrolls away.
 //
-// The theme is edited on its own grid (122 bpm, 8-bar phrases at song
-// 63.04 / 78.78 / 94.52 / 110.25 / 125.99):
-//   0.00  cold open        Unit H's eyes, "Can you hear me?" (no music)
-//   3.00  song 63.04       the lift — the premise, Unit H, the method
-//  18.74  song 94.52       the drop — straight into the acts (phrase 78.78 skipped)
-//  34.48  song 110.25      what it costs, the montage
-//  50.21  song 125.99      breakdown — black, the question, the title
+// The theme plays from its very first note: its intro carries the opening,
+// then the edit jumps to the drop. Every cut sits on the song's own grid
+// (122 bpm, downbeat at song 0.089, 8-bar phrases at 63.04 / 94.52 / 125.99):
+//   0.00  song 0           cold open — Unit H's eyes, "Can you hear me?"
+//   2.06  song 2.06        the premise, Unit H, the method (intro, bars 1–8)
+//  17.79  song 94.52       the drop — straight into the acts
+//  33.53  song 110.25      what it costs, the montage
+//  49.27  song 125.99      breakdown — black, the question, the title
 import { ROBOT } from './timeline.js';
 
 export { ROBOT };
@@ -20,13 +21,14 @@ export const LOOK = 'social';
 
 const B = 60 / 122; // one beat
 const r = (v) => Math.round(v * 1000) / 1000;
-const LIFT = 3.0; // song 63.04
-const DROP = r(LIFT + 32 * B); // 18.738, song 94.52
+const GRID = r(63.04 - 128 * B); // 0.089, the song's first downbeat
+const LIFT = r(GRID + 4 * B); // 2.056, song bar 1
+const DROP = r(LIFT + 32 * B); // 17.794, song bar 9 -> jump to song 94.52
 const bar = (n) => r(LIFT + n * 4 * B); // act 1, in bars
 const d = (n) => r(DROP + n * B); // acts, in beats from the drop
 const p = (n) => r(DROP + (32 + n) * B); // second phrase, in beats
-const BREAK = p(32); // 50.213, song 125.99
-const TITLE = r(BREAK + 8 * B); // 54.148, two bars into the breakdown
+const BREAK = p(32); // 49.269, song 125.99
+const TITLE = r(BREAK + 8 * B); // 53.203, two bars into the breakdown
 
 // whoosh_reverse_01 peaks 4.95 s into the file; near t=0 it starts part-way in
 const swell = (hit, gain) => {
@@ -40,7 +42,7 @@ export const MUSIC = {
   file: '../intro/theme/theme-song.mp3',
   gain: 0.8,
   segments: [
-    { at: r(LIFT - 4 * B), from: 61.073, until: DROP, fadeIn: 1.4, fadeOut: 0.02 },
+    { at: 0, from: 0, until: DROP, fadeOut: 0.02 },
     { at: DROP, from: 94.515, until: DURATION, fadeIn: 0.02, fadeOut: 1.8 },
   ],
 };
@@ -61,7 +63,7 @@ const part = (a, b, k) => a.map((v, i) => r(v + (b[i] - v) * k));
 // ---------------------------------------------------------------- shots
 export const SHOTS = [
   // ---- cold open · the eyes open --------------------------------------
-  { id: 'open', start: 0, end: 2.35,
+  { id: 'open', start: 0, end: LIFT,
     cam: { from: [0.06, 1.635, 0.42], to: [0.03, 1.625, 0.3], look: HEAD, fov: 16, ease: 'out' },
     scene: { state: 'jugement', robot: true, pose: 'assis', look: [0.05, 0.12] } },
 
@@ -151,11 +153,10 @@ export const TRACKS = {
   charge: [[0, 0]],
   lamp: [[0, 0], [TITLE, 0], [r(TITLE + 2), 1], [DURATION, 1]],
   bars: [[0, 1]],
-  exposure: [[0, 0.5], [0.42, 0.9], [2.35, 0.9], [LIFT, 0.68], [bar(2), 0.85], [DROP, 0.9], [BREAK, 0.9], [TITLE, 0.65], [r(TITLE + 2.5), 0.95]],
+  exposure: [[0, 0.5], [0.42, 0.9], [r(LIFT - 0.01), 0.9], [LIFT, 0.68], [bar(2), 0.85], [DROP, 0.9], [BREAK, 0.9], [TITLE, 0.65], [r(TITLE + 2.5), 0.95]],
 };
 
 export const BLACKS = [
-  { from: 2.35, to: LIFT },
   { from: d(14), to: d(17) },
   { from: d(22), to: d(25) },
   { from: p(1), to: p(4) },
@@ -189,20 +190,23 @@ export const CARDS = [
 ];
 
 // ---------------------------------------------------------------- voice
+// +3.5 dB over v1; lines buried under the drop are evened up so none sits
+// more than ~4 LU under the music and effects
+const VOX = 1.5;
 export const VOICE = [
-  { id: 'h_arrival', at: 0.55, gain: 1.0 },
-  { id: 'h_name', at: r(bar(4) + 0.1), gain: 1.0 },
-  { id: 'sys_method', at: r(bar(6) + 0.12), gain: 0.8 },
-  { id: 'h_probe_warning', at: r(DROP + 0.5), gain: 1.1 },
-  { id: 'h_restraint_warning', at: r(d(8) + 0.12), gain: 1.1 },
-  { id: 'h_restraint_loosen', at: r(d(17) + 0.15), gain: 1.0 },
-  { id: 'h_cable_torn', at: r(d(25) + 0.3), gain: 1.1 },
-  { id: 'h_probe_select_again', at: r(d(28) + 0.1), gain: 1.1 },
-  { id: 'h_cable_after', at: r(p(4) + 0.1), gain: 1.0 },
-  { id: 'h_wants', at: r(p(10) + 0.08), gain: 1.0 },
-  { id: 'sys_diagnostic', at: r(p(17) + 0.25), gain: 0.8 },
-  { id: 'h_end_neutral', at: r(p(28) + 0.2), gain: 1.0 },
-  { id: 'h_end_hurt', at: r(DURATION - 1.5), gain: 0.9 },
+  { id: 'h_arrival', at: 0.45, gain: r(VOX * 1.25) },
+  { id: 'h_name', at: r(bar(4) + 0.1), gain: r(VOX * 1.0) },
+  { id: 'sys_method', at: r(bar(6) + 0.12), gain: r(VOX * 0.8) },
+  { id: 'h_probe_warning', at: r(DROP + 0.5), gain: r(VOX * 1.1) },
+  { id: 'h_restraint_warning', at: r(d(8) + 0.12), gain: r(VOX * 1.1) },
+  { id: 'h_restraint_loosen', at: r(d(17) + 0.15), gain: r(VOX * 1.45) },
+  { id: 'h_cable_torn', at: r(d(25) + 0.3), gain: r(VOX * 1.55) },
+  { id: 'h_probe_select_again', at: r(d(28) + 0.1), gain: r(VOX * 2.05) },
+  { id: 'h_cable_after', at: r(p(4) + 0.1), gain: r(VOX * 1.12) },
+  { id: 'h_wants', at: r(p(10) + 0.08), gain: r(VOX * 1.0) },
+  { id: 'sys_diagnostic', at: r(p(17) + 0.25), gain: r(VOX * 0.8) },
+  { id: 'h_end_neutral', at: r(p(28) + 0.2), gain: r(VOX * 1.3) },
+  { id: 'h_end_hurt', at: r(DURATION - 1.5), gain: r(VOX * 1.2) },
 ];
 
 // ---------------------------------------------------------------- sfx
@@ -222,8 +226,7 @@ export const SFX = [
   { sample: 'electricity/probe_connect_01', at: 0.3, gain: 0.5 },
   { sample: 'ui/ui_switch_01', at: 0.42, gain: 0.35 },
   { sample: 'robot/robot_servo_02', at: 1.7, gain: 0.3 },
-  { sample: 'ui/robot_glitch_01', at: 2.35, gain: 0.75 },
-  swell(LIFT, 0.5),
+  { sample: 'ui/robot_glitch_01', at: LIFT, gain: 0.75 },
   { sample: 'mechanics/metal_impact_01', at: LIFT, gain: 0.45, rate: 0.5, lowpass: 400 },
 
   // act 1
