@@ -1,7 +1,9 @@
 import io
 import json
 import os
+import re
 import urllib.parse
+import urllib.request
 import wave
 from playwright.sync_api import sync_playwright
 
@@ -9,6 +11,15 @@ BASE = os.environ.get('DIALOGUE_URL', 'http://127.0.0.1:8776/dialogue/')
 SHOT = '/tmp/protocole-dialogue-lab.png'
 
 T = 'document.getElementById("player")'
+
+CLIP_RE = re.compile(r'^clips/[A-Za-z0-9_-]+\.(?:ogg|mp3|wav)$')
+with urllib.request.urlopen(BASE + 'generated.json') as r:
+    REAL_CLIPS = json.load(r).get('clips', {})
+REAL_GEN = sum(1 for c in REAL_CLIPS.values()
+               if any(isinstance(f, str) and CLIP_RE.match(f) for f in (c.get('files') or {}).values()))
+REAL_STATUS = ('Generated takes require listening and performance review.' if REAL_GEN
+               else 'No voices generated yet.')
+ENABLED_JS = '[...document.querySelectorAll(".card button")].filter(b => !b.disabled).length'
 
 results = []
 def check(name, ok, extra=''):
@@ -47,10 +58,10 @@ with sync_playwright() as p:
     check('60 cards', n == 60, f'{n}')
     check('subtitle totals', '60' in page.evaluate('document.getElementById("subtitle").textContent')
           and '0' in page.evaluate('document.getElementById("subtitle").textContent'))
-    check('voice-status empty', page.evaluate('document.getElementById("voice-status").textContent')
-          == 'No voices generated yet.')
-    check('all Listen disabled', page.evaluate(
-        '[...document.querySelectorAll(".card button")].every(b => b.disabled)'))
+    check('voice-status matches generated.json', page.evaluate('document.getElementById("voice-status").textContent')
+          == REAL_STATUS, REAL_STATUS)
+    check('Listen enabled only for generated clips', page.evaluate(ENABLED_JS) == REAL_GEN,
+          f'{page.evaluate(ENABLED_JS)}/{REAL_GEN}')
     check('no audio src / autoplay',
           page.evaluate(f'!{T}.src && !{T}.autoplay && {T}.paused'))
     check('volume .25', abs(page.evaluate(f'{T}.volume') - 0.25) < 1e-6)
@@ -241,8 +252,8 @@ with sync_playwright() as p:
     page.goto(BASE, wait_until='networkidle')
     page.wait_for_function('document.querySelectorAll(".card").length === 60', timeout=15000)
     check('real lab restored before screenshot',
-          page.evaluate('[...document.querySelectorAll(".card button")].every(b => b.disabled)')
-          and page.evaluate('document.getElementById("voice-status").textContent') == 'No voices generated yet.')
+          page.evaluate(ENABLED_JS) == REAL_GEN
+          and page.evaluate('document.getElementById("voice-status").textContent') == REAL_STATUS)
     page.screenshot(path=SHOT, full_page=False)
     browser.close()
 
