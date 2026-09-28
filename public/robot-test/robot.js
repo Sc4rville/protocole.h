@@ -1,9 +1,24 @@
-// Robot articulé construit par code d'après cellule-assets/00-robot-master-blue-eyes.jpg :
-// squelette gris, faisceaux musculaires noirs, câbles cuivrés, module thoracique,
-// avant-bras gauche ouvert, tête grise aux yeux cyan. Unités en mètres, pieds en y=0.
+// Robot articulé, construit par code d'après cellule-assets/00-robot-master-blue-eyes.jpg.
+// Anatomie : ossature grise apparente, faisceaux de fibres noires satinées, câblage cuivre dans
+// les interstices, crâne gris sculpté aux yeux cyan, coque sombre à l'arrière du crâne, module
+// pectoral grillagé, trappe ouverte sur l'avant-bras gauche. Aucun asset externe.
 const THREE = globalThis.THREE;
 
 const HEIGHT = 1.88;
+const Y_AXIS = new THREE.Vector3(0, 1, 0);
+
+// ------------------------------------------------------------------ utils
+
+function mulberry(seed) {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
 function shadowed(mesh) {
   mesh.castShadow = true;
@@ -11,109 +26,429 @@ function shadowed(mesh) {
   return mesh;
 }
 
-// Rounded rod: sphere caps on a cylinder, built as a lathe (three r128 has no CapsuleGeometry).
-function capsuleGeometry(radius, length, segments = 20) {
+function v3(a) {
+  return a instanceof THREE.Vector3
+    ? a.clone()
+    : new THREE.Vector3(a[0], a[1], a[2]);
+}
+
+// Concatenate non-indexed geometries (position/normal/uv) into one BufferGeometry.
+function mergeGeometries(list) {
+  const parts = list.map((g) => (g.index ? g.toNonIndexed() : g));
+  let count = 0;
+  for (const g of parts) count += g.attributes.position.count;
+  const pos = new Float32Array(count * 3);
+  const nor = new Float32Array(count * 3);
+  const uv = new Float32Array(count * 2);
+  let o = 0;
+  for (const g of parts) {
+    const n = g.attributes.position.count;
+    pos.set(g.attributes.position.array, o * 3);
+    if (g.attributes.normal) nor.set(g.attributes.normal.array, o * 3);
+    if (g.attributes.uv) uv.set(g.attributes.uv.array, o * 2);
+    o += n;
+  }
+  const out = new THREE.BufferGeometry();
+  out.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  out.setAttribute("normal", new THREE.BufferAttribute(nor, 3));
+  out.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+  return out;
+}
+
+// Geometry aligned on +y (centered on the origin) placed between two points.
+function placeBetween(geo, a, b) {
+  const A = v3(a);
+  const B = v3(b);
+  const dir = B.clone().sub(A);
+  const len = dir.length();
+  dir.normalize();
+  const q = new THREE.Quaternion().setFromUnitVectors(Y_AXIS, dir);
+  const mid = A.clone().add(B).multiplyScalar(0.5);
+  geo.applyMatrix4(
+    new THREE.Matrix4().compose(mid, q, new THREE.Vector3(1, 1, 1)),
+  );
+  return { geo, len, dir, q };
+}
+
+function capsuleGeometry(radius, length, segments = 24) {
   const pts = [];
   const half = Math.max(0, length / 2 - radius);
-  for (let i = 0; i <= 6; i++) {
-    const a = -Math.PI / 2 + (i / 6) * (Math.PI / 2);
-    pts.push(new THREE.Vector2(Math.cos(a) * radius, -half + Math.sin(a) * radius));
+  for (let i = 0; i <= 8; i++) {
+    const a = -Math.PI / 2 + (i / 8) * (Math.PI / 2);
+    pts.push(
+      new THREE.Vector2(Math.cos(a) * radius, -half + Math.sin(a) * radius),
+    );
   }
-  for (let i = 0; i <= 6; i++) {
-    const a = (i / 6) * (Math.PI / 2);
-    pts.push(new THREE.Vector2(Math.cos(a) * radius, half + Math.sin(a) * radius));
+  for (let i = 0; i <= 8; i++) {
+    const a = (i / 8) * (Math.PI / 2);
+    pts.push(
+      new THREE.Vector2(Math.cos(a) * radius, half + Math.sin(a) * radius),
+    );
   }
   return new THREE.LatheGeometry(pts, segments);
 }
 
-// Muscle bundle: thin at the tendons, full in the belly. `bulge` shifts the belly along the axis.
-function muscleGeometry(length, rEnd, rBelly, bulge = 0.5, segments = 22) {
+// Spindle: thin tendon ends, full belly, along +y from 0 to length.
+function spindleGeometry(length, rEnd, rBelly, bulge = 0.5, segments = 24) {
   const pts = [new THREE.Vector2(0, 0)];
-  const steps = 18;
+  const steps = 20;
   for (let i = 0; i <= steps; i++) {
     const t = i / steps;
     const d = t < bulge ? t / bulge : (1 - t) / (1 - bulge);
-    const r = rEnd + (rBelly - rEnd) * Math.pow(Math.sin((d * Math.PI) / 2), 0.8);
-    pts.push(new THREE.Vector2(r, t * length));
+    const r =
+      rEnd + (rBelly - rEnd) * Math.pow(Math.sin((d * Math.PI) / 2), 0.9);
+    pts.push(new THREE.Vector2(Math.max(0.0005, r), t * length));
   }
   pts.push(new THREE.Vector2(0, length));
   return new THREE.LatheGeometry(pts, segments);
 }
 
 function roundedBoxGeometry(w, h, d, r) {
-  const s = new THREE.Shape();
+  const shape = new THREE.Shape();
   const x = -w / 2;
   const y = -h / 2;
-  s.moveTo(x + r, y);
-  s.lineTo(x + w - r, y);
-  s.quadraticCurveTo(x + w, y, x + w, y + r);
-  s.lineTo(x + w, y + h - r);
-  s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  s.lineTo(x + r, y + h);
-  s.quadraticCurveTo(x, y + h, x, y + h - r);
-  s.lineTo(x, y + r);
-  s.quadraticCurveTo(x, y, x + r, y);
-  const geo = new THREE.ExtrudeGeometry(s, {
-    depth: Math.max(0.002, d - r * 0.6),
+  shape.moveTo(x + r, y);
+  shape.lineTo(x + w - r, y);
+  shape.quadraticCurveTo(x + w, y, x + w, y + r);
+  shape.lineTo(x + w, y + h - r);
+  shape.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  shape.lineTo(x + r, y + h);
+  shape.quadraticCurveTo(x, y + h, x, y + h - r);
+  shape.lineTo(x, y + r);
+  shape.quadraticCurveTo(x, y, x + r, y);
+  const geo = new THREE.ExtrudeGeometry(shape, {
+    depth: Math.max(0.001, d - r),
     bevelEnabled: true,
-    bevelSegments: 2,
-    steps: 1,
-    bevelSize: r * 0.3,
-    bevelThickness: r * 0.3,
-    curveSegments: 5,
+    bevelThickness: r / 2,
+    bevelSize: r / 2,
+    bevelSegments: 3,
+    curveSegments: 6,
   });
-  geo.center();
+  geo.translate(0, 0, -(d - r) / 2);
   return geo;
 }
 
-// Perforated speaker grille of the sternum module.
+function tube(points, radius, segs = 24, radial = 8, closed = false) {
+  const curve = new THREE.CatmullRomCurve3(
+    points.map(v3),
+    closed,
+    "centripetal",
+  );
+  return new THREE.TubeGeometry(curve, segs, radius, radial, closed);
+}
+
+// Muscle: a bundle of thin fibres wrapping a dark core, thin at the tendons, full in the belly.
+function fiberBundle(rng, a, b, opts = {}) {
+  const {
+    belly = 0.04,
+    bulge = 0.5,
+    strands = 12,
+    strandR = 0.0065,
+    core = true,
+    spreadX = 1,
+    spreadZ = 1,
+    coreScale = 0.78,
+    arc = 0,
+  } = opts;
+  const A = v3(a);
+  const B = v3(b);
+  const axis = B.clone().sub(A);
+  const len = axis.length();
+  const dir = axis.clone().normalize();
+  const up = Math.abs(dir.y) < 0.9 ? Y_AXIS : new THREE.Vector3(1, 0, 0);
+  const n1 = new THREE.Vector3().crossVectors(dir, up).normalize();
+  const n2 = new THREE.Vector3().crossVectors(dir, n1).normalize();
+  const geos = [];
+  const tmp = new THREE.Vector3();
+  for (let i = 0; i < strands; i++) {
+    const ang = (i / strands) * Math.PI * 2 + rng() * 0.4;
+    const r0 = 0.55 + 0.45 * rng();
+    const twist = (rng() - 0.5) * 0.6;
+    const pts = [];
+    for (let k = 0; k <= 7; k++) {
+      const t = k / 7;
+      const tt =
+        t < bulge ? (t / bulge) * 0.5 : 0.5 + ((t - bulge) / (1 - bulge)) * 0.5;
+      const prof = Math.pow(Math.sin(tt * Math.PI), 0.85);
+      const rad = strandR * 0.5 + belly * prof * r0;
+      const an = ang + twist * t;
+      tmp
+        .copy(n1)
+        .multiplyScalar(Math.cos(an) * rad * spreadX)
+        .addScaledVector(n2, Math.sin(an) * rad * spreadZ)
+        .addScaledVector(n2, arc * Math.sin(t * Math.PI));
+      pts.push(
+        A.clone()
+          .addScaledVector(dir, len * t)
+          .add(tmp),
+      );
+    }
+    geos.push(tube(pts, strandR * (0.75 + 0.5 * rng()), 18, 6));
+  }
+  if (core) {
+    const c = spindleGeometry(len, strandR * 1.5, belly * coreScale, bulge, 20);
+    c.scale(spreadX, 1, spreadZ);
+    c.translate(0, -len / 2, 0);
+    placeBetween(c, A, B);
+    geos.push(c);
+  }
+  return mergeGeometries(geos);
+}
+
+// Fine longitudinal striations for the fibre material (roughness + bump).
+function fiberTexture() {
+  const c = document.createElement("canvas");
+  c.width = 256;
+  c.height = 256;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#8c8c8c";
+  ctx.fillRect(0, 0, 256, 256);
+  const rng = mulberry(7);
+  for (let i = 0; i < 260; i++) {
+    const y = rng() * 256;
+    const w = 0.4 + rng() * 1.4;
+    const g = 90 + Math.floor(rng() * 110);
+    ctx.strokeStyle = `rgb(${g},${g},${g})`;
+    ctx.lineWidth = w;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(256, y + (rng() - 0.5) * 3);
+    ctx.stroke();
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(1, 3);
+  t.anisotropy = 8;
+  return t;
+}
+
 function grilleTexture() {
-  const size = 128;
-  const c = document.createElement('canvas');
-  c.width = size;
-  c.height = size * 2;
-  const ctx = c.getContext('2d');
-  ctx.fillStyle = '#3a3b3f';
-  ctx.fillRect(0, 0, size, size * 2);
-  ctx.fillStyle = '#0c0d10';
-  const step = 12;
-  for (let y = 10; y < size * 2 - 6; y += step) {
-    for (let x = 10; x < size - 6; x += step) {
+  const c = document.createElement("canvas");
+  c.width = 128;
+  c.height = 192;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#3a3a3c";
+  ctx.fillRect(0, 0, 128, 192);
+  ctx.fillStyle = "#08090b";
+  for (let y = 14; y < 180; y += 11) {
+    for (let x = 14 + ((y / 11) % 2) * 5; x < 116; x += 10) {
       ctx.beginPath();
-      ctx.arc(x + ((y / step) % 2) * 5, y, 3.2, 0, Math.PI * 2);
+      ctx.arc(x, y, 3.2, 0, Math.PI * 2);
       ctx.fill();
     }
   }
   const t = new THREE.CanvasTexture(c);
-  t.anisotropy = 4;
+  t.anisotropy = 8;
   return t;
 }
 
-export function createRobotMaterials(envMap = null) {
-  const env = (i) => (envMap ? { envMap, envMapIntensity: i } : {});
-  const muscle = new THREE.MeshStandardMaterial({ color: 0x0b0c0e, roughness: 0.6, metalness: 0.2, ...env(0.22) });
-  const muscleSheen = new THREE.MeshStandardMaterial({ color: 0x111215, roughness: 0.42, metalness: 0.35, ...env(0.3) });
-  const bone = new THREE.MeshStandardMaterial({ color: 0x6e7074, roughness: 0.46, metalness: 0.55, ...env(0.45) });
-  const boneDark = new THREE.MeshStandardMaterial({ color: 0x35373b, roughness: 0.5, metalness: 0.55, ...env(0.35) });
-  const skull = new THREE.MeshStandardMaterial({ color: 0x8c8e92, roughness: 0.62, metalness: 0.12, ...env(0.35) });
-  const skullBack = new THREE.MeshStandardMaterial({ color: 0x1c1d21, roughness: 0.45, metalness: 0.5, ...env(0.3) });
-  const copper = new THREE.MeshStandardMaterial({ color: 0x6a3628, roughness: 0.5, metalness: 0.65, ...env(0.4) });
-  const grille = new THREE.MeshStandardMaterial({ map: grilleTexture(), roughness: 0.6, metalness: 0.5 });
-  const socket = new THREE.MeshStandardMaterial({ color: 0x05060a, roughness: 0.3, metalness: 0.2 });
-  const eye = new THREE.MeshStandardMaterial({ color: 0x0a2a33, emissive: 0x3fd8f0, emissiveIntensity: 2.2, roughness: 0.2 });
-  const eyeHalo = new THREE.MeshBasicMaterial({ color: 0x6fe6ff, transparent: true, opacity: 0.22, depthWrite: false });
-  return { muscle, muscleSheen, bone, boneDark, skull, skullBack, copper, grille, socket, eye, eyeHalo };
+function glowTexture() {
+  const c = document.createElement("canvas");
+  c.width = 64;
+  c.height = 64;
+  const ctx = c.getContext("2d");
+  const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+  g.addColorStop(0, "rgba(60,220,250,0.8)");
+  g.addColorStop(0.35, "rgba(40,190,235,0.3)");
+  g.addColorStop(1, "rgba(40,180,220,0)");
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, 64, 64);
+  return new THREE.CanvasTexture(c);
 }
 
-export function buildRobot(mats) {
-  const root = new THREE.Group();
-  root.name = 'robot';
-  const joints = {};
-  const geos = {
-    jointS: new THREE.SphereGeometry(0.03, 24, 18),
-    jointM: new THREE.SphereGeometry(0.042, 28, 20),
-    jointL: new THREE.SphereGeometry(0.058, 32, 24),
+// ------------------------------------------------------------------ head sculpt
+
+function bump(dir, cx, cy, cz, width, amount) {
+  const l = Math.hypot(cx, cy, cz);
+  const d = Math.max(
+    -1,
+    Math.min(1, (dir.x * cx + dir.y * cy + dir.z * cz) / l),
+  );
+  const ang = Math.acos(d);
+  return amount * Math.exp(-(ang * ang) / (2 * width * width));
+}
+
+function smooth(a, b, x) {
+  const t = Math.max(0, Math.min(1, (x - a) / (b - a)));
+  return t * t * (3 - 2 * t);
+}
+
+// Skull as a displaced sphere: ellipsoid base, brow, sockets, nose, cheekbones, jaw, chin.
+function skullGeometry(scale) {
+  const geo = new THREE.SphereGeometry(1, 96, 72);
+  const p = geo.attributes.position;
+  const d = new THREE.Vector3();
+  for (let i = 0; i < p.count; i++) {
+    d.set(p.getX(i), p.getY(i), p.getZ(i)).normalize();
+    const { x, y, z } = d;
+    // flatter face plane in front, fuller occiput behind
+    const rz = z > 0 ? 0.78 : 0.9;
+    let r = 1 / Math.sqrt((x / 0.66) ** 2 + (y / 1.04) ** 2 + (z / rz) ** 2);
+    // flat temples, slight parietal bulge
+    r += bump(d, 0, 0.5, -0.8, 0.7, 0.04);
+    r +=
+      bump(d, 0.95, 0.25, 0.1, 0.42, -0.05) +
+      bump(d, -0.95, 0.25, 0.1, 0.42, -0.05);
+    // brow ridge, deep sockets
+    r +=
+      bump(d, 0.3, 0.32, 0.9, 0.34, 0.075) +
+      bump(d, -0.3, 0.32, 0.9, 0.34, 0.075);
+    r +=
+      bump(d, 0.38, 0.13, 0.9, 0.22, -0.17) +
+      bump(d, -0.38, 0.13, 0.9, 0.22, -0.17);
+    // nose bridge, tip, nostrils
+    r +=
+      bump(d, 0, 0.14, 1, 0.12, 0.06) +
+      bump(d, 0, -0.08, 1, 0.16, 0.14) +
+      bump(d, 0, -0.2, 0.95, 0.1, 0.06);
+    r +=
+      bump(d, 0.12, -0.2, 0.96, 0.08, -0.03) +
+      bump(d, -0.12, -0.2, 0.96, 0.08, -0.03);
+    // cheekbones / hollows
+    r +=
+      bump(d, 0.62, -0.02, 0.72, 0.3, 0.07) +
+      bump(d, -0.62, -0.02, 0.72, 0.3, 0.07);
+    r +=
+      bump(d, 0.52, -0.36, 0.74, 0.26, -0.07) +
+      bump(d, -0.52, -0.36, 0.74, 0.26, -0.07);
+    // lips, mouth line, chin
+    r +=
+      bump(d, 0, -0.4, 0.93, 0.17, 0.035) +
+      bump(d, 0, -0.48, 0.93, 0.08, -0.035) +
+      bump(d, 0, -0.56, 0.9, 0.14, 0.03);
+    r += bump(d, 0, -0.84, 0.6, 0.3, 0.1);
+    // jaw: taper toward the chin but keep the angle of the mandible
+    const jaw = smooth(-0.1, -0.95, y);
+    r *= 1 - 0.26 * jaw * (0.35 + 0.65 * Math.abs(x)) * (z > -0.05 ? 1 : 1.35);
+    p.setXYZ(i, d.x * r * scale, d.y * r * scale, d.z * r * scale);
+  }
+  geo.computeVertexNormals();
+  // vertex colours: gray face, dark rear shell, thin panel line at the transition
+  const colors = new Float32Array(p.count * 3);
+  const face = new THREE.Color(0x4f545a);
+  const shell = new THREE.Color(0x0c0d10);
+  const line = new THREE.Color(0x1d1e22);
+  const c = new THREE.Color();
+  for (let i = 0; i < p.count; i++) {
+    const x = Math.abs(p.getX(i)) / scale;
+    const y = p.getY(i) / scale;
+    const z = p.getZ(i) / scale;
+    const s = z - (-0.05 - 0.3 * y + 0.2 * x);
+    const k = smooth(-0.03, 0.03, s);
+    c.copy(shell).lerp(face, k);
+    const edge = Math.exp(-(s * s) / (2 * 0.02 * 0.02));
+    c.lerp(line, edge * 0.9);
+    colors[i * 3] = c.r;
+    colors[i * 3 + 1] = c.g;
+    colors[i * 3 + 2] = c.b;
+  }
+  geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+  return geo;
+}
+
+// ------------------------------------------------------------------ materials
+
+export function createRobotMaterials(envMap = null) {
+  const env = (i) => (envMap ? { envMap, envMapIntensity: i } : {});
+  const striae = fiberTexture();
+  const fiber = new THREE.MeshPhysicalMaterial({
+    color: 0x090a0c,
+    roughness: 0.78,
+    metalness: 0.04,
+    clearcoat: 0.4,
+    clearcoatRoughness: 0.42,
+    roughnessMap: striae,
+    bumpMap: striae,
+    bumpScale: 0.0005,
+    ...env(0.18),
+  });
+  const core = new THREE.MeshStandardMaterial({
+    color: 0x050607,
+    roughness: 0.85,
+    metalness: 0.05,
+    ...env(0.08),
+  });
+  const bone = new THREE.MeshStandardMaterial({
+    color: 0x55544f,
+    roughness: 0.58,
+    metalness: 0.35,
+    ...env(0.3),
+  });
+  const boneDark = new THREE.MeshStandardMaterial({
+    color: 0x232427,
+    roughness: 0.5,
+    metalness: 0.45,
+    ...env(0.3),
+  });
+  const skull = new THREE.MeshPhysicalMaterial({
+    color: 0xffffff,
+    vertexColors: true,
+    roughness: 0.7,
+    metalness: 0.06,
+    clearcoat: 0.1,
+    clearcoatRoughness: 0.6,
+    ...env(0.28),
+  });
+  const skullBack = boneDark;
+  const copper = new THREE.MeshStandardMaterial({
+    color: 0x5a2f22,
+    roughness: 0.45,
+    metalness: 0.75,
+    ...env(0.35),
+  });
+  const rubber = new THREE.MeshStandardMaterial({
+    color: 0x0f1013,
+    roughness: 0.75,
+    metalness: 0.1,
+    ...env(0.12),
+  });
+  const grille = new THREE.MeshStandardMaterial({
+    map: grilleTexture(),
+    roughness: 0.6,
+    metalness: 0.5,
+    ...env(0.3),
+  });
+  const socket = new THREE.MeshStandardMaterial({
+    color: 0x03040a,
+    roughness: 0.35,
+    metalness: 0.2,
+  });
+  const eye = new THREE.MeshStandardMaterial({
+    color: 0x03141a,
+    emissive: 0x18b8e0,
+    emissiveIntensity: 1.1,
+    roughness: 0.15,
+  });
+  const glow = new THREE.SpriteMaterial({
+    map: glowTexture(),
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    opacity: 0.45,
+  });
+  return {
+    fiber,
+    core,
+    bone,
+    boneDark,
+    skull,
+    skullBack,
+    copper,
+    rubber,
+    grille,
+    socket,
+    eye,
+    glow,
   };
+}
+
+// ------------------------------------------------------------------ robot
+
+export function buildRobot(mats, { grounded = true } = {}) {
+  const rng = mulberry(1337);
+  const root = new THREE.Group();
+  root.name = "robot";
+  const joints = {};
 
   function joint(name, parent, x, y, z) {
     const g = new THREE.Group();
@@ -123,397 +458,1006 @@ export function buildRobot(mats) {
     joints[name] = g;
     return g;
   }
-
-  // A segment runs along -y from its joint (parent pivot) toward the child joint.
-  function muscle(parent, length, rEnd, rBelly, mat, opts = {}) {
-    const m = shadowed(new THREE.Mesh(muscleGeometry(length, rEnd, rBelly, opts.bulge ?? 0.45), mat));
-    m.rotation.x = Math.PI;
-    m.position.set(opts.x ?? 0, opts.y ?? 0, opts.z ?? 0);
-    if (opts.tilt) m.rotation.z = opts.tilt;
-    if (opts.tiltX) m.rotation.x += opts.tiltX;
-    parent.add(m);
-    return m;
-  }
-
-  function capsule(parent, radius, length, mat, x, y, z, rot) {
-    const m = shadowed(new THREE.Mesh(capsuleGeometry(radius, length), mat));
-    m.position.set(x, y, z);
+  function add(parent, geo, mat, pos, rot) {
+    const m = shadowed(new THREE.Mesh(geo, mat));
+    if (pos) m.position.set(pos[0], pos[1], pos[2]);
     if (rot) m.rotation.set(rot[0], rot[1], rot[2]);
     parent.add(m);
     return m;
   }
-
-  function cable(parent, points, radius, mat = mats.copper) {
-    const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(...p)));
-    const m = new THREE.Mesh(new THREE.TubeGeometry(curve, 16, radius, 6, false), mat);
+  function muscle(parent, a, b, opts, mat = mats.fiber) {
+    return add(parent, fiberBundle(rng, a, b, opts), mat);
+  }
+  function wires(parent, points, n, radius = 0.0028, spread = 0.006) {
+    const geos = [];
+    for (let i = 0; i < n; i++) {
+      const ox = (rng() - 0.5) * spread;
+      const oz = (rng() - 0.5) * spread;
+      geos.push(
+        tube(
+          points.map(([x, y, z]) => [x + ox, y, z + oz]),
+          radius * (0.8 + rng() * 0.5),
+          20,
+          6,
+        ),
+      );
+    }
+    const m = new THREE.Mesh(mergeGeometries(geos), mats.copper);
     m.castShadow = true;
     parent.add(m);
     return m;
   }
-
-  function ball(parent, size, mat, x = 0, y = 0, z = 0) {
-    const m = shadowed(new THREE.Mesh(geos[size], mat));
-    m.position.set(x, y, z);
-    parent.add(m);
-    return m;
+  function rod(parent, a, b, radius, mat) {
+    const len = v3(a).distanceTo(v3(b));
+    const g = new THREE.CylinderGeometry(radius, radius, len, 14);
+    placeBetween(g, a, b);
+    return add(parent, g, mat);
+  }
+  function capsuleBetween(parent, a, b, radius, mat) {
+    const A = v3(a);
+    const B = v3(b);
+    const len = A.distanceTo(B);
+    const g = capsuleGeometry(radius, len + radius * 2);
+    placeBetween(g, A, B);
+    return add(parent, g, mat);
+  }
+  // Mechanical hinge: disc on the joint axis (x) with hub bolt and side brackets.
+  function hinge(parent, r, width, side = 1) {
+    const disc = new THREE.CylinderGeometry(r, r, width, 28);
+    disc.rotateZ(Math.PI / 2);
+    add(parent, disc, mats.boneDark);
+    const hub = new THREE.CylinderGeometry(
+      r * 0.35,
+      r * 0.35,
+      width + 0.006,
+      8,
+    );
+    hub.rotateZ(Math.PI / 2);
+    add(parent, hub, mats.bone);
+    const ring = new THREE.TorusGeometry(r * 0.72, r * 0.09, 8, 28);
+    ring.rotateY(Math.PI / 2);
+    add(parent, ring, mats.bone, [side * (width / 2 + 0.001), 0, 0]);
+    add(parent, ring.clone(), mats.bone, [-side * (width / 2 + 0.001), 0, 0]);
+    return disc;
   }
 
-  // ---------------------------------------------------------------- pelvis & spine
-  const pelvis = joint('pelvis', root, 0, 1.0, 0);
-  const pelvisBand = shadowed(new THREE.Mesh(new THREE.TorusGeometry(0.115, 0.013, 10, 28, Math.PI * 1.35), mats.bone));
-  pelvisBand.rotation.set(Math.PI / 2, 0, -Math.PI * 0.175);
-  pelvisBand.position.y = -0.03;
-  pelvis.add(pelvisBand);
-  capsule(pelvis, 0.075, 0.2, mats.muscle, 0, -0.04, 0.01, [0.1, 0, 0]);
-  capsule(pelvis, 0.05, 0.16, mats.muscleSheen, 0, -0.1, 0.05, [0.35, 0, 0]);
-  for (const sx of [-1, 1]) {
-    capsule(pelvis, 0.045, 0.16, mats.muscle, sx * 0.075, -0.02, -0.06, [0.2, 0, sx * 0.4]);
-    ball(pelvis, 'jointM', mats.boneDark, sx * 0.105, -0.05, 0.0);
-  }
-
-  const spine = joint('spine', pelvis, 0, 0.05, -0.01);
-  for (let i = 0; i < 5; i++) {
-    const v = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.033, 0.03, 10), mats.bone));
-    v.position.set(0, i * 0.045, -0.035);
-    spine.add(v);
-  }
-  // abdominal wall: two columns of four blocks
-  for (let r = 0; r < 4; r++) {
+  // ================================================================ pelvis
+  const pelvis = joint("pelvis", root, 0, 0.98, 0);
+  {
+    // iliac crest: gray belt + sacrum block
+    const crest = new THREE.TorusGeometry(
+      0.088,
+      0.0075,
+      10,
+      40,
+      Math.PI * 1.25,
+    );
+    crest.rotateX(Math.PI / 2);
+    crest.rotateZ(-Math.PI * 0.125);
+    crest.scale(1, 0.6, 1);
+    add(pelvis, crest, mats.bone, [0, 0.01, -0.01], [-0.12, 0, 0]);
+    add(
+      pelvis,
+      roundedBoxGeometry(0.06, 0.07, 0.03, 0.01),
+      mats.bone,
+      [0, -0.01, -0.085],
+    );
+    add(
+      pelvis,
+      capsuleGeometry(0.06, 0.16),
+      mats.core,
+      [0, -0.04, 0.0],
+      [0.15, 0, 0],
+    );
+    // gluteal and lower abdominal bundles
+    muscle(pelvis, [-0.06, 0.03, -0.05], [-0.09, -0.13, -0.02], {
+      belly: 0.045,
+      strands: 12,
+      spreadX: 1.3,
+    });
+    muscle(pelvis, [0.06, 0.03, -0.05], [0.09, -0.13, -0.02], {
+      belly: 0.045,
+      strands: 12,
+      spreadX: 1.3,
+    });
+    muscle(pelvis, [-0.04, 0.0, 0.05], [-0.06, -0.12, 0.045], {
+      belly: 0.03,
+      strands: 9,
+    });
+    muscle(pelvis, [0.04, 0.0, 0.05], [0.06, -0.12, 0.045], {
+      belly: 0.03,
+      strands: 9,
+    });
+    muscle(pelvis, [0, 0.02, 0.06], [0, -0.13, 0.05], {
+      belly: 0.024,
+      strands: 7,
+    });
     for (const sx of [-1, 1]) {
-      capsule(spine, 0.036, 0.09, r === 3 ? mats.muscleSheen : mats.muscle, sx * 0.04, 0.02 + r * 0.045, 0.045 + r * 0.004, [0, 0, Math.PI / 2]);
+      // hip socket cups
+      const cup = new THREE.SphereGeometry(
+        0.032,
+        24,
+        16,
+        0,
+        Math.PI * 2,
+        0,
+        Math.PI * 0.55,
+      );
+      add(pelvis, cup, mats.bone, [sx * 0.1, -0.02, 0], [0, 0, -sx * 0.9]);
+      wires(
+        pelvis,
+        [
+          [sx * 0.05, 0.05, -0.04],
+          [sx * 0.08, -0.02, -0.05],
+          [sx * 0.1, -0.08, -0.03],
+        ],
+        3,
+      );
     }
-    capsule(spine, 0.05, 0.075, mats.muscle, 0, 0.02 + r * 0.045, -0.005, [Math.PI / 2, 0, Math.PI / 2]);
   }
-  for (const sx of [-1, 1]) muscle(spine, 0.24, 0.02, 0.045, mats.muscle, { x: sx * 0.1, y: 0.25, z: 0.005, bulge: 0.5 });
 
-  // ---------------------------------------------------------------- chest
-  const chest = joint('chest', spine, 0, 0.19, 0);
-  capsule(chest, 0.085, 0.3, mats.muscle, 0, 0.1, -0.02, [0, 0, 0]);
-  // rib cage: five pairs of open arcs around the core
-  for (let i = 0; i < 5; i++) {
-    const rad = 0.13 - i * 0.008;
-    const y = 0.0 + i * 0.05;
-    for (const sx of [-1, 1]) {
-      // arc laid flat (Rz then Rx): a=pi/2 faces +z; right rib sweeps back-right to front-centre
-      const rib = shadowed(new THREE.Mesh(new THREE.TorusGeometry(rad, 0.009, 8, 22, Math.PI * 0.7), mats.bone));
-      rib.rotation.set(Math.PI / 2 + 0.12, 0, sx > 0 ? -Math.PI * 0.32 : Math.PI * 0.62);
-      rib.position.set(0, y, 0.005 + i * 0.004);
-      chest.add(rib);
+  // ================================================================ spine / abdomen
+  const spine = joint("spine", pelvis, 0, 0.06, -0.015);
+  {
+    for (let i = 0; i < 6; i++) {
+      const y = i * 0.04;
+      add(
+        spine,
+        new THREE.CylinderGeometry(0.026, 0.028, 0.026, 14),
+        mats.bone,
+        [0, y, -0.045],
+      );
+      add(
+        spine,
+        new THREE.CylinderGeometry(0.02, 0.02, 0.012, 10),
+        mats.boneDark,
+        [0, y + 0.02, -0.045],
+      );
+      add(spine, roundedBoxGeometry(0.014, 0.02, 0.03, 0.004), mats.bone, [
+        0,
+        y,
+        -0.065,
+      ]);
     }
-  }
-  const sternum = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.032, 0.24, 0.02), mats.bone));
-  sternum.position.set(0, 0.1, 0.125);
-  chest.add(sternum);
-  // sternum module with grille
-  const moduleFrame = shadowed(new THREE.Mesh(roundedBoxGeometry(0.075, 0.14, 0.035, 0.014), mats.bone));
-  moduleFrame.position.set(0, 0.235, 0.135);
-  chest.add(moduleFrame);
-  const grille = new THREE.Mesh(new THREE.PlaneGeometry(0.05, 0.105), mats.grille);
-  grille.position.set(0, 0.235, 0.156);
-  chest.add(grille);
-  // pectorals
-  for (const sx of [-1, 1]) {
-    const pec = shadowed(new THREE.Mesh(muscleGeometry(0.19, 0.018, 0.05, 0.55), mats.muscleSheen));
-    pec.rotation.set(0, 0, -sx * (Math.PI / 2 + 0.25));
-    pec.position.set(sx * 0.008, 0.275, 0.085);
-    pec.scale.z = 0.5;
-    chest.add(pec);
-    muscle(chest, 0.22, 0.02, 0.05, mats.muscle, { x: sx * 0.07, y: 0.32, z: -0.1, tilt: sx * 0.2 });
-  }
-  // shoulder yoke: gray bar across the top with a central clasp
-  const yoke = shadowed(new THREE.Mesh(new THREE.TorusGeometry(0.19, 0.01, 10, 30, Math.PI * 0.66), mats.bone));
-  yoke.rotation.set(Math.PI / 2 - 0.25, 0, Math.PI * 0.17);
-  yoke.position.set(0, 0.345, -0.1);
-  chest.add(yoke);
-  const clasp = shadowed(new THREE.Mesh(roundedBoxGeometry(0.04, 0.035, 0.02, 0.008), mats.bone));
-  clasp.position.set(0, 0.34, 0.075);
-  chest.add(clasp);
-  // neck cables
-  for (const [x, z] of [[-0.03, -0.03], [0.03, -0.03], [0, -0.055], [-0.045, 0.01], [0.045, 0.01]]) {
-    cable(chest, [[x, 0.33, z], [x * 0.9, 0.4, z], [x * 0.8, 0.45, z * 0.9]], 0.0055, mats.muscle);
-  }
-  cable(chest, [[-0.012, 0.32, 0.03], [-0.02, 0.4, 0.02], [-0.01, 0.46, 0.015]], 0.003);
-  cable(chest, [[0.014, 0.32, 0.035], [0.022, 0.4, 0.025], [0.012, 0.46, 0.02]], 0.003);
-
-  // ---------------------------------------------------------------- neck & head
-  const neck = joint('neck', chest, 0, 0.37, -0.01);
-  for (let i = 0; i < 3; i++) {
-    const v = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.025, 0.025, 10), mats.bone));
-    v.position.set(0, 0.02 + i * 0.035, -0.02);
-    neck.add(v);
-  }
-  const head = joint('head', neck, 0, 0.08, 0.0);
-  const skull = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.095, 32, 24), mats.skull));
-  skull.scale.set(0.82, 1.08, 0.95);
-  skull.position.set(0, 0.115, -0.005);
-  head.add(skull);
-  // back of skull is a darker shell (phi = pi/2 faces +z, so the back half runs pi..2pi)
-  const skullBack = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.0965, 32, 24, Math.PI * 1.02, Math.PI * 0.96), mats.skullBack));
-  skullBack.scale.copy(skull.scale);
-  skullBack.position.copy(skull.position);
-  head.add(skullBack);
-  // brow ridge, cheekbones, jaw and chin as blended volumes
-  const brow = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.05, 20, 14), mats.skull));
-  brow.scale.set(1.25, 0.3, 0.7);
-  brow.position.set(0, 0.14, 0.05);
-  head.add(brow);
-  for (const sx of [-1, 1]) {
-    const cheek = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.03, 16, 12), mats.skull));
-    cheek.scale.set(1.0, 1.1, 0.9);
-    cheek.position.set(sx * 0.045, 0.085, 0.045);
-    head.add(cheek);
-    const plate = shadowed(new THREE.Mesh(roundedBoxGeometry(0.014, 0.04, 0.008, 0.004), mats.boneDark));
-    plate.position.set(sx * 0.062, 0.07, 0.03);
-    plate.rotation.y = sx * 0.9;
-    head.add(plate);
-    const ear = shadowed(new THREE.Mesh(roundedBoxGeometry(0.016, 0.03, 0.026, 0.006), mats.skullBack));
-    ear.position.set(sx * 0.079, 0.105, -0.018);
-    head.add(ear);
-  }
-  const jaw = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.052, 20, 14), mats.skull));
-  jaw.scale.set(1.0, 0.8, 0.95);
-  jaw.position.set(0, 0.045, 0.015);
-  head.add(jaw);
-  const chin = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.026, 16, 12), mats.skull));
-  chin.scale.set(1.0, 0.75, 0.8);
-  chin.position.set(0, 0.03, 0.05);
-  head.add(chin);
-  const nose = shadowed(new THREE.Mesh(new THREE.ConeGeometry(0.012, 0.04, 8), mats.skull));
-  nose.rotation.x = -Math.PI / 2 + 0.3;
-  nose.position.set(0, 0.095, 0.08);
-  head.add(nose);
-  const mouth = new THREE.Mesh(new THREE.BoxGeometry(0.026, 0.0025, 0.006), mats.socket);
-  mouth.position.set(0, 0.058, 0.076);
-  head.add(mouth);
-  // eyes: dark socket, glowing iris, soft halo
-  const eyes = [];
-  for (const sx of [-1, 1]) {
-    const socket = new THREE.Mesh(new THREE.SphereGeometry(0.015, 16, 12), mats.socket);
-    socket.scale.set(1.3, 0.75, 0.6);
-    socket.position.set(sx * 0.03, 0.12, 0.074);
-    head.add(socket);
-    const iris = new THREE.Mesh(new THREE.SphereGeometry(0.0065, 14, 10), mats.eye);
-    iris.position.set(sx * 0.03, 0.12, 0.081);
-    head.add(iris);
-    const halo = new THREE.Mesh(new THREE.SphereGeometry(0.014, 12, 10), mats.eyeHalo);
-    halo.position.copy(iris.position);
-    head.add(halo);
-    eyes.push({ iris, halo });
-  }
-  const eyeLight = new THREE.PointLight(0x4fdcf5, 0.5, 0.6, 2);
-  eyeLight.position.set(0, 0.12, 0.095);
-  head.add(eyeLight);
-
-  // ---------------------------------------------------------------- arms
-  const arms = {};
-  for (const sx of [-1, 1]) {
-    const side = sx < 0 ? 'L' : 'R';
-    const shoulder = joint('shoulder' + side, chest, sx * 0.19, 0.335, 0.0);
-    ball(shoulder, 'jointM', mats.bone);
-    const delt = shadowed(new THREE.Mesh(muscleGeometry(0.16, 0.018, 0.046, 0.35), mats.muscleSheen));
-    delt.rotation.set(Math.PI, 0, sx * 0.12);
-    delt.position.set(sx * 0.005, 0.045, 0);
-    shoulder.add(delt);
-    // upper arm: biceps front, triceps back, bone rod
-    const rod = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.3, 10), mats.bone));
-    rod.position.set(0, -0.15, 0);
-    shoulder.add(rod);
-    muscle(shoulder, 0.28, 0.02, 0.042, mats.muscle, { x: sx * 0.01, y: -0.02, z: 0.03, bulge: 0.5 });
-    muscle(shoulder, 0.28, 0.02, 0.04, mats.muscle, { x: 0, y: -0.02, z: -0.035, bulge: 0.55 });
-    cable(shoulder, [[sx * 0.035, -0.04, 0.0], [sx * 0.04, -0.15, -0.01], [sx * 0.03, -0.28, 0.0]], 0.0035);
-    cable(shoulder, [[sx * 0.03, -0.05, 0.02], [sx * 0.045, -0.16, 0.015], [sx * 0.025, -0.28, 0.01]], 0.003);
-
-    const elbow = joint('elbow' + side, shoulder, 0, -0.31, 0);
-    const hinge = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.032, 0.05, 16), mats.bone));
-    hinge.rotation.z = Math.PI / 2;
-    elbow.add(hinge);
-    const hingeCap = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.056, 12), mats.boneDark));
-    hingeCap.rotation.z = Math.PI / 2;
-    elbow.add(hingeCap);
-    // forearm: three thinner bundles plus exposed copper harness
-    const fRod = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.012, 0.26, 10), mats.bone));
-    fRod.position.set(0, -0.14, 0);
-    elbow.add(fRod);
-    muscle(elbow, 0.25, 0.015, 0.032, mats.muscle, { x: sx * 0.02, y: -0.02, z: 0.012, bulge: 0.3 });
-    muscle(elbow, 0.25, 0.014, 0.03, mats.muscle, { x: -sx * 0.015, y: -0.02, z: -0.025, bulge: 0.35 });
-    muscle(elbow, 0.24, 0.013, 0.026, mats.muscleSheen, { x: -sx * 0.02, y: -0.03, z: 0.02, bulge: 0.4 });
-    for (let i = 0; i < 4; i++) {
-      const off = (i - 1.5) * 0.012;
-      cable(elbow, [[sx * 0.03 + off * 0.3, -0.03, 0.02 + off], [sx * 0.038, -0.14, 0.015 + off * 0.8], [sx * 0.022, -0.25, 0.01 + off * 0.5]], 0.0028);
-    }
-    if (sx < 0) {
-      // left forearm: maintenance hatch swung open, service port inside
-      const hatchPivot = new THREE.Group();
-      hatchPivot.position.set(-0.035, -0.08, 0.0);
-      hatchPivot.rotation.y = -1.25;
-      const hatch = shadowed(new THREE.Mesh(roundedBoxGeometry(0.11, 0.15, 0.008, 0.012), mats.bone));
-      hatch.position.set(-0.055, -0.03, 0);
-      hatchPivot.add(hatch);
-      const hatchInner = new THREE.Mesh(new THREE.PlaneGeometry(0.085, 0.12), mats.boneDark);
-      hatchInner.position.set(-0.055, -0.03, 0.005);
-      hatchPivot.add(hatchInner);
-      elbow.add(hatchPivot);
-      joints.hatchL = hatchPivot;
-      const port = shadowed(new THREE.Mesh(roundedBoxGeometry(0.025, 0.04, 0.018, 0.005), mats.boneDark));
-      port.position.set(-0.032, -0.12, 0.012);
-      port.rotation.y = -0.4;
-      elbow.add(port);
-      for (const [x, z] of [[-0.03, 0.03], [-0.037, 0.0], [-0.028, -0.025]]) {
-        cable(elbow, [[x, -0.05, z], [x - 0.012, -0.11, z * 1.2], [x, -0.19, z]], 0.0026);
+    add(spine, capsuleGeometry(0.058, 0.3), mats.core, [0, 0.12, -0.005]);
+    // rectus abdominis: two columns of four segments, each a small fibre bundle
+    for (let r = 0; r < 4; r++) {
+      const y0 = -0.01 + r * 0.058;
+      for (const sx of [-1, 1]) {
+        muscle(spine, [sx * 0.03, y0, 0.05], [sx * 0.033, y0 + 0.055, 0.052], {
+          belly: 0.028,
+          strands: 8,
+          strandR: 0.005,
+          spreadX: 1.15,
+          spreadZ: 0.7,
+          bulge: 0.5,
+        });
       }
     }
-
-    const wrist = joint('wrist' + side, elbow, 0, -0.28, 0);
-    ball(wrist, 'jointM', mats.bone);
-    const palm = shadowed(new THREE.Mesh(roundedBoxGeometry(0.075, 0.085, 0.03, 0.012), mats.muscleSheen));
-    palm.position.set(sx * -0.005, -0.06, 0);
-    wrist.add(palm);
-    for (const [x, z] of [[-0.02, 0.012], [0.0, 0.014], [0.02, 0.012]]) {
-      const tendon = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.005, 0.07, 6), mats.bone));
-      tendon.position.set(x, -0.06, z + 0.006);
-      wrist.add(tendon);
+    // linea alba
+    add(
+      spine,
+      roundedBoxGeometry(0.008, 0.24, 0.006, 0.003),
+      mats.bone,
+      [0, 0.11, 0.078],
+    );
+    // obliques wrapping the flank
+    for (const sx of [-1, 1]) {
+      muscle(spine, [sx * 0.07, -0.02, -0.02], [sx * 0.085, 0.2, 0.0], {
+        belly: 0.03,
+        strands: 10,
+        spreadZ: 1.6,
+        spreadX: 0.7,
+      });
+      muscle(spine, [sx * 0.05, 0.02, -0.06], [sx * 0.06, 0.22, -0.055], {
+        belly: 0.024,
+        strands: 8,
+      });
+      wires(
+        spine,
+        [
+          [sx * 0.055, -0.02, 0.035],
+          [sx * 0.06, 0.1, 0.03],
+          [sx * 0.07, 0.22, 0.02],
+        ],
+        3,
+        0.0024,
+      );
     }
-    // fingers: three phalanges each, thumb on the inside
+  }
+
+  // ================================================================ chest
+  const chest = joint("chest", spine, 0, 0.24, 0);
+  {
+    add(chest, capsuleGeometry(0.075, 0.28), mats.core, [0, 0.11, -0.01]);
+    // sternum + chest module
+    add(
+      chest,
+      roundedBoxGeometry(0.03, 0.22, 0.018, 0.008),
+      mats.bone,
+      [0, 0.11, 0.085],
+    );
+    const module = add(
+      chest,
+      roundedBoxGeometry(0.075, 0.115, 0.03, 0.012),
+      mats.bone,
+      [0, 0.17, 0.1],
+    );
+    module.rotation.x = -0.12;
+    const grille = add(
+      chest,
+      new THREE.PlaneGeometry(0.055, 0.092),
+      mats.grille,
+      [0, 0.17, 0.117],
+    );
+    grille.rotation.x = -0.12;
+    add(
+      chest,
+      roundedBoxGeometry(0.03, 0.02, 0.014, 0.005),
+      mats.boneDark,
+      [0, 0.245, 0.095],
+    );
+    // ribs: pairs of curved gray bars wrapping the core
+    for (let i = 0; i < 6; i++) {
+      const y = 0.03 + i * 0.03;
+      const rr = 0.098 - i * 0.005;
+      for (const sx of [-1, 1]) {
+        const pts = [];
+        for (let k = 0; k <= 7; k++) {
+          const a = (k / 7) * Math.PI * 0.62;
+          pts.push([
+            sx * Math.sin(a) * rr,
+            y - Math.sin(a) * 0.04 + Math.sin(a * 2) * 0.006,
+            Math.cos(a) * rr * 0.85 - 0.012,
+          ]);
+        }
+        add(chest, tube(pts, 0.0065, 18, 10), mats.bone);
+      }
+    }
+    // pectorals fanning from the sternum to the shoulder
+    for (const sx of [-1, 1]) {
+      muscle(chest, [sx * 0.025, 0.2, 0.07], [sx * 0.15, 0.24, 0.02], {
+        belly: 0.03,
+        strands: 11,
+        spreadZ: 0.6,
+        spreadX: 1.4,
+      });
+      muscle(chest, [sx * 0.03, 0.15, 0.075], [sx * 0.16, 0.22, 0.03], {
+        belly: 0.028,
+        strands: 10,
+        spreadZ: 0.6,
+        spreadX: 1.3,
+      });
+      // lats and serratus on the back / side
+      muscle(chest, [sx * 0.06, 0.0, -0.06], [sx * 0.17, 0.25, -0.03], {
+        belly: 0.035,
+        strands: 12,
+        spreadZ: 0.7,
+        spreadX: 1.4,
+      });
+      muscle(chest, [sx * 0.03, 0.02, -0.075], [sx * 0.1, 0.28, -0.06], {
+        belly: 0.028,
+        strands: 10,
+      });
+      // trapezius up to the neck
+      muscle(chest, [sx * 0.16, 0.27, -0.03], [sx * 0.03, 0.33, -0.03], {
+        belly: 0.022,
+        strands: 8,
+      });
+      wires(
+        chest,
+        [
+          [sx * 0.09, 0.05, -0.06],
+          [sx * 0.14, 0.18, -0.05],
+          [sx * 0.18, 0.27, -0.02],
+        ],
+        4,
+        0.0026,
+      );
+      wires(
+        chest,
+        [
+          [sx * 0.02, 0.28, 0.04],
+          [sx * 0.06, 0.3, 0.03],
+          [sx * 0.1, 0.28, 0.0],
+        ],
+        3,
+        0.0022,
+      );
+    }
+    // clavicle yoke: one gray bar over the shoulders with a central clasp
+    const yoke = [];
+    for (let k = 0; k <= 12; k++) {
+      const t = k / 12;
+      const x = (t - 0.5) * 0.4;
+      yoke.push([
+        x,
+        0.3 + Math.cos((t - 0.5) * Math.PI) * 0.025,
+        0.04 - Math.abs(t - 0.5) * 0.12,
+      ]);
+    }
+    add(chest, tube(yoke, 0.011, 30, 12), mats.bone);
+    add(
+      chest,
+      roundedBoxGeometry(0.04, 0.03, 0.02, 0.008),
+      mats.bone,
+      [0, 0.32, 0.045],
+    );
+    add(
+      chest,
+      new THREE.CylinderGeometry(0.006, 0.006, 0.02, 8),
+      mats.boneDark,
+      [0, 0.32, 0.055],
+      [Math.PI / 2, 0, 0],
+    );
+  }
+
+  // ================================================================ neck & head
+  const neck = joint("neck", chest, 0, 0.31, -0.005);
+  {
+    add(
+      neck,
+      new THREE.CylinderGeometry(0.03, 0.036, 0.11, 20),
+      mats.core,
+      [0, 0.055, 0],
+    );
+    for (let i = 0; i < 3; i++)
+      add(neck, new THREE.CylinderGeometry(0.02, 0.022, 0.018, 12), mats.bone, [
+        0,
+        0.02 + i * 0.038,
+        -0.03,
+      ]);
+    const fibers = [];
+    for (let i = 0; i < 40; i++) {
+      const a = (i / 40) * Math.PI * 2 + rng() * 0.1;
+      const r0 = 0.037 + rng() * 0.006;
+      const r1 = 0.028 + rng() * 0.004;
+      const pts = [];
+      for (let k = 0; k <= 5; k++) {
+        const t = k / 5;
+        const r = r0 + (r1 - r0) * t + Math.sin(t * Math.PI) * 0.004;
+        pts.push([
+          Math.cos(a + t * 0.35) * r,
+          -0.01 + t * 0.125,
+          Math.sin(a + t * 0.35) * r,
+        ]);
+      }
+      fibers.push(tube(pts, 0.0022 + rng() * 0.0012, 12, 6));
+    }
+    add(neck, mergeGeometries(fibers), mats.fiber);
+    wires(
+      neck,
+      [
+        [0.02, -0.01, 0.03],
+        [0.025, 0.06, 0.028],
+        [0.02, 0.12, 0.02],
+      ],
+      3,
+      0.0022,
+    );
+    wires(
+      neck,
+      [
+        [-0.02, -0.01, 0.03],
+        [-0.025, 0.06, 0.028],
+        [-0.02, 0.12, 0.02],
+      ],
+      3,
+      0.0022,
+    );
+  }
+
+  const head = joint("head", neck, 0, 0.105, 0.0);
+  const eyes = [];
+  {
+    const S = 0.112;
+    const skull = shadowed(new THREE.Mesh(skullGeometry(S), mats.skull));
+    skull.position.set(0, 0.1, 0.01);
+    head.add(skull);
+    for (const sx of [-1, 1]) {
+      // eyes: recessed almond socket, emissive lens, additive glow
+      const sock = new THREE.Mesh(
+        new THREE.SphereGeometry(0.016, 20, 14),
+        mats.socket,
+      );
+      sock.scale.set(1.35, 0.72, 0.55);
+      sock.position.set(sx * 0.0385, 0.114, 0.089);
+      head.add(sock);
+      const lens = new THREE.Mesh(
+        new THREE.SphereGeometry(0.0085, 18, 12),
+        mats.eye,
+      );
+      lens.scale.set(1.3, 0.7, 0.5);
+      lens.position.set(sx * 0.0385, 0.114, 0.096);
+      head.add(lens);
+      const glow = new THREE.Sprite(mats.glow);
+      glow.scale.set(0.036, 0.026, 1);
+      glow.position.set(sx * 0.0385, 0.114, 0.1);
+      head.add(glow);
+      eyes.push({ lens, glow });
+      // cheek vent and ear port
+      add(
+        head,
+        roundedBoxGeometry(0.014, 0.022, 0.005, 0.003),
+        mats.boneDark,
+        [sx * 0.053, 0.072, 0.052],
+        [0, sx * 0.85, 0],
+      );
+      for (let s = 0; s < 3; s++)
+        add(
+          head,
+          new THREE.BoxGeometry(0.009, 0.002, 0.004),
+          mats.socket,
+          [sx * 0.0545, 0.066 + s * 0.006, 0.0535],
+          [0, sx * 0.85, 0],
+        );
+      add(
+        head,
+        new THREE.CylinderGeometry(0.014, 0.014, 0.006, 20),
+        mats.boneDark,
+        [sx * 0.083, 0.1, -0.008],
+        [0, 0, (sx * Math.PI) / 2],
+      );
+      add(
+        head,
+        new THREE.TorusGeometry(0.011, 0.002, 8, 20),
+        mats.bone,
+        [sx * 0.086, 0.1, -0.008],
+        [0, (sx * Math.PI) / 2, 0],
+      );
+      add(
+        head,
+        new THREE.CylinderGeometry(0.003, 0.003, 0.004, 8),
+        mats.socket,
+        [sx * 0.0865, 0.1, -0.008],
+        [0, 0, (sx * Math.PI) / 2],
+      );
+    }
+    // chin bolt, mouth line
+    add(
+      head,
+      new THREE.CylinderGeometry(0.0025, 0.0025, 0.004, 8),
+      mats.boneDark,
+      [0, 0.036, 0.081],
+      [Math.PI / 2, 0, 0],
+    );
+    add(
+      head,
+      new THREE.BoxGeometry(0.026, 0.0016, 0.006),
+      mats.socket,
+      [0, 0.054, 0.084],
+    );
+    // jaw hinge bolts
+    for (const sx of [-1, 1])
+      add(
+        head,
+        new THREE.CylinderGeometry(0.005, 0.005, 0.004, 10),
+        mats.boneDark,
+        [sx * 0.072, 0.055, 0.01],
+        [0, 0, (sx * Math.PI) / 2],
+      );
+  }
+  const eyeLight = new THREE.PointLight(0x4fe0f5, 0.45, 0.6, 2);
+  eyeLight.position.set(0, 0.114, 0.11);
+  head.add(eyeLight);
+
+  // ================================================================ arms
+  const arms = {};
+  for (const side of ["L", "R"]) {
+    const sx = side === "L" ? -1 : 1;
+    const shoulder = joint("shoulder" + side, chest, sx * 0.2, 0.275, -0.01);
+    // shoulder ball + deltoid cap
+    add(shoulder, new THREE.SphereGeometry(0.03, 24, 18), mats.bone);
+    add(
+      shoulder,
+      new THREE.TorusGeometry(0.036, 0.006, 10, 28),
+      mats.boneDark,
+      [sx * 0.01, 0.005, 0],
+      [0, 0, Math.PI / 2 + sx * 0.35],
+    );
+    muscle(shoulder, [sx * 0.008, 0.04, 0.0], [sx * 0.016, -0.13, 0.0], {
+      belly: 0.03,
+      strands: 13,
+      spreadZ: 1.3,
+      bulge: 0.35,
+      strandR: 0.0055,
+    });
+    muscle(shoulder, [sx * 0.0, 0.025, 0.025], [sx * 0.015, -0.11, 0.016], {
+      belly: 0.02,
+      strands: 9,
+      bulge: 0.35,
+      strandR: 0.005,
+    });
+    // biceps / triceps
+    const UA = 0.32;
+    muscle(
+      shoulder,
+      [sx * 0.008, -0.03, 0.016],
+      [sx * 0.008, -UA + 0.02, 0.01],
+      { belly: 0.022, strands: 10, spreadZ: 0.8, bulge: 0.55, strandR: 0.0055 },
+    );
+    muscle(
+      shoulder,
+      [sx * 0.008, -0.04, -0.016],
+      [sx * 0.008, -UA + 0.03, -0.01],
+      { belly: 0.022, strands: 10, spreadZ: 0.8, bulge: 0.45, strandR: 0.0055 },
+    );
+    muscle(shoulder, [sx * 0.024, -0.05, 0.0], [sx * 0.02, -UA + 0.03, 0.0], {
+      belly: 0.013,
+      strands: 6,
+      core: false,
+      strandR: 0.0045,
+    });
+    add(shoulder, capsuleGeometry(0.02, UA - 0.05), mats.core, [0, -UA / 2, 0]);
+    // humerus visible strip on the outer side
+    add(shoulder, roundedBoxGeometry(0.012, 0.14, 0.008, 0.004), mats.bone, [
+      sx * 0.027,
+      -0.2,
+      0.0,
+    ]);
+    wires(
+      shoulder,
+      [
+        [-sx * 0.012, -0.05, 0.03],
+        [-sx * 0.018, -0.18, 0.032],
+        [-sx * 0.012, -UA + 0.02, 0.02],
+      ],
+      4,
+      0.0024,
+      0.008,
+    );
+
+    const elbow = joint("elbow" + side, shoulder, 0, -UA, 0);
+    hinge(elbow, 0.03, 0.046, sx);
+    add(elbow, roundedBoxGeometry(0.02, 0.07, 0.03, 0.006), mats.bone, [
+      sx * 0.028,
+      -0.02,
+      -0.005,
+    ]);
+    // forearm
+    const FA = 0.28;
+    add(elbow, capsuleGeometry(0.017, FA - 0.03), mats.core, [0, -FA / 2, 0]);
+    muscle(elbow, [sx * 0.005, -0.02, 0.014], [sx * 0.004, -FA + 0.02, 0.008], {
+      belly: 0.018,
+      strands: 9,
+      bulge: 0.32,
+      spreadX: 0.9,
+      strandR: 0.005,
+    });
+    muscle(
+      elbow,
+      [sx * 0.005, -0.02, -0.014],
+      [sx * 0.004, -FA + 0.02, -0.008],
+      { belly: 0.017, strands: 9, bulge: 0.35, spreadX: 0.9, strandR: 0.005 },
+    );
+    muscle(elbow, [-sx * 0.016, -0.03, 0.0], [-sx * 0.01, -FA + 0.03, 0.0], {
+      belly: 0.012,
+      strands: 6,
+      core: false,
+      strandR: 0.0045,
+    });
+    // radius/ulna plates
+    add(elbow, roundedBoxGeometry(0.011, 0.16, 0.01, 0.004), mats.bone, [
+      sx * 0.026,
+      -0.14,
+      0.006,
+    ]);
+    add(elbow, roundedBoxGeometry(0.008, 0.12, 0.008, 0.003), mats.boneDark, [
+      sx * 0.02,
+      -0.17,
+      -0.014,
+    ]);
+    wires(
+      elbow,
+      [
+        [-sx * 0.014, -0.03, 0.012],
+        [-sx * 0.02, -0.15, 0.012],
+        [-sx * 0.012, -FA + 0.02, 0.008],
+      ],
+      5,
+      0.0022,
+      0.008,
+    );
+    // wrist ring
+    add(
+      elbow,
+      new THREE.TorusGeometry(0.02, 0.005, 10, 28),
+      mats.bone,
+      [0, -FA + 0.015, 0],
+      [Math.PI / 2, 0, 0],
+    );
+    add(
+      elbow,
+      new THREE.CylinderGeometry(0.018, 0.02, 0.02, 20),
+      mats.boneDark,
+      [0, -FA + 0.005, 0],
+    );
+
+    // left forearm: open service hatch with the wiring exposed underneath
+    if (side === "L") {
+      const bay = add(
+        elbow,
+        roundedBoxGeometry(0.03, 0.11, 0.012, 0.004),
+        mats.socket,
+        [sx * 0.024, -0.13, 0.012],
+        [0, sx * 0.4, 0],
+      );
+      bay.scale.set(1, 1, 1);
+      wires(
+        elbow,
+        [
+          [sx * 0.02, -0.08, 0.02],
+          [sx * 0.03, -0.12, 0.024],
+          [sx * 0.022, -0.18, 0.02],
+        ],
+        7,
+        0.0022,
+        0.012,
+      );
+      const hatch = joint("hatchL", elbow, sx * 0.038, -0.13, 0.006);
+      const plate = add(
+        hatch,
+        roundedBoxGeometry(0.065, 0.11, 0.008, 0.004),
+        mats.bone,
+        [sx * 0.032, 0, 0.0],
+      );
+      plate.rotation.y = 0;
+      add(
+        hatch,
+        new THREE.PlaneGeometry(0.05, 0.09),
+        mats.grille,
+        [sx * 0.032, 0, -0.005],
+        [0, Math.PI, 0],
+      );
+      for (const dy of [-0.045, 0.045])
+        add(
+          hatch,
+          new THREE.CylinderGeometry(0.004, 0.004, 0.014, 10),
+          mats.boneDark,
+          [0, dy, 0.0],
+        );
+      add(
+        hatch,
+        new THREE.CylinderGeometry(0.0055, 0.0055, 0.003, 12),
+        mats.boneDark,
+        [sx * 0.05, 0.03, 0.005],
+        [Math.PI / 2, 0, 0],
+      );
+      hatch.rotation.y = -sx * 1.35;
+    }
+
+    // hand
+    const wrist = joint("wrist" + side, elbow, 0, -FA, 0);
+    add(wrist, new THREE.SphereGeometry(0.016, 20, 14), mats.bone);
+    const palm = add(
+      wrist,
+      roundedBoxGeometry(0.058, 0.075, 0.02, 0.008),
+      mats.rubber,
+      [0, -0.045, 0.0],
+    );
+    palm.rotation.x = 0.1;
+    add(
+      wrist,
+      roundedBoxGeometry(0.04, 0.04, 0.006, 0.003),
+      mats.bone,
+      [0, -0.035, -0.012],
+    );
     const fingers = [];
-    const fingerSpecs = [
-      [-0.028, 0.065], [-0.01, 0.075], [0.009, 0.072], [0.027, 0.06],
+    const lens = [
+      [0.032, 0.022, 0.018],
+      [0.036, 0.025, 0.02],
+      [0.033, 0.023, 0.018],
+      [0.026, 0.018, 0.015],
     ];
-    for (const [fx, len] of fingerSpecs) {
-      const base = new THREE.Group();
-      base.position.set(fx, -0.1, 0);
-      wrist.add(base);
-      const segLens = [len * 0.42, len * 0.32, len * 0.26];
-      let parentJoint = base;
+    for (let f = 0; f < 4; f++) {
+      const fx = (f - 1.5) * 0.015;
+      let parent = wrist;
+      let y = -0.08;
       const chain = [];
       for (let s = 0; s < 3; s++) {
-        const seg = shadowed(new THREE.Mesh(capsuleGeometry(0.0075 - s * 0.0008, segLens[s] + 0.01), s === 2 ? mats.bone : mats.muscleSheen));
-        seg.position.y = -segLens[s] / 2;
-        parentJoint.add(seg);
-        const knuckle = new THREE.Group();
-        knuckle.position.y = -segLens[s];
-        parentJoint.add(knuckle);
-        if (s < 2) {
-          const k = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.0075, 10, 8), mats.bone));
-          knuckle.add(k);
-        }
-        chain.push(parentJoint);
-        parentJoint = knuckle;
+        const seg = new THREE.Group();
+        seg.position.set(s === 0 ? fx : 0, s === 0 ? y : -lens[f][s - 1], 0);
+        parent.add(seg);
+        const r = 0.0058 - s * 0.0008;
+        add(seg, new THREE.SphereGeometry(r * 1.15, 12, 10), mats.bone);
+        add(
+          seg,
+          new THREE.CylinderGeometry(r * 0.9, r, lens[f][s] - r, 12),
+          mats.rubber,
+          [0, -lens[f][s] / 2, 0],
+        );
+        if (s === 2)
+          add(seg, new THREE.SphereGeometry(r * 0.9, 12, 10), mats.rubber, [
+            0,
+            -lens[f][s] + r * 0.5,
+            0,
+          ]);
+        chain.push(seg);
+        parent = seg;
       }
       fingers.push(chain);
     }
-    const thumb = new THREE.Group();
-    thumb.position.set(sx * 0.038, -0.045, 0.012);
-    thumb.rotation.set(0.5, 0, sx * 0.9);
-    wrist.add(thumb);
-    let tp = thumb;
-    for (let s = 0; s < 2; s++) {
-      const seg = shadowed(new THREE.Mesh(capsuleGeometry(0.008, 0.042), s === 1 ? mats.bone : mats.muscleSheen));
-      seg.position.y = -0.018;
-      tp.add(seg);
-      const k = new THREE.Group();
-      k.position.y = -0.034;
-      tp.add(k);
-      tp = k;
+    // thumb
+    {
+      const thumb = new THREE.Group();
+      thumb.position.set(-sx * 0.03, -0.045, 0.008);
+      thumb.rotation.set(0.5, 0, -sx * 0.9);
+      wrist.add(thumb);
+      const chain = [];
+      let parent = thumb;
+      for (let s = 0; s < 2; s++) {
+        const seg = new THREE.Group();
+        seg.position.set(0, s === 0 ? 0 : -0.028, 0);
+        parent.add(seg);
+        add(seg, new THREE.SphereGeometry(0.0072, 12, 10), mats.bone);
+        add(
+          seg,
+          new THREE.CylinderGeometry(0.0058, 0.0066, 0.022, 12),
+          mats.rubber,
+          [0, -0.014, 0],
+        );
+        chain.push(seg);
+        parent = seg;
+      }
+      fingers.push(chain);
     }
-    fingers.push([thumb]);
-    arms[side] = { shoulder, elbow, wrist, fingers };
+    arms[side] = { fingers };
   }
 
-  // ---------------------------------------------------------------- legs
-  for (const sx of [-1, 1]) {
-    const side = sx < 0 ? 'L' : 'R';
-    const hip = joint('hip' + side, pelvis, sx * 0.1, -0.06, 0);
-    ball(hip, 'jointL', mats.bone);
-    const femur = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.02, 0.42, 10), mats.bone));
-    femur.position.set(0, -0.22, 0);
-    hip.add(femur);
-    muscle(hip, 0.42, 0.024, 0.05, mats.muscle, { x: sx * 0.01, y: -0.02, z: 0.028, bulge: 0.4 });
-    muscle(hip, 0.4, 0.022, 0.042, mats.muscle, { x: -sx * 0.028, y: -0.04, z: -0.022, bulge: 0.45 });
-    muscle(hip, 0.38, 0.02, 0.038, mats.muscleSheen, { x: sx * 0.032, y: -0.05, z: -0.008, bulge: 0.5 });
-    // gray tendon insert above the knee, as in the reference
-    const insert = shadowed(new THREE.Mesh(roundedBoxGeometry(0.03, 0.11, 0.012, 0.008), mats.bone));
-    insert.position.set(sx * 0.005, -0.36, 0.055);
-    hip.add(insert);
-    cable(hip, [[sx * 0.045, -0.06, 0.02], [sx * 0.055, -0.22, 0.03], [sx * 0.035, -0.4, 0.02]], 0.0032);
-    cable(hip, [[-sx * 0.04, -0.08, -0.03], [-sx * 0.05, -0.24, -0.035], [-sx * 0.03, -0.4, -0.02]], 0.003);
+  // ================================================================ legs
+  for (const side of ["L", "R"]) {
+    const sx = side === "L" ? -1 : 1;
+    const hip = joint("hip" + side, pelvis, sx * 0.1, -0.03, 0);
+    add(hip, new THREE.SphereGeometry(0.025, 24, 18), mats.bone);
+    const TH = 0.46;
+    add(hip, capsuleGeometry(0.03, TH - 0.06), mats.core, [0, -TH / 2, 0]);
+    // quadriceps (3 heads), hamstrings, adductor
+    muscle(hip, [sx * 0.005, -0.03, 0.024], [sx * 0.0, -TH + 0.05, 0.022], {
+      belly: 0.027,
+      strands: 12,
+      bulge: 0.45,
+      spreadX: 1.1,
+      strandR: 0.0055,
+    });
+    muscle(hip, [sx * 0.024, -0.05, 0.012], [sx * 0.015, -TH + 0.06, 0.016], {
+      belly: 0.022,
+      strands: 10,
+      bulge: 0.4,
+      strandR: 0.0055,
+    });
+    muscle(hip, [-sx * 0.02, -0.06, 0.016], [-sx * 0.012, -TH + 0.06, 0.016], {
+      belly: 0.02,
+      strands: 9,
+      bulge: 0.5,
+      strandR: 0.005,
+    });
+    muscle(hip, [sx * 0.008, -0.02, -0.024], [sx * 0.01, -TH + 0.04, -0.022], {
+      belly: 0.027,
+      strands: 12,
+      bulge: 0.45,
+      spreadX: 1.1,
+      strandR: 0.0055,
+    });
+    muscle(
+      hip,
+      [-sx * 0.016, -0.03, -0.016],
+      [-sx * 0.008, -TH + 0.05, -0.016],
+      { belly: 0.02, strands: 8, bulge: 0.45, strandR: 0.005 },
+    );
+    muscle(hip, [-sx * 0.024, -0.04, 0.0], [-sx * 0.016, -TH + 0.1, 0.0], {
+      belly: 0.017,
+      strands: 7,
+      bulge: 0.3,
+      core: false,
+      strandR: 0.0045,
+    });
+    // femur strip on the outer thigh (gray patch in the reference) + tendon plates near the knee
+    add(hip, roundedBoxGeometry(0.02, 0.16, 0.01, 0.006), mats.bone, [
+      sx * 0.032,
+      -0.12,
+      -0.005,
+    ]);
+    add(
+      hip,
+      roundedBoxGeometry(0.012, 0.1, 0.008, 0.004),
+      mats.bone,
+      [sx * 0.03, -TH + 0.09, 0.03],
+      [0.15, 0, 0],
+    );
+    add(
+      hip,
+      roundedBoxGeometry(0.012, 0.1, 0.008, 0.004),
+      mats.bone,
+      [-sx * 0.02, -TH + 0.1, 0.032],
+      [0.15, 0, 0],
+    );
+    wires(
+      hip,
+      [
+        [-sx * 0.03, -0.05, 0.02],
+        [-sx * 0.038, -0.25, 0.015],
+        [-sx * 0.025, -TH + 0.03, 0.01],
+      ],
+      5,
+      0.0024,
+      0.01,
+    );
 
-    const knee = joint('knee' + side, hip, 0, -0.45, 0);
-    const kneeCap = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.06, 18), mats.bone));
-    kneeCap.rotation.z = Math.PI / 2;
-    knee.add(kneeCap);
-    const patella = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.032, 16, 12), mats.boneDark));
-    patella.scale.set(1, 1, 0.6);
-    patella.position.set(0, 0.0, 0.035);
-    knee.add(patella);
-    const tibia = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.016, 0.42, 10), mats.bone));
-    tibia.position.set(0, -0.22, 0.01);
-    knee.add(tibia);
-    muscle(knee, 0.4, 0.02, 0.045, mats.muscle, { x: -sx * 0.015, y: -0.03, z: -0.03, bulge: 0.3 });
-    muscle(knee, 0.38, 0.018, 0.035, mats.muscle, { x: sx * 0.025, y: -0.04, z: 0.0, bulge: 0.35 });
-    muscle(knee, 0.36, 0.016, 0.03, mats.muscleSheen, { x: 0, y: -0.05, z: 0.03, bulge: 0.3 });
-    const shinPlate = shadowed(new THREE.Mesh(roundedBoxGeometry(0.028, 0.16, 0.01, 0.007), mats.bone));
-    shinPlate.position.set(0, -0.25, 0.048);
-    knee.add(shinPlate);
-    cable(knee, [[sx * 0.035, -0.08, 0.0], [sx * 0.04, -0.22, -0.01], [sx * 0.025, -0.4, 0.0]], 0.003);
+    const knee = joint("knee" + side, hip, 0, -TH, 0);
+    hinge(knee, 0.034, 0.05, sx);
+    add(
+      knee,
+      roundedBoxGeometry(0.03, 0.045, 0.02, 0.006),
+      mats.bone,
+      [0, 0.0, 0.034],
+    );
+    const SH = 0.42;
+    add(knee, capsuleGeometry(0.024, SH - 0.05), mats.core, [0, -SH / 2, 0]);
+    // tibialis / gastrocnemius / soleus
+    muscle(knee, [sx * 0.008, -0.03, 0.012], [sx * 0.004, -SH + 0.05, 0.012], {
+      belly: 0.017,
+      strands: 8,
+      bulge: 0.35,
+      strandR: 0.005,
+    });
+    muscle(
+      knee,
+      [sx * 0.008, -0.02, -0.016],
+      [sx * 0.004, -SH + 0.07, -0.012],
+      { belly: 0.024, strands: 11, bulge: 0.3, spreadX: 1.2, strandR: 0.0055 },
+    );
+    muscle(
+      knee,
+      [-sx * 0.01, -0.03, -0.012],
+      [-sx * 0.004, -SH + 0.05, -0.008],
+      { belly: 0.018, strands: 8, bulge: 0.4, strandR: 0.005 },
+    );
+    muscle(knee, [-sx * 0.016, -0.03, 0.0], [-sx * 0.01, -SH + 0.05, 0.0], {
+      belly: 0.012,
+      strands: 6,
+      core: false,
+      strandR: 0.0045,
+    });
+    // tibia strip and calf plate
+    add(knee, roundedBoxGeometry(0.012, 0.26, 0.008, 0.004), mats.bone, [
+      sx * 0.008,
+      -0.2,
+      0.028,
+    ]);
+    add(knee, roundedBoxGeometry(0.016, 0.1, 0.008, 0.005), mats.bone, [
+      sx * 0.03,
+      -0.14,
+      -0.01,
+    ]);
+    wires(
+      knee,
+      [
+        [-sx * 0.02, -0.04, 0.01],
+        [-sx * 0.026, -0.2, 0.012],
+        [-sx * 0.015, -SH + 0.02, 0.01],
+      ],
+      4,
+      0.0022,
+      0.008,
+    );
+    // achilles rods
+    rod(
+      knee,
+      [sx * 0.006, -SH + 0.12, -0.028],
+      [sx * 0.006, -SH, -0.03],
+      0.005,
+      mats.bone,
+    );
 
-    const ankle = joint('ankle' + side, knee, 0, -0.45, 0);
-    ball(ankle, 'jointM', mats.bone);
-    const heel = shadowed(new THREE.Mesh(capsuleGeometry(0.03, 0.09), mats.muscle));
-    heel.rotation.x = Math.PI / 2;
-    heel.position.set(0, -0.02, -0.02);
-    ankle.add(heel);
-    const sole = shadowed(new THREE.Mesh(roundedBoxGeometry(0.085, 0.03, 0.22, 0.012), mats.muscleSheen));
-    sole.position.set(0, -0.03, 0.07);
-    ankle.add(sole);
-    const arch = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.16, 8), mats.bone));
-    arch.rotation.x = Math.PI / 2 - 0.25;
-    arch.position.set(0, -0.01, 0.06);
-    ankle.add(arch);
-    for (let i = 0; i < 5; i++) {
-      const toe = shadowed(new THREE.Mesh(capsuleGeometry(0.009 - i * 0.0008, 0.045 - i * 0.004), i % 2 ? mats.bone : mats.muscleSheen));
-      toe.rotation.x = Math.PI / 2;
-      toe.position.set(sx * (-0.028 + i * 0.014), -0.035, 0.195 - i * 0.006);
-      ankle.add(toe);
+    const ankle = joint("ankle" + side, knee, 0, -SH, 0);
+    hinge(ankle, 0.022, 0.04, sx);
+    // foot: heel block, arch plate, metatarsal fibres, five toes
+    add(
+      ankle,
+      roundedBoxGeometry(0.05, 0.05, 0.07, 0.012),
+      mats.rubber,
+      [0, -0.045, -0.02],
+    );
+    add(
+      ankle,
+      roundedBoxGeometry(0.055, 0.016, 0.2, 0.006),
+      mats.bone,
+      [0, -0.065, 0.06],
+      [0.06, 0, 0],
+    );
+    add(
+      ankle,
+      roundedBoxGeometry(0.04, 0.03, 0.14, 0.01),
+      mats.core,
+      [0, -0.045, 0.06],
+      [0.08, 0, 0],
+    );
+    for (let i = 0; i < 4; i++) {
+      const x = (i - 1.5) * 0.012;
+      add(
+        ankle,
+        tube(
+          [
+            [x * 0.5, -0.028, -0.01],
+            [x, -0.04, 0.06],
+            [x * 1.4, -0.058, 0.14],
+          ],
+          0.0045,
+          12,
+          6,
+        ),
+        mats.fiber,
+      );
+    }
+    for (let t = 0; t < 5; t++) {
+      const x = sx * (t - 2) * 0.012;
+      const len = 0.045 - Math.abs(t - 1) * 0.005;
+      const base = new THREE.Group();
+      base.position.set(x, -0.066, 0.155);
+      ankle.add(base);
+      add(base, new THREE.SphereGeometry(0.0065, 12, 10), mats.bone);
+      add(
+        base,
+        new THREE.CylinderGeometry(0.0055, 0.0065, len, 10),
+        mats.rubber,
+        [0, -0.002, len / 2],
+        [Math.PI / 2, 0, 0],
+      );
+      add(base, new THREE.SphereGeometry(0.0055, 12, 10), mats.rubber, [
+        0,
+        -0.002,
+        len,
+      ]);
     }
   }
 
   // ---------------------------------------------------------------- posing
   const rest = {};
-  for (const [name, g] of Object.entries(joints)) {
+  for (const [name, g] of Object.entries(joints))
     rest[name] = { x: g.rotation.x, y: g.rotation.y, z: g.rotation.z };
-  }
 
   const POSES = {
-    // debout, bras le long du corps, regard droit
     debout: {
-      shoulderL: { z: 0.12, x: 0.05 }, shoulderR: { z: -0.12, x: 0.05 },
-      elbowL: { x: -0.18 }, elbowR: { x: -0.14 },
-      hipL: { z: 0.02 }, hipR: { z: -0.02 },
+      shoulderL: { z: 0.1, x: 0.04 },
+      shoulderR: { z: -0.1, x: 0.04 },
+      elbowL: { x: -0.16 },
+      elbowR: { x: -0.12 },
+      hipL: { z: 0.02 },
+      hipR: { z: -0.02 },
       chest: { x: 0.02 },
     },
-    // assis dans le fauteuil : hanches à 90°, avant-bras posés
     assis: {
-      hipL: { x: -1.5, z: 0.08 }, hipR: { x: -1.5, z: -0.08 },
-      kneeL: { x: 1.5 }, kneeR: { x: 1.5 },
-      ankleL: { x: 0.0 }, ankleR: { x: 0.0 },
-      shoulderL: { x: -0.35, z: 0.22 }, shoulderR: { x: -0.35, z: -0.22 },
-      elbowL: { x: -1.25 }, elbowR: { x: -1.25 },
-      spine: { x: 0.06 }, chest: { x: -0.04 }, neck: { x: 0.12 },
+      hipL: { x: -1.5, z: 0.08 },
+      hipR: { x: -1.5, z: -0.08 },
+      kneeL: { x: 1.5 },
+      kneeR: { x: 1.5 },
+      shoulderL: { x: -0.35, z: 0.22 },
+      shoulderR: { x: -0.35, z: -0.22 },
+      elbowL: { x: -1.25 },
+      elbowR: { x: -1.25 },
+      spine: { x: 0.06 },
+      chest: { x: -0.04 },
+      neck: { x: 0.12 },
       hatchL: { y: -1.25 },
     },
-    // défensif : recul, bras repliés devant le module
     defensif: {
-      hipL: { x: -1.65, z: 0.15 }, hipR: { x: -1.65, z: -0.2 },
-      kneeL: { x: 1.85 }, kneeR: { x: 1.85 },
-      ankleL: { x: -0.2 }, ankleR: { x: -0.2 },
-      shoulderL: { x: -1.5, z: 0.35, y: 0.4 }, shoulderR: { x: -1.35, z: -0.4, y: -0.5 },
-      elbowL: { x: -2.2 }, elbowR: { x: -2.35 },
-      spine: { x: 0.25 }, chest: { x: 0.18 }, neck: { x: 0.35, y: 0.25 },
+      hipL: { x: -1.65, z: 0.15 },
+      hipR: { x: -1.65, z: -0.2 },
+      kneeL: { x: 1.85 },
+      kneeR: { x: 1.85 },
+      ankleL: { x: -0.2 },
+      ankleR: { x: -0.2 },
+      shoulderL: { x: -1.5, z: 0.35, y: 0.4 },
+      shoulderR: { x: -1.35, z: -0.4, y: -0.5 },
+      elbowL: { x: -2.2 },
+      elbowR: { x: -2.35 },
+      spine: { x: 0.25 },
+      chest: { x: 0.18 },
+      neck: { x: 0.35, y: 0.25 },
       hatchL: { y: -0.35 },
     },
   };
-  const FINGER_CURL = { debout: 0.35, assis: 0.55, defensif: 1.15 };
-  // the root is lowered each frame so the lowest foot rests on the floor
+  const FINGER_CURL = { debout: 0.3, assis: 0.55, defensif: 1.15 };
   const footBox = new THREE.Box3();
   const tmpBox = new THREE.Box3();
   const tmpVec = new THREE.Vector3();
@@ -521,7 +1465,7 @@ export function buildRobot(mats) {
   const current = {};
   for (const name of Object.keys(joints)) current[name] = { ...rest[name] };
   const target = {};
-  let poseName = 'debout';
+  let poseName = "debout";
   let fingerCurl = FINGER_CURL.debout;
   let fingerTarget = fingerCurl;
 
@@ -540,7 +1484,7 @@ export function buildRobot(mats) {
     fingerTarget = FINGER_CURL[name];
     return true;
   }
-  setPose('debout');
+  setPose("debout");
   for (const jn of Object.keys(joints)) Object.assign(current[jn], target[jn]);
 
   const look = new THREE.Vector2(0, 0);
@@ -558,45 +1502,44 @@ export function buildRobot(mats) {
       c.z += (t.z - c.z) * k;
       joints[jn].rotation.set(c.x, c.y, c.z);
     }
-    // breathing: the chest lifts and the shoulders drift with it
     const breath = Math.sin(elapsed * 1.4) * 0.5 + 0.5;
-    joints.chest.rotation.x += breath * 0.025;
-    joints.chest.scale.setScalar(1 + breath * 0.012);
-    joints.shoulderL.rotation.z += breath * 0.015;
-    joints.shoulderR.rotation.z -= breath * 0.015;
-    // gaze follows a target with a slight lag, idle micro-saccades on top
+    joints.chest.rotation.x += breath * 0.02;
+    joints.shoulderL.rotation.z += breath * 0.012;
+    joints.shoulderR.rotation.z -= breath * 0.012;
     look.lerp(lookTarget, 1 - Math.exp(-dt * 4));
     joints.head.rotation.y += look.x * 0.6 + Math.sin(elapsed * 0.7) * 0.03;
     joints.head.rotation.x += -look.y * 0.4 + Math.sin(elapsed * 0.45) * 0.02;
     joints.neck.rotation.y += look.x * 0.3;
-    // fingers ease toward the pose's curl with a per-finger wave
     fingerCurl += (fingerTarget - fingerCurl) * k;
-    root.updateMatrixWorld(true);
-    footBox.setFromObject(joints.ankleL);
-    footBox.union(tmpBox.setFromObject(joints.ankleR));
-    // footBox is in world space; the floor sits at the root parent's y = 0
-    const parentY = root.parent ? root.parent.getWorldPosition(tmpVec).y : 0;
-    root.position.y -= footBox.min.y - parentY;
-    for (const side of ['L', 'R']) {
+    for (const side of ["L", "R"]) {
       arms[side].fingers.forEach((chain, i) => {
-        const wave = Math.sin(elapsed * 1.1 + i * 0.7 + (side === 'L' ? 0 : 1.5)) * 0.06;
+        const wave =
+          Math.sin(elapsed * 1.1 + i * 0.7 + (side === "L" ? 0 : 1.5)) * 0.06;
         chain.forEach((seg, s) => {
           seg.rotation.x = -(fingerCurl + wave) * (s === 0 ? 0.55 : 0.85);
         });
       });
     }
-    // blink: the irises dim briefly, roughly every few seconds
+    // keep the lowest foot on the floor (parent y = 0)
+    root.updateMatrixWorld(true);
+    if (grounded) {
+      footBox.setFromObject(joints.ankleL);
+      footBox.union(tmpBox.setFromObject(joints.ankleR));
+      const parentY = root.parent ? root.parent.getWorldPosition(tmpVec).y : 0;
+      root.position.y -= footBox.min.y - parentY;
+    }
+    // blink / pulse
     nextBlink -= dt;
     if (nextBlink <= 0) {
-      blink = 0.18;
+      blink = 0.16;
       nextBlink = 2.5 + Math.random() * 3.5;
     }
-    const pulse = 1.9 + Math.sin(elapsed * 2.3) * 0.25;
-    const dim = blink > 0 ? 0.15 : 1;
+    const pulse = 1.05 + Math.sin(elapsed * 2.3) * 0.15;
+    const dim = blink > 0 ? 0.12 : 1;
     if (blink > 0) blink -= dt;
     mats.eye.emissiveIntensity = pulse * dim;
-    eyeLight.intensity = 0.5 * dim;
-    for (const e of eyes) e.halo.material.opacity = 0.22 * dim;
+    eyeLight.intensity = 0.45 * dim;
+    mats.glow.opacity = 0.45 * dim;
   }
 
   function lookAt(x, y) {
@@ -604,8 +1547,14 @@ export function buildRobot(mats) {
   }
 
   let meshCount = 0;
+  let triangleCount = 0;
   root.traverse((o) => {
-    if (o.isMesh) meshCount++;
+    if (!o.isMesh) return;
+    meshCount++;
+    const p = o.geometry.attributes.position;
+    triangleCount += o.geometry.index
+      ? o.geometry.index.count / 3
+      : p.count / 3;
   });
 
   return {
@@ -620,5 +1569,6 @@ export function buildRobot(mats) {
     update,
     height: HEIGHT,
     meshCount,
+    triangleCount: Math.round(triangleCount),
   };
 }

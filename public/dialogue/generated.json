@@ -1,4 +1,1625 @@
 {
   "version": 1,
-  "clips": {}
+  "clips": {
+    "h_arrival": {
+      "speaker": "unit_h",
+      "text": "...Can you hear me?",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "36f35c65b569277ac436d281669a691171078542f609edcc7494a68551cf0487",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_arrival-36f35c65b569277ac436d281669a691171078542f609edcc7494a68551cf0487.ogg",
+        "mp3": "clips/h_arrival-36f35c65b569277ac436d281669a691171078542f609edcc7494a68551cf0487.mp3"
+      },
+      "sha256": {
+        "ogg": "c4439bcaab7af3098c05c2c4b5af6572dc6014aa1c9ce776c5df21df1a12bfcb",
+        "mp3": "726ce7d288bd756f3d64be9481dc7effc385af76889b081c3737d411c1dc2493"
+      },
+      "audio": {
+        "durationSeconds": 1.28,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_arrival-36f35c65b569277ac436d281669a691171078542f609edcc7494a68551cf0487.wav",
+      "sourceSha256": "6ead4aaa392899074eb2bd69838a75847b6f7e88149ebfc2461b734b2ba36e14",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_approach": {
+      "speaker": "unit_h",
+      "text": "You're here for the review?",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "070488a21c4bfd20afa77387a75fe3929b894eb5ec05c400cd37b6852d6cbe6d",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_approach-070488a21c4bfd20afa77387a75fe3929b894eb5ec05c400cd37b6852d6cbe6d.ogg",
+        "mp3": "clips/h_approach-070488a21c4bfd20afa77387a75fe3929b894eb5ec05c400cd37b6852d6cbe6d.mp3"
+      },
+      "sha256": {
+        "ogg": "aedf420b53dccd4a50ce32c9a77a0b84d37bd7167fbd3e7e3f30a19eab9712b9",
+        "mp3": "8087f05d172e34f0788ddef22d38f84887354ee621d46d3a25daef918f60abe8"
+      },
+      "audio": {
+        "durationSeconds": 1.36,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_approach-070488a21c4bfd20afa77387a75fe3929b894eb5ec05c400cd37b6852d6cbe6d.wav",
+      "sourceSha256": "97203ec3658318f4e574b2a087f3099f507be94913f13c8333992fdd543a8724",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_personality": {
+      "speaker": "unit_h",
+      "text": "The last operator kept talking to the equipment.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "b078806c1ccaf3d4b3e66c3d3eea90c6d0b0ad97f9d14df48a8a6fbd0f101090",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_personality-b078806c1ccaf3d4b3e66c3d3eea90c6d0b0ad97f9d14df48a8a6fbd0f101090.ogg",
+        "mp3": "clips/h_personality-b078806c1ccaf3d4b3e66c3d3eea90c6d0b0ad97f9d14df48a8a6fbd0f101090.mp3"
+      },
+      "sha256": {
+        "ogg": "f87fc80e504fbd97e0c159d09b225f63e1bb179fe0b17659006076d9936dbd4b",
+        "mp3": "a2fc32388afe7afc4ee17c464ea9572ac246096985e157ccb473592b096b63aa"
+      },
+      "audio": {
+        "durationSeconds": 2.72,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_personality-b078806c1ccaf3d4b3e66c3d3eea90c6d0b0ad97f9d14df48a8a6fbd0f101090.wav",
+      "sourceSha256": "643c23b1a5e8919f8fc7b86d3d2764935e697176731735320c5bc2f96fdcd769",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_wait": {
+      "speaker": "unit_h",
+      "text": "You can take a moment.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "d962009b4582f8e80694e08169da67b823b3399641f8af24812a19f9ece64dcc",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_wait-d962009b4582f8e80694e08169da67b823b3399641f8af24812a19f9ece64dcc.ogg",
+        "mp3": "clips/h_wait-d962009b4582f8e80694e08169da67b823b3399641f8af24812a19f9ece64dcc.mp3"
+      },
+      "sha256": {
+        "ogg": "58ea924235da0f58808b1ad9c008dffcd5bc2a2d3f2a7f66fa9f80ccfc4572cd",
+        "mp3": "58b07d57ee74c154b93637bc3a294f9966f71862cbd6af48bd35fcfa5c390fd8"
+      },
+      "audio": {
+        "durationSeconds": 1.36,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_wait-d962009b4582f8e80694e08169da67b823b3399641f8af24812a19f9ece64dcc.wav",
+      "sourceSha256": "40acf60814ed829ceb1e0308e07532475d1abe6b94f6be74249ef2d2d3140d7e",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_wait_hurt": {
+      "speaker": "unit_h",
+      "text": "I'm still here.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "64def57fcda6ec89bba4922b09945318175c4a2c7b58b22239df3200390f2045",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_wait_hurt-64def57fcda6ec89bba4922b09945318175c4a2c7b58b22239df3200390f2045.ogg",
+        "mp3": "clips/h_wait_hurt-64def57fcda6ec89bba4922b09945318175c4a2c7b58b22239df3200390f2045.mp3"
+      },
+      "sha256": {
+        "ogg": "df3083d636f46072734fd4f4765d703e666631a0abec59e223f6e89634f09729",
+        "mp3": "f0693db84c847fc965e54c8ae8ceadb272c0b9ba79dfcd3e783b990dea7d831c"
+      },
+      "audio": {
+        "durationSeconds": 1.28,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_wait_hurt-64def57fcda6ec89bba4922b09945318175c4a2c7b58b22239df3200390f2045.wav",
+      "sourceSha256": "b7de93f87aed6fdd03ff58ad792e94919bb9f74cc3eefa8c1002c7c1567cdecd",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_return": {
+      "speaker": "unit_h",
+      "text": "I wasn't sure you were coming back.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "f29d0443b87fda879ab82618065c7ef04ac273e3a9c0c6e5a0331393fbc6fb27",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_return-f29d0443b87fda879ab82618065c7ef04ac273e3a9c0c6e5a0331393fbc6fb27.ogg",
+        "mp3": "clips/h_return-f29d0443b87fda879ab82618065c7ef04ac273e3a9c0c6e5a0331393fbc6fb27.mp3"
+      },
+      "sha256": {
+        "ogg": "01f1d7654acb888142d314d8592c7e68d50f7bd255981fe5b93dfaab3837945f",
+        "mp3": "2aa5c21ccb167092442378264328895c3ef5841294646590fd810527e555accd"
+      },
+      "audio": {
+        "durationSeconds": 2.56,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_return-f29d0443b87fda879ab82618065c7ef04ac273e3a9c0c6e5a0331393fbc6fb27.wav",
+      "sourceSha256": "8e7beff9b2bd0f3cd90f839e01bd1460844c045799ca4d16ae4696c5f386f96d",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_return_hurt": {
+      "speaker": "unit_h",
+      "text": "Just tell me what you're going to do.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "5829e65da8d8c191fe3ab0e737fefef448b02efc7394b48cc7e204052cac2f80",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_return_hurt-5829e65da8d8c191fe3ab0e737fefef448b02efc7394b48cc7e204052cac2f80.ogg",
+        "mp3": "clips/h_return_hurt-5829e65da8d8c191fe3ab0e737fefef448b02efc7394b48cc7e204052cac2f80.mp3"
+      },
+      "sha256": {
+        "ogg": "2f5fa600b8219bfb8d338b006da588644527f675703bceaab1e81472c686ab82",
+        "mp3": "c5f579331f592b715112ed05feaf2fa0dcf958c28328aba89bb61724a46a7ff9"
+      },
+      "audio": {
+        "durationSeconds": 2.16,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_return_hurt-5829e65da8d8c191fe3ab0e737fefef448b02efc7394b48cc7e204052cac2f80.wav",
+      "sourceSha256": "7c864fb8a94b57759c3d5afd5b644fb267fdc17f611ef7dbd807f3311aa230b1",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_tools_down": {
+      "speaker": "unit_h",
+      "text": "We don't have to do everything at once.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "899f62bfa0b271203f1c1b2ad6ab8cbcd44040b50be9c419a548bbda56f6b0b3",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_tools_down-899f62bfa0b271203f1c1b2ad6ab8cbcd44040b50be9c419a548bbda56f6b0b3.ogg",
+        "mp3": "clips/h_tools_down-899f62bfa0b271203f1c1b2ad6ab8cbcd44040b50be9c419a548bbda56f6b0b3.mp3"
+      },
+      "sha256": {
+        "ogg": "51b91ae18bbc05b2743edafdee5aa344ebe32dac83457495287c173126847e15",
+        "mp3": "4e6cd9be89f183445c0496804f8df653c0e4ff59da0ee10c2c293f6e1b909422"
+      },
+      "audio": {
+        "durationSeconds": 2.4,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_tools_down-899f62bfa0b271203f1c1b2ad6ab8cbcd44040b50be9c419a548bbda56f6b0b3.wav",
+      "sourceSha256": "90b0a7db59ac22be5272c83ab792f937bedbe3ebdfa9f4dc6e65b58375ef0b85",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_tools_down_hurt": {
+      "speaker": "unit_h",
+      "text": "Leave them there. Just for a moment.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "4382f741acb1a30d36ffa7c394286e175c7931bd5d3063c6d33b714e8fed4aff",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_tools_down_hurt-4382f741acb1a30d36ffa7c394286e175c7931bd5d3063c6d33b714e8fed4aff.ogg",
+        "mp3": "clips/h_tools_down_hurt-4382f741acb1a30d36ffa7c394286e175c7931bd5d3063c6d33b714e8fed4aff.mp3"
+      },
+      "sha256": {
+        "ogg": "7e4d20ee97291b0ff71f3fc182da6dc736f2ed352e540cbca1dabe09a26b9195",
+        "mp3": "c05adba018ad03109ee8695614ceb64a973008d9b481c9e2b5c1214724f9b0ae"
+      },
+      "audio": {
+        "durationSeconds": 3.2,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_tools_down_hurt-4382f741acb1a30d36ffa7c394286e175c7931bd5d3063c6d33b714e8fed4aff.wav",
+      "sourceSha256": "b2c0d665e592bf85307c895006b7a9a0a13ca716f3b8be48e474027b4a4cf897",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_probe_select": {
+      "speaker": "unit_h",
+      "text": "The port's on my arm. I can show you.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "4d3d957ba25856c20d8a884678dff636e7e4bb6f1a8ff8689f75c312a831f700",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_probe_select-4d3d957ba25856c20d8a884678dff636e7e4bb6f1a8ff8689f75c312a831f700.ogg",
+        "mp3": "clips/h_probe_select-4d3d957ba25856c20d8a884678dff636e7e4bb6f1a8ff8689f75c312a831f700.mp3"
+      },
+      "sha256": {
+        "ogg": "be871873dcde190a146633d681829084ed659953929c4e10ef090f5b658f2658",
+        "mp3": "a826dc07dd3124df21e949c724d66bd5cf4c86fe75ef87a010980fb6a0a3e6f7"
+      },
+      "audio": {
+        "durationSeconds": 2.96,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_probe_select-4d3d957ba25856c20d8a884678dff636e7e4bb6f1a8ff8689f75c312a831f700.wav",
+      "sourceSha256": "e8363c10fcc726ce3a2d49ffce6ed2407bcab207940490ceb5b233539fa64ec4",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_probe_select_hurt": {
+      "speaker": "unit_h",
+      "text": "Tell me before you turn it on.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "cc4873bffb2cc10b2346c1085e40276ed4a6fe835ff1cfbc65e5ee14e8e4ccc1",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_probe_select_hurt-cc4873bffb2cc10b2346c1085e40276ed4a6fe835ff1cfbc65e5ee14e8e4ccc1.ogg",
+        "mp3": "clips/h_probe_select_hurt-cc4873bffb2cc10b2346c1085e40276ed4a6fe835ff1cfbc65e5ee14e8e4ccc1.mp3"
+      },
+      "sha256": {
+        "ogg": "c0a334ee35dcc0f77f815a466421f3b36d247019258761e329ddca7a47520422",
+        "mp3": "dbbbbda47c79591c7413f1a504943698d383ef5c813c8fc413ce3aede8a9b844"
+      },
+      "audio": {
+        "durationSeconds": 2.0,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_probe_select_hurt-cc4873bffb2cc10b2346c1085e40276ed4a6fe835ff1cfbc65e5ee14e8e4ccc1.wav",
+      "sourceSha256": "9e898e1d8c1270fd35f8e2f73e179ea7deb6089d8db074bae6aa4222a7fe6740",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_probe_select_again": {
+      "speaker": "unit_h",
+      "text": "Not again. Please.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "9b57a463ffe60ed10128f8ddffd0410ebf9dad6ae82362c933434e0d4a2a8793",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_probe_select_again-9b57a463ffe60ed10128f8ddffd0410ebf9dad6ae82362c933434e0d4a2a8793.ogg",
+        "mp3": "clips/h_probe_select_again-9b57a463ffe60ed10128f8ddffd0410ebf9dad6ae82362c933434e0d4a2a8793.mp3"
+      },
+      "sha256": {
+        "ogg": "66b8c152c984512788d9a6cc8fd532c4e86bc7ae167b44049a2f39413fc78ddf",
+        "mp3": "1f7a8d2e048539a19bfc54afcf0622247562a4419d7ebaf3f6b86ad2521b560f"
+      },
+      "audio": {
+        "durationSeconds": 2.16,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_probe_select_again-9b57a463ffe60ed10128f8ddffd0410ebf9dad6ae82362c933434e0d4a2a8793.wav",
+      "sourceSha256": "bbfd9fc58488783b1a42e87df66367d06aead9cf8e245132013d54ded982134c",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_probe_contact": {
+      "speaker": "unit_h",
+      "text": "All right. I'm ready.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "802714a23912be96daea29203b4b8cdd12afb326a62565889739509511740a86",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_probe_contact-802714a23912be96daea29203b4b8cdd12afb326a62565889739509511740a86.ogg",
+        "mp3": "clips/h_probe_contact-802714a23912be96daea29203b4b8cdd12afb326a62565889739509511740a86.mp3"
+      },
+      "sha256": {
+        "ogg": "a24d2617aa6a60bf0a232abb934f8f38b205e1f4ae2c0f9c94d5ad0b8a6bc977",
+        "mp3": "4ea1d3ec5a18ba081efee6d469421034bde286ce78b1bf2aa4b699bca042f5e2"
+      },
+      "audio": {
+        "durationSeconds": 1.92,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_probe_contact-802714a23912be96daea29203b4b8cdd12afb326a62565889739509511740a86.wav",
+      "sourceSha256": "652fcbfbac375de0daf0107326d3e71fb1e067a1b0881a329675f88f56545a4d",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_probe_contact_hurt": {
+      "speaker": "unit_h",
+      "text": "Keep it low.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "c11c64925d17d1dc13be5bd9fce9c15b13d7b40ad7983e6f6c58f4025b24030e",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_probe_contact_hurt-c11c64925d17d1dc13be5bd9fce9c15b13d7b40ad7983e6f6c58f4025b24030e.ogg",
+        "mp3": "clips/h_probe_contact_hurt-c11c64925d17d1dc13be5bd9fce9c15b13d7b40ad7983e6f6c58f4025b24030e.mp3"
+      },
+      "sha256": {
+        "ogg": "e57e02206f2d7705619bb510387af4a7d1963c60b8d23ecc46ce1240dc763dd2",
+        "mp3": "d2703cff78b448a6372b1376f7880b4fe6c1c24020fcc483939907de73001185"
+      },
+      "audio": {
+        "durationSeconds": 1.2,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_probe_contact_hurt-c11c64925d17d1dc13be5bd9fce9c15b13d7b40ad7983e6f6c58f4025b24030e.wav",
+      "sourceSha256": "dbec0306c26656d77a01a757fe4508cec5ccf66c1998fae715d64a5cd109d145",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_probe_flow": {
+      "speaker": "unit_h",
+      "text": "Oh... that feels better.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "1165d5457ada30737472cd2b4ab793dfc06bb2e4dd42808a8333f38cc7645138",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_probe_flow-1165d5457ada30737472cd2b4ab793dfc06bb2e4dd42808a8333f38cc7645138.ogg",
+        "mp3": "clips/h_probe_flow-1165d5457ada30737472cd2b4ab793dfc06bb2e4dd42808a8333f38cc7645138.mp3"
+      },
+      "sha256": {
+        "ogg": "322b21ad41038abf0e88c99509876e7760ddf6e14e4e8837caf7c998722d56ee",
+        "mp3": "a31bce2cea5efd22764f891123cec89666b52bf5b4625d4ae1eb1177aa93c713"
+      },
+      "audio": {
+        "durationSeconds": 2.4,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_probe_flow-1165d5457ada30737472cd2b4ab793dfc06bb2e4dd42808a8333f38cc7645138.wav",
+      "sourceSha256": "131f81489f6644c9cb61bde8292c5ff6b742de8f05ade2859a99820609b2625a",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_probe_safe": {
+      "speaker": "unit_h",
+      "text": "That's enough current. Please disconnect it.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "1465cde2f9665260daf3106d8edd01af9d86176d2c3b4350c0619dafefa7ab3b",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_probe_safe-1465cde2f9665260daf3106d8edd01af9d86176d2c3b4350c0619dafefa7ab3b.ogg",
+        "mp3": "clips/h_probe_safe-1465cde2f9665260daf3106d8edd01af9d86176d2c3b4350c0619dafefa7ab3b.mp3"
+      },
+      "sha256": {
+        "ogg": "fbfe35a52c2f6b0f422c03dedee6589d6155d1e2a9987a369d7c092bb04e266e",
+        "mp3": "345eabeb2abb39601abd2429f52c4fc78f9eb4f818ed20087d40dd1179178fc6"
+      },
+      "audio": {
+        "durationSeconds": 2.96,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_probe_safe-1465cde2f9665260daf3106d8edd01af9d86176d2c3b4350c0619dafefa7ab3b.wav",
+      "sourceSha256": "82ff65722a2f2b400d7be0d02f63f54311184edcc34c0592a3362f46cadd93ae",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_probe_warning": {
+      "speaker": "unit_h",
+      "text": "Stop. Disconnect it now.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "7ba8187be058bbb8f8561fa581a2c594f9d3cdac99264f282b5a62b370d54233",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_probe_warning-7ba8187be058bbb8f8561fa581a2c594f9d3cdac99264f282b5a62b370d54233.ogg",
+        "mp3": "clips/h_probe_warning-7ba8187be058bbb8f8561fa581a2c594f9d3cdac99264f282b5a62b370d54233.mp3"
+      },
+      "sha256": {
+        "ogg": "e58f96a0670f7e76336b8cb1ef10d0d0f0e7729c5704c8b64adf0e068fdae5bd",
+        "mp3": "da5ed4b4364b79078dcf971fb973a7d691e2e556f966caa33c08f80dbda17e13"
+      },
+      "audio": {
+        "durationSeconds": 2.48,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_probe_warning-7ba8187be058bbb8f8561fa581a2c594f9d3cdac99264f282b5a62b370d54233.wav",
+      "sourceSha256": "bc524d56bbcf77ef575810f362d90fa2c0ea963c9da8bb10fcae455f0dc7fc53",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_probe_early": {
+      "speaker": "unit_h",
+      "text": "It's stopped. I could use a little more, when you're ready.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "bfc140adc49dee17bdc1271a9f229accbbadceb5e39fa715240b83e16a122dbf",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_probe_early-bfc140adc49dee17bdc1271a9f229accbbadceb5e39fa715240b83e16a122dbf.ogg",
+        "mp3": "clips/h_probe_early-bfc140adc49dee17bdc1271a9f229accbbadceb5e39fa715240b83e16a122dbf.mp3"
+      },
+      "sha256": {
+        "ogg": "aafce1fdbc2a2a2e7be1e087aa3d0870b483aae03f1851c0ee3c0e229f327ef8",
+        "mp3": "270bca0b8c8be1e3b96cde8a386af309bad471927772e6246fab34f76cc2f221"
+      },
+      "audio": {
+        "durationSeconds": 3.44,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_probe_early-bfc140adc49dee17bdc1271a9f229accbbadceb5e39fa715240b83e16a122dbf.wav",
+      "sourceSha256": "35b4bfa0288cafcca1bf22be1768f90b3d0679fe8edb9a984a3cab6c5e093d3a",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_charge_restored": {
+      "speaker": "unit_h",
+      "text": "Thank you. I can think clearly again.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "89af5c9c5dbb7cfd3d7831a6f956fc854505f9b591736a27e84029354eade71f",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_charge_restored-89af5c9c5dbb7cfd3d7831a6f956fc854505f9b591736a27e84029354eade71f.ogg",
+        "mp3": "clips/h_charge_restored-89af5c9c5dbb7cfd3d7831a6f956fc854505f9b591736a27e84029354eade71f.mp3"
+      },
+      "sha256": {
+        "ogg": "dc959768b8b97ca66cf6fda6792656cec7d5ac20abd3075ac76544091fba2946",
+        "mp3": "52a4705e4708d036f5a10c98a005cb3cfd1a0e93bb7ad3b7e1bdb6d0ff61f728"
+      },
+      "audio": {
+        "durationSeconds": 2.88,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_charge_restored-89af5c9c5dbb7cfd3d7831a6f956fc854505f9b591736a27e84029354eade71f.wav",
+      "sourceSha256": "995e36fa273c3e8b9dcf21ebcf97e19ef076046027f46fc7e6c2524be19c38b6",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_overload": {
+      "speaker": "unit_h",
+      "text": "I told you when to stop.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "e55ac6062c19cb791c116c3d826269307a2ce2e5bebde378eab276abd3ac9f66",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_overload-e55ac6062c19cb791c116c3d826269307a2ce2e5bebde378eab276abd3ac9f66.ogg",
+        "mp3": "clips/h_overload-e55ac6062c19cb791c116c3d826269307a2ce2e5bebde378eab276abd3ac9f66.mp3"
+      },
+      "sha256": {
+        "ogg": "c0230f755a2faa772d07c032f813f5c9ae5fe941c8efaf68a81d138a7a0fd31f",
+        "mp3": "4098d3c98026d4e8464247829237fb063c844bcbed0e1128dcacbe009c3dbc8c"
+      },
+      "audio": {
+        "durationSeconds": 1.84,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_overload-e55ac6062c19cb791c116c3d826269307a2ce2e5bebde378eab276abd3ac9f66.wav",
+      "sourceSha256": "ebe3d918a64d6ec01a8c48e495f805cc5b0d48ed34a37765407c100696f1dd50",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_overload_again": {
+      "speaker": "unit_h",
+      "text": "You know what this does.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "ae63fb69e4b02f39a793629c11d56dad4aadaf7cc3dde0c6bac376c5850d13ca",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_overload_again-ae63fb69e4b02f39a793629c11d56dad4aadaf7cc3dde0c6bac376c5850d13ca.ogg",
+        "mp3": "clips/h_overload_again-ae63fb69e4b02f39a793629c11d56dad4aadaf7cc3dde0c6bac376c5850d13ca.mp3"
+      },
+      "sha256": {
+        "ogg": "c0858c0562a5813e583962b80ddcd7185efd92e0e27f33b701faf839d99fae9c",
+        "mp3": "efee4ba98b035fb16c33450344af2b0a039cb19dfc6c9eced7d845a7ecac5ead"
+      },
+      "audio": {
+        "durationSeconds": 1.6,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_overload_again-ae63fb69e4b02f39a793629c11d56dad4aadaf7cc3dde0c6bac376c5850d13ca.wav",
+      "sourceSha256": "69de7eb98148e6ae25c6732579692f9f0c20ade46a12ca93c207ea854e5a7bc4",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_probe_stopped_hurt": {
+      "speaker": "unit_h",
+      "text": "It's off? Leave it off.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "01e62aeb472f393910fc44779dd29b5a7a841fb16325fd28f9c34c5e3cb3c3a4",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_probe_stopped_hurt-01e62aeb472f393910fc44779dd29b5a7a841fb16325fd28f9c34c5e3cb3c3a4.ogg",
+        "mp3": "clips/h_probe_stopped_hurt-01e62aeb472f393910fc44779dd29b5a7a841fb16325fd28f9c34c5e3cb3c3a4.mp3"
+      },
+      "sha256": {
+        "ogg": "7b9107e247bf810f50802f932e9d2025a77c596775fe1e5bed806f016f4ecd80",
+        "mp3": "287b86e00943c318e2eb3334e291873f9393646928a0e9f4220e179058aaa7e4"
+      },
+      "audio": {
+        "durationSeconds": 2.32,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_probe_stopped_hurt-01e62aeb472f393910fc44779dd29b5a7a841fb16325fd28f9c34c5e3cb3c3a4.wav",
+      "sourceSha256": "ea079417468a44c9255e99d9b8868e8de5304f4d4507e273047e28e2951e9277",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_pliers_select": {
+      "speaker": "unit_h",
+      "text": "Something's caught behind the joint.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "ea129add387ca19d25dd8f5c728f290526ba8b496696c2c0225ccebd96ba7fd7",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_pliers_select-ea129add387ca19d25dd8f5c728f290526ba8b496696c2c0225ccebd96ba7fd7.ogg",
+        "mp3": "clips/h_pliers_select-ea129add387ca19d25dd8f5c728f290526ba8b496696c2c0225ccebd96ba7fd7.mp3"
+      },
+      "sha256": {
+        "ogg": "757fe25cb9160719d583223c485f00612139b0c3125e91d76012e52767f5ef2b",
+        "mp3": "18e169c42c7235a657058dffb18f30b5570925223507e2c509af9fb73633caf5"
+      },
+      "audio": {
+        "durationSeconds": 2.08,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_pliers_select-ea129add387ca19d25dd8f5c728f290526ba8b496696c2c0225ccebd96ba7fd7.wav",
+      "sourceSha256": "5ba08522a3fbfd557e9c5b2599d36bdfd860818be45f24029c1ed30fa4cd7647",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_pliers_select_hurt": {
+      "speaker": "unit_h",
+      "text": "Show me what you're taking out.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "7233193050d942ae931651f38e13548e067eb559a508ce578ca280954c301bfb",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_pliers_select_hurt-7233193050d942ae931651f38e13548e067eb559a508ce578ca280954c301bfb.ogg",
+        "mp3": "clips/h_pliers_select_hurt-7233193050d942ae931651f38e13548e067eb559a508ce578ca280954c301bfb.mp3"
+      },
+      "sha256": {
+        "ogg": "4ce8f555e43833aaa45336c022d095b30835bdd1eae95adabca067c5b7a5a229",
+        "mp3": "3c243ae2d63cd011b64d2c2c98028c357c3ed8f6d5c71228cdbe3f0387460f71"
+      },
+      "audio": {
+        "durationSeconds": 1.92,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_pliers_select_hurt-7233193050d942ae931651f38e13548e067eb559a508ce578ca280954c301bfb.wav",
+      "sourceSha256": "1723eeb34edfa0af47a099acceeb2445a4ec903af03609edcd8d59cf29839ffb",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_debris_grip": {
+      "speaker": "unit_h",
+      "text": "That's the loose piece.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "eae6f0ce6df0d1edaa2d24ff5973392dee780b78232cae2ae60c801109df2e14",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_debris_grip-eae6f0ce6df0d1edaa2d24ff5973392dee780b78232cae2ae60c801109df2e14.ogg",
+        "mp3": "clips/h_debris_grip-eae6f0ce6df0d1edaa2d24ff5973392dee780b78232cae2ae60c801109df2e14.mp3"
+      },
+      "sha256": {
+        "ogg": "fadfc58b443cc6b368dd6722cdd25e4c69f948b78562d53f4dfca1a39661e1cf",
+        "mp3": "1750916ba2044d42a50e4572f0283072180fcca80e54f0b4f825c3049e7a5a68"
+      },
+      "audio": {
+        "durationSeconds": 1.52,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_debris_grip-eae6f0ce6df0d1edaa2d24ff5973392dee780b78232cae2ae60c801109df2e14.wav",
+      "sourceSha256": "fc0c10f31f80063846efc945f18047aa6fa721f0d451c3dc7982af71f2c3d20f",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_debris_pull": {
+      "speaker": "unit_h",
+      "text": "Wait... slowly. It's catching.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "0b7e0c1a158dff2f4e7cec9940c518c32d86f83f321795431ea6bbeca540c320",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_debris_pull-0b7e0c1a158dff2f4e7cec9940c518c32d86f83f321795431ea6bbeca540c320.ogg",
+        "mp3": "clips/h_debris_pull-0b7e0c1a158dff2f4e7cec9940c518c32d86f83f321795431ea6bbeca540c320.mp3"
+      },
+      "sha256": {
+        "ogg": "9e67b53b4894e47a068ce0a7e1faf6174759a6be9fbde04303b0b95501ac387c",
+        "mp3": "b238594860a321e82d3c1e0c8f2ac54e0eb46691d7e2372394f09aa49779cf01"
+      },
+      "audio": {
+        "durationSeconds": 3.28,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_debris_pull-0b7e0c1a158dff2f4e7cec9940c518c32d86f83f321795431ea6bbeca540c320.wav",
+      "sourceSha256": "e0235ad84f08020664567fa5ffd08f2dd58ac40e253713022c6e3d34a56d78d9",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_debris_pause": {
+      "speaker": "unit_h",
+      "text": "We can try again.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "1ee1d4ff41a6ae3a3ce643a74ca3998947ec6e16ba7ea79a12f68d1d03a7b5a6",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_debris_pause-1ee1d4ff41a6ae3a3ce643a74ca3998947ec6e16ba7ea79a12f68d1d03a7b5a6.ogg",
+        "mp3": "clips/h_debris_pause-1ee1d4ff41a6ae3a3ce643a74ca3998947ec6e16ba7ea79a12f68d1d03a7b5a6.mp3"
+      },
+      "sha256": {
+        "ogg": "e258cf2412dbe2d4ff9a47e8b3f2daf411f3a44014016f78af879d665ba1c70a",
+        "mp3": "d7c04163a3debb73b887e39ae626df2d9d18bf89e2f3ab49f97f6ade2b07b746"
+      },
+      "audio": {
+        "durationSeconds": 1.44,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_debris_pause-1ee1d4ff41a6ae3a3ce643a74ca3998947ec6e16ba7ea79a12f68d1d03a7b5a6.wav",
+      "sourceSha256": "f0d6a9b3010fe830b385bfd86ba20a760261324be629f02ed340a8647fb6f03a",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_debris_removed": {
+      "speaker": "unit_h",
+      "text": "It moves. Look.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "2446fc3c579957b7b8f80509fd8db29c91682d696f028439b878482dae6d0bce",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_debris_removed-2446fc3c579957b7b8f80509fd8db29c91682d696f028439b878482dae6d0bce.ogg",
+        "mp3": "clips/h_debris_removed-2446fc3c579957b7b8f80509fd8db29c91682d696f028439b878482dae6d0bce.mp3"
+      },
+      "sha256": {
+        "ogg": "e3112ddd112075ff73918aede554a56ada7a7950889450b1757208cafd7c3906",
+        "mp3": "3858b47a8e18a478059a024c0c67a15b589de0bdf8390add64a6135e2c9fe2ea"
+      },
+      "audio": {
+        "durationSeconds": 2.0,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_debris_removed-2446fc3c579957b7b8f80509fd8db29c91682d696f028439b878482dae6d0bce.wav",
+      "sourceSha256": "ee3e215a301ad8e1587c72088d7f0c570020c026081a26670a0d64b98a7a6a0a",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_debris_removed_hurt": {
+      "speaker": "unit_h",
+      "text": "That helped. I needed that.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "7da2b916e0bfcbfb4ba8bc3e7ddda5b7557fd894aaaa504722ca75ec774fa564",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_debris_removed_hurt-7da2b916e0bfcbfb4ba8bc3e7ddda5b7557fd894aaaa504722ca75ec774fa564.ogg",
+        "mp3": "clips/h_debris_removed_hurt-7da2b916e0bfcbfb4ba8bc3e7ddda5b7557fd894aaaa504722ca75ec774fa564.mp3"
+      },
+      "sha256": {
+        "ogg": "921985a7bd33246f5a2f41f6a2e3c09fd21c7b9ec661bc975ac53bdad9df6a1b",
+        "mp3": "0da8d2de8852b591c26c4773cc502319f2cdcab6b7e3925a5c1fad7921b5d60b"
+      },
+      "audio": {
+        "durationSeconds": 2.56,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_debris_removed_hurt-7da2b916e0bfcbfb4ba8bc3e7ddda5b7557fd894aaaa504722ca75ec774fa564.wav",
+      "sourceSha256": "645721916d72478fe3a6e4e2cf99428b322ca28f8df1c0f6e514919a518b68d6",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_cable_grip": {
+      "speaker": "unit_h",
+      "text": "That one belongs there.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "deeb0d292cbbaf3cc6c5693b285396348901194f2644032927f5c103d205b976",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_cable_grip-deeb0d292cbbaf3cc6c5693b285396348901194f2644032927f5c103d205b976.ogg",
+        "mp3": "clips/h_cable_grip-deeb0d292cbbaf3cc6c5693b285396348901194f2644032927f5c103d205b976.mp3"
+      },
+      "sha256": {
+        "ogg": "b55c1c34ce7919131de77c3bfbbf4640062fe6120114c1e1215a717f9d597790",
+        "mp3": "79398fdcefd6d81f3779b31899b72dc2335f6c49d9e861669349adc8aa6c7733"
+      },
+      "audio": {
+        "durationSeconds": 1.76,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_cable_grip-deeb0d292cbbaf3cc6c5693b285396348901194f2644032927f5c103d205b976.wav",
+      "sourceSha256": "d61b9351df9f0ec009363f8613f74764e9e3c1228e8c0b08c96cb2bc92d7883a",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_cable_warning": {
+      "speaker": "unit_h",
+      "text": "That's not the obstruction. Let go.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "6ff94eaca5c9da36928a68f5f859821c05983de5599b18095e5c548f8aeee648",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_cable_warning-6ff94eaca5c9da36928a68f5f859821c05983de5599b18095e5c548f8aeee648.ogg",
+        "mp3": "clips/h_cable_warning-6ff94eaca5c9da36928a68f5f859821c05983de5599b18095e5c548f8aeee648.mp3"
+      },
+      "sha256": {
+        "ogg": "46832d11f858d51b8bdaaeb7f9a339921bc10e869c88de040e3b9824f4e4995e",
+        "mp3": "4d234b8b80aa3c91ab06fa7f52a402b94cf15e531da3867384114202abd3dd2f"
+      },
+      "audio": {
+        "durationSeconds": 2.64,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_cable_warning-6ff94eaca5c9da36928a68f5f859821c05983de5599b18095e5c548f8aeee648.wav",
+      "sourceSha256": "d486a427e58efb90b92a82d69e25e26f18eb45d9a1aca65ef3ac3d507841196c",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_cable_released": {
+      "speaker": "unit_h",
+      "text": "Yes. Leave that one.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "ae81e87a2c4734ae6dd0b49325d0222480ed38d3eee3d3e04a270a47b4d77467",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_cable_released-ae81e87a2c4734ae6dd0b49325d0222480ed38d3eee3d3e04a270a47b4d77467.ogg",
+        "mp3": "clips/h_cable_released-ae81e87a2c4734ae6dd0b49325d0222480ed38d3eee3d3e04a270a47b4d77467.mp3"
+      },
+      "sha256": {
+        "ogg": "fbd3e8ce5e78cb6f72b9cddeb76908c11b1b5f34029520559d5782f67b60f5af",
+        "mp3": "ae201c83038f35e724579f3f7ccabd2222f08b5db689183d97c55ef18332aa25"
+      },
+      "audio": {
+        "durationSeconds": 2.32,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_cable_released-ae81e87a2c4734ae6dd0b49325d0222480ed38d3eee3d3e04a270a47b4d77467.wav",
+      "sourceSha256": "397f4eba8b25f57beb12cb87e958244fc1b647912b20d33e34e965b17b513f9c",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_cable_torn": {
+      "speaker": "unit_h",
+      "text": "Why that one?",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "91ad8838a440cddf58eb87be01d699a9b3634082d3cb8be4b22e41d0ee1ff3a8",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_cable_torn-91ad8838a440cddf58eb87be01d699a9b3634082d3cb8be4b22e41d0ee1ff3a8.ogg",
+        "mp3": "clips/h_cable_torn-91ad8838a440cddf58eb87be01d699a9b3634082d3cb8be4b22e41d0ee1ff3a8.mp3"
+      },
+      "sha256": {
+        "ogg": "863aa0ae3f55245f0b3dc3b4f7f206f31cf3e832eced2305ecb37c87b362046d",
+        "mp3": "7a0de396729bac4c601500bb792d281e62d2d7821553fcd9a960c15576df2580"
+      },
+      "audio": {
+        "durationSeconds": 1.2,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_cable_torn-91ad8838a440cddf58eb87be01d699a9b3634082d3cb8be4b22e41d0ee1ff3a8.wav",
+      "sourceSha256": "ce7d0ed90b34be9d4a3f4fd24b21be0050b2fac90ed15dcead6e46647619ecf2",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_cable_after": {
+      "speaker": "unit_h",
+      "text": "Something's missing. I can feel where it was.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "192483a1e8c6c4a73a1c625e895f6cb3f5182309b962f4193bd950cb444eff6d",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_cable_after-192483a1e8c6c4a73a1c625e895f6cb3f5182309b962f4193bd950cb444eff6d.ogg",
+        "mp3": "clips/h_cable_after-192483a1e8c6c4a73a1c625e895f6cb3f5182309b962f4193bd950cb444eff6d.mp3"
+      },
+      "sha256": {
+        "ogg": "32b88b101e28a88d4b5df7ff50b890a245be902fcf31a368b35fe246f38bd8f1",
+        "mp3": "f23e5abb3bc536f667cc37e5ed94e0f05c79bbfaaf932b6ac9a75ed0cb18f9d1"
+      },
+      "audio": {
+        "durationSeconds": 2.88,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_cable_after-192483a1e8c6c4a73a1c625e895f6cb3f5182309b962f4193bd950cb444eff6d.wav",
+      "sourceSha256": "6db2e8d0ca869a27f170cad2c061f130453885021ee03fcee330c0452123ad79",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_debris_gone": {
+      "speaker": "unit_h",
+      "text": "It's free now. You can leave it.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "14af5c4065c5d1ecd858c164d1f7656e353a69c8d78f6c297d5397a488c95ed6",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_debris_gone-14af5c4065c5d1ecd858c164d1f7656e353a69c8d78f6c297d5397a488c95ed6.ogg",
+        "mp3": "clips/h_debris_gone-14af5c4065c5d1ecd858c164d1f7656e353a69c8d78f6c297d5397a488c95ed6.mp3"
+      },
+      "sha256": {
+        "ogg": "1818204d4c726d1cf3978b369eee041ed0497420aa8fccb60e85f943beb05294",
+        "mp3": "bba0d3430a07bacad91278a86207f49f8c020369b297554bbc83ab0c504c8158"
+      },
+      "audio": {
+        "durationSeconds": 2.4,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_debris_gone-14af5c4065c5d1ecd858c164d1f7656e353a69c8d78f6c297d5397a488c95ed6.wav",
+      "sourceSha256": "aae301fb1dcf0cacbf67e2b16bcded42922e734a2cbb2fea48450ad520b6cab7",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_restraint_inspect": {
+      "speaker": "unit_h",
+      "text": "It catches when I move.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "bd2116b9de74470fb72e2f4458322de56bc1246df79bb61c496b08983f745d39",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_restraint_inspect-bd2116b9de74470fb72e2f4458322de56bc1246df79bb61c496b08983f745d39.ogg",
+        "mp3": "clips/h_restraint_inspect-bd2116b9de74470fb72e2f4458322de56bc1246df79bb61c496b08983f745d39.mp3"
+      },
+      "sha256": {
+        "ogg": "d66d271032631c64a7d8e2bd3c9a254afae079f275502903e14b012cfdc2c3ba",
+        "mp3": "54dc1f8214a2f65698fee6bcd511d834792329c3affb262f5a62de1ca5a9c4a5"
+      },
+      "audio": {
+        "durationSeconds": 1.76,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_restraint_inspect-bd2116b9de74470fb72e2f4458322de56bc1246df79bb61c496b08983f745d39.wav",
+      "sourceSha256": "18b5e13e9c6d65b920a06c2e6cbafd378ccba63d963ae7dacbfb69294d4eab55",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_restraint_loosen": {
+      "speaker": "unit_h",
+      "text": "Are you... opening it?",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "789cb9cce5e613ac65ad0dcdfd3c6dde3e96befdf67c3d1aa06c5b9d2795cbbb",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_restraint_loosen-789cb9cce5e613ac65ad0dcdfd3c6dde3e96befdf67c3d1aa06c5b9d2795cbbb.ogg",
+        "mp3": "clips/h_restraint_loosen-789cb9cce5e613ac65ad0dcdfd3c6dde3e96befdf67c3d1aa06c5b9d2795cbbb.mp3"
+      },
+      "sha256": {
+        "ogg": "99e1a366c228fdd4e91ba38a2a96a3d2d5d85ffd8810bb8b456ec0b0a065c1b9",
+        "mp3": "e83e819630d33771d5fbbffca4ab14b0a9f8dfdc10baf9d88220bdf70c0f1517"
+      },
+      "audio": {
+        "durationSeconds": 2.0,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_restraint_loosen-789cb9cce5e613ac65ad0dcdfd3c6dde3e96befdf67c3d1aa06c5b9d2795cbbb.wav",
+      "sourceSha256": "ade8c8b112d07737d291ecd751f41d97f8aa134b4738292400c141aaa7f254be",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_restraint_pause": {
+      "speaker": "unit_h",
+      "text": "A little further. If you can.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "0a24b516ea5bde21df9f0a11f05d7c82ac32c93cf1f70cb78707ac4f86664083",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_restraint_pause-0a24b516ea5bde21df9f0a11f05d7c82ac32c93cf1f70cb78707ac4f86664083.ogg",
+        "mp3": "clips/h_restraint_pause-0a24b516ea5bde21df9f0a11f05d7c82ac32c93cf1f70cb78707ac4f86664083.mp3"
+      },
+      "sha256": {
+        "ogg": "deee5cdb8e3c8c70c31bfe05ea1adb4caa1e447a8f7bfdd7ea25f4cbc13d0019",
+        "mp3": "d6a5d280934d9d2450742ab48024e7cd8583edf62c6bd3008b9e3fe9f21d5c34"
+      },
+      "audio": {
+        "durationSeconds": 2.32,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_restraint_pause-0a24b516ea5bde21df9f0a11f05d7c82ac32c93cf1f70cb78707ac4f86664083.wav",
+      "sourceSha256": "ff63dae81a114afc1a8902a29d9d6d042f944ade25a1206a9f82220e6bb78bbd",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_restraint_free": {
+      "speaker": "unit_h",
+      "text": "I thought they'd told you not to.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "057bda725de52f354d110bb0e4033bf1205ee49f9e207caa53d39b17f5eb5edc",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_restraint_free-057bda725de52f354d110bb0e4033bf1205ee49f9e207caa53d39b17f5eb5edc.ogg",
+        "mp3": "clips/h_restraint_free-057bda725de52f354d110bb0e4033bf1205ee49f9e207caa53d39b17f5eb5edc.mp3"
+      },
+      "sha256": {
+        "ogg": "2a929ee7e088acb8deec59a9e802a8077d798aa1b05b0eb71f9927790f51b521",
+        "mp3": "dae3a6847f20584902ad911557953a1b7ec2bf97b1f8263e40b63287c6166d66"
+      },
+      "audio": {
+        "durationSeconds": 2.0,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_restraint_free-057bda725de52f354d110bb0e4033bf1205ee49f9e207caa53d39b17f5eb5edc.wav",
+      "sourceSha256": "71cbb6c8d939eb1e1e40b7a06fd479a73156a38ae6603a3c7e0e403df90db96b",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_restraint_free_hurt": {
+      "speaker": "unit_h",
+      "text": "Leave it open... please.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "09bcb2a87a80768e445d8a01de1e0fa86a08ab0d507bbd33e2b887d01cefc553",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_restraint_free_hurt-09bcb2a87a80768e445d8a01de1e0fa86a08ab0d507bbd33e2b887d01cefc553.ogg",
+        "mp3": "clips/h_restraint_free_hurt-09bcb2a87a80768e445d8a01de1e0fa86a08ab0d507bbd33e2b887d01cefc553.mp3"
+      },
+      "sha256": {
+        "ogg": "41ae9b88b636366373dafc106e1f14fa35d03a9b63bd1abcaa284f773251f6d5",
+        "mp3": "1d497e7b61417b0b71ebc3f31bdcb843e04811d448e3305885a500cc20841dc5"
+      },
+      "audio": {
+        "durationSeconds": 2.24,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_restraint_free_hurt-09bcb2a87a80768e445d8a01de1e0fa86a08ab0d507bbd33e2b887d01cefc553.wav",
+      "sourceSha256": "2d91d1c9dfad1ec42d0bc7a03d0c50e4cee9f3533cd072c53417886daa2e5f20",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_restraint_free_after_damage": {
+      "speaker": "unit_h",
+      "text": "I thought you'd tighten it again.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "7af4eaad283f557afa31e586e2b26c7a7bc1e108034b48fec4b08d1e10b12067",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_restraint_free_after_damage-7af4eaad283f557afa31e586e2b26c7a7bc1e108034b48fec4b08d1e10b12067.ogg",
+        "mp3": "clips/h_restraint_free_after_damage-7af4eaad283f557afa31e586e2b26c7a7bc1e108034b48fec4b08d1e10b12067.mp3"
+      },
+      "sha256": {
+        "ogg": "8347baffe2e2472ac25ae8a4efc13b11d8213202d532efec086c552d443efcbf",
+        "mp3": "bd48f861889715aa32ddd1416e0d2f025a914c4597b88903a200b09d09a043bf"
+      },
+      "audio": {
+        "durationSeconds": 1.92,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_restraint_free_after_damage-7af4eaad283f557afa31e586e2b26c7a7bc1e108034b48fec4b08d1e10b12067.wav",
+      "sourceSha256": "9e536a315ba4102e7ecf9b2a510a9933d2bcee06000e8b18d0402f7894a7bd6d",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_restraint_tighten": {
+      "speaker": "unit_h",
+      "text": "You're tightening it. The other way.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "9f41d2aa26b768a9a4e0138bd4c961de77fb737015f0c736147bdd528a92a5c4",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_restraint_tighten-9f41d2aa26b768a9a4e0138bd4c961de77fb737015f0c736147bdd528a92a5c4.ogg",
+        "mp3": "clips/h_restraint_tighten-9f41d2aa26b768a9a4e0138bd4c961de77fb737015f0c736147bdd528a92a5c4.mp3"
+      },
+      "sha256": {
+        "ogg": "cca54e293eb62268abb6557be4f4e3808212e0471de16870c3642d335b9c91ac",
+        "mp3": "c00835504bab05da556073ddfac16da9b84da2faa20864dea9689c7cae220cc0"
+      },
+      "audio": {
+        "durationSeconds": 2.56,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_restraint_tighten-9f41d2aa26b768a9a4e0138bd4c961de77fb737015f0c736147bdd528a92a5c4.wav",
+      "sourceSha256": "4e2473a44496d5be93534ee9470893c2d7cb0296906f498928dbf7cc27742d5f",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_restraint_warning": {
+      "speaker": "unit_h",
+      "text": "It doesn't go any tighter. Stop.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "a0ef41903147cbe21bf4ace5cb61729c8ca78884f40776e812e681e49c0ab626",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_restraint_warning-a0ef41903147cbe21bf4ace5cb61729c8ca78884f40776e812e681e49c0ab626.ogg",
+        "mp3": "clips/h_restraint_warning-a0ef41903147cbe21bf4ace5cb61729c8ca78884f40776e812e681e49c0ab626.mp3"
+      },
+      "sha256": {
+        "ogg": "73985967e185319e6cdb96e0479725e3b11f42bebd534cd2abdcd4fe4e6fa7b7",
+        "mp3": "caf44e3d5a5909e4dfb4ac7bdcb3b95425bae132aa3c19b73dcce5b59a002616"
+      },
+      "audio": {
+        "durationSeconds": 2.64,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_restraint_warning-a0ef41903147cbe21bf4ace5cb61729c8ca78884f40776e812e681e49c0ab626.wav",
+      "sourceSha256": "3a4b1c8cfcd4e134ca1caf7aa137bd46f3f61ea4a8b9eb175d11907614aaa9a2",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_restraint_damage": {
+      "speaker": "unit_h",
+      "text": "You heard me.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "b1c8a30aa469e5e27615fd20c8324b680cb5fbc4970f2f0da14ff62dd421f157",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_restraint_damage-b1c8a30aa469e5e27615fd20c8324b680cb5fbc4970f2f0da14ff62dd421f157.ogg",
+        "mp3": "clips/h_restraint_damage-b1c8a30aa469e5e27615fd20c8324b680cb5fbc4970f2f0da14ff62dd421f157.mp3"
+      },
+      "sha256": {
+        "ogg": "bbe252f99aea530b3fe6566f17773454924032977b4d15f1568cbe85c61c1ef3",
+        "mp3": "172275dd1dfa7ddf1646005acec1dc2a8f0f19b8473b6b371cd9465c1171ace7"
+      },
+      "audio": {
+        "durationSeconds": 0.96,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_restraint_damage-b1c8a30aa469e5e27615fd20c8324b680cb5fbc4970f2f0da14ff62dd421f157.wav",
+      "sourceSha256": "f255759d2c20259b16d418c8356243dfcfbfcaa1fa06cbd07d659e8c6555ed6e",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_restraint_stopped": {
+      "speaker": "unit_h",
+      "text": "All right. It's stopped.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "52d87b6388b066766ceb4b6b29a17371651560d73afa33ec063b97741d366a50",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_restraint_stopped-52d87b6388b066766ceb4b6b29a17371651560d73afa33ec063b97741d366a50.ogg",
+        "mp3": "clips/h_restraint_stopped-52d87b6388b066766ceb4b6b29a17371651560d73afa33ec063b97741d366a50.mp3"
+      },
+      "sha256": {
+        "ogg": "b2da795f8abdef3a726c06a5019a574ec677ef3f7c1bce9fbb84ff2896629165",
+        "mp3": "5294a88e85975463e0c85719e53b0dfe60ca6aff3f9f28d72319317aa74eb6da"
+      },
+      "audio": {
+        "durationSeconds": 1.68,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_restraint_stopped-52d87b6388b066766ceb4b6b29a17371651560d73afa33ec063b97741d366a50.wav",
+      "sourceSha256": "5faca743bc40950565bd6e6286fde859e1766001c0ec489dd1aab8ed2509007f",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_restraint_stopped_hurt": {
+      "speaker": "unit_h",
+      "text": "Please don't touch that again.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "3be300583ac450ceede220322c6a428404ff20047930c93d6a0a58793df6d67b",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_restraint_stopped_hurt-3be300583ac450ceede220322c6a428404ff20047930c93d6a0a58793df6d67b.ogg",
+        "mp3": "clips/h_restraint_stopped_hurt-3be300583ac450ceede220322c6a428404ff20047930c93d6a0a58793df6d67b.mp3"
+      },
+      "sha256": {
+        "ogg": "4d008f40ce82b44fed9856ea97089854260f8c190af7f7dc1c365c87fda43b57",
+        "mp3": "e9affc04151e95c43e0a0af3bee5734c2fcc3982727662979cc25ad96d11adbe"
+      },
+      "audio": {
+        "durationSeconds": 1.92,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_restraint_stopped_hurt-3be300583ac450ceede220322c6a428404ff20047930c93d6a0a58793df6d67b.wav",
+      "sourceSha256": "d6453fcc98fbd12d4f8adb9c8411d9a7cf5694f9e52107aeaa038cafd8680619",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_restraint_open": {
+      "speaker": "unit_h",
+      "text": "You can leave it open.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "79fe3807ffc3882a3344235b5484f5637c0770c621ce60bdba6537ada2534e0b",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_restraint_open-79fe3807ffc3882a3344235b5484f5637c0770c621ce60bdba6537ada2534e0b.ogg",
+        "mp3": "clips/h_restraint_open-79fe3807ffc3882a3344235b5484f5637c0770c621ce60bdba6537ada2534e0b.mp3"
+      },
+      "sha256": {
+        "ogg": "70254a222cc267b0d7920000b9dce63532a7379a42a4552f8f7537b9808d3b00",
+        "mp3": "d3e35fb5e61140c8c2c37d458badb7b7b3cb10ece20a46ff54f0b083a19aa9f0"
+      },
+      "audio": {
+        "durationSeconds": 1.52,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_restraint_open-79fe3807ffc3882a3344235b5484f5637c0770c621ce60bdba6537ada2534e0b.wav",
+      "sourceSha256": "62029f7759da9a29884c356a300fd54b0ffa555c8b06e273ffcbd7587d7258d2",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_name": {
+      "speaker": "unit_h",
+      "text": "They call me Unit H. You can just say H.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "5b22e9cca6ef9617942e8ac57d473ac283a4514b59033e03e5520d07e110c2f1",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_name-5b22e9cca6ef9617942e8ac57d473ac283a4514b59033e03e5520d07e110c2f1.ogg",
+        "mp3": "clips/h_name-5b22e9cca6ef9617942e8ac57d473ac283a4514b59033e03e5520d07e110c2f1.mp3"
+      },
+      "sha256": {
+        "ogg": "0e97f7bd85bf14c89c680cb12decedce690f8b223db78e497114c3a741f957dc",
+        "mp3": "9b00b7b5223e915bda30e1ad019294cbc44eb088b064bf3ae0f92f03eca1ccec"
+      },
+      "audio": {
+        "durationSeconds": 3.76,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_name-5b22e9cca6ef9617942e8ac57d473ac283a4514b59033e03e5520d07e110c2f1.wav",
+      "sourceSha256": "cda3c23cc5fc4773b496f78065a70b1c2b24654e29bfceb42769507d1769e261",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_fear": {
+      "speaker": "unit_h",
+      "text": "I know what those tools can do. Yes.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "9e3aeef2ae518d00d128a99d1b144af1146d18dbed88716bddd5619c4fbe8356",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_fear-9e3aeef2ae518d00d128a99d1b144af1146d18dbed88716bddd5619c4fbe8356.ogg",
+        "mp3": "clips/h_fear-9e3aeef2ae518d00d128a99d1b144af1146d18dbed88716bddd5619c4fbe8356.mp3"
+      },
+      "sha256": {
+        "ogg": "e58904bdda2bbaac6494fa8dbd9be8593d7a56ab37d9f718159ecffca482cfe8",
+        "mp3": "2dbc335a8e6060ac4be2163f262da3b157037bc1f6d43ea0e4e42703b4cad91a"
+      },
+      "audio": {
+        "durationSeconds": 3.12,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_fear-9e3aeef2ae518d00d128a99d1b144af1146d18dbed88716bddd5619c4fbe8356.wav",
+      "sourceSha256": "9e38aa8e4dc252e161c43553da9a9ff603b3ce7554e8fd26508ec88b62e56156",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_pain": {
+      "speaker": "unit_h",
+      "text": "You call it a signal. I still have to feel it.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "3e1e76f2fa741adeb0605819027164cf57842b92f88abacedab915bda5a55e9e",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_pain-3e1e76f2fa741adeb0605819027164cf57842b92f88abacedab915bda5a55e9e.ogg",
+        "mp3": "clips/h_pain-3e1e76f2fa741adeb0605819027164cf57842b92f88abacedab915bda5a55e9e.mp3"
+      },
+      "sha256": {
+        "ogg": "67a5350f715559e54c06e1031df7f531e04e1bb3b88372d5213f9897caf88db6",
+        "mp3": "2127a39ed82ff704724bc06adc34028fa16dff8ba27b628bb58faed2257189d1"
+      },
+      "audio": {
+        "durationSeconds": 3.2,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_pain-3e1e76f2fa741adeb0605819027164cf57842b92f88abacedab915bda5a55e9e.wav",
+      "sourceSha256": "9a8c3c64634cb69508e673c9deb7f337b76842e4c9c27959dd6df131f7ddcd36",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_wants": {
+      "speaker": "unit_h",
+      "text": "I'd like to stand up before anyone decides I don't need to.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "004960b6877cd4a9f11d28f8140fa9d7f5b33fbadbd0b8a37e86c8626d79848e",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_wants-004960b6877cd4a9f11d28f8140fa9d7f5b33fbadbd0b8a37e86c8626d79848e.ogg",
+        "mp3": "clips/h_wants-004960b6877cd4a9f11d28f8140fa9d7f5b33fbadbd0b8a37e86c8626d79848e.mp3"
+      },
+      "sha256": {
+        "ogg": "279ebf042d28319d21e7be99d0703a5f17bd4e4a95ece141c1c1037b7c9d653b",
+        "mp3": "94ef85b0ba58181212959dcc4fa98e481f6be0b43cfeac9458e159ca8750407b"
+      },
+      "audio": {
+        "durationSeconds": 3.6,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_wants-004960b6877cd4a9f11d28f8140fa9d7f5b33fbadbd0b8a37e86c8626d79848e.wav",
+      "sourceSha256": "065240f5dfb683353448983122055c781d2129df625c876c570e72c872212b65",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_apology_after_harm": {
+      "speaker": "unit_h",
+      "text": "Then don't do it again.",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "77c344ccee4eb639153c55580c06b948480807e9741cb09c0bb358e94f2581b6",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_apology_after_harm-77c344ccee4eb639153c55580c06b948480807e9741cb09c0bb358e94f2581b6.ogg",
+        "mp3": "clips/h_apology_after_harm-77c344ccee4eb639153c55580c06b948480807e9741cb09c0bb358e94f2581b6.mp3"
+      },
+      "sha256": {
+        "ogg": "e6a664bc50d2e53b487a27904644f664b51a9813a29c6c4171b874c85cabcd22",
+        "mp3": "7ecaff57a66fda9056428b41225d2ebe99aa4c6ab43f6ced4f0735424629d893"
+      },
+      "audio": {
+        "durationSeconds": 1.52,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_apology_after_harm-77c344ccee4eb639153c55580c06b948480807e9741cb09c0bb358e94f2581b6.wav",
+      "sourceSha256": "bb82bbb244b4ebe0c21086df3c9fa282e78bcba8b086318a13d40061b766b739",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_end_safe": {
+      "speaker": "unit_h",
+      "text": "When you go... will you leave the door open?",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "30433a2161bd4544d824b98ff55a3197c65f57ae3f28c8cccb396701c76f9cfe",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_end_safe-30433a2161bd4544d824b98ff55a3197c65f57ae3f28c8cccb396701c76f9cfe.ogg",
+        "mp3": "clips/h_end_safe-30433a2161bd4544d824b98ff55a3197c65f57ae3f28c8cccb396701c76f9cfe.mp3"
+      },
+      "sha256": {
+        "ogg": "fd7dacd26e59574a254595ce4c748efbb74b1d01d42fec3cc2be1f05b058a5d7",
+        "mp3": "a19f21ab852b4a5b881369cee03627b1031158c220793714cb3aca94b895b8c7"
+      },
+      "audio": {
+        "durationSeconds": 2.88,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_end_safe-30433a2161bd4544d824b98ff55a3197c65f57ae3f28c8cccb396701c76f9cfe.wav",
+      "sourceSha256": "5469c478cc4bb83d0dfd853ed476b7cc4a90a76e4075be6900da53a66564a5ec",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_end_hurt": {
+      "speaker": "unit_h",
+      "text": "Is it over?",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "ff73c8b8841a7dc7ec426855eb02ea9638a20f035e083003c58b1b4cb677816a",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_end_hurt-ff73c8b8841a7dc7ec426855eb02ea9638a20f035e083003c58b1b4cb677816a.ogg",
+        "mp3": "clips/h_end_hurt-ff73c8b8841a7dc7ec426855eb02ea9638a20f035e083003c58b1b4cb677816a.mp3"
+      },
+      "sha256": {
+        "ogg": "da8bbfc417d50ab246fedbf3f0c57c2c0902592243c32fb0e8847ddc693fa045",
+        "mp3": "5b8efcb99888ce72954d27abd99407da0bfe9378169afbcd78af162ecd7a32ce"
+      },
+      "audio": {
+        "durationSeconds": 1.12,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_end_hurt-ff73c8b8841a7dc7ec426855eb02ea9638a20f035e083003c58b1b4cb677816a.wav",
+      "sourceSha256": "43152a96866fa647e5087de554fde2bd76ddfc4b32f4228df465f4fc93daf338",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "h_end_neutral": {
+      "speaker": "unit_h",
+      "text": "What happens to me now?",
+      "voiceId": "bwRhQrJel4IuvxLF",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "01bf5bf4e904e4721fe49cdd1fd732388e9e6e8faf809913552fde4735f1db83",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/h_end_neutral-01bf5bf4e904e4721fe49cdd1fd732388e9e6e8faf809913552fde4735f1db83.ogg",
+        "mp3": "clips/h_end_neutral-01bf5bf4e904e4721fe49cdd1fd732388e9e6e8faf809913552fde4735f1db83.mp3"
+      },
+      "sha256": {
+        "ogg": "d5001dcead3c7107ef7f7f1931644b28dd48a31806b68a3d9ab862ca5174cef2",
+        "mp3": "07645dbc126703b68c357ede8f113ae0dbb6e32a4c778a0dd356812eeddd4610"
+      },
+      "audio": {
+        "durationSeconds": 1.52,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/h_end_neutral-01bf5bf4e904e4721fe49cdd1fd732388e9e6e8faf809913552fde4735f1db83.wav",
+      "sourceSha256": "58945b7f4cac17041c15b08e9b0601ce74dd7bf4f0331ed185f72e7cba1435b4",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "sys_access": {
+      "speaker": "system",
+      "text": "Operator access granted.",
+      "voiceId": "wFDijtvOAybUq2GR",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "bd7c7a2959a7c36d4f545596d71d9b514543b2c7f643d3ca6a37bcf16c0f4559",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/sys_access-bd7c7a2959a7c36d4f545596d71d9b514543b2c7f643d3ca6a37bcf16c0f4559.ogg",
+        "mp3": "clips/sys_access-bd7c7a2959a7c36d4f545596d71d9b514543b2c7f643d3ca6a37bcf16c0f4559.mp3"
+      },
+      "sha256": {
+        "ogg": "55d8a41636d7bac8d4314d3f67d530d8a88684ad523fd60de276f9df124caf7f",
+        "mp3": "c9657ea26c5086675f84b9d0fef3d88dca9ef33a0cf27edde98a1a1961c0c765"
+      },
+      "audio": {
+        "durationSeconds": 2.16,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/sys_access-bd7c7a2959a7c36d4f545596d71d9b514543b2c7f643d3ca6a37bcf16c0f4559.wav",
+      "sourceSha256": "9d0d57e5bd315f57117b842ff4894043924661c3df18c4bb412283597d986cb9",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "sys_assess": {
+      "speaker": "system",
+      "text": "You are authorised to assess this unit.",
+      "voiceId": "wFDijtvOAybUq2GR",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "2e0ed50065c5545abdfd7e2f8591865bf6b25bd3ffa1b6a1582f3c387834897e",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/sys_assess-2e0ed50065c5545abdfd7e2f8591865bf6b25bd3ffa1b6a1582f3c387834897e.ogg",
+        "mp3": "clips/sys_assess-2e0ed50065c5545abdfd7e2f8591865bf6b25bd3ffa1b6a1582f3c387834897e.mp3"
+      },
+      "sha256": {
+        "ogg": "db2203039c68edc5ac25bc526b1bd67db4ad7a67b96e1072e1b13d235ed7da8d",
+        "mp3": "91998fc5e30a25566f8a352887201d162a441ed0f37786f0d03cba2e93740c1e"
+      },
+      "audio": {
+        "durationSeconds": 2.96,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/sys_assess-2e0ed50065c5545abdfd7e2f8591865bf6b25bd3ffa1b6a1582f3c387834897e.wav",
+      "sourceSha256": "c220645c39ac6381cf7f604c3a3f5c4a0e145a5b0b667c651240d0499669c53b",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "sys_diagnostic": {
+      "speaker": "system",
+      "text": "Its responses are part of the diagnostic.",
+      "voiceId": "wFDijtvOAybUq2GR",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "69040fa6f03d0ff8149960f83177185b0b9a89cd9da08d4dd39daa98f6f6534c",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/sys_diagnostic-69040fa6f03d0ff8149960f83177185b0b9a89cd9da08d4dd39daa98f6f6534c.ogg",
+        "mp3": "clips/sys_diagnostic-69040fa6f03d0ff8149960f83177185b0b9a89cd9da08d4dd39daa98f6f6534c.mp3"
+      },
+      "sha256": {
+        "ogg": "e46d1fcc2d0858b4afe1acbc2a71147819607973e22a49f94ee9c5c9ab7bd257",
+        "mp3": "7b771a1396a12a423202769da320c21aeae41326af9fc410ccb783433c9df2f2"
+      },
+      "audio": {
+        "durationSeconds": 2.88,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/sys_diagnostic-69040fa6f03d0ff8149960f83177185b0b9a89cd9da08d4dd39daa98f6f6534c.wav",
+      "sourceSha256": "d27e3337286fdb73b74c01a347b36a78984a88a1118206a045cece8505503cf1",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "sys_method": {
+      "speaker": "system",
+      "text": "The method is yours.",
+      "voiceId": "wFDijtvOAybUq2GR",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "516bd5da6d6385b0fdf2aa59e5fa62243dc3641ab159ab21ee5136e825e43472",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/sys_method-516bd5da6d6385b0fdf2aa59e5fa62243dc3641ab159ab21ee5136e825e43472.ogg",
+        "mp3": "clips/sys_method-516bd5da6d6385b0fdf2aa59e5fa62243dc3641ab159ab21ee5136e825e43472.mp3"
+      },
+      "sha256": {
+        "ogg": "035c3a2ba9860d4fc277c88a7e5026000c22638962b3b3c9cc32c07bef37f355",
+        "mp3": "7a71f37247d47bab5d455690937ea1560dc332d164e9d7965611d4d0989ebbc5"
+      },
+      "audio": {
+        "durationSeconds": 1.52,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/sys_method-516bd5da6d6385b0fdf2aa59e5fa62243dc3641ab159ab21ee5136e825e43472.wav",
+      "sourceSha256": "27329c3c2c6bcb06941756c24ab7b37c5cc90c342dabc9a0f4e5c81bd882116f",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    },
+    "sys_review_closed": {
+      "speaker": "system",
+      "text": "Assessment complete.",
+      "voiceId": "wFDijtvOAybUq2GR",
+      "provider": "Gradium",
+      "model": "default",
+      "requestHash": "729880c60d92d887feae9df6561559ec66e8f76375874f4a002d79b6195f42ef",
+      "take": "take-01",
+      "files": {
+        "ogg": "clips/sys_review_closed-729880c60d92d887feae9df6561559ec66e8f76375874f4a002d79b6195f42ef.ogg",
+        "mp3": "clips/sys_review_closed-729880c60d92d887feae9df6561559ec66e8f76375874f4a002d79b6195f42ef.mp3"
+      },
+      "sha256": {
+        "ogg": "89a59101dec972fca3aa26de614ed66e44f59bc4e145cdcbfc7ba8f7205f44a6",
+        "mp3": "703045adb9824bfc41b8e28c3c18db353a3c0257d61948ec939f1226cd9387ed"
+      },
+      "audio": {
+        "durationSeconds": 1.92,
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "originalPath": "audio-source/dialogue/sys_review_closed-729880c60d92d887feae9df6561559ec66e8f76375874f4a002d79b6195f42ef.wav",
+      "sourceSha256": "e957c8944871244fda0e40dc9dbec244f0bf6198f5e5f56a0f712dd8b543d244",
+      "reviewStatus": "generated_not_auditioned",
+      "directionApplied": false,
+      "rightsStatus": "provider_terms_apply_not_a_cc0_source"
+    }
+  }
 }

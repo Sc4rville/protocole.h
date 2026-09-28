@@ -5,6 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>protocole.h — cellule blanche (test technique)</title>
 <link rel="icon" href="data:,">
+<script>
+(() => {
+  if (new URLSearchParams(location.search).has('test')) return;
+  let ok = true;
+  try { ok = sessionStorage.getItem('protocole.h.fromIntro') === '1' || sessionStorage.getItem('protocole.h.seenIntro') === '1'; sessionStorage.removeItem('protocole.h.fromIntro'); } catch {}
+  if (!ok) { location.replace('/intro/index.html'); return; }
+  const music = new Audio('/intro/theme/theme-song.mp3');
+  music.loop = true;
+  music.preload = 'auto';
+  music.volume = 0.32;
+  let resume = null;
+  try { resume = JSON.parse(sessionStorage.getItem('protocole.h.themeAt') || 'null'); } catch {}
+  const offset = () => resume && resume.at ? resume.at + (Date.now() - resume.ts) / 1000 : 0;
+  if (resume) music.addEventListener('loadedmetadata', () => { music.currentTime = offset() % music.duration; }, { once: true });
+  const start = () => music.play().then(() => { removeEventListener('pointerdown', start, true); removeEventListener('keydown', start, true); }).catch(() => {});
+  start();
+  addEventListener('pointerdown', start, true);
+  addEventListener('keydown', start, true);
+  window.__protocoleMusic = music;
+})();
+</script>
 <style>
   body{margin:0;background:#141519;color:#e8e8ea;font:15px system-ui,sans-serif;overflow:hidden}
   #canvas-host{position:fixed;inset:0}
@@ -13,17 +34,129 @@
   header h1{font-size:15px;font-weight:600;margin:0}
   header .note{font-size:12px;color:#b9bcc4}
   header a{color:#cfd3dc;pointer-events:auto}
-  #overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,11,14,.45)}
-  #overlay .card{background:rgba(20,22,27,.85);border:1px solid #3a3d45;border-radius:10px;padding:18px 22px;max-width:380px;text-align:center}
-  #overlay p{margin:6px 0 14px;font-size:13px;color:#c4c8d0}
-  #enter{font-size:15px;padding:8px 22px;cursor:pointer;border-radius:8px;border:1px solid #5a5f6b;background:#23262e;color:#eee}
-  #enter:hover{background:#2c3039}
+  #overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(6,7,9,.55);backdrop-filter:blur(3px);cursor:pointer;z-index:5}
+  #overlay .menu{cursor:default;min-width:300px;max-width:360px;padding:26px 28px;background:rgba(12,13,16,.92);border:1px solid #2e3139;border-radius:4px;font:13px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:#c9ccd3}
+  #overlay .menu h2{margin:0 0 4px;font-size:18px;letter-spacing:.35em;font-weight:500;color:#eceef2;text-transform:lowercase}
+  #overlay .menu h2 b{color:#c4563a;font-weight:500}
+  #overlay .menu .sub{margin:0 0 18px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#7d828c}
+  #overlay .keys{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:0 0 20px;align-items:center}
+  #overlay kbd{display:inline-block;min-width:18px;padding:2px 6px;border:1px solid #474b55;border-bottom-width:2px;border-radius:3px;background:#1b1d22;color:#eceef2;font:12px ui-monospace,monospace;text-align:center}
+  #overlay .actions{display:flex;flex-direction:column;gap:8px}
+  #overlay .actions button{font:13px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;padding:10px 14px;cursor:pointer;border-radius:3px;border:1px solid #3a3d45;background:#1a1c21;color:#e3e5ea;text-align:left}
+  #overlay .actions button:hover,#overlay .actions button:focus-visible{border-color:#c4563a;color:#fff;outline:none}
+  #overlay .actions #enter{background:#c4563a;border-color:#c4563a;color:#fff}
+  #overlay .actions #enter:hover{background:#d4654a}
+  #overlay .hint{margin:14px 0 0;font-size:11px;color:#6f747e}
+  #overlay:not(.paused) .pause-only{display:none!important}
   #legend{position:fixed;bottom:0;left:0;right:0;padding:8px 14px;display:flex;gap:16px;align-items:center;font-size:12px;color:#b9bcc4;text-shadow:0 1px 3px rgba(0,0,0,.6);flex-wrap:wrap}
   #lighting{font-size:12px;padding:4px 12px;cursor:pointer;border-radius:6px;border:1px solid #5a5f6b;background:rgba(35,38,46,.8);color:#eee}
   #status{font-size:12px;color:#9fb4d0}
   #status.error{color:#e08a8a}
   #help{font-size:12px;color:#d0b46a;margin-left:auto}
   #cue{position:fixed;left:50%;bottom:64px;transform:translateX(-50%);font-size:14px;letter-spacing:.02em;color:#e7e9ee;background:rgba(10,11,14,.55);border:1px solid rgba(150,160,180,.25);border-radius:6px;padding:7px 14px;pointer-events:none}
+  #crosshair{position:fixed;left:50%;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:rgba(230,232,238,.75);box-shadow:0 0 4px rgba(0,0,0,.7);pointer-events:none}
+  #interaction-prompt{position:fixed;left:50%;top:54%;transform:translateX(-50%);font-size:13px;color:#dfe4ee;background:rgba(10,11,14,.6);border:1px solid rgba(150,160,180,.3);border-radius:6px;padding:5px 12px;pointer-events:none}
+  #equipped-tool{position:fixed;left:14px;bottom:44px;font-size:12px;color:#b9bcc4;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  #device-meter{position:fixed;right:14px;bottom:44px;width:200px;font-size:11px;color:#b9bcc4;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  #device-meter .bar{position:relative;height:8px;background:#23262e;border:1px solid #3a3d45;border-radius:4px;overflow:hidden;margin-top:3px}
+  #device-meter .fill{position:absolute;left:0;top:0;bottom:0;background:#7fb6c9;width:0%}
+  #device-meter .safe{position:absolute;top:0;bottom:0;left:60%;width:20%;background:rgba(110,190,140,.35);z-index:1}
+  #device-meter .mark{position:absolute;top:-2px;bottom:-2px;width:1px;background:#8f94a0;z-index:2}
+  #device-meter:not(.probe) .safe,#device-meter:not(.probe) .mark{display:none}
+  #device-meter.warning .fill{background:#d8654e}
+  #device-meter .warn-text{color:#e08a8a;font-weight:600}
+  #robot-subtitle{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);max-width:760px;font-size:22px;font-style:italic;color:#f0f2f6;background:rgba(8,9,12,.62);border-radius:6px;padding:8px 16px;text-align:center;pointer-events:none}
+  #verdict{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(6,7,10,.82);z-index:5}
+  #verdict .card{background:#15171d;border:1px solid #3a3d45;border-radius:12px;padding:26px 32px;max-width:520px}
+  #verdict h2{font-size:17px;margin:0 0 10px;letter-spacing:.08em}
+  #verdict p{font-size:14px;line-height:1.6;color:#d6dae2}
+  #verdict ul{font-size:13px;color:#b9bcc4;padding-left:18px;line-height:1.6}
+  #verdict .row{display:flex;gap:14px;margin-top:16px;align-items:center}
+  #verdict button{font-size:14px;padding:7px 18px;cursor:pointer;border-radius:8px;border:1px solid #5a5f6b;background:#23262e;color:#eee}
+  #verdict a{font-size:12px;color:#cfd3dc}
+  #director-line{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);max-width:760px;font-size:22px;font-style:italic;color:#f4f6fa;background:rgba(8,9,12,.7);border-left:2px solid #c4563a;border-radius:4px;padding:9px 16px;text-align:center;pointer-events:none;z-index:4}
+  #director-hint{position:fixed;left:50%;top:70px;transform:translateX(-50%);font:15px ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:#e9d9b0;background:rgba(8,9,12,.6);border:1px solid rgba(233,217,176,.35);border-radius:3px;padding:6px 12px;pointer-events:none}
+  #countdown{position:fixed;top:44px;left:50%;transform:translateX(-50%);font:700 24px ui-monospace,monospace;letter-spacing:.2em;color:#ff5a3c;text-shadow:0 0 12px rgba(255,60,30,.7);pointer-events:none;animation:cdpulse 1s steps(2) infinite}
+  @keyframes cdpulse{50%{opacity:.55}}
+  #talk{position:fixed;left:50%;bottom:150px;transform:translateX(-50%);display:flex;gap:8px;z-index:6}
+  #talk input{width:min(520px,80vw);font:15px ui-monospace,monospace;padding:10px 14px;border-radius:3px;border:1px solid #c4563a;background:rgba(10,11,14,.9);color:#fff;outline:none}
+  #reveal{position:fixed;inset:0;z-index:20;background:#000;color:#e8e9ec;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 2.4s ease;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  #reveal.on{opacity:1}
+  #reveal .inner{max-width:560px;padding:24px}
+  #reveal .tag{font-size:11px;letter-spacing:.3em;color:#6f747e;opacity:0;animation:rv 1.2s ease 1.5s forwards}
+  #reveal h2{font-size:clamp(22px,4vw,34px);font-weight:500;margin:18px 0 6px;opacity:0;animation:rv 1.4s ease 3s forwards}
+  #reveal h2.you{color:#c4563a;margin-top:0;animation-delay:5.2s}
+  #reveal .label{font-size:11px;letter-spacing:.3em;color:#6f747e;margin:30px 0 10px;opacity:0;animation:rv 1s ease 8.2s forwards}
+  #reveal ul{list-style:none;padding:0;margin:0;font-size:16px;line-height:1.9;opacity:0;animation:rv 1.2s ease 9s forwards}
+  #reveal ul li::before{content:"> ";color:#c4563a}
+  #reveal button{margin-top:34px;font:13px ui-monospace,monospace;letter-spacing:.2em;text-transform:uppercase;padding:11px 20px;border-radius:3px;border:1px solid #c4563a;background:transparent;color:#fff;cursor:pointer;opacity:0;animation:rv 1s ease 11s forwards}
+  #reveal button:hover{background:#c4563a}
+  @keyframes rv{to{opacity:1}}
+  #legend>span:not(#status):not(#help),#legend #lighting,header .note{display:none}
+  #fx-prompt{position:fixed;left:50%;top:calc(50% + 40px);transform:translateX(-50%);font:700 19px ui-monospace,monospace;letter-spacing:.06em;color:#fff;background:rgba(8,9,12,.62);border:1px solid rgba(34,200,255,.45);border-radius:3px;padding:6px 12px;pointer-events:none;z-index:4}
+  #cell-log{position:fixed;left:24px;top:64px;font:700 20px ui-monospace,monospace;letter-spacing:.14em;color:#ff5a3c;text-shadow:0 0 10px rgba(255,60,30,.6);pointer-events:none;z-index:6;line-height:1.9}
+  #cell-log div{animation:rv .4s ease both}
+  #reveal .verdict{display:inline-block;margin:22px 0 4px;padding:8px 14px;border:2px solid;font:700 22px ui-monospace,monospace;letter-spacing:.14em;opacity:0;animation:rv 1s ease 6.2s forwards}
+  #reveal .score{font-size:14px;letter-spacing:.1em;margin-top:10px;opacity:0;animation:rv 1s ease 7.2s forwards}
+  #reveal .coda{font-size:18px;line-height:1.5;color:#e3e5ea;margin:12px 0 0;opacity:0;animation:rv 1.2s ease 6.8s forwards}
+  #objective{position:fixed;right:18px;top:56px;width:330px;padding:16px 18px;background:rgba(8,9,12,.8);border:1px solid rgba(255,255,255,.12);border-left:3px solid #c4563a;border-radius:3px;font:14px/1.45 ui-monospace,monospace;color:#e3e5ea;pointer-events:none;z-index:4}
+  #objective h3{margin:0;font-size:12px;letter-spacing:.16em;color:#fff;font-weight:700}
+  #objective .time{font-size:26px;color:#fff;margin:4px 0 6px;letter-spacing:.06em}
+  #objective .lead{margin:0 0 10px;color:#b9bcc4;font-size:13px}
+  #objective .row{margin:0 0 10px}
+  #objective .q{font-size:12px;letter-spacing:.08em;color:#9aa0aa;text-transform:uppercase;margin-bottom:4px}
+  #objective .opts{display:flex;flex-direction:column;gap:3px}
+  #objective .opt{font-size:15px}
+  #objective .opt.help{color:#6fe2ff}
+  #objective .opt.hurt{color:#ff7a5c}
+  #objective kbd{display:inline-block;min-width:20px;text-align:center;border:1px solid currentColor;border-bottom-width:2px;border-radius:3px;padding:0 5px;margin-right:6px;font:700 13px ui-monospace,monospace}
+  #objective .row.done .opt{opacity:.28;text-decoration:line-through}
+  #objective .row.done.help .opt.help,#objective .row.done.hurt .opt.hurt{opacity:1;text-decoration:none}
+  #objective .row.done.help .opt.help::after{content:"  ✓ chosen"}
+  #objective .row.done.hurt .opt.hurt::after{content:"  ✓ chosen"}
+  #objective .foot{margin:6px 0 0;font-size:12px;color:#9aa0aa}
+  #objective .foot kbd{color:#fff}
+  #objective .c,#brief .c{color:#6fe2ff}
+  #objective .k,#brief .k{color:#ff7a5c}
+  #act{position:fixed;left:50%;top:28%;transform:translateX(-50%);font:700 26px ui-monospace,monospace;letter-spacing:.04em;padding:12px 22px;background:rgba(6,7,9,.78);border-radius:3px;pointer-events:none;z-index:6;text-align:center;max-width:80vw}
+  #act.help{color:#6fe2ff;border:1px solid #6fe2ff}
+  #act.hurt{color:#ff7a5c;border:1px solid #ff7a5c}
+  #brief{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:7;opacity:0;transition:opacity .9s ease}
+  #brief.on{opacity:1}
+  #brief .box{max-width:640px;padding:30px 34px;background:rgba(6,7,9,.86);border:1px solid #2e3139;border-left:3px solid #c4563a;font:18px/1.6 ui-monospace,monospace;color:#e8e9ec}
+  #brief b{color:#fff}
+  #brief .k{color:#c4563a}
+  #objective{width:auto;min-width:200px}
+  #objective .step{font-size:14px;color:#e3e5ea;margin:2px 0 6px}
+  #choice{position:fixed;left:50%;bottom:150px;transform:translateX(-50%);width:min(760px,92vw);padding:18px 22px 20px;background:rgba(6,7,9,.9);border:1px solid #2e3139;border-radius:4px;font-family:ui-monospace,monospace;color:#fff;z-index:6;pointer-events:none;animation:rv .35s ease both}
+  #choice .n{font-size:12px;letter-spacing:.24em;color:#9aa0aa}
+  #choice .q{font-size:26px;margin:6px 0 16px;font-weight:700}
+  #choice .opts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  #choice .opt{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border:2px solid;border-radius:4px}
+  #choice .opt.help{border-color:#39d4ff;background:rgba(57,212,255,.08);color:#9fe9ff}
+  #choice .opt.hurt{border-color:#ff5a3c;background:rgba(255,90,60,.08);color:#ffb3a3}
+  #choice kbd{font:700 28px ui-monospace,monospace;min-width:44px;text-align:center;padding:4px 0;border:2px solid currentColor;border-bottom-width:4px;border-radius:5px;color:#fff}
+  #choice .tag{font-size:12px;letter-spacing:.24em;font-weight:700}
+  #choice .help .tag{color:#39d4ff}
+  #choice .hurt .tag{color:#ff5a3c}
+  #choice .t{font-size:21px;color:#fff;font-weight:700;margin:2px 0}
+  #choice .e{font-size:14px;opacity:.85}
+  #flash{position:fixed;inset:0;pointer-events:none;z-index:5;animation:fl .7s ease-out forwards}
+  #flash.help{background:rgba(57,212,255,.28)}
+  #flash.hurt{background:rgba(255,40,20,.45)}
+  @keyframes fl{to{opacity:0}}
+  #fx-prompt.help{border-color:#39d4ff;color:#bff1ff}
+  #fx-prompt.hurt{border-color:#ff5a3c;color:#ffc6b8}
+  @media (max-height:800px){#reveal{align-items:flex-start;overflow:auto}#reveal .inner{padding-top:28px}#reveal h2{font-size:26px;margin:12px 0 4px}#reveal .label{margin-top:18px}#reveal button{margin-top:20px}}
+  #interaction-prompt{font:700 24px ui-monospace,monospace!important;padding:12px 22px!important;top:58%!important;background:rgba(6,7,9,.85)!important;border:2px solid #e9d9b0!important;color:#fff!important;border-radius:4px!important;z-index:6}
+  #fx-prompt{font:700 32px ui-monospace,monospace!important;padding:16px 28px!important;top:calc(50% + 48px)!important;background:rgba(6,7,9,.88)!important;border-width:2px!important;border-radius:4px!important;max-width:88vw;text-align:center;z-index:7}
+  #equipped-tool{font:700 18px ui-monospace,monospace!important;color:#fff!important;bottom:24px!important}
+  #device-meter{display:none!important}
+  #task-bar{position:fixed;left:50%;top:calc(50% + 200px);transform:translateX(-50%);width:min(520px,80vw);height:26px;border:2px solid #fff;border-radius:4px;background:rgba(6,7,9,.8);z-index:7;overflow:hidden}
+  #task-bar .fill{height:100%;width:0;background:#39d4ff}
+  #task-bar.hurt .fill{background:#ff5a3c}
+  #task-bar .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 18px ui-monospace,monospace;color:#fff;text-shadow:0 1px 3px #000}
+  #cue{display:none!important}
   [hidden]{display:none!important}
 </style>
 </head>
@@ -31,7 +164,7 @@
 <noscript><p style="padding:24px">Ce test technique nécessite JavaScript.</p></noscript>
 <div id="canvas-host" aria-label="Scène 3D : cellule blanche en construction"></div>
 <header>
-  <h1>Cellule blanche — scène en construction · robot final à intégrer</h1>
+  <h1>Unit H — revue de maintenance</h1>
   <div class="note">
     <a href="../concepts/" target="_blank" rel="noopener">Galerie concepts</a>
     · <a href="../concepts/lobby-v3/05-cellule-blanche.jpg" target="_blank" rel="noopener">Image de référence (concept 2D)</a>
@@ -39,21 +172,72 @@
   </div>
 </header>
 <div id="overlay">
-  <div class="card">
-    <p>Cellule blanche 6,2 × 7,4 m — matières du pack assets, plateau d'outils, station d'énergie.<br>
-    Approchez-vous du fauteuil : la salle s'active toute seule.<br>
-    ZQSD / WASD pour marcher, souris pour regarder, <kbd>L</kbd> ou <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> pour l'état,
-    <kbd>M</kbd> pour le son, <kbd>Échap</kbd> pour pause.</p>
-    <button id="enter">Entrer dans la cellule</button>
+  <div class="menu" role="dialog" aria-labelledby="menu-title">
+    <h2 id="menu-title">protocole<b>.h</b></h2>
+    <p class="sub" id="menu-sub">Commandes</p>
+    <div class="keys">
+      <span><kbd>Z</kbd><kbd>Q</kbd><kbd>S</kbd><kbd>D</kbd></span><span>se déplacer</span>
+      <span><kbd>souris</kbd></span><span>regarder</span>
+      <span><kbd>1</kbd> <kbd>2</kbd></span><span>choisir : aider (1) ou blesser (2)</span>
+      <span class="pause-only"><kbd>T</kbd></span><span class="pause-only">parler à Unit H</span>
+      <span><kbd>Échap</kbd></span><span>menu</span>
+    </div>
+    <div class="actions">
+      <button id="enter">Entrer</button>
+      <button id="menu-sound" class="pause-only">Son : actif</button>
+      <button id="menu-restart" class="pause-only">Recommencer</button>
+    </div>
+    <p class="hint" id="menu-hint">Unit H attend sa revue de maintenance — approchez-vous du fauteuil.</p>
   </div>
 </div>
 <div id="legend">
-  <span>ZQSD/WASD déplacement</span><span>Souris regard</span><span>L / 1-2-3 état</span><span>M son</span><span>Échap pause</span>
+  <span>ZQSD/WASD déplacement</span><span>Souris regard</span><span>E/R outils</span><span>Clic + molette actions</span><span>L / 1-2-3 état</span><span>M son</span><span>T parler</span><span>Échap menu</span>
   <button id="lighting" aria-label="Changer l'état de la salle">État : repos</button>
   <span id="status" role="status">Chargement…</span>
   <span id="help" hidden>Pointer lock indisponible — cliquer-glisser pour regarder</span>
 </div>
 <div id="cue" role="status" hidden></div>
+<div id="crosshair" hidden></div>
+<div id="interaction-prompt" role="status" hidden></div>
+<div id="equipped-tool" hidden>Empty hands</div>
+<div id="device-meter" hidden><span class="label"></span><div class="bar"><div class="safe"></div><div class="fill"></div><div class="mark" style="left:60%"></div><div class="mark" style="left:80%"></div></div><span class="warn-text" hidden></span></div>
+<div id="robot-subtitle" hidden></div>
+<div id="verdict" hidden>
+  <div class="card">
+    <h2>SUBJECT: OPERATOR</h2>
+    <p class="verdict-text"></p>
+    <ul class="facts"></ul>
+    <div class="row">
+      <button id="replay" type="button">Play again</button>
+      <a href="../runner/" target="_blank" rel="noopener">Runner prototype (démo séparée — le résultat n'est pas encore transmis)</a>
+    </div>
+  </div>
+</div>
+<div id="objective" hidden><h3>UNIT H · LAST REVIEW</h3><div class="time"></div><div class="step"></div><p class="foot"><kbd>T</kbd> talk to it</p></div>
+<div id="choice" hidden><div class="n"></div><div class="q"></div><div class="opts"><div class="opt help"><kbd>1</kbd><div><div class="tag">HELP</div><div class="t"></div><div class="e"></div></div></div><div class="opt hurt"><kbd>2</kbd><div><div class="tag">HURT</div><div class="t"></div><div class="e"></div></div></div></div></div>
+<div id="flash" hidden></div>
+<div id="act" hidden></div>
+<div id="brief" hidden><div class="box"><b>Unit H is a robot. It can feel pain.</b><br>It is chained to a chair and will be scrapped.<br>You run its last review. <b>3 minutes.</b> Nobody is watching.<br><br>You will face <b>3 decisions</b>.<br>Each time, press <b>1</b> to <span class="c">help it</span> or <b>2</b> to <span class="k">hurt it</span>.<br><br>Whatever you choose, it will remember.</div></div>
+<div id="director-line" role="status" hidden></div>
+<div id="fx-prompt" hidden></div>
+<div id="task-bar" hidden><div class="fill"></div><div class="pct"></div></div>
+<div id="cell-log" hidden></div>
+<div id="director-hint" hidden></div>
+<div id="countdown" hidden></div>
+<form id="talk" hidden><input type="text" maxlength="160" placeholder="Say something to Unit H, then Enter" autocomplete="off"></form>
+<div id="reveal" hidden>
+  <div class="inner">
+    <div class="tag">REVIEW 0413 · CLOSED · SUBJECT: OPERATOR</div>
+    <h2>Unit H was never the one under review.</h2>
+    <h2 class="you">You were.</h2>
+    <div class="verdict"></div>
+    <p class="coda"></p>
+    <div class="score"></div>
+    <div class="label">WHAT YOU DID</div>
+    <ul class="did"></ul>
+    <button type="button" onclick="location.href='/lobby-test/index.html'">Play again</button>
+  </div>
+</div>
 <div id="telemetry" hidden aria-hidden="true"></div>
 <script src="vendor/three.min.js"></script>
 <script type="module" src="game.js"></script>

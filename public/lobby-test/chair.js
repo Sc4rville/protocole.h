@@ -33,7 +33,7 @@ function panel(w, h, depth, mat) {
   return m;
 }
 
-export function buildChair(scene, mats) {
+export function buildChair(scene, mats, { armSpan = 0.55, armHeight = 0.98, armZ = 0.28 } = {}) {
   const chair = new THREE.Group();
 
   const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.5, 0.07, 28), mats.charcoal);
@@ -92,17 +92,17 @@ export function buildChair(scene, mats) {
   const restraints = [];
   for (const sx of [-1, 1]) {
     const post = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.3, 0.08), mats.charcoal);
-    post.position.set(sx * 0.55, 0.8, 0.05);
+    post.position.set(sx * armSpan, armHeight - 0.18, 0.05);
     post.castShadow = true;
     chair.add(post);
 
     const arm = panel(0.14, 0.62, 0.07, mats.shell);
     arm.rotation.x = -Math.PI / 2;
-    arm.position.set(sx * 0.55, 0.98, 0.05);
+    arm.position.set(sx * armSpan, armHeight, 0.05);
     chair.add(arm);
 
     const cuffPivot = new THREE.Group();
-    cuffPivot.position.set(sx * 0.55, 1.02, 0.28);
+    cuffPivot.position.set(sx * armSpan, armHeight + 0.04, armZ);
     const cuff = new THREE.Mesh(new THREE.TorusGeometry(0.075, 0.018, 12, 24, Math.PI), mats.steel);
     cuff.rotation.x = Math.PI / 2;
     cuff.castShadow = true;
@@ -112,7 +112,7 @@ export function buildChair(scene, mats) {
 
     const knob = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.05, 14), mats.dark);
     knob.rotation.z = Math.PI / 2;
-    knob.position.set(sx * 0.64, 0.98, 0.28);
+    knob.position.set(sx * (armSpan + 0.09), armHeight, armZ);
     knob.castShadow = true;
     chair.add(knob);
   }
@@ -125,22 +125,23 @@ export function buildChair(scene, mats) {
   chair.add(ankle);
   restraints.push(ankle);
 
+  const trayAssembly = new THREE.Group();
   const trayArm = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.52, 12), mats.steel);
   trayArm.rotation.x = Math.PI / 2;
   trayArm.position.set(-0.6, 0.83, 0.35);
   trayArm.castShadow = true;
-  chair.add(trayArm);
+  trayAssembly.add(trayArm);
   const tray = panel(0.55, 0.4, 0.04, mats.shell);
   tray.rotation.x = -Math.PI / 2;
   tray.position.set(-0.35, 0.86, 0.55);
-  chair.add(tray);
+  trayAssembly.add(tray);
 
   const leds = [];
   for (let i = 0; i < 5; i++) {
     const led = new THREE.Mesh(new THREE.PlaneGeometry(0.035, 0.012), mats.ledSpare());
     led.rotation.x = -Math.PI / 2;
     led.position.set(-0.52 + i * 0.06, 0.881, 0.71);
-    chair.add(led);
+    trayAssembly.add(led);
     leds.push(led);
   }
 
@@ -148,29 +149,30 @@ export function buildChair(scene, mats) {
   probeHandle.rotation.z = Math.PI / 2;
   probeHandle.position.set(-0.45, 0.9, 0.5);
   probeHandle.castShadow = true;
-  chair.add(probeHandle);
+  trayAssembly.add(probeHandle);
   const probeTip = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.002, 0.12, 8), mats.steel);
   probeTip.rotation.z = Math.PI / 2;
   probeTip.position.set(-0.32, 0.9, 0.5);
   probeTip.castShadow = true;
-  chair.add(probeTip);
+  trayAssembly.add(probeTip);
 
   for (const px of [-1, 1]) {
     const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.12, 8), mats.dark);
     handle.rotation.x = Math.PI / 2.4;
     handle.position.set(-0.3 + px * 0.035, 0.9, 0.66);
     handle.castShadow = true;
-    chair.add(handle);
+    trayAssembly.add(handle);
     const jaw = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.05, 0.02), mats.steel);
     jaw.position.set(-0.3 + px * 0.02, 0.93, 0.58);
     jaw.rotation.x = px * 0.35;
     jaw.castShadow = true;
-    chair.add(jaw);
+    trayAssembly.add(jaw);
   }
   const pivot = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.03, 10), mats.steel);
   pivot.position.set(-0.3, 0.92, 0.61);
-  chair.add(pivot);
+  trayAssembly.add(pivot);
+  chair.add(trayAssembly);
 
   scene.add(chair);
-  return { group: chair, restraints, leds };
+  return { group: chair, restraints, leds, trayAssembly, footRest, footBar };
 }
